@@ -179,7 +179,10 @@ const MovementImportDetail = ({ breadcrumbs, onBack }) => {
       )}
       {movementDetail?.movementType === MOVEMENT_TYPE.PO_IMPORT && (
         <Box sx={{ mt: 3 }}>
-          <ItemSettingTable items={movementDetail?.items || []} />
+          <ItemSettingTable
+            items={movementDetail?.items || []}
+            movementType={movementDetail?.movementType}
+          />
         </Box>
       )}
       <ActionBar onBack={onBack} />

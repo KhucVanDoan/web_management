@@ -50,7 +50,9 @@ const ItemSettingTable = ({ items, movementType }) => {
     {
       field: 'storedQuantity',
       headerName: t('movements.itemDetails.storedQuantity'),
-      hide: movementType === MOVEMENT_TYPE.SO_EXPORT,
+      hide:
+        movementType === MOVEMENT_TYPE.SO_EXPORT ||
+        movementType === MOVEMENT_TYPE.PO_IMPORT,
       width: 120,
       renderCell: (params) => Number(params.row?.lots?.[0]?.quantity),
     },
@@ -64,7 +66,9 @@ const ItemSettingTable = ({ items, movementType }) => {
     {
       field: 'unstoredQuantity',
       headerName: t('movements.itemDetails.unstoredQuantity'),
-      hide: movementType === MOVEMENT_TYPE.SO_EXPORT,
+      hide:
+        movementType === MOVEMENT_TYPE.SO_EXPORT ||
+        movementType === MOVEMENT_TYPE.PO_IMPORT,
       width: 120,
       renderCell: (params) => Number(params.row?.lots?.[0]?.planQuantity),
     },

@@ -9,13 +9,11 @@ import {
   ASYNC_SEARCH_LIMIT,
   MODAL_MODE,
   TEXTFIELD_REQUIRED_LENGTH,
-  TEXTFIELD_ALLOW,
 } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import TextField from '~/components/TextField'
 import { ACTIVE_STATUS } from '~/modules/wmsx/constants'
 import { searchUomsApi } from '~/modules/wmsx/redux/sagas/define-uom/search-uom'
 import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
@@ -61,16 +59,16 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
               asyncRequestHelper={(res) => res?.data?.items}
               getOptionLabel={(opt) => opt?.name}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  inputProps={{
-                    ...params.inputProps,
-                    maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-                  }}
-                  allow={TEXTFIELD_ALLOW.EXCEPT_SPECIALS}
-                />
-              )}
+              // renderInput={(params) => (
+              //   <TextField
+              //     {...params}
+              //     inputProps={{
+              //       ...params.inputProps,
+              //       maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+              //     }}
+              //     allow={TEXTFIELD_ALLOW.EXCEPT_SPECIALS}
+              //   />
+              // )}
               freeSolo
               onBlur={(e) => {
                 const newVal = e.target.value
