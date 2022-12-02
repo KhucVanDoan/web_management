@@ -18,7 +18,6 @@ const ItemSettingTable = ({ items, itemList, lots, arrayHelpers }) => {
     data: { itemStockAvailabe },
     actions,
   } = useWarehouseTransfer()
-
   useEffect(() => {
     if (!isEmpty(lots)) {
       const params = {
@@ -54,7 +53,7 @@ const ItemSettingTable = ({ items, itemList, lots, arrayHelpers }) => {
               options={itemList}
               getOptionLabel={(opt) => opt?.item?.code || ''}
               getOptionSubLabel={(opt) => opt?.item?.name || ''}
-              isOptionEqualToValue={(opt, val) => opt?.itemId === val?.itemId}
+              isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
               required
             />
           )
@@ -82,7 +81,7 @@ const ItemSettingTable = ({ items, itemList, lots, arrayHelpers }) => {
         width: 250,
         renderCell: (params, index) => {
           const lotNumbersOfItem = lots?.filter(
-            (lot) => lot.itemId === params?.row?.item?.itemId,
+            (lot) => lot.itemId === params?.row?.id,
           )
           return (
             <Field.Autocomplete
@@ -101,7 +100,7 @@ const ItemSettingTable = ({ items, itemList, lots, arrayHelpers }) => {
         headerName: t('warehouseExportReceipt.items.quantityRequest'),
         width: 150,
         renderCell: (params) => {
-          return params?.row?.lotNumber?.requestedQuantity
+          return params?.row?.item?.requestedQuantityWarehouseExportProposal
         },
       },
       {
@@ -151,7 +150,7 @@ const ItemSettingTable = ({ items, itemList, lots, arrayHelpers }) => {
             itemStockAvailabe
               ?.find(
                 (item) =>
-                  item?.itemId === params?.row?.item?.itemId &&
+                  item?.itemId === params?.row?.item?.id &&
                   item?.itemAvailables?.length > 0,
               )
               ?.itemAvailables?.map((item) => ({
