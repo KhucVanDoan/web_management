@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import { Grid } from '@mui/material'
+import { endOfDay } from 'date-fns'
 import { Form, Formik } from 'formik'
 import moment from 'moment'
 import { useTranslation } from 'react-i18next'
@@ -8,6 +9,7 @@ import { useTranslation } from 'react-i18next'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { addHours } from '~/utils'
 
 import ExportProposal from './components/export-proposal'
 import ExportReceipt from './components/import-export-receipt/export-receipt'
@@ -29,15 +31,15 @@ const breadcrumbs = [
 function Dashboard() {
   const { t } = useTranslation(['wmsx'])
 
-  const startOfWeek = moment().startOf('week').toDate()
+  const startOfWeek = addHours(7, moment().startOf('week').toDate())
   const endOfWeek = moment().endOf('week').toDate()
   const [fromDate, setfromDate] = useState(startOfWeek)
   const [toDate, settoDate] = useState(endOfWeek)
   const [selectedDate, setSelectedDate] = useState([startOfWeek, endOfWeek])
   const handleChangeSelect = (value) => {
     setSelectedDate(value)
-    setfromDate(value[0])
-    settoDate(value[1])
+    setfromDate(addHours(7, new Date(value[0])))
+    settoDate(endOfDay(new Date(value[1])))
   }
   return (
     <Page title={t('dashboard.title')} breadcrumbs={breadcrumbs} freeSolo>

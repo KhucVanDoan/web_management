@@ -18,7 +18,7 @@ function ItemSummary(props) {
       from: fromDate?.toISOString(),
       to: toDate?.toISOString(),
     })
-  }, [])
+  }, [fromDate, toDate])
 
   return (
     <Grid container spacing={2}>
