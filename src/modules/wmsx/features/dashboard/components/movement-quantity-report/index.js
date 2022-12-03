@@ -60,8 +60,8 @@ const MovementQuantityReport = () => {
   const data = formatData(movementReport)
 
   const COLOR_PLATE_10 = [
-    '#1F78B4',
     '#B2DF8A',
+    '#1F78B4',
     '#FF0909',
     '#F6BD16',
     '#E8684A',
@@ -96,6 +96,16 @@ const MovementQuantityReport = () => {
     },
     legend: {
       position: 'bottom',
+      marker: (text, index, item) => {
+        const color = item.style.stroke
+        return {
+          symbol: 'square',
+          style: {
+            fill: color,
+            r: 4,
+          },
+        }
+      },
     },
   }
 

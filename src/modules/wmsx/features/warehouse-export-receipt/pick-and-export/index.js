@@ -115,7 +115,7 @@ function WarehouseExportReceiptPickAndExport() {
         orderId: Number(id),
         warehouseId: warehouseExportReceiptDetails?.warehouse?.id,
         items: values.items?.map((item) => ({
-          id: item?.item?.itemId,
+          id: item?.item?.itemId || item?.item?.id,
           locatorId: item.locator?.locatorId,
           lotNumber: item.lotNumber?.lotNumber,
           quantity: Number(item.exportedQuantity),
@@ -287,9 +287,7 @@ function WarehouseExportReceiptPickAndExport() {
                       render={(arrayHelpers) => (
                         <ItemSettingTable
                           items={values?.items || []}
-                          itemList={
-                            warehouseExportReceiptDetails?.saleOrderExportDetails
-                          }
+                          itemList={warehouseExportReceiptDetails?.itemsSync}
                           lots={
                             warehouseExportReceiptDetails?.saleOrderExportWarehouseLots ||
                             []

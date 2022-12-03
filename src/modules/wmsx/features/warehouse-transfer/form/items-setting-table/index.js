@@ -187,20 +187,17 @@ const ItemSettingTable = (props) => {
         headerName: t('warehouseTransfer.table.lotNumber'),
         width: 150,
         renderCell: (params, index) => {
-          const locationList = itemWarehouseStockList?.find(
-            (item) =>
-              item?.id ===
-              (params?.row?.itemCode?.id || params?.row?.itemCode?.itemId),
-          )
           const lotNumberList = flatMap(
-            locationList?.locations,
+            params?.row?.itemCode?.locations,
             'lots',
-          )?.reduce((unique, o) => {
-            if (!unique.some((obj) => obj.lotNumber === o.lotNumber)) {
-              unique.push(o)
-            }
-            return unique
-          }, [])
+          )
+            ?.filter((e) => e?.lotNumber !== null)
+            ?.reduce((unique, o) => {
+              if (!unique.some((obj) => obj.lotNumber === o.lotNumber)) {
+                unique.push(o)
+              }
+              return unique
+            }, [])
           return isView ? (
             <>{params?.row?.lotNumber}</>
           ) : (

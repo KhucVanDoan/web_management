@@ -17,9 +17,9 @@ const MovementsFilter = ({
   movementTypeOpts,
   setExportReceiptList,
   setMovement,
+  warehouse,
 }) => {
   const { t } = useTranslation(['wmsx'])
-
   const onSubmit = async (values) => {
     if (values?.movementType === 'export') {
       let createdAt = ''
@@ -66,7 +66,10 @@ const MovementsFilter = ({
     } else {
       setMovement('')
       setExportReceiptList([])
-      setQuickFilters(values)
+      setQuickFilters({
+        createdAt: values?.createdAt,
+        movementType: values?.movementType,
+      })
     }
   }
 
@@ -97,6 +100,7 @@ const MovementsFilter = ({
                     <Field.TextField
                       name="warehouseId"
                       label={t('movements.importExport.warehouseName')}
+                      value={warehouse?.name}
                       disabled
                     />
                   </Grid>
