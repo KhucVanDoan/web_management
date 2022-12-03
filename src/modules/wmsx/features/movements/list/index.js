@@ -34,13 +34,11 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
     data: { movementList, total, isLoading },
     actions,
   } = useMovements()
-
   const warehouse =
     movementList?.length > 0 ? movementList?.[0]?.warehouse : null
   const DEFAULT_FILTERS = {
     createdAt: '',
     movementType: movementType,
-    warehouseId: warehouse?.name,
   }
   const [exportReceiptList, setExportReceiptList] = useState([])
   const [movement, setMovement] = useState('')
@@ -92,7 +90,8 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
       width: 120,
       fixed: true,
       sortable: true,
-      renderCell: (params) => params.row?.orderCode,
+      renderCell: (params) =>
+        params.row?.order?.orderCode || params.row?.orderCode,
     },
     {
       field: 'orderType',
@@ -213,6 +212,7 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
         movementTypeOpts={movementTypeOpts}
         setExportReceiptList={setExportReceiptList}
         setMovement={setMovement}
+        warehouse={warehouse}
       />
       <DataTable
         title={t('movements.title')}

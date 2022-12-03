@@ -15,18 +15,33 @@ const ExportProposal = () => {
     { type: 'SL giấy cần mua', value: 200 },
   ]
 
+  const colors = ['#0761AD', '#7F9EF4', '#FF9054', '#B2DF8A', '#FF0909']
+
   const config = {
     appendPadding: 10,
     data,
     angleField: 'value',
     colorField: 'type',
-    radius: 0.7,
+    radius: 0.6,
     label: {
       type: 'outer',
-      style: { fontSize: 14, textOverflow: 'unset' },
+      style: { fontSize: 12, textOverflow: 'unset' },
     },
     legend: {
-      itemWidth: 90,
+      offsetX: 10,
+      marker: {
+        symbol: 'square',
+      },
+      itemName: {
+        style: {
+          fontSize: 12,
+          width: 90,
+        },
+      },
+      itemHeight: 18,
+      itemStyle: {
+        width: 90,
+      },
     },
     interactions: [
       {
@@ -36,6 +51,7 @@ const ExportProposal = () => {
         type: 'element-active',
       },
     ],
+    color: colors,
   }
 
   return (
