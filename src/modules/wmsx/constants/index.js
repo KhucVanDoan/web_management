@@ -560,11 +560,11 @@ export const TRANSFER_STATUS_OPTIONS = [
     text: 'warehouseTransfer.transferStatus.received',
     color: 'received',
   },
-  {
-    id: 7,
-    text: 'warehouseTransfer.transferStatus.incollecting',
-    color: 'incollecting',
-  },
+  // {
+  //   id: 8,
+  //   text: 'warehouseTransfer.transferStatus.incollecting',
+  //   color: 'incollecting',
+  // },
   {
     id: 10,
     text: 'warehouseTransfer.transferStatus.exported',
@@ -577,8 +577,8 @@ export const TRANSFER_STATUS_OPTIONS = [
   },
   {
     id: 12,
-    text: 'warehouseTransfer.transferStatus.inProgress',
-    color: 'inProgress',
+    text: 'warehouseTransfer.transferStatus.incollecting',
+    color: 'incollecting',
   },
 ]
 
