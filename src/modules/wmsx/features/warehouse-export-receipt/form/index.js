@@ -346,7 +346,7 @@ function WarehouseExportReceiptForm() {
       receiver: values?.deliver,
       businessTypeId: values?.businessTypeId?.id,
       reasonId: values?.reasonId?.id,
-      explaination: values?.explanation || null,
+      explaination: values?.explanation || '',
       receiptDate: values?.receiptDate.toISOString(),
       departmentReceiptId: values?.departmentReceiptId?.id,
       sourceId: values?.sourceId?.id,
