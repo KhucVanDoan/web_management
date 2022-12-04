@@ -9,11 +9,15 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import { OrderTypeEnum } from '~/modules/wmsx/constants'
+import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 
 const ItemSettingTable = ({ items, itemList, lots, arrayHelpers }) => {
   const { t } = useTranslation(['wmsx'])
-
+  const {
+    data: { warehouseExportReceiptDetails },
+  } = useWarehouseExportReceipt()
   const {
     data: { itemStockAvailabe },
     actions,
@@ -21,6 +25,10 @@ const ItemSettingTable = ({ items, itemList, lots, arrayHelpers }) => {
   useEffect(() => {
     if (!isEmpty(lots)) {
       const params = {
+        order: {
+          orderType: OrderTypeEnum.SO,
+          orderId: warehouseExportReceiptDetails?.id,
+        },
         items: lots?.map?.((lot) => ({
           itemId: lot.itemId,
           warehouseId: lot.warehouseId,
@@ -90,7 +98,17 @@ const ItemSettingTable = ({ items, itemList, lots, arrayHelpers }) => {
               options={lotNumbersOfItem}
               getOptionLabel={(opt) => opt?.lotNumber || ''}
               required
-              disabled={lotNumbersOfItem.some((lot) => !lot.lotNumber)}
+              // disabled={lotNumbersOfItem.some((lot) => !lot.lotNumber)}
+              disabled={
+                !Boolean(warehouseExportReceiptDetails?.warehouse?.manageByLot)
+              }
+              validate={(val) => {
+                if (warehouseExportReceiptDetails?.warehouse?.manageByLot) {
+                  if (!val) {
+                    return t('general:form.required')
+                  }
+                }
+              }}
             />
           )
         },
