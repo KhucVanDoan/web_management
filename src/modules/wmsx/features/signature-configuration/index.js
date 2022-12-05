@@ -69,6 +69,7 @@ const SignatureConfiguration = () => {
         signature: item?.signerName,
       })),
     }
+
     actions.updateSignatureConfiguration(convertValues, () => {
       window.location.reload()
     })
