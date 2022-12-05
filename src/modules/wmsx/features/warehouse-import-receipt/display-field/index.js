@@ -9,6 +9,7 @@ import {
   ACTIVE_STATUS,
   DATA_TYPE,
   ORDER_STATUS,
+  TABLE_NAME_ENUM,
   WAREHOUSE_EXPORT_PROPOSAL_STATUS,
 } from '~/modules/wmsx/constants'
 import useReceiptManagement from '~/modules/wmsx/redux/hooks/useReceiptManagement'
@@ -23,7 +24,7 @@ import { getWarehouseExportProposalDetailsApi } from '~/modules/wmsx/redux/sagas
 import { searchWarehouseExportProposalApi } from '~/modules/wmsx/redux/sagas/warehouse-export-proposal/search'
 import { getWarehouseExportReceiptDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/get-details'
 import { searchWarehouseExportReceiptApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/search'
-import { convertFilterParams } from '~/utils'
+import { convertFilterParams, convertUtcDateToLocalTz } from '~/utils'
 
 const DEFAULT_ITEMS = [
   {
@@ -97,6 +98,34 @@ const displayFollowBusinessTypeManagement = (
         })
       })
       setItemWarehouseExportProposal(items)
+      const warehouseExportProposal = val?.code
+      const warehouseExportReceipt =
+        values[
+          values?.businessTypeId?.bussinessTypeAttributes?.find(
+            (item) => item?.tableName === TABLE_NAME_ENUM.SALE_ORDER_EXPORT,
+          )?.id
+        ]?.code
+      const receiptDate = convertUtcDateToLocalTz(
+        values?.receiptDate.toISOString(),
+      )
+      const explaination = `${
+        receiptDate
+          ? `${t('warehouseImportReceipt.warehouseImputDate')} [${receiptDate}]`
+          : ''
+      }${
+        warehouseExportProposal
+          ? `  ${t(
+              'warehouseImportReceipt.receiptBy',
+            )} [${warehouseExportProposal}]`
+          : ''
+      }${
+        warehouseExportReceipt
+          ? `  ${t(
+              'warehouseImportReceipt.receiptBy',
+            )} [${warehouseExportReceipt}]`
+          : ''
+      }`
+      setFieldValue('explaination', explaination)
     }
   }
   const handleChangeWarehouseExportReceipt = async (val) => {
@@ -105,6 +134,35 @@ const displayFollowBusinessTypeManagement = (
       setItemWarehouseExportReceipt([])
     }
     if (!isEmpty(val)) {
+      const warehouseExportProposal =
+        values[
+          values?.businessTypeId?.bussinessTypeAttributes?.find(
+            (item) =>
+              item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
+          )?.id
+        ]?.code
+      const warehouseExportReceipt = val?.code
+      const receiptDate = convertUtcDateToLocalTz(
+        values?.receiptDate.toISOString(),
+      )
+      const explaination = `${
+        receiptDate
+          ? `${t('warehouseImportReceipt.warehouseImputDate')} [${receiptDate}]`
+          : ''
+      }${
+        warehouseExportProposal
+          ? ` ${t(
+              'warehouseImportReceipt.receiptBy',
+            )} [${warehouseExportProposal}]`
+          : ''
+      }${
+        warehouseExportReceipt
+          ? ` ${t(
+              'warehouseImportReceipt.receiptBy',
+            )} [${warehouseExportReceipt}]`
+          : ''
+      }`
+      setFieldValue('explaination', explaination)
       const res = await getWarehouseExportReceiptDetailsApi(val?.id)
       setItemWarehouseExportReceipt(res?.data?.saleOrderExportDetails)
     }
