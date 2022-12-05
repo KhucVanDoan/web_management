@@ -29,6 +29,7 @@ const DateRangePicker = ({
   vertical,
   required,
   labelWidth,
+  showDaysOutsideCurrentMonth,
   ...props
 }) => {
   const { t } = useTranslation()
@@ -71,6 +72,7 @@ const DateRangePicker = ({
           onClose={() => setOpen(false)}
           value={value}
           onChange={(newValue) => onChange(newValue)}
+          showDaysOutsideCurrentMonth={showDaysOutsideCurrentMonth}
           className={classes.paper}
           PopperProps={{
             placement: 'bottom-start',
@@ -148,6 +150,7 @@ DateRangePicker.defaultProps = {
   vertical: false,
   required: false,
   labelWidth: 160,
+  showDaysOutsideCurrentMonth: true,
 }
 
 DateRangePicker.propTypes = {
@@ -161,6 +164,7 @@ DateRangePicker.propTypes = {
   vertical: PropTypes.bool,
   required: PropTypes.bool,
   labelWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  showDaysOutsideCurrentMonth: PropTypes.bool,
 }
 
 export default DateRangePicker

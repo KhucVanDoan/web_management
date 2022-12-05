@@ -30,6 +30,7 @@ const DatePicker = ({
   vertical,
   required,
   labelWidth,
+  showDaysOutsideCurrentMonth,
   ...props
 }) => {
   const classes = useClasses(style)
@@ -72,6 +73,7 @@ const DatePicker = ({
           label={label}
           value={value}
           onChange={onChange}
+          showDaysOutsideCurrentMonth={showDaysOutsideCurrentMonth}
           PaperProps={{
             classes: {
               root: classes.paper,
@@ -169,6 +171,7 @@ DatePicker.defaultProps = {
   vertical: false,
   required: false,
   labelWidth: 160,
+  showDaysOutsideCurrentMonth: true,
 }
 
 DatePicker.propTypes = {
@@ -183,6 +186,7 @@ DatePicker.propTypes = {
   vertical: PropTypes.bool,
   required: PropTypes.bool,
   labelWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  showDaysOutsideCurrentMonth: PropTypes.bool,
 }
 
 export default DatePicker
