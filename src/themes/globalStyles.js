@@ -72,4 +72,8 @@ export const globalStyles = (theme) => ({
     top: 0,
     right: '-2px',
   },
+  'button.MuiButtonBase-root.MuiPickersDay-root.MuiPickersDay-dayOutsideMonth':
+    {
+      color: 'rgba(0,0,0,0.38)',
+    },
 })

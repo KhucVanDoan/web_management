@@ -9,6 +9,7 @@ import { MODAL_MODE } from '~/common/constants'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import { OrderTypeEnum } from '~/modules/wmsx/constants'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 
 const ItemSettingTable = (props) => {
@@ -22,6 +23,10 @@ const ItemSettingTable = (props) => {
   useEffect(() => {
     if (!isEmpty(warehouseTransferDetails)) {
       const params = {
+        order: {
+          orderType: OrderTypeEnum.TRANSFER,
+          orderId: warehouseTransferDetails?.id,
+        },
         items: warehouseTransferDetails?.warehouseTransferDetailLots?.map?.(
           (item) => ({
             itemId: item?.itemId,

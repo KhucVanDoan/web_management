@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 import FileUploadIcon from '@mui/icons-material/FileUpload'
 import { Box, FormLabel, Grid, Typography } from '@mui/material'
@@ -21,6 +21,7 @@ import Status from '~/components/Status'
 import {
   ACTIVE_STATUS,
   INVENTORY_ADJUST_STATUS_OPTIONS,
+  INVENTORY_ADJUST_TYPE,
   INVENTORY_ADJUST_TYPE_OPTIONS,
 } from '~/modules/wmsx/constants'
 import useInventoryAdjust from '~/modules/wmsx/redux/hooks/useInventoryAdjust'
@@ -28,6 +29,7 @@ import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/
 import { searchInventoryCalendarsApi } from '~/modules/wmsx/redux/sagas/inventory-calendar/search-inventory-calendars'
 import { searchApi } from '~/modules/wmsx/redux/sagas/reason-management/search'
 import { searchReceiptDepartmentApi } from '~/modules/wmsx/redux/sagas/receipt-department-management/search-receipt-department'
+import { getSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-management/get-detail'
 import { searchSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-management/search'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { useClasses } from '~/themes'
@@ -55,6 +57,7 @@ const InventoryAdjustForm = () => {
   const routeMatch = useRouteMatch()
   const { id } = useParams()
   const { t } = useTranslation(['wmsx'])
+  const [debitAccount, setDebitAccount] = useState('')
   const MODE_MAP = {
     [ROUTE.INVENTORY_ADJUST.CREATE.PATH]: MODAL_MODE.CREATE,
     [ROUTE.INVENTORY_ADJUST.EDIT.PATH]: MODAL_MODE.UPDATE,
@@ -68,11 +71,23 @@ const InventoryAdjustForm = () => {
   } = useInventoryAdjust()
   useEffect(() => {
     if (mode === MODAL_MODE.UPDATE) {
-      actions.getInventoryAdjustDetailsById(id)
+      actions.getInventoryAdjustDetailsById(id, async (data) => {
+        const res = await getSourceManagementApi(data?.source?.id)
+        if (res?.statusCode === 200) {
+          setDebitAccount(
+            [
+              res?.data?.accountant,
+              res?.data?.produceTypeCode,
+              res?.data?.productCode,
+              res?.data?.factorialCode,
+            ].join('.'),
+          )
+        }
+      })
     }
 
     return () => actions.resetInventoryAdjust()
-  }, [mode])
+  }, [mode, id])
   const initialValues = useMemo(
     () => ({
       code: inventoryAdjustDetails?.code || '',
@@ -152,8 +167,14 @@ const InventoryAdjustForm = () => {
           lotNumber: item?.lotNumber?.lotNumber || item?.lotNumber || null,
           amount: item?.amount,
           price: item?.price,
-          debitAccount: item?.debitAccount,
-          creditAccount: item?.creditAccount,
+          debitAccount:
+            values?.type === INVENTORY_ADJUST_TYPE.WAREHOUSE_IMPORT
+              ? item?.debitAccount
+              : debitAccount,
+          creditAccount:
+            values?.type === INVENTORY_ADJUST_TYPE.WAREHOUSE_IMPORT
+              ? debitAccount
+              : item?.creditAccount,
         })),
       ),
     }
@@ -242,6 +263,21 @@ const InventoryAdjustForm = () => {
     //     warehouseTransferAction.getListItemWarehouseStock(values?.warehouse?.id)
     //   }
     // }
+  }
+  const handleChangeSource = async (val) => {
+    if (val) {
+      const res = await getSourceManagementApi(val?.id)
+      if (res?.statusCode === 200) {
+        setDebitAccount(
+          [
+            res?.data?.accountant,
+            res?.data?.produceTypeCode,
+            res?.data?.productCode,
+            res?.data?.factorialCode,
+          ].join('.'),
+        )
+      }
+    }
   }
   return (
     <Page
@@ -417,6 +453,7 @@ const InventoryAdjustForm = () => {
                             }),
                           })
                         }
+                        onChange={(val) => handleChangeSource(val)}
                         asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => opt?.code}
                         getOptionSubLabel={(opt) => opt?.name}
@@ -531,6 +568,8 @@ const InventoryAdjustForm = () => {
                           mode={mode}
                           arrayHelpers={arrayHelpers}
                           values={values}
+                          setFieldValue={setFieldValue}
+                          debitAccount={debitAccount}
                         />
                       )}
                     />
