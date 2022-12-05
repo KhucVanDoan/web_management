@@ -504,11 +504,11 @@ export const TRANSFER_STATUS = {
   COMPLETED: 2,
   REJECTED: 3,
   CONFIRMED: 4,
-  IN_PROGRESS: 12,
+  INCOLLECTING: 12,
   EXPORTING: 5,
   INRECEIVING: 6,
   RECEIVED: 7,
-  INCOLLECTING: 8,
+  // INCOLLECTING: 8,
   COLLECTED: 9,
   EXPORTED: 10,
   INSTORING: 11,
@@ -578,7 +578,7 @@ export const TRANSFER_STATUS_OPTIONS = [
   {
     id: 12,
     text: 'warehouseTransfer.transferStatus.incollecting',
-    color: 'incollecting',
+    color: 'inProgress',
   },
 ]
 

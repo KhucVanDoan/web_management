@@ -16,18 +16,39 @@ import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import { ACTIVE_STATUS, INVENTORY_ADJUST_TYPE } from '~/modules/wmsx/constants'
-import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 import { searchLocationsApi } from '~/modules/wmsx/redux/sagas/location-management/search-locations'
 import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
 import { getListItemWarehouseStockApi } from '~/modules/wmsx/redux/sagas/warehouse-transfer/get-list-item'
 import { convertFilterParams } from '~/utils'
 
-const ItemSettingTable = ({ items, mode, arrayHelpers, values, type }) => {
+const ItemSettingTable = ({
+  items,
+  mode,
+  arrayHelpers,
+  values,
+  setFieldValue,
+  debitAccount,
+}) => {
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
-  const {
-    data: { itemWarehouseStockList },
-  } = useWarehouseTransfer()
+  const handleChangeItem = (val, index) => {
+    if (values?.type === INVENTORY_ADJUST_TYPE.WAREHOUSE_IMPORT) {
+      setFieldValue(
+        `items[${index}].debitAccount`,
+        val?.itemWarehouseSources?.find(
+          (item) => item?.warehouseId === values?.warehouse?.id,
+        )?.accounting,
+      )
+    }
+    if (values?.type === INVENTORY_ADJUST_TYPE.WAREHOUSE_EXPORT) {
+      setFieldValue(
+        `items[${index}].creditAccount`,
+        val?.itemWarehouseSources?.find(
+          (item) => item?.warehouseId === values?.warehouse?.id,
+        )?.accounting,
+      )
+    }
+  }
   const columns = useMemo(
     () => [
       {
@@ -58,6 +79,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, values, type }) => {
                   }),
                 })
               }
+              onChange={(val) => handleChangeItem(val, index)}
               hide={!values?.type}
               asyncRequestHelper={(res) => res?.data?.items}
               getOptionLabel={(opt) => opt?.code}
@@ -78,6 +100,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, values, type }) => {
                   }),
                 })
               }
+              onChange={(val) => handleChangeItem(val, index)}
               asyncRequestDeps={values?.warehouse}
               asyncRequestHelper={(res) => res?.data?.items}
               getOptionLabel={(opt) => opt?.code}
@@ -262,9 +285,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, values, type }) => {
         field: 'quantityExported',
         headerName: t('inventoryAdjust.items.quantityExported'),
         width: 150,
-        hide:
-          type === INVENTORY_ADJUST_TYPE.WAREHOUSE_IMPORT ||
-          values?.type === INVENTORY_ADJUST_TYPE.WAREHOUSE_IMPORT,
+        hide: values?.type !== INVENTORY_ADJUST_TYPE.WAREHOUSE_EXPORT,
         renderCell: (params, index) => {
           return isView ? (
             params?.row?.quantityExported
@@ -321,6 +342,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, values, type }) => {
         field: 'debitAccount',
         headerName: t('inventoryAdjust.items.debitAccount'),
         width: 150,
+        hide: values?.type !== INVENTORY_ADJUST_TYPE.WAREHOUSE_IMPORT,
         renderCell: (params, index) => {
           return isView ? (
             params?.row?.debitAccount
@@ -334,9 +356,46 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, values, type }) => {
         },
       },
       {
+        field: 'debitAccount',
+        headerName: t('inventoryAdjust.items.debitAccount'),
+        width: 150,
+        hide: values?.type !== INVENTORY_ADJUST_TYPE.WAREHOUSE_EXPORT,
+        renderCell: (params, index) => {
+          return isView ? (
+            params?.row?.debitAccount
+          ) : (
+            <Field.TextField
+              name={`items[${index}].debitAccount`}
+              disabled
+              value={debitAccount}
+              required
+            />
+          )
+        },
+      },
+      {
+        field: 'creditAccount',
+        headerName: t('inventoryAdjust.items.creditAccount'),
+        width: 250,
+        hide: values?.type !== INVENTORY_ADJUST_TYPE.WAREHOUSE_IMPORT,
+        renderCell: (params, index) => {
+          return isView ? (
+            params?.row?.creditAccount
+          ) : (
+            <Field.TextField
+              name={`items[${index}].creditAccount`}
+              disabled
+              value={debitAccount}
+              required
+            />
+          )
+        },
+      },
+      {
         field: 'creditAccount',
         headerName: t('inventoryAdjust.items.creditAccount'),
         width: 150,
+        hide: values?.type !== INVENTORY_ADJUST_TYPE.WAREHOUSE_EXPORT,
         renderCell: (params, index) => {
           return isView ? (
             params?.row?.creditAccount
@@ -367,7 +426,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, values, type }) => {
         },
       },
     ],
-    [items, values?.warehouse, itemWarehouseStockList, values?.type],
+    [items, values?.warehouse, debitAccount],
   )
   return (
     <>
