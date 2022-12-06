@@ -15,11 +15,14 @@ const ItemSettingTable = ({ items }) => {
       field: '#',
       headerName: '#',
       width: 50,
+      renderCell: (_, index) => {
+        return index + 1
+      },
     },
     {
       field: 'code',
       headerName: t('receiptManagement.itemDetails.code'),
-      width: 120,
+      width: 150,
       renderCell: (params) => {
         return params.row?.item?.code
       },
@@ -27,7 +30,7 @@ const ItemSettingTable = ({ items }) => {
     {
       field: 'name',
       headerName: t('receiptManagement.itemDetails.name'),
-      width: 120,
+      width: 200,
       renderCell: (params) => {
         return params.row?.item?.name
       },
@@ -35,7 +38,7 @@ const ItemSettingTable = ({ items }) => {
     {
       field: 'unit',
       headerName: t('receiptManagement.itemDetails.unit'),
-      width: 120,
+      width: 150,
       renderCell: (params) => {
         return params.row?.item?.itemUnit
       },
@@ -43,7 +46,7 @@ const ItemSettingTable = ({ items }) => {
     {
       field: 'quantity',
       headerName: t('receiptManagement.itemDetails.quantity'),
-      width: 120,
+      width: 150,
       align: 'right',
       renderCell: (params) => {
         return Number(params.row?.quantity)
@@ -52,7 +55,7 @@ const ItemSettingTable = ({ items }) => {
     {
       field: 'price',
       headerName: t('receiptManagement.itemDetails.price'),
-      width: 120,
+      width: 150,
       align: 'right',
       renderCell: (params) => {
         return Number(params.row?.price)
@@ -61,7 +64,7 @@ const ItemSettingTable = ({ items }) => {
     {
       field: 'amount',
       headerName: t('receiptManagement.itemDetails.amount'),
-      width: 120,
+      width: 150,
       align: 'right',
       renderCell: (params) => {
         return Number(params.row?.amount)
@@ -70,12 +73,12 @@ const ItemSettingTable = ({ items }) => {
     {
       field: 'debitAccount',
       headerName: t('receiptManagement.itemDetails.debitAccount'),
-      width: 120,
+      width: 150,
     },
     {
       field: 'creditAccount',
       headerName: t('receiptManagement.itemDetails.creditAccount'),
-      width: 120,
+      width: 150,
     },
   ]
 

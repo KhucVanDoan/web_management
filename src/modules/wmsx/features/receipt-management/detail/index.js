@@ -7,9 +7,10 @@ import { useParams, useHistory } from 'react-router-dom'
 import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import TextField from '~/components/TextField'
 import useReceiptManagement from '~/modules/wmsx/redux/hooks/useReceiptManagement'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import { convertUtcDateTimeToLocalTz } from '~/utils'
+import { convertUtcDateToLocalTz } from '~/utils'
 
 import ItemsSettingTable from './items-setting-table'
 
@@ -39,7 +40,6 @@ const ReceiptManagementDetail = () => {
       actions.resetReceiptDetailsState()
     }
   }, [id])
-
   const backToList = () => {
     history.push(ROUTE.RECEIPT_MANAGEMENT.LIST.PATH)
   }
@@ -79,14 +79,14 @@ const ReceiptManagementDetail = () => {
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('receiptManagement.deliver')}
-                value={receiptDetail?.deliver}
+                label={t('receiptManagement.receiptDate')}
+                value={convertUtcDateToLocalTz(receiptDetail?.receiptDate)}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('receiptManagement.receiptDate')}
-                value={convertUtcDateTimeToLocalTz(receiptDetail?.receiptDate)}
+                label={t('receiptManagement.deliver')}
+                value={receiptDetail?.deliver}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -113,17 +113,26 @@ const ReceiptManagementDetail = () => {
                 value={receiptDetail?.purpose}
               />
             </Grid>
-            <Grid item lg={6} xs={12}>
-              <LV
-                label={t('receiptManagement.description')}
+            <Grid item xs={12}>
+              <TextField
+                name="description"
+                label={t('materialManagement.description')}
+                multiline
+                rows={3}
                 value={receiptDetail?.description}
+                readOnly
+                sx={{
+                  'label.MuiFormLabel-root': {
+                    color: (theme) => theme.palette.subText.main,
+                  },
+                }}
               />
             </Grid>
           </Grid>
         </Grid>
       </Grid>
       <Box sx={{ mt: 3 }}>
-        <ItemsSettingTable items={[]} />
+        <ItemsSettingTable items={receiptDetail?.items || []} />
       </Box>
       <ActionBar onBack={backToList} />
     </Page>

@@ -1,9 +1,10 @@
+import { isEmpty } from 'lodash'
 import * as Yup from 'yup'
 
 import { NUMBER_FIELD_REQUIRED_SIZE } from '~/common/constants'
-
-const warehouseTranferSchema = (t) =>
-  Yup.object().shape({
+import { WAREHOUSE_TRANSFER_TYPE } from '~/modules/wmsx/constants'
+const warehouseTranferSchema = (t, type) => {
+  return Yup.object().shape({
     name: Yup.string().nullable().required(t('general:form.required')),
     receiptDate: Yup.date().nullable().required(t('general:form.required')),
     businessTypeId: Yup.object()
@@ -54,6 +55,56 @@ const warehouseTranferSchema = (t) =>
     items: Yup.array().of(
       Yup.object().shape({
         itemCode: Yup.object().nullable().required(t('general:form.required')),
+        lotNumber: Yup.string()
+          .nullable()
+          .test('', (value, context) => {
+            if (type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_SHORT) {
+              const findItem = context?.from[1]?.value?.items?.find(
+                (item) =>
+                  item?.ids !== context?.parent?.ids &&
+                  item?.itemCode?.id === context?.parent?.itemCode?.id &&
+                  item?.lotNumber === value,
+              )
+              if (!isEmpty(findItem)) {
+                return context.createError({
+                  message: t('wmsx:warehouseTransfer.duplicateItem'),
+                })
+              }
+            } else {
+              const findItem = context?.from[1]?.value?.items?.find(
+                (item) =>
+                  item?.ids !== context?.parent?.ids &&
+                  item?.itemCode?.id === context?.parent?.itemCode?.id &&
+                  item?.lotNumber === value &&
+                  item?.locator?.locatorId ===
+                    context?.parent?.locator?.locatorId,
+              )
+              if (!isEmpty(findItem)) {
+                return context.createError({
+                  message: t('wmsx:warehouseTransfer.duplicateItem'),
+                })
+              }
+            }
+            return true
+          }),
+        locator: Yup.object()
+          .nullable()
+          .test('', (value, context) => {
+            const findItem = context?.from[1]?.value?.items?.find(
+              (item) =>
+                item?.ids !== context?.parent?.ids &&
+                item?.itemCode?.id === context?.parent?.itemCode?.id &&
+                item?.lotNumber === context?.parent?.lotNumber &&
+                item?.locator?.locatorId === value?.locator?.locatorId,
+            )
+            if (!isEmpty(findItem)) {
+              return context.createError({
+                message: t('wmsx:warehouseTransfer.duplicateItem'),
+              })
+            }
+
+            return true
+          }),
         transferQuantity: Yup.number()
           .nullable()
           .required(t('general:form.required'))
@@ -70,5 +121,6 @@ const warehouseTranferSchema = (t) =>
       }),
     ),
   })
+}
 
 export default warehouseTranferSchema

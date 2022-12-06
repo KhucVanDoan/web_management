@@ -3089,17 +3089,18 @@
     "searchPlaceholder": "Tìm kiếm thông tin...",
     "receiptNo": "Số receipt",
     "receiptCode": "Mã phiếu giao/nhận",
-    "contractNo": "Số hợp đồng",
+    "contractNo": "Mã hợp đồng",
     "createdAt": "Ngày tạo",
     "notYetStocked": "Chưa nhập kho",
     "stocked": "Đã nhập kho",
     "formTitle": "Chi tiết Receipt",
     "code": "Số phiếu giao nhận",
     "warehouseCode": "Mã kho",
-    "department": "Bộ phận nhận",
+    "department": "Đơn vị nhận",
     "receiptDate": "Ngày lập phiếu",
     "purpose": "Lý do",
     "description": "Mô tả",
+    "deliver": "Người giao hàng",
     "itemDetails": {
       "title": "Danh sách vật tư",
       "code": "Mã vật tư",
@@ -3108,8 +3109,8 @@
       "quantity": "SL giao nhận",
       "price": "Đơn giá",
       "amount": "Thành tiền",
-      "debitAccount": "TK nợ",
-      "creditAccount": "TK có"
+      "debitAccount": "Tái khoản nợ",
+      "creditAccount": "Tài khoản có"
     }
   },
   "reportExport": {
@@ -3155,6 +3156,7 @@
     "project": "Công trình",
     "task": "Hạng mục",
     "receiptNo": "Số phiếu",
+    "duplicateItem": "Không được chọn trùng nhau",
     "suggestExport": "Giấy đề nghị xuất vật tư",
     "contractNo": "Số hợp đồng",
     "unit": "Đơn vị nhập",
