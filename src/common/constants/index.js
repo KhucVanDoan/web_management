@@ -191,7 +191,7 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
   },
   MONEY: {
     MIN: 0,
-    MAX: 9999999999999.99,
+    MAX: 99999999999999999999.99,
   },
 }
 

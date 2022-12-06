@@ -14,7 +14,7 @@ import { scrollToBottom } from '~/utils'
 
 const ItemSettingTable = ({ items, arrayHelpers }) => {
   const { t } = useTranslation(['wmsx'])
-
+  // const [count, setCount] = useState({})
   const getColumns = useMemo(
     () => [
       {
@@ -35,6 +35,23 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
             <Field.TextField
               name={`items[${index}].role`}
               placeholder={t('signatureConfiguration.role')}
+              multiline
+              // onKeyPress={(event) => {
+              //   if (event.key === 'Enter') {
+              //     if (count > 1) {
+              //       event.preventDefault()
+              //       return false
+              //     }
+              //   }
+              // }}
+              // onKeyDown={(event) => {
+              //   if (event.key === 'Enter') {
+              //     setCount(count + 1)
+              //   }
+              // }}
+              // onBlur={() => {
+              //   setCount(0)
+              // }}
               inputProps={{
                 maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
               }}

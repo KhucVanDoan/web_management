@@ -19,7 +19,10 @@ export const importInventorySettingApi = (params) => {
  */
 export const exportInventorySettingApi = (params) => {
   const uri = `/v1/items/inventory-quantity-norms/export`
-  return api.get(uri, params)
+  return api.get(uri, params, {
+    responseType: 'blob',
+    getHeaders: true,
+  })
 }
 
 /**
