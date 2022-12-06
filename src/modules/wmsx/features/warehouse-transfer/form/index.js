@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 import { Box, Grid, Typography } from '@mui/material'
 import { sub } from 'date-fns'
@@ -41,7 +41,6 @@ import warehouseTranferSchema from './schema'
 
 const DEFAULT_ITEM = {
   ids: new Date().getTime(),
-  itemCode: '',
   itemName: '',
   itemType: '',
   lotNumber: '',
@@ -56,6 +55,7 @@ const WarehouseTransferForm = () => {
   const routeMatch = useRouteMatch()
   const { id } = useParams()
   const { t } = useTranslation(['wmsx'])
+  const [type, setType] = useState('')
   const MODE_MAP = {
     [ROUTE.WAREHOUSE_TRANSFER.CREATE.PATH]: MODAL_MODE.CREATE,
     [ROUTE.WAREHOUSE_TRANSFER.EDIT.PATH]: MODAL_MODE.UPDATE,
@@ -73,10 +73,6 @@ const WarehouseTransferForm = () => {
   useEffect(() => {
     if (mode === MODAL_MODE.UPDATE) {
       actions.getWarehouseTransferDetailsById(id, (data) => {
-        // actions.getListItemWarehouseStock({
-        //   warehouseId: data?.sourceWarehouse?.id,
-        //   isGetAll: 1,
-        // })
         const attributes = data?.attributes?.filter(
           (e) => e?.tableName && e?.value,
         )
@@ -293,7 +289,7 @@ const WarehouseTransferForm = () => {
     >
       <Formik
         initialValues={initialValues}
-        validationSchema={warehouseTranferSchema(t)}
+        validationSchema={warehouseTranferSchema(t, type)}
         onSubmit={onSubmit}
         enableReinitialize
       >
@@ -399,6 +395,7 @@ const WarehouseTransferForm = () => {
                         getOptionLabel={(opt) => t(`${opt?.text}`)}
                         getOptionValue={(opt) => opt?.id || ''}
                         onChange={(val) => {
+                          setType(val)
                           if (
                             val ===
                             WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG

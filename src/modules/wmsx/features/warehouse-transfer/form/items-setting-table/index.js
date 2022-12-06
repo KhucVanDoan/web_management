@@ -13,7 +13,6 @@ import {
   TRANSFER_STATUS,
   WAREHOUSE_TRANSFER_TYPE,
 } from '~/modules/wmsx/constants'
-import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 import { getItemWarehouseStockAvailableApi } from '~/modules/wmsx/redux/sagas/warehouse-transfer/get-item-warehouse-stock-available'
 import { getListItemWarehouseStockApi } from '~/modules/wmsx/redux/sagas/warehouse-transfer/get-list-item'
 import { convertFilterParams } from '~/utils'
@@ -23,9 +22,6 @@ const ItemSettingTable = (props) => {
     props
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
-  const {
-    data: { itemWarehouseStockList },
-  } = useWarehouseTransfer()
   const handleChangeItem = (val, index) => {
     if (val) {
       setFieldValue(`items[${index}].planExportedQuantity`, val?.quantity)
@@ -87,10 +83,6 @@ const ItemSettingTable = (props) => {
           ) : (
             <Field.Autocomplete
               name={`items[${index}].itemCode`}
-              options={itemWarehouseStockList}
-              // isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-              // getOptionLabel={(opt) => opt?.code}
-              // getOptionSubLabel={(opt) => opt?.name}
               asyncRequest={(s) =>
                 getListItemWarehouseStockApi({
                   keyword: s,
@@ -160,16 +152,13 @@ const ItemSettingTable = (props) => {
           values?.type === '',
         renderCell: (params, index) => {
           const { itemCode } = params?.row
-          const locations = itemWarehouseStockList?.find(
-            (item) =>
-              item?.id === params?.row?.itemCode?.id ||
-              params?.row?.itemCode?.itemId,
-          )?.locations
-          const locationList = locations?.map((item) => ({
-            code: item?.locator?.code,
-            name: item?.locator?.name,
-            locatorId: item?.locator?.locatorId,
-          }))
+          const locationList = params?.row?.itemCode?.locations?.map(
+            (item) => ({
+              code: item?.locator?.code,
+              name: item?.locator?.name,
+              locatorId: item?.locator?.locatorId,
+            }),
+          )
           return isView ? (
             <>{params?.row?.locator?.code}</>
           ) : (
@@ -415,13 +404,7 @@ const ItemSettingTable = (props) => {
         },
       },
     ],
-    [
-      values?.type,
-      values?.sourceWarehouseId,
-      itemWarehouseStockList,
-      type,
-      items,
-    ],
+    [values?.type, values?.sourceWarehouseId, type, items],
   )
   return (
     <>
