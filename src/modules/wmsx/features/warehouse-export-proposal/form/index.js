@@ -83,7 +83,7 @@ function WarehouseExportReceiptForm() {
       supplyCode: Boolean(item?.isProvideCode),
       quantityRequest: item?.requestedQuantity,
       importQuantity: item?.importedQuantity || 0,
-      importedQuantity: '',
+      importedQuantity: item?.importedQuantity,
       importedActualQuantity: item?.importedActualQuantity,
       quantityExport: item?.exportedQuantity,
       quantityExportActual: item?.exportedActualQuantity,

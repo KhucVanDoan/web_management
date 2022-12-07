@@ -65,11 +65,10 @@ const SignatureConfiguration = () => {
     const convertValues = {
       signatures: values.items?.map((item) => ({
         typeObject: values.typeObject,
-        roleId: item?.role,
+        roleId: item?.role.trim(),
         signature: item?.signerName,
       })),
     }
-
     actions.updateSignatureConfiguration(convertValues, () => {
       window.location.reload()
     })
