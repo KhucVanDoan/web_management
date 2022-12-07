@@ -43,7 +43,11 @@ const ItemSettingTable = ({ items, movementType }) => {
     {
       field: 'pickedQuantity',
       headerName: t('movements.itemDetails.pickedQuantity'),
-      hide: movementType === !MOVEMENT_TYPE.SO_EXPORT,
+      hide:
+        movementType === !MOVEMENT_TYPE.SO_EXPORT ||
+        movementType === !MOVEMENT_TYPE.TRANSFER_EXPORT ||
+        movementType === MOVEMENT_TYPE.TRANSFER_IMPORT ||
+        movementType === MOVEMENT_TYPE.PO_IMPORT,
       width: 120,
       renderCell: (params) => Number(params.row?.lots?.[0]?.quantity),
     },
@@ -52,14 +56,17 @@ const ItemSettingTable = ({ items, movementType }) => {
       headerName: t('movements.itemDetails.storedQuantity'),
       hide:
         movementType === MOVEMENT_TYPE.SO_EXPORT ||
-        movementType === MOVEMENT_TYPE.PO_IMPORT,
+        movementType === MOVEMENT_TYPE.TRANSFER_EXPORT,
       width: 120,
       renderCell: (params) => Number(params.row?.lots?.[0]?.quantity),
     },
     {
       field: 'unpickedQuantity',
       headerName: t('movements.itemDetails.unpickedQuantity'),
-      hide: movementType === !MOVEMENT_TYPE.SO_EXPORT,
+      hide:
+        movementType === !MOVEMENT_TYPE.SO_EXPORT ||
+        movementType === MOVEMENT_TYPE.TRANSFER_IMPORT ||
+        movementType === MOVEMENT_TYPE.PO_IMPORT,
       width: 120,
       renderCell: (params) => Number(params.row?.lots?.[0]?.planQuantity),
     },
@@ -68,13 +75,17 @@ const ItemSettingTable = ({ items, movementType }) => {
       headerName: t('movements.itemDetails.unstoredQuantity'),
       hide:
         movementType === MOVEMENT_TYPE.SO_EXPORT ||
-        movementType === MOVEMENT_TYPE.PO_IMPORT,
+        movementType === MOVEMENT_TYPE.TRANSFER_EXPORT,
       width: 120,
       renderCell: (params) => Number(params.row?.lots?.[0]?.planQuantity),
     },
     {
       field: 'location',
-      headerName: t('movements.itemDetails.location'),
+      headerName:
+        movementType === MOVEMENT_TYPE.TRANSFER_EXPORT ||
+        movementType === MOVEMENT_TYPE.SO_EXPORT
+          ? t('movements.itemDetails.locationPick')
+          : t('movements.itemDetails.locationStore'),
       width: 120,
       renderCell: (params) => params.row?.lots?.[0]?.locationCode,
     },
@@ -105,10 +116,6 @@ const ItemSettingTable = ({ items, movementType }) => {
       />
     </>
   )
-}
-
-ItemSettingTable.defaultProps = {
-  items: [],
 }
 
 ItemSettingTable.propTypes = {

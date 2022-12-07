@@ -1258,6 +1258,8 @@
       "itemName": "Tên vật tư",
       "itemType": "Loại vật tư",
       "location": "Vị trí",
+      "locationPick": "Vị trí lấy",
+      "locationStore": "Vị trí cất",
       "unit": "Đơn vị tính",
       "lotNumber": "Số lô",
       "packageCode": "Mã package",
@@ -3367,9 +3369,10 @@
   },
   "movementType": {
     "import": "Nhập kho",
-    "export": "Xuất kho",
+    "export": "Lấy hàng",
     "stored": "Cất hàng",
-    "picked": "Lấy hàng"
+    "picked": "Lấy hàng",
+    "warehouseExportReceipt": "Xuất kho"
   },
   "userManagement": {
     "title": "Danh sách người dùng",

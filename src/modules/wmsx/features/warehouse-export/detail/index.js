@@ -4,7 +4,6 @@ import { Box, Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
-import { MODAL_MODE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -20,7 +19,6 @@ import { getWarehouseTransferDetailsApi } from '~/modules/wmsx/redux/sagas/wareh
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertUtcDateToLocalTz } from '~/utils'
 
-import ItemSettingTableDetail from './itemSetting_momentType_export'
 import ItemSettingTable from './items-setting-table'
 
 const breadcrumbs = [
@@ -319,7 +317,7 @@ const WarehouseExportDetail = () => {
           </Grid>
         </Grid>
       </Grid>
-      {[MOVEMENT_TYPE.TRANSFER_EXPORT].includes(
+      {/* {[MOVEMENT_TYPE.TRANSFER_EXPORT].includes(
         movementDetail?.movementType,
       ) && (
         <Box sx={{ mt: 3 }}>
@@ -328,14 +326,15 @@ const WarehouseExportDetail = () => {
             mode={MODAL_MODE.DETAIL}
           />
         </Box>
-      )}
-      {[MOVEMENT_TYPE.SO_EXPORT, MOVEMENT_TYPE.SWIFT_FLOOR_EXPORT].includes(
-        movementDetail?.movementType,
-      ) && (
-        <Box sx={{ mt: 3 }}>
-          <ItemSettingTable items={movementDetail?.items || []} />
-        </Box>
-      )}
+      )} */}
+
+      <Box sx={{ mt: 3 }}>
+        <ItemSettingTable
+          items={movementDetail?.items || []}
+          movementType={movementDetail?.movementType}
+        />
+      </Box>
+
       <ActionBar onBack={backToList} />
     </Page>
   )

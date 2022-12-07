@@ -56,7 +56,7 @@ const WarehouseExportFilter = ({
         return [
           {
             id: 'export',
-            text: 'movementType.export',
+            text: 'movementType.warehouseExportReceipt',
           },
           {
             id: 5,
@@ -67,7 +67,7 @@ const WarehouseExportFilter = ({
         return [
           {
             id: 20,
-            text: 'movementType.export',
+            text: 'movementType.warehouseExportReceipt',
           },
           {
             id: 21,

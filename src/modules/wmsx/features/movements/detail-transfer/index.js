@@ -5,13 +5,11 @@ import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 
-import { MODAL_MODE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TextField from '~/components/TextField'
 import {
-  MOVEMENT_TYPE,
   MOVEMENT_TYPE_MAP,
   WAREHOUSE_TRANSFER_MAP,
 } from '~/modules/wmsx/constants'
@@ -19,7 +17,6 @@ import useMovements from '~/modules/wmsx/redux/hooks/useMovements'
 import { getWarehouseTransferDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-transfer/get-warehouse-transfer-detail'
 import { convertUtcDateToLocalTz } from '~/utils'
 
-import ItemSettingTableDetail from '../../warehouse-export-receipt/detail/item-setting-table'
 import ItemsSettingTable from '../items-setting-table'
 
 const MovementTransferDetail = ({ breadcrumbs, onBack }) => {
@@ -30,25 +27,24 @@ const MovementTransferDetail = ({ breadcrumbs, onBack }) => {
     data: { isLoading, movementDetail },
     actions,
   } = useMovements()
-  const formattedItem = receiptDetail?.warehouseTransferDetailLots?.map(
-    (detail) => ({
-      item: {
-        name: detail?.item?.name,
-        code: detail?.item?.code,
-        itemUnit: detail?.item?.itemUnit?.name,
-      },
-      quantityRequest: Number(detail?.planQuantity),
-      quantity: Number(detail?.exportedQuantity),
-      actualQuantity: Number(detail?.actualQuantity),
-      debitAccount: detail?.debitAccount,
-      creditAccount:
-        detail?.creditAccount ||
-        detail?.item?.itemWarehouseSources?.find(
-          (item) => item?.warehouseId === receiptDetail?.sourceWarehouse?.id,
-        )?.accounting,
-    }),
-  )
-
+  // const formattedItem = receiptDetail?.warehouseTransferDetailLots?.map(
+  //   (detail) => ({
+  //     item: {
+  //       name: detail?.item?.name,
+  //       code: detail?.item?.code,
+  //       itemUnit: detail?.item?.itemUnit?.name,
+  //     },
+  //     quantityRequest: Number(detail?.planQuantity),
+  //     quantity: Number(detail?.exportedQuantity),
+  //     actualQuantity: Number(detail?.actualQuantity),
+  //     debitAccount: detail?.debitAccount,
+  //     creditAccount:
+  //       detail?.creditAccount ||
+  //       detail?.item?.itemWarehouseSources?.find(
+  //         (item) => item?.warehouseId === receiptDetail?.sourceWarehouse?.id,
+  //       )?.accounting,
+  //   }),
+  // )
   useEffect(() => {
     actions.getMovementsDetailsById(id, async (val) => {
       const res = await getWarehouseTransferDetailsApi(val?.orderId)
@@ -176,19 +172,22 @@ const MovementTransferDetail = ({ breadcrumbs, onBack }) => {
           </Grid>
         </Grid>
       </Grid>
-      {movementDetail?.movementType === MOVEMENT_TYPE.TRANSFER_EXPORT && (
+      {/* {movementDetail?.movementType === MOVEMENT_TYPE.TRANSFER_EXPORT && (
         <Box sx={{ mt: 3 }}>
           <ItemSettingTableDetail
             items={formattedItem || []}
             mode={MODAL_MODE.DETAIL}
           />
         </Box>
-      )}
-      {movementDetail?.movementType === MOVEMENT_TYPE.TRANSFER_IMPORT && (
-        <Box sx={{ mt: 3 }}>
-          <ItemsSettingTable items={movementDetail?.items || []} />
-        </Box>
-      )}
+      )} */}
+
+      <Box sx={{ mt: 3 }}>
+        <ItemsSettingTable
+          items={movementDetail?.items || []}
+          movementType={movementDetail?.movementType}
+        />
+      </Box>
+
       <ActionBar onBack={onBack} />
     </Page>
   )

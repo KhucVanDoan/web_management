@@ -190,7 +190,7 @@ function WarehouseImportReceiptDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseImportReceipt.departmentReceipt')}
-                value={warehouseImportReceiptDetails?.departmentReceipt?.code}
+                value={warehouseImportReceiptDetails?.departmentReceipt?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
