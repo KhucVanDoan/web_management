@@ -2,12 +2,12 @@ import React from 'react'
 
 import { Typography } from '@mui/material'
 import Box from '@mui/material/Box'
-import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
+import { MOVEMENT_TYPE } from '~/modules/wmsx/constants'
 
-const ItemSettingTable = ({ items }) => {
+const ItemSettingTable = ({ items, movementType }) => {
   const { t } = useTranslation(['wmsx'])
   const columns = [
     {
@@ -56,7 +56,11 @@ const ItemSettingTable = ({ items }) => {
     },
     {
       field: 'location',
-      headerName: t('movements.itemDetails.location'),
+      headerName:
+        (movementType === MOVEMENT_TYPE.SO_EXPORT ||
+          movementType === MOVEMENT_TYPE.TRANSFER_EXPORT ||
+          movementType === MOVEMENT_TYPE.SWIFT_FLOOR_EXPORT) &&
+        t('movements.itemDetails.locationPick'),
       width: 120,
       renderCell: (params) => {
         return params?.row?.lots[0]?.locationCode
@@ -89,10 +93,6 @@ const ItemSettingTable = ({ items }) => {
       />
     </>
   )
-}
-
-ItemSettingTable.propTypes = {
-  items: PropTypes.array,
 }
 
 export default ItemSettingTable
