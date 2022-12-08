@@ -57,11 +57,10 @@ function ItemsSettingTable(props) {
         val?.itemUnit?.name ||
         val?.itemCode?.itemUnit?.name,
     )
-
     setFieldValue(`items[${index}].importQuantity`, '')
     setFieldValue(`items[${index}].money`, '')
-    if (!isEmpty(receiptRequired)) {
-      setFieldValue(`items[${index}].importQuantity`, val?.requestedQuantity)
+    if (!isEmpty(values[receiptRequired])) {
+      setFieldValue(`items[${index}].importQuantity`, +val?.quantity)
     }
   }
   const columns = useMemo(
@@ -199,6 +198,12 @@ function ItemsSettingTable(props) {
         renderCell: (params, index) => {
           return isView ? (
             <>{params?.row?.requestedQuantityWarehouseExportProposal}</>
+          ) : values[receiptRequired] ? (
+            <Field.TextField
+              name={`items[${index}].requestedQuantity`}
+              value={+params?.row?.itemCode?.quantity}
+              disabled={true}
+            />
           ) : (
             <Field.TextField
               name={`items[${index}].itemCode.requestedQuantity`}

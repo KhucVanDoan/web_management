@@ -421,7 +421,10 @@ const WarehouseImportDetail = () => {
         MOVEMENT_TYPE.SWIFT_FLOOR_IMPORT,
       ].includes(movementDetail?.movementType) && (
         <Box sx={{ mt: 3 }}>
-          <ItemSettingTable items={movementDetail?.items || []} />
+          <ItemSettingTable
+            items={movementDetail?.items || []}
+            movementType={movementDetail?.movementType}
+          />
         </Box>
       )}
       <ActionBar onBack={backToList} />

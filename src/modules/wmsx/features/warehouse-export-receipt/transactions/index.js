@@ -27,7 +27,7 @@ export const Transactions = () => {
   const movementTypeOpts = [
     {
       type: 'export',
-      text: 'movementType.export',
+      text: 'movementType.warehouseExportReceipt',
     },
     {
       id: 5,

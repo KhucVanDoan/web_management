@@ -206,7 +206,7 @@ function WarehouseImportReceiveAndStorage() {
                       <LV
                         label={t('warehouseImportReceipt.departmentReceipt')}
                         value={
-                          warehouseImportReceiptDetails?.departmentReceipt?.code
+                          warehouseImportReceiptDetails?.departmentReceipt?.name
                         }
                       />
                     </Grid>

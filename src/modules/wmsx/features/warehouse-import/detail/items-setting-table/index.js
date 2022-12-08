@@ -6,10 +6,10 @@ import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
+import { MOVEMENT_TYPE } from '~/modules/wmsx/constants'
 
-const ItemSettingTable = ({ items }) => {
+const ItemSettingTable = ({ items, movementType }) => {
   const { t } = useTranslation(['wmsx'])
-
   const columns = [
     {
       field: 'id',
@@ -54,7 +54,10 @@ const ItemSettingTable = ({ items }) => {
     },
     {
       field: 'location',
-      headerName: t('movements.itemDetails.location'),
+      headerName:
+        (movementType === MOVEMENT_TYPE.PO_IMPORT ||
+          movementType === MOVEMENT_TYPE.TRANSFER_IMPORT) &&
+        t('movements.itemDetails.locationStore'),
       width: 120,
       renderCell: (params) => params.row?.lots?.[0]?.locationCode,
     },
