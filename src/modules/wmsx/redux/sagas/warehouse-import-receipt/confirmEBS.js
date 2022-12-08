@@ -11,7 +11,7 @@ import addNotification from '~/utils/toast'
 
 const confirmWarehouseImportEBSApi = (params) => {
   const uri = `/v1/sales/purchased-order-imports/${params}/sync/to-ebs`
-  return api.put(uri)
+  return api.post(uri)
 }
 
 function* doConfirmWarehouseImportEBS(action) {
