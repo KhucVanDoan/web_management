@@ -322,7 +322,7 @@ function WarehouseImportReceipt() {
     setModal({ isOpenConfirmModal: false, tempItem: null })
   }
   const onSubmitConfirmEBS = () => {
-    actions.confirmWarehouseImportReceiptById(modal.tempItem?.id, () => {
+    actions.confirmWarehouseImportEBSById(modal.tempItem?.id, () => {
       refreshData()
     })
     setModal({ isOpenConfirmEBSModal: false, tempItem: null })
