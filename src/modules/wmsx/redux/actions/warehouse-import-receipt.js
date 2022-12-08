@@ -40,6 +40,13 @@ export const CONFIRM_WAREHOUSE_IMPORT_RECEIPT_SUCCESS =
 export const CONFIRM_WAREHOUSE_IMPORT_RECEIPT_FAILED =
   'WMSX_CONFIRM_WAREHOUSE_IMPORT_RECEIPT_FAILED'
 
+export const CONFIRM_WAREHOUSE_IMPORT_EBS_START =
+  'WMSX_CONFIRM_WAREHOUSE_IMPORT_EBS_START'
+export const CONFIRM_WAREHOUSE_IMPORT_EBS_SUCCESS =
+  'WMSX_CONFIRM_WAREHOUSE_IMPORT_EBS_SUCCESS'
+export const CONFIRM_WAREHOUSE_IMPORT_EBS_FAILED =
+  'WMSX_CONFIRM_WAREHOUSE_IMPORT_EBS_FAILED'
+
 export const REJECT_WAREHOUSE_IMPORT_RECEIPT_START =
   'WMSX_REJECT_WAREHOUSE_IMPORT_RECEIPT_START'
 export const REJECT_WAREHOUSE_IMPORT_RECEIPT_SUCCESS =
@@ -197,6 +204,27 @@ export function confirmWarehouseImportReceiptByIdFailed() {
   }
 }
 
+export function confirmWarehouseImportEBSById(Id, onSuccess, onError) {
+  return {
+    type: CONFIRM_WAREHOUSE_IMPORT_EBS_START,
+    payload: Id,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+export function confirmWarehouseImportEBStByIdSuccess(payload) {
+  return {
+    type: CONFIRM_WAREHOUSE_IMPORT_EBS_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function confirmWarehouseImportEBSByIdFailed() {
+  return {
+    type: CONFIRM_WAREHOUSE_IMPORT_EBS_FAILED,
+  }
+}
+
 export function rejectWarehouseImportReceiptById(Id, onSuccess, onError) {
   return {
     type: REJECT_WAREHOUSE_IMPORT_RECEIPT_START,
@@ -205,7 +233,14 @@ export function rejectWarehouseImportReceiptById(Id, onSuccess, onError) {
     onError: onError,
   }
 }
-
+export function rejectWarehouseImportEBSById(Id, onSuccess, onError) {
+  return {
+    type: REJECT_WAREHOUSE_IMPORT_RECEIPT_START,
+    payload: Id,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
 export function rejectWarehouseImportReceiptByIdSuccess(payload) {
   return {
     type: REJECT_WAREHOUSE_IMPORT_RECEIPT_SUCCESS,
@@ -302,4 +337,7 @@ export default {
   importWarehouse,
   importWarehouseSuccess,
   importWarehouseFailed,
+  confirmWarehouseImportEBSById,
+  confirmWarehouseImportEBStByIdSuccess,
+  confirmWarehouseImportEBSByIdFailed,
 }
