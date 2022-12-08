@@ -50,11 +50,16 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
         field: 'price',
         headerName: t('locationManagement.item.price'),
         width: 200,
+        renderCell: (params) =>
+          params.row.locations?.[0]?.lots?.[0]?.totalAmount /
+          params.row?.quantity,
       },
       {
         field: 'intoMoney',
         headerName: t('locationManagement.item.intoMoney'),
         width: 200,
+        renderCell: (params) =>
+          params.row.locations?.[0]?.lots?.[0]?.totalAmount,
       },
     ],
     [items],

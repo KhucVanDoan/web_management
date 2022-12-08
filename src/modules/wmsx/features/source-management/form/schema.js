@@ -6,7 +6,7 @@ export const validateShema = (t) =>
   Yup.object().shape({
     code: Yup.string().required(t('general:form.required')),
     name: Yup.string().required(t('general:form.required')),
-    effectiveDate: Yup.array().nullable().required(t('general:form.required')),
+    effectiveDate: Yup.date().nullable().required(t('general:form.required')),
     companyId: Yup.object().nullable().required(t('general:form.required')),
     accountant: Yup.string().required(t('general:form.required')),
     branchCode: Yup.string()

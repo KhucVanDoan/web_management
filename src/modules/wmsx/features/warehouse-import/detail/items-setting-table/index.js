@@ -56,7 +56,8 @@ const ItemSettingTable = ({ items, movementType }) => {
       field: 'location',
       headerName:
         (movementType === MOVEMENT_TYPE.PO_IMPORT ||
-          movementType === MOVEMENT_TYPE.TRANSFER_IMPORT) &&
+          movementType === MOVEMENT_TYPE.TRANSFER_IMPORT ||
+          movementType === MOVEMENT_TYPE.SWIFT_FLOOR_IMPORT) &&
         t('movements.itemDetails.locationStore'),
       width: 120,
       renderCell: (params) => params.row?.lots?.[0]?.locationCode,

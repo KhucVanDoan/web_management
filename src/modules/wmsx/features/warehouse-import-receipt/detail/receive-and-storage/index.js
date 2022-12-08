@@ -176,10 +176,16 @@ function WarehouseImportReceiveAndStorage() {
                         }
                       />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} lg={6}>
                       <LV
                         label={t('warehouseImportReceipt.id')}
                         value={warehouseImportReceiptDetails.code}
+                      />
+                    </Grid>
+                    <Grid item xs={12} lg={6}>
+                      <LV
+                        label={t('warehouseImportReceipt.receiptEBS')}
+                        value={warehouseImportReceiptDetails.ebsId}
                       />
                     </Grid>
                     <Grid item lg={6} xs={12}>
