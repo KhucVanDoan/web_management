@@ -45,7 +45,7 @@ function WarehouseImport() {
 
   const DEFAULT_QUICK_FILTERS = {
     createdAt: '',
-    warehouseId: '',
+    warehouseId: [],
     orderType: WAREHOUSE_IMPORT_TYPE.PO,
     movementType: MOVEMENT_TYPE.PO_IMPORT_RECEIVE,
   }
@@ -98,9 +98,7 @@ function WarehouseImport() {
       width: 120,
       sortable: true,
       renderCell: (params) => {
-        return params?.row?.orderType === WAREHOUSE_IMPORT_TYPE.SWIFT_LOCATOR
-          ? ''
-          : params.row?.orderCode
+        return params.row?.order?.code || params.row?.orderCode
       },
     },
     {
@@ -183,7 +181,7 @@ function WarehouseImport() {
         {
           ...filters,
           ...quickFilters,
-          warehouseId: quickFilters?.warehouseId?.id,
+          warehouseId: quickFilters?.warehouseId?.map((item) => item?.id),
         },
         columns,
       ),
