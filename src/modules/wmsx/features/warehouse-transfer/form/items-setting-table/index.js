@@ -25,6 +25,7 @@ const ItemSettingTable = (props) => {
   const handleChangeItem = (val, index) => {
     if (val) {
       setFieldValue(`items[${index}].planExportedQuantity`, val?.quantity)
+      setFieldValue(`items[${index}].transferQuantity`, '')
       if (val?.itemWarehouseSources?.length > 0) {
         setFieldValue(
           `items[${index}].creditAcc`,
@@ -33,6 +34,10 @@ const ItemSettingTable = (props) => {
           )?.accounting,
         )
       }
+    } else {
+      setFieldValue(`items[${index}].planExportedQuantity`, '')
+      setFieldValue(`items[${index}].transferQuantity`, '')
+      setFieldValue(`items[${index}].creditAcc`, '')
     }
   }
   const handleChangeLotnumber = async (val, index, payload) => {

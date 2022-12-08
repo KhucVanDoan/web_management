@@ -75,6 +75,7 @@ const WarehouseImportFilter = ({
                       name="createdAt"
                       label={t('movements.importExport.executeDate')}
                       placeholder={t('movements.importExport.executeDate')}
+                      maxDate={new Date()}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -91,6 +92,7 @@ const WarehouseImportFilter = ({
                       asyncRequestHelper={(res) => res?.data?.items}
                       getOptionLabel={(opt) => opt?.name}
                       getOptionSubLabel={(opt) => opt?.code}
+                      multiple
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>

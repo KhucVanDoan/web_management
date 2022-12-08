@@ -27,6 +27,9 @@ import {
   IMPORT_WAREHOUSE_START,
   IMPORT_WAREHOUSE_SUCCESS,
   IMPORT_WAREHOUSE_FAILED,
+  CONFIRM_WAREHOUSE_IMPORT_EBS_FAILED,
+  CONFIRM_WAREHOUSE_IMPORT_EBS_START,
+  CONFIRM_WAREHOUSE_IMPORT_EBS_SUCCESS,
 } from '~/modules/wmsx/redux/actions/warehouse-import-receipt'
 
 const initialState = {
@@ -54,6 +57,7 @@ export default function warehouseImportReceipt(state = initialState, action) {
     case GET_WAREHOUSE_IMPORT_RECEIPT_DETAILS_START:
     case GET_ATTRIBUITE_BUSINESS_TYPE_DETAILS_START:
     case IMPORT_WAREHOUSE_START:
+    case CONFIRM_WAREHOUSE_IMPORT_EBS_START:
       return {
         ...state,
         isLoading: true,
@@ -73,6 +77,8 @@ export default function warehouseImportReceipt(state = initialState, action) {
       }
     case CONFIRM_WAREHOUSE_IMPORT_RECEIPT_FAILED:
     case CONFIRM_WAREHOUSE_IMPORT_RECEIPT_SUCCESS:
+    case CONFIRM_WAREHOUSE_IMPORT_EBS_FAILED:
+    case CONFIRM_WAREHOUSE_IMPORT_EBS_SUCCESS:
     case REJECT_WAREHOUSE_IMPORT_RECEIPT_FAILED:
     case REJECT_WAREHOUSE_IMPORT_RECEIPT_SUCCESS:
     case CREATE_WAREHOUSE_IMPORT_RECEIPT_SUCCESS:

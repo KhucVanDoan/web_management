@@ -75,6 +75,7 @@ function WarehouseImportReceipt() {
     isOpenDeleteModal: false,
     isOpenConfirmModal: false,
     isOpenRejectedModal: false,
+    isOpenConfirmEBSModal: false,
   })
 
   const [columnsSettings, setColumnsSettings] = useState([])
@@ -147,7 +148,7 @@ function WarehouseImportReceipt() {
       width: 150,
       sortable: true,
       renderCell: (params) => {
-        return params?.row?.receiptNumber
+        return params?.row?.ebsId
       },
     },
     {
@@ -161,8 +162,14 @@ function WarehouseImportReceipt() {
           status === ORDER_STATUS.COMPLETED ||
           status === ORDER_STATUS.RECEIVED
         return (
-          isConfirmWarehouseImport && (
-            <Button variant="text" size="small" bold={false}>
+          isConfirmWarehouseImport &&
+          !params?.row?.ebsId && (
+            <Button
+              variant="text"
+              size="small"
+              bold={false}
+              onClick={() => onClickConfirmEBS(params?.row)}
+            >
               {t('warehouseImportReceipt.confirmWarehouseImport')}
             </Button>
           )
@@ -296,6 +303,9 @@ function WarehouseImportReceipt() {
   const onClickConfirm = (tempItem) => {
     setModal({ tempItem, isOpenConfirmModal: true })
   }
+  const onClickConfirmEBS = (tempItem) => {
+    setModal({ tempItem, isOpenConfirmEBSModal: true })
+  }
   const onClickRejected = (tempItem) => {
     setModal({ tempItem, isOpenRejectedModal: true })
   }
@@ -311,6 +321,12 @@ function WarehouseImportReceipt() {
     })
     setModal({ isOpenConfirmModal: false, tempItem: null })
   }
+  const onSubmitConfirmEBS = () => {
+    actions.confirmWarehouseImportReceiptById(modal.tempItem?.id, () => {
+      refreshData()
+    })
+    setModal({ isOpenConfirmEBSModal: false, tempItem: null })
+  }
   const onSubmitRejected = () => {
     actions.rejectWarehouseImportReceiptById(modal.tempItem?.id, () => {
       refreshData()
@@ -323,6 +339,7 @@ function WarehouseImportReceipt() {
       tempItem: null,
       isOpenConfirmModal: false,
       isOpenRejectedModal: false,
+      isOpenConfirmEBSModal: false,
     })
   }
 
@@ -436,6 +453,18 @@ function WarehouseImportReceipt() {
         submitLabel={t('general:common.yes')}
         noBorderBottom
       >
+        {t('warehouseImportReceipt.Confirm')}
+      </Dialog>
+      <Dialog
+        open={modal.isOpenConfirmEBSModal}
+        title={t('warehouseImportReceipt.confirmTitlePopupEBS')}
+        onCancel={onCloseDeleteModal}
+        cancelLabel={t('general:common.no')}
+        onSubmit={onSubmitConfirmEBS}
+        submitLabel={t('general:common.yes')}
+        noBorderBottom
+      >
+        <div>{t('warehouseImportReceipt.ConfirmEBS')}</div>
         {t('warehouseImportReceipt.Confirm')}
       </Dialog>
       <Dialog
