@@ -51,7 +51,7 @@ const ItemSettingTable = ({ items, movementType }) => {
       headerName: t('movements.itemDetails.unpickedQuantity'),
       width: 120,
       renderCell: (params) => {
-        return Number(params.row?.quantity)
+        return Number(params.row?.planQuantity)
       },
     },
     {

@@ -2,7 +2,6 @@ import React, { useEffect, useMemo } from 'react'
 
 import { Grid, Typography } from '@mui/material'
 import { Form, Formik } from 'formik'
-import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
@@ -53,9 +52,7 @@ const SourceManagementForm = () => {
       code: detailSourceManagement?.code || '',
       name: detailSourceManagement?.name || '',
       description: detailSourceManagement?.description || '',
-      effectiveDate: !isEmpty(detailSourceManagement)
-        ? [detailSourceManagement?.dateFrom, detailSourceManagement?.dateTo]
-        : '',
+      effectiveDate: detailSourceManagement?.effectiveDate || '',
       accountIdentifier: detailSourceManagement?.accountIdentifier || '',
       companyId: detailSourceManagement?.company || '',
       produceTypeCode: detailSourceManagement?.produceTypeCode || '0000',
@@ -86,8 +83,7 @@ const SourceManagementForm = () => {
     const params = {
       code: values?.code.trim(),
       name: values?.name?.trim(),
-      dateFrom: values?.effectiveDate[0],
-      dateTo: values?.effectiveDate[1],
+      effectiveDate: values?.effectiveDate,
       createdFrom: '0',
       produceTypeCode: values?.produceTypeCode || '0000',
       branchCode: values?.branchCode || '000000',
@@ -267,7 +263,7 @@ const SourceManagementForm = () => {
                     />
                   </Grid>
                   <Grid item xs={12} lg={6}>
-                    <Field.DateRangePicker
+                    <Field.DatePicker
                       name="effectiveDate"
                       label={t('sourceManagement.effectiveDate')}
                       required
