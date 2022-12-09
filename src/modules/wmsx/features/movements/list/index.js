@@ -29,7 +29,6 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
   const history = useHistory()
   const location = useLocation()
   const { parentId } = useParams()
-
   const {
     data: { movementList, total, isLoading },
     actions,
@@ -51,7 +50,6 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
     warehouse: e?.warehouseId,
     createdAt: e?.createdAt,
   }))
-
   const {
     page,
     pageSize,
@@ -152,7 +150,7 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
               onClick={() => {
                 if (orderType === 3 && movementType !== 5) {
                   history.push(
-                    ROUTE.WAREHOUSE_EXPORT_RECEIPT.DETAIL.PATH.replace(
+                    ROUTE.WAREHOUSE_EXPORT_RECEIPT.TRANSACTIONS.DETAIL_TRANSACTION.PATH.replace(
                       ':id',
                       `${id}`,
                     ),
@@ -172,7 +170,6 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
 
   const refreshData = () => {
     if (!parentId) return
-
     const params = {
       keyword: keyword.trim(),
       page,
