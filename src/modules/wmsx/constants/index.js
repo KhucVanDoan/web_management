@@ -247,7 +247,7 @@ export const MOVEMENT_TYPE_MAP = {
   [MOVEMENT_TYPE.PO_IMPORT]: 'movementType.stored',
   [MOVEMENT_TYPE.PO_EXPORT]: 'movementType.export',
   [MOVEMENT_TYPE.PRO_IMPORT]: 'movementType.import',
-  [MOVEMENT_TYPE.PRO_EXPORT]: 'movementType.export',
+  [MOVEMENT_TYPE.PRO_EXPORT]: 'movementType.warehouseExportReceipt',
   [MOVEMENT_TYPE.SO_IMPORT]: 'movementType.import',
   [MOVEMENT_TYPE.SO_EXPORT]: 'movementType.picked',
   [MOVEMENT_TYPE.TRANSFER_IMPORT]: 'movementType.stored',

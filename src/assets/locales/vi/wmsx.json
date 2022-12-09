@@ -1236,7 +1236,8 @@
       "executeDate": "Ngày thực hiện",
       "receiptType": "Loại phiếu, lệnh",
       "idWms": "ID phiếu WMS",
-      "itemCode": "Mã vật tư"
+      "itemCode": "Mã vật tư",
+      "createdAt": "Ngày lập phiếu"
     },
     "inventoryCalendar": {
       "formTitle": "Phiếu kiểm kê",
