@@ -10,6 +10,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import { ACTIVE_STATUS } from '~/modules/wmsx/constants'
 import useLocationManagement from '~/modules/wmsx/redux/hooks/useLocationManagement'
 import { scrollToBottom, convertFilterParams } from '~/utils'
 
@@ -28,6 +29,7 @@ function ItemsSettingTable(props) {
         limit: ASYNC_SEARCH_LIMIT,
         filter: convertFilterParams({
           warehouseId,
+          status: ACTIVE_STATUS.ACTIVE,
           type: [0, 1],
         }),
       })

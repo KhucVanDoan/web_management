@@ -539,6 +539,10 @@ export const ROUTE = {
         PATH: '/wms/warehouse-export-receipt/:parentId/transactions/:id',
         TITLE: 'movementDetail',
       },
+      DETAIL_TRANSACTION: {
+        PATH: '/wms/warehouse-export-receipt/transactions/:id/detail',
+        TITLE: 'movementDetail',
+      },
     },
   },
   WAREHOUSE_IMPORT_RECEIPT: {

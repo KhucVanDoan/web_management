@@ -12,6 +12,7 @@ import Page from '~/components/Page'
 import {
   MOVEMENT_TYPE,
   MOVEMENT_TYPE_MAP,
+  WAREHOUSE_EXPORT_TYPE,
   WAREHOUSE_IMPORT_TYPE,
   WAREHOUSE_MOVEMENT_ORDER_TYPE_MAP,
 } from '~/modules/wmsx/constants'
@@ -98,7 +99,9 @@ function WarehouseImport() {
       width: 120,
       sortable: true,
       renderCell: (params) => {
-        return params.row?.order?.code || params.row?.orderCode
+        return params?.row?.orderType === WAREHOUSE_EXPORT_TYPE.SWIFT_LOCATOR
+          ? ''
+          : params.row?.order?.code || params.row?.orderCode
       },
     },
     {
@@ -182,6 +185,9 @@ function WarehouseImport() {
           ...filters,
           ...quickFilters,
           warehouseId: quickFilters?.warehouseId?.map((item) => item?.id),
+          departmentReceiptId: filters?.departmentReceiptId?.id,
+          businessTypeId: filters?.businessTypeId,
+          createdAt: filters?.createdAt,
         },
         columns,
       ),
