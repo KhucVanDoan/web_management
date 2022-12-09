@@ -268,7 +268,6 @@ function WarehouseImportReceipt() {
       },
     },
   ]
-
   const refreshData = () => {
     const params = {
       keyword: keyword.trim(),

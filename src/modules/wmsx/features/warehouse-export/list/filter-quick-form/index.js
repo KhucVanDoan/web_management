@@ -14,7 +14,7 @@ import {
 } from '~/modules/wmsx/constants'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { searchWarehouseExportReceiptApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/search'
-import { convertFilterParams } from '~/utils'
+import { convertFilterParams, convertSortParams } from '~/utils'
 
 const WarehouseExportFilter = ({
   setQuickFilters,
@@ -110,6 +110,7 @@ const WarehouseExportFilter = ({
                       name="createdAt"
                       label={t('movements.importExport.executeDate')}
                       placeholder={t('movements.importExport.executeDate')}
+                      maxDate={new Date()}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -121,11 +122,16 @@ const WarehouseExportFilter = ({
                         searchWarehouseApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
+                          sort: convertSortParams({
+                            order: 'asc',
+                            orderBy: 'status',
+                          }),
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
                       getOptionLabel={(opt) => opt?.name}
                       getOptionSubLabel={(opt) => opt?.code}
+                      multiple
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>

@@ -22,9 +22,26 @@ const ItemSettingTable = (props) => {
     props
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
-  const handleChangeItem = (val, index) => {
+  const handleChangeItem = async (val, index) => {
     if (val) {
-      setFieldValue(`items[${index}].planExportedQuantity`, val?.quantity)
+      const params = {
+        items: [
+          {
+            itemId: val?.itemId || val?.id,
+            warehouseId: values?.sourceWarehouseId?.id,
+            lotNumber: null,
+            locatorId: null,
+          },
+        ],
+      }
+      const res = await getItemWarehouseStockAvailableApi(params)
+      const planExportedQuantity = res?.data?.find(
+        (item) => item?.itemId === val?.itemId || val?.id,
+      )
+      setFieldValue(
+        `items[${index}].planExportedQuantity`,
+        planExportedQuantity?.quantity,
+      )
       setFieldValue(`items[${index}].transferQuantity`, '')
       if (val?.itemWarehouseSources?.length > 0) {
         setFieldValue(
@@ -49,6 +66,7 @@ const ItemSettingTable = (props) => {
               payload?.row?.itemCode?.id || payload?.row?.itemCode?.itemId,
             warehouseId: values?.sourceWarehouseId?.id,
             lotNumber: val,
+            locatorId: payload?.row?.loactor?.id || null,
           },
         ],
       }
@@ -58,6 +76,29 @@ const ItemSettingTable = (props) => {
           item?.itemId ===
             (payload?.row?.itemCode?.id || payload?.row?.itemCode?.itemId) &&
           item?.lotNumber === val,
+      )
+      setFieldValue(
+        `items[${index}].planExportedQuantity`,
+        planExportedQuantity?.quantity,
+      )
+    }
+  }
+  const handleChangeLocator = async (val, index, payload) => {
+    if (val) {
+      const params = {
+        items: [
+          {
+            itemId:
+              payload?.row?.itemCode?.id || payload?.row?.itemCode?.itemId,
+            warehouseId: values?.sourceWarehouseId?.id,
+            lotNumber: payload?.row?.lotNumber || null,
+            locatorId: val?.id || null,
+          },
+        ],
+      }
+      const res = await getItemWarehouseStockAvailableApi(params)
+      const planExportedQuantity = res?.data?.find(
+        (item) => item?.itemId === val?.itemId || val?.id,
       )
       setFieldValue(
         `items[${index}].planExportedQuantity`,
@@ -171,6 +212,7 @@ const ItemSettingTable = (props) => {
               name={`items[${index}].locator`}
               options={locationList}
               disabled={isEmpty(itemCode)}
+              handleChange={(val) => handleChangeLocator(val, index, params)}
               getOptionLabel={(opt) => opt?.code}
             />
           )

@@ -12,6 +12,7 @@ import {
   WAREHOUSE_IMPORT_TYPE_OPTIONS,
 } from '~/modules/wmsx/constants'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
+import { convertSortParams } from '~/utils'
 
 const WarehouseImportFilter = ({
   setQuickFilters,
@@ -87,6 +88,10 @@ const WarehouseImportFilter = ({
                         searchWarehouseApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
+                          sort: convertSortParams({
+                            order: 'asc',
+                            orderBy: 'status',
+                          }),
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}

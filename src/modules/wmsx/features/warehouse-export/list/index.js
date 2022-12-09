@@ -62,7 +62,7 @@ function WarehouseExport() {
 
   const DEFAULT_QUICK_FILTERS = {
     createdAt: '',
-    warehouseId: '',
+    warehouseId: [],
     orderType: WAREHOUSE_EXPORT_TYPE.SO,
     movementType: MOVEMENT_TYPE.SO_EXPORT,
   }
@@ -172,7 +172,7 @@ function WarehouseExport() {
               onClick={() => {
                 if (orderType === 3 && movementType !== 5) {
                   history.push(
-                    ROUTE.WAREHOUSE_EXPORT_RECEIPT.DETAIL.PATH.replace(
+                    ROUTE.WAREHOUSE_EXPORT_RECEIPT.TRANSACTIONS.DETAIL_TRANSACTION.PATH.replace(
                       ':id',
                       `${id}`,
                     ),
@@ -200,7 +200,10 @@ function WarehouseExport() {
         {
           ...filters,
           ...quickFilters,
-          warehouseId: quickFilters?.warehouseId?.id,
+          warehouseId: quickFilters?.warehouseId?.map((item) => item?.id),
+          departmentReceiptId: filters?.departmentReceiptId?.id,
+          businessTypeId: filters?.businessTypeId,
+          createdAt: filters?.createdAt,
         },
         columns,
       ),
