@@ -21,7 +21,6 @@ import Icon from '~/components/Icon'
 import { ACTIVE_STATUS } from '~/modules/wmsx/constants'
 import useWarehouseExportProposal from '~/modules/wmsx/redux/hooks/useWarehouseExportProposal'
 import { searchMaterialQualityApi } from '~/modules/wmsx/redux/sagas/define-material-quality/search-material-quality'
-import { searchObjectCategoryApi } from '~/modules/wmsx/redux/sagas/define-object-category/search-object-category'
 import { searchProducingCountryApi } from '~/modules/wmsx/redux/sagas/define-producing-country/search-producing-country'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { getMaterialDetailsApi } from '~/modules/wmsx/redux/sagas/material-management/get-material-details'
@@ -292,33 +291,33 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
         )
       },
     },
-    {
-      field: 'objectCategory',
-      headerName: t('warehouseExportProposal.items.objectCategory'),
-      width: 150,
-      renderCell: (params, index) => {
-        return isView || params?.row?.isProvideCode ? (
-          params?.row?.objectCategory
-        ) : (
-          <Field.Autocomplete
-            name={`itemTableCollaspe[${index}].objectCategory`}
-            asyncRequest={(s) =>
-              searchObjectCategoryApi({
-                keyword: s,
-                limit: ASYNC_SEARCH_LIMIT,
-                filter: convertFilterParams({
-                  status: ACTIVE_STATUS.ACTIVE,
-                }),
-              })
-            }
-            isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-            asyncRequestHelper={(res) => res?.data?.items}
-            getOptionLabel={(opt) => opt?.code}
-            disabled={!params?.row?.supplyCode}
-          />
-        )
-      },
-    },
+    // {
+    //   field: 'objectCategory',
+    //   headerName: t('warehouseExportProposal.items.objectCategory'),
+    //   width: 150,
+    //   renderCell: (params, index) => {
+    //     return isView || params?.row?.isProvideCode ? (
+    //       params?.row?.objectCategory
+    //     ) : (
+    //       <Field.Autocomplete
+    //         name={`itemTableCollaspe[${index}].objectCategory`}
+    //         asyncRequest={(s) =>
+    //           searchObjectCategoryApi({
+    //             keyword: s,
+    //             limit: ASYNC_SEARCH_LIMIT,
+    //             filter: convertFilterParams({
+    //               status: ACTIVE_STATUS.ACTIVE,
+    //             }),
+    //           })
+    //         }
+    //         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+    //         asyncRequestHelper={(res) => res?.data?.items}
+    //         getOptionLabel={(opt) => opt?.code}
+    //         disabled={!params?.row?.supplyCode}
+    //       />
+    //     )
+    //   },
+    // },
     {
       field: 'suppliesType',
       headerName: t('warehouseExportProposal.items.suppliesType'),
@@ -716,14 +715,14 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
         return params?.row?.unit?.name || params?.row?.unit
       },
     },
-    {
-      field: 'objectCategory',
-      headerName: t('warehouseExportProposal.items.objectCategory'),
-      width: 150,
-      renderCell: (params) => {
-        return params?.row?.objectCategory?.code
-      },
-    },
+    // {
+    //   field: 'objectCategory',
+    //   headerName: t('warehouseExportProposal.items.objectCategory'),
+    //   width: 150,
+    //   renderCell: (params) => {
+    //     return params?.row?.objectCategory?.code
+    //   },
+    // },
     {
       field: 'suppliesType',
       headerName: t('warehouseExportProposal.items.suppliesType'),
@@ -749,7 +748,9 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       },
     },
   ]
-  const dataItem = itemTableCollaspe?.filter((item) => item?.supplyCode)
+  const dataItem = itemTableCollaspe?.filter(
+    (item) => item?.supplyCode && !item?.isProvideCode,
+  )
   const onSubmit = () => {
     const params = {
       id: +id,
@@ -757,9 +758,9 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
         detailId: +item?.id,
         itemId: item?.itemId,
         unitId: null,
-        objectCategoryId: item?.objectCategory?.id,
-        manufacturingCountryId: item?.producingCountry?.id,
-        itemQuanlityId: item?.materialQuality?.id,
+        objectCategoryId: item?.objectCategory?.id || null,
+        manufacturingCountryId: item?.producingCountry?.id || null,
+        itemQuanlityId: item?.materialQuality?.id || null,
         itemTypeSettingId: null,
       })),
     }

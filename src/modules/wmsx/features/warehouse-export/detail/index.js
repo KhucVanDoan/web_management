@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import { Box, Grid } from '@mui/material'
+import { uniq, map } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
@@ -14,6 +15,7 @@ import {
   WAREHOUSE_TRANSFER_MAP,
 } from '~/modules/wmsx/constants'
 import useMovements from '~/modules/wmsx/redux/hooks/useMovements'
+import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import { getWarehouseExportReceiptDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/get-details'
 import { getWarehouseTransferDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-transfer/get-warehouse-transfer-detail'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -42,16 +44,61 @@ const WarehouseExportDetail = () => {
     data: { isLoading, movementDetail },
     actions,
   } = useMovements()
-
+  const {
+    data: { attributesBusinessTypeDetails },
+    actions: useWarehouseImportReceiptAction,
+  } = useWarehouseImportReceipt()
   useEffect(() => {
     actions.getMovementsDetailsById(id, async (val) => {
       switch (val?.movementType) {
         case MOVEMENT_TYPE.TRANSFER_EXPORT:
-          const response = await getWarehouseTransferDetailsApi(val?.orderId)
+          const response = await getWarehouseTransferDetailsApi(
+            val?.orderId,
+            (data) => {
+              const attributes = data?.attributes?.filter(
+                (e) => e?.tableName && e?.value,
+              )
+              const params = {
+                filter: JSON.stringify(
+                  uniq(map(attributes, 'tableName'))?.map((item) => ({
+                    tableName: item,
+                    id: attributes
+                      ?.filter((e) => e?.tableName === item)
+                      ?.map((d) => d?.value)
+                      .toString(),
+                  })),
+                ),
+              }
+              useWarehouseImportReceiptAction.getAttribuiteBusinessTypeDetailsById(
+                params,
+              )
+            },
+          )
           setReceiptDetail(response?.data)
           break
         case MOVEMENT_TYPE.SO_EXPORT:
-          const res = await getWarehouseExportReceiptDetailsApi(val?.orderId)
+          const res = await getWarehouseExportReceiptDetailsApi(
+            val?.orderId,
+            (data) => {
+              const attributes = data?.attributes?.filter(
+                (e) => e?.tableName && e?.value,
+              )
+              const params = {
+                filter: JSON.stringify(
+                  uniq(map(attributes, 'tableName'))?.map((item) => ({
+                    tableName: item,
+                    id: attributes
+                      ?.filter((e) => e?.tableName === item)
+                      ?.map((d) => d?.value)
+                      .toString(),
+                  })),
+                ),
+              }
+              useWarehouseImportReceiptAction.getAttribuiteBusinessTypeDetailsById(
+                params,
+              )
+            },
+          )
           setReceiptDetail(res?.data)
           break
         default:
@@ -138,17 +185,17 @@ const WarehouseExportDetail = () => {
                 value={receiptDetail.source?.name}
               />
             </Grid>
-            {[]?.map((item) => {
+            {receiptDetail?.attributes?.map((item) => {
               if (item.tableName) {
                 return (
                   <Grid item lg={6} xs={12}>
                     <LV
                       label={`${item.fieldName}`}
                       value={
-                        [][item.tableName]?.find(
+                        attributesBusinessTypeDetails[item.tableName]?.find(
                           (itemDetail) => itemDetail.id + '' === item.value,
                         )?.name ||
-                        [][item.tableName]?.find(
+                        attributesBusinessTypeDetails[item.tableName]?.find(
                           (itemDetail) => itemDetail.id + '' === item.value,
                         )?.code
                       }
@@ -246,7 +293,31 @@ const WarehouseExportDetail = () => {
                 value={receiptDetail?.receiver}
               />
             </Grid>
-
+            {receiptDetail?.attributes?.map((item) => {
+              if (item.tableName) {
+                return (
+                  <Grid item lg={6} xs={12}>
+                    <LV
+                      label={`${item.fieldName}`}
+                      value={
+                        attributesBusinessTypeDetails[item.tableName]?.find(
+                          (itemDetail) => itemDetail.id + '' === item.value,
+                        )?.name ||
+                        attributesBusinessTypeDetails[item.tableName]?.find(
+                          (itemDetail) => itemDetail.id + '' === item.value,
+                        )?.code
+                      }
+                    />
+                  </Grid>
+                )
+              } else {
+                return (
+                  <Grid item lg={6} xs={12}>
+                    <LV label={`${item.fieldName}`} value={item.value} />
+                  </Grid>
+                )
+              }
+            })}
             <Grid item xs={12}>
               <TextField
                 name="explaination"

@@ -58,7 +58,22 @@ const WarehouseImportFilter = ({
         break
     }
   }
-
+  const hanldeChangeOrderType = (val, values, setFieldValue) => {
+    if (val) {
+      switch (val) {
+        case WAREHOUSE_IMPORT_TYPE.SO:
+          return setFieldValue('movementType', null)
+        case WAREHOUSE_IMPORT_TYPE.INVENTORY:
+          return setFieldValue('movementType', null)
+        case WAREHOUSE_IMPORT_TYPE.TRANSFER:
+          return setFieldValue('movementType', 6)
+        case WAREHOUSE_IMPORT_TYPE.SWIFT_LOCATOR:
+          return setFieldValue('movementType', 16)
+        default:
+          break
+      }
+    }
+  }
   return (
     <Formik initialValues={quickFilters} onSubmit={onSubmit} enableReinitialize>
       {({ values, resetForm, setFieldValue }) => {
@@ -89,7 +104,7 @@ const WarehouseImportFilter = ({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
                           sort: convertSortParams({
-                            order: 'asc',
+                            order: 'DESC',
                             orderBy: 'status',
                           }),
                         })
@@ -108,7 +123,9 @@ const WarehouseImportFilter = ({
                       options={WAREHOUSE_IMPORT_TYPE_OPTIONS}
                       getOptionValue={(opt) => opt?.id}
                       getOptionLabel={(opt) => t(opt?.text)}
-                      onChange={() => setFieldValue('movementType', null)}
+                      onChange={(val) =>
+                        hanldeChangeOrderType(val, values, setFieldValue)
+                      }
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -121,6 +138,7 @@ const WarehouseImportFilter = ({
                       getOptionLabel={(opt) => t(opt?.text)}
                     />
                   </Grid>
+
                   <Grid item xs={12}>
                     <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                       <Button
