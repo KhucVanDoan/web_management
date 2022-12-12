@@ -187,7 +187,7 @@ const WarehouseImportDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseImportReceipt.attachedFile')}
-                value={receiptDetail?.code}
+                value={receiptDetail?.attachment?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
