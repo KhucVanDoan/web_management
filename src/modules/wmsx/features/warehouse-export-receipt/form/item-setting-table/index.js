@@ -365,10 +365,10 @@ const ItemSettingTable = ({
                   return t('general:form.maxNumber', {
                     max: params?.row?.planExportedQuantity,
                   })
-                } else if (params?.row?.itemCode.requestedQuantity) {
-                  if (val > params?.row?.itemCode.requestedQuantity) {
+                } else if (params?.row?.itemCode?.requestedQuantity) {
+                  if (val > params?.row?.itemCode?.requestedQuantity) {
                     return t('general:form.maxNumber', {
-                      max: params?.row?.itemCode.requestedQuantity,
+                      max: params?.row?.itemCode?.requestedQuantity,
                     })
                   }
                 }

@@ -160,6 +160,12 @@ function WarehouseExportReceiptDetail() {
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
+                label={t('warehouseExportReceipt.receiptId')}
+                value={warehouseExportReceiptDetails?.code}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
                 label={t('warehouseExportReceipt.createdAt')}
                 value={convertUtcDateToLocalTz(
                   warehouseExportReceiptDetails?.receiptDate,
@@ -236,6 +242,12 @@ function WarehouseExportReceiptDetail() {
                 value={warehouseExportReceiptDetails.source?.name}
               />
             </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseExportReceipt.typeBusiness')}
+                value={warehouseExportReceiptDetails.businessType?.name}
+              />
+            </Grid>
             {warehouseExportReceiptDetails?.attributes?.map((item) => {
               if (item.tableName) {
                 return (
@@ -256,7 +268,7 @@ function WarehouseExportReceiptDetail() {
               } else {
                 return (
                   <Grid item lg={6} xs={12}>
-                    <LV label={`${item.fieldName}`} value={item.value} />
+                    <LV label={`${item.fieldName}`} value={item?.values} />
                   </Grid>
                 )
               }

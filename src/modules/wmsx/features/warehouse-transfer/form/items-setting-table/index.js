@@ -97,9 +97,18 @@ const ItemSettingTable = (props) => {
         ],
       }
       const res = await getItemWarehouseStockAvailableApi(params)
-      const planExportedQuantity = res?.data?.find(
-        (item) => item?.itemId === val?.itemId || val?.id,
-      )
+      const planExportedQuantity = res?.data
+        ?.find(
+          (item) =>
+            item?.itemId ===
+            (payload?.row?.itemCode?.id || payload?.row?.itemCode?.itemId),
+        )
+        ?.itemAvailables?.find(
+          (e) =>
+            e?.itemId ===
+              (payload?.row?.itemCode?.id || payload?.row?.itemCode?.itemId) &&
+            e?.locatorId === val?.locatorId,
+        )
       setFieldValue(
         `items[${index}].planExportedQuantity`,
         planExportedQuantity?.quantity,
@@ -212,7 +221,7 @@ const ItemSettingTable = (props) => {
               name={`items[${index}].locator`}
               options={locationList}
               disabled={isEmpty(itemCode)}
-              handleChange={(val) => handleChangeLocator(val, index, params)}
+              onChange={(val) => handleChangeLocator(val, index, params)}
               getOptionLabel={(opt) => opt?.code}
             />
           )
