@@ -92,7 +92,22 @@ const WarehouseExportFilter = ({
         break
     }
   }
-
+  const hanldeChangeOrderType = (val, values, setFieldValue) => {
+    if (val) {
+      switch (val) {
+        case WAREHOUSE_EXPORT_TYPE.SO:
+          return setFieldValue('movementType', null)
+        case WAREHOUSE_EXPORT_TYPE.INVENTORY:
+          return setFieldValue('movementType', null)
+        case WAREHOUSE_EXPORT_TYPE.TRANSFER:
+          return setFieldValue('movementType', 7)
+        case WAREHOUSE_EXPORT_TYPE.SWIFT_LOCATOR:
+          return setFieldValue('movementType', 17)
+        default:
+          break
+      }
+    }
+  }
   return (
     <Formik initialValues={quickFilters} onSubmit={onSubmit} enableReinitialize>
       {({ values, resetForm, setFieldValue }) => {
@@ -142,7 +157,9 @@ const WarehouseExportFilter = ({
                       options={WAREHOUSE_EXPORT_TYPE_OPTIONS}
                       getOptionValue={(opt) => opt?.id}
                       getOptionLabel={(opt) => t(opt?.text)}
-                      onChange={() => setFieldValue('movementType', null)}
+                      onChange={(val) =>
+                        hanldeChangeOrderType(val, values, setFieldValue)
+                      }
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>

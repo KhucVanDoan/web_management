@@ -56,8 +56,8 @@ const FilterForm = () => {
       <Grid item xs={12}>
         <Field.Autocomplete
           name="departmentReceiptId"
-          label={t('warehouseExportReceipt.unit')}
-          placeholder={t('warehouseExportReceipt.unit')}
+          label={t('warehouseExportReceipt.departmentReception')}
+          placeholder={t('warehouseExportReceipt.departmentReception')}
           asyncRequest={(s) =>
             searchReceiptDepartmentApi({
               keyword: s,

@@ -72,11 +72,38 @@ const displayFollowBusinessTypeManagement = (
       })
     }
   }
-
   const handleChangeProposals = async (val) => {
     setItemWarehouseExportProposal([])
     if (isEmpty(val)) {
       setItemWarehouseExportProposal([])
+      const warehouseExportProposal = val?.code
+      const warehouseExportReceipt =
+        values[
+          values?.businessTypeId?.bussinessTypeAttributes?.find(
+            (item) => item?.tableName === TABLE_NAME_ENUM.SALE_ORDER_EXPORT,
+          )?.id
+        ]?.code
+      const receiptDate = convertUtcDateToLocalTz(
+        values?.receiptDate.toISOString(),
+      )
+      const explaination = `${
+        receiptDate
+          ? `${t('warehouseImportReceipt.warehouseImputDate')} [${receiptDate}]`
+          : ''
+      }${
+        warehouseExportProposal
+          ? `  ${t(
+              'warehouseImportReceipt.receiptBy',
+            )} [${warehouseExportProposal}]`
+          : ''
+      }${
+        warehouseExportReceipt
+          ? `  ${t(
+              'warehouseImportReceipt.receiptBy',
+            )} [${warehouseExportReceipt}]`
+          : ''
+      }`
+      setFieldValue('explaination', explaination)
     }
     if (val) {
       const res = await getWarehouseExportProposalDetailsApi(val?.id)
@@ -129,11 +156,37 @@ const displayFollowBusinessTypeManagement = (
     }
   }
   const handleChangeWarehouseExportReceipt = async (val) => {
+    const warehouseExportProposal =
+      values[
+        values?.businessTypeId?.bussinessTypeAttributes?.find(
+          (item) =>
+            item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
+        )?.id
+      ]?.code
+    const warehouseExportReceipt = val?.code
+    const receiptDate = convertUtcDateToLocalTz(
+      values?.receiptDate.toISOString(),
+    )
+    const explaination = `${
+      receiptDate
+        ? `${t('warehouseImportReceipt.warehouseImputDate')} [${receiptDate}]`
+        : ''
+    }${
+      warehouseExportProposal
+        ? ` ${t(
+            'warehouseImportReceipt.receiptBy',
+          )} [${warehouseExportProposal}]`
+        : ''
+    }${
+      warehouseExportReceipt
+        ? ` ${t(
+            'warehouseImportReceipt.receiptBy',
+          )} [${warehouseExportReceipt}]`
+        : ''
+    }`
+    setFieldValue('explaination', explaination)
     setItemWarehouseExportReceipt([])
     if (isEmpty(val)) {
-      setItemWarehouseExportReceipt([])
-    }
-    if (!isEmpty(val)) {
       const warehouseExportProposal =
         values[
           values?.businessTypeId?.bussinessTypeAttributes?.find(
@@ -163,6 +216,9 @@ const displayFollowBusinessTypeManagement = (
           : ''
       }`
       setFieldValue('explaination', explaination)
+      setItemWarehouseExportReceipt([])
+    }
+    if (!isEmpty(val)) {
       const res = await getWarehouseExportReceiptDetailsApi(val?.id)
       setItemWarehouseExportReceipt(res?.data?.saleOrderExportDetails)
     }
