@@ -586,6 +586,10 @@ export const ROUTE = {
       PATH: '/wms/warehouse-export/:id/detail',
       TITLE: 'warehouseExportDetail',
     },
+    DETAIL_EXPORT: {
+      PATH: '/wms/warehouse-export/:id/detail-export',
+      TITLE: 'warehouseExportDetail',
+    },
   },
   WAREHOUSE_IMPORT: {
     LIST: {

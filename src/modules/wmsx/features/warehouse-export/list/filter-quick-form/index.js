@@ -123,7 +123,7 @@ const WarehouseExportFilter = ({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
                           sort: convertSortParams({
-                            order: 'asc',
+                            order: 'DESC',
                             orderBy: 'status',
                           }),
                         })

@@ -16,9 +16,9 @@ import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseIm
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertUtcDateToLocalTz } from '~/utils'
 
-import ItemSettingTableDetail from '../../detail/item-setting-table'
+import ItemSettingTableDetail from '../../../warehouse-export-receipt/detail/item-setting-table'
 
-const MovementExportWarehouseDetail = () => {
+const MovementWarehouseExportDetail = () => {
   const { t } = useTranslation(['wmsx'])
   const { id } = useParams()
   const {
@@ -56,20 +56,15 @@ const MovementExportWarehouseDetail = () => {
   }, [id])
   const breadcrumbs = [
     {
-      title: 'receiptCommandManagement',
+      route: ROUTE.WAREHOUSE_EXPORT.LIST.PATH,
+      title: ROUTE.WAREHOUSE_EXPORT.LIST.TITLE,
     },
     {
-      route: ROUTE.WAREHOUSE_EXPORT_RECEIPT.LIST.PATH,
-      title: ROUTE.WAREHOUSE_EXPORT_RECEIPT.LIST.TITLE,
-    },
-    {
-      title: ROUTE.WAREHOUSE_EXPORT_RECEIPT.TRANSACTIONS.LIST.TITLE,
-    },
-    {
-      title:
-        ROUTE.WAREHOUSE_EXPORT_RECEIPT.TRANSACTIONS.DETAIL_TRANSACTION.TITLE,
+      route: ROUTE.WAREHOUSE_EXPORT.DETAIL_EXPORT.PATH,
+      title: ROUTE.WAREHOUSE_EXPORT.DETAIL_EXPORT.TITLE,
     },
   ]
+
   return (
     <Page
       breadcrumbs={breadcrumbs}
@@ -109,14 +104,14 @@ const MovementExportWarehouseDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.receiptId')}
-                value={warehouseExportReceiptDetails.code}
+                value={warehouseExportReceiptDetails?.code}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.createdAt')}
                 value={convertUtcDateToLocalTz(
-                  warehouseExportReceiptDetails.receiptDate,
+                  warehouseExportReceiptDetails?.receiptDate,
                 )}
               />
             </Grid>
@@ -129,7 +124,7 @@ const MovementExportWarehouseDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.nameOfReceiver')}
-                value={warehouseExportReceiptDetails.receiver}
+                value={warehouseExportReceiptDetails?.receiver}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -141,19 +136,19 @@ const MovementExportWarehouseDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.typeBusiness')}
-                value={warehouseExportReceiptDetails.businessType?.name}
+                value={warehouseExportReceiptDetails?.businessType?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.exportInWarehouse')}
-                value={warehouseExportReceiptDetails.warehouse?.name}
+                value={warehouseExportReceiptDetails?.warehouse?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.warehouseExportReason')}
-                value={warehouseExportReceiptDetails.reason?.name}
+                value={warehouseExportReceiptDetails?.reason?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -246,13 +241,13 @@ const MovementExportWarehouseDetail = () => {
   )
 }
 
-MovementExportWarehouseDetail.defaultProps = {
+MovementWarehouseExportDetail.defaultProps = {
   breadcrumbs: [],
 }
 
-MovementExportWarehouseDetail.propTypes = {
+MovementWarehouseExportDetail.propTypes = {
   breadcrumbs: PropTypes.arrayOf(PropTypes.shape()),
   onBack: PropTypes.func,
 }
 
-export default MovementExportWarehouseDetail
+export default MovementWarehouseExportDetail
