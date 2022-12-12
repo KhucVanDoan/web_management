@@ -172,7 +172,7 @@ function WarehouseExport() {
               onClick={() => {
                 if (orderType === 3 && movementType !== 5) {
                   history.push(
-                    ROUTE.WAREHOUSE_EXPORT_RECEIPT.TRANSACTIONS.DETAIL_TRANSACTION.PATH.replace(
+                    ROUTE.WAREHOUSE_EXPORT.DETAIL_EXPORT.PATH.replace(
                       ':id',
                       `${id}`,
                     ),

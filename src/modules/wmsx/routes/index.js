@@ -119,6 +119,7 @@ import {
 } from '../features/warehouse-export-receipt/transactions'
 import MovementExportWarehouseDetail from '../features/warehouse-export-receipt/transactions/detailTransactions'
 import WarehouseExportDetail from '../features/warehouse-export/detail'
+import MovementWarehouseExportDetail from '../features/warehouse-export/detail/detail_warehouse_export'
 import WarehouseExport from '../features/warehouse-export/list'
 import WarehouseImportReceiptDetail from '../features/warehouse-import-receipt/detail'
 import WarehouseImportReceiveAndStorage from '../features/warehouse-import-receipt/detail/receive-and-storage'
@@ -1215,6 +1216,12 @@ const routes = [
         name: ROUTE.WAREHOUSE_EXPORT.DETAIL.TITLE,
         path: ROUTE.WAREHOUSE_EXPORT.DETAIL.PATH,
         component: WarehouseExportDetail,
+        isInSidebar: false,
+      },
+      {
+        name: ROUTE.WAREHOUSE_EXPORT.DETAIL_EXPORT.TITLE,
+        path: ROUTE.WAREHOUSE_EXPORT.DETAIL_EXPORT.PATH,
+        component: MovementWarehouseExportDetail,
         isInSidebar: false,
       },
     ],
