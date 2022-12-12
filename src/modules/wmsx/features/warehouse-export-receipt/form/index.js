@@ -41,7 +41,7 @@ import {
   getWarehouseExportProposalItems,
 } from '~/modules/wmsx/redux/sagas/warehouse-import-receipt/get-details'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import { convertFilterParams } from '~/utils'
+import { convertFilterParams, convertUtcDateToLocalTz } from '~/utils'
 
 import displayFollowBusinessTypeManagement from './display-field'
 import ItemSettingTable from './item-setting-table'
@@ -108,7 +108,11 @@ function WarehouseExportReceiptForm() {
       warehouseId: warehouseExportReceiptDetails?.warehouse || '',
       reasonId: warehouseExportReceiptDetails?.reason || '',
       sourceId: warehouseExportReceiptDetails?.source || '',
-      explanation: warehouseExportReceiptDetails?.explaination || '',
+      explanation:
+        warehouseExportReceiptDetails?.explaination ||
+        `${t(
+          `warehouseExportReceipt.warehouseExportDate`,
+        )} [${convertUtcDateToLocalTz(new Date().toISOString())}]`,
       project: warehouseExportReceiptDetails?.project || '',
       task: warehouseExportReceiptDetails?.task || '',
       suggestExport: warehouseExportReceiptDetails?.suggestExport || '',
@@ -455,6 +459,40 @@ function WarehouseExportReceiptForm() {
       })
     }
   }
+  const handleChangeReceiptDate = (val, values, setFieldValue) => {
+    const warehouseExportProposal =
+      values[
+        values?.businessTypeId?.bussinessTypeAttributes?.find(
+          (item) =>
+            item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
+        )?.id
+      ]?.code
+    const warehouseExportReceipt =
+      values[
+        values?.businessTypeId?.bussinessTypeAttributes?.find(
+          (item) => item?.tableName === TABLE_NAME_ENUM.SALE_ORDER_EXPORT,
+        )?.id
+      ]?.code
+    const receiptDate = convertUtcDateToLocalTz(val.toISOString())
+    const explaination = `${
+      receiptDate
+        ? `${t('warehouseExportReceipt.warehouseExportDate')} [${receiptDate}]`
+        : ''
+    }${
+      warehouseExportProposal
+        ? ` ${t(
+            'warehouseExportReceipt.receiptBy',
+          )} [${warehouseExportProposal}]`
+        : ''
+    }${
+      warehouseExportReceipt
+        ? ` ${t(
+            'warehouseExportReceipt.receiptBy',
+          )} [${warehouseExportReceipt}]`
+        : ''
+    }`
+    setFieldValue('explanation', explaination)
+  }
   return (
     <Page
       breadcrumbs={getBreadcrumb()}
@@ -536,6 +574,9 @@ function WarehouseExportReceiptForm() {
                             }),
                           )
                         }
+                        onChange={(val) =>
+                          handleChangeReceiptDate(val, values, setFieldValue)
+                        }
                         required
                       />
                     </Grid>
@@ -567,8 +608,8 @@ function WarehouseExportReceiptForm() {
                           })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
-                        getOptionLabel={(opt) => opt?.name}
-                        getOptionSubLabel={(opt) => opt?.code}
+                        getOptionLabel={(opt) => opt?.code}
+                        getOptionSubLabel={(opt) => opt?.name}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                         required
                       />

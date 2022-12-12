@@ -2891,6 +2891,8 @@
     "Confirm": "Bạn có chắc chắn muốn xác nhận không",
     "rejectConfirm": "Bạn có chắc chắn muốn từ chối không",
     "dowload": "Tải phiếu",
+    "warehouseExportDate": "Xuất kho ngày",
+    "receiptBy": "Theo phiếu",
     "items": {
       "STT": "STT",
       "suppliesCode": "Mã vật tư",
