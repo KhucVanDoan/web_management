@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import { Box, Grid } from '@mui/material'
+import { uniq, map } from 'lodash'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
@@ -10,10 +11,12 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TextField from '~/components/TextField'
 import {
+  DATA_TYPE,
   MOVEMENT_TYPE_MAP,
   WAREHOUSE_TRANSFER_MAP,
 } from '~/modules/wmsx/constants'
 import useMovements from '~/modules/wmsx/redux/hooks/useMovements'
+import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import { getWarehouseTransferDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-transfer/get-warehouse-transfer-detail'
 import { convertUtcDateToLocalTz } from '~/utils'
 
@@ -27,6 +30,10 @@ const MovementTransferDetail = ({ breadcrumbs, onBack }) => {
     data: { isLoading, movementDetail },
     actions,
   } = useMovements()
+  const {
+    data: { attributesBusinessTypeDetails },
+    actions: useWarehouseImportReceiptAction,
+  } = useWarehouseImportReceipt()
   // const formattedItem = receiptDetail?.warehouseTransferDetailLots?.map(
   //   (detail) => ({
   //     item: {
@@ -48,6 +55,23 @@ const MovementTransferDetail = ({ breadcrumbs, onBack }) => {
   useEffect(() => {
     actions.getMovementsDetailsById(id, async (val) => {
       const res = await getWarehouseTransferDetailsApi(val?.orderId)
+      const attributes = res?.data?.attributes?.filter(
+        (e) => e?.tableName && e?.value,
+      )
+      const params = {
+        filter: JSON.stringify(
+          uniq(map(attributes, 'tableName'))?.map((item) => ({
+            tableName: item,
+            id: attributes
+              ?.filter((e) => e?.tableName === item)
+              ?.map((d) => d?.value)
+              .toString(),
+          })),
+        ),
+      }
+      useWarehouseImportReceiptAction.getAttribuiteBusinessTypeDetailsById(
+        params,
+      )
 
       setReceiptDetail(res?.data)
     })
@@ -153,7 +177,42 @@ const MovementTransferDetail = ({ breadcrumbs, onBack }) => {
                 value={receiptDetail?.receiver}
               />
             </Grid>
-
+            {receiptDetail?.attributes?.map((item) => {
+              if (item.tableName) {
+                return (
+                  <Grid item lg={6} xs={12}>
+                    <LV
+                      label={`${item.fieldName}`}
+                      value={
+                        attributesBusinessTypeDetails[item.tableName]?.find(
+                          (itemDetail) => `${itemDetail.id}` === item.value,
+                        )?.name ||
+                        attributesBusinessTypeDetails[item.tableName]?.find(
+                          (itemDetail) => `${itemDetail.id}` === item.value,
+                        )?.code
+                      }
+                    />
+                  </Grid>
+                )
+              } else {
+                if (item?.type === DATA_TYPE.DATE) {
+                  return (
+                    <Grid item lg={6} xs={12}>
+                      <LV
+                        label={`${item.fieldName}`}
+                        value={convertUtcDateToLocalTz(item.value)}
+                      />
+                    </Grid>
+                  )
+                } else {
+                  return (
+                    <Grid item lg={6} xs={12}>
+                      <LV label={`${item.fieldName}`} value={item.value} />
+                    </Grid>
+                  )
+                }
+              }
+            })}
             <Grid item xs={12}>
               <TextField
                 name="explaination"

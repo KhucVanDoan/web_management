@@ -1,15 +1,14 @@
 /* eslint-disable no-param-reassign */
 import axios from 'axios'
-import Cookies from 'universal-cookie'
 
-import { CONFIG_COOKIES, NOTIFICATION_TYPE } from '~/common/constants'
+import { NOTIFICATION_TYPE } from '~/common/constants'
 import { logout } from '~/modules/auth/redux/actions/auth'
 import history from '~/services/history'
 import store from '~/store'
 import { validateStatus } from '~/utils/api'
 import i18n from '~/utils/i18n'
 import addNotification from '~/utils/toast'
-const cookies = new Cookies()
+
 // common base instance
 const BASE_URL = process.env.REACT_APP_HOST + '/api'
 const REPORT_URL = process.env.REACT_APP_REPORT_HOST + '/api'
@@ -32,11 +31,8 @@ export const createInstance = (baseURL) => {
   // Add a request interceptor
   instance.interceptors.request.use(
     function (config) {
-      if (
-        config.url !== REFRESH_TOKEN_URL &&
-        (cookies.get('token') || localStorage.getItem('token'))
-      ) {
-        const token = localStorage.getItem('token') || cookies.get('token')
+      if (config.url !== REFRESH_TOKEN_URL && localStorage.getItem('token')) {
+        const token = localStorage.getItem('token')
         config.headers['Authorization'] = `Bearer ${token}`
         config.headers['x-auth-token'] = `Bearer ${token}`
         config.headers['lang'] = i18n.language
@@ -87,16 +83,16 @@ export const createInstance = (baseURL) => {
               axios.defaults.headers.common['Authorization'] =
                 refresh.data.accessToken.token
               //save to cookies
-              cookies.set(
-                'token',
-                refresh.data.accessToken.token,
-                CONFIG_COOKIES,
-              )
-              cookies.set(
-                'refreshToken',
-                refresh.data.refreshToken.token,
-                CONFIG_COOKIES,
-              )
+              // cookies.set(
+              //   'token',
+              //   refresh.data.accessToken.token,
+              //   CONFIG_COOKIES,
+              // )
+              // cookies.set(
+              //   'refreshToken',
+              //   refresh.data.refreshToken.token,
+              //   CONFIG_COOKIES,
+              // )
 
               // save to localStorage
               localStorage.setItem('token', refresh.data.accessToken.token)

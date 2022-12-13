@@ -74,18 +74,20 @@ const displayFollowBusinessTypeManagement = (
       )
       const explaination = `${
         receiptDate
-          ? `${t('warehouseImportReceipt.warehouseImputDate')} [${receiptDate}]`
+          ? `${t(
+              'warehouseExportReceipt.warehouseExportDate',
+            )} [${receiptDate}]`
           : ''
       }${
         warehouseExportProposal
           ? `  ${t(
-              'warehouseImportReceipt.receiptBy',
+              'warehouseExportReceipt.receiptBy',
             )} [${warehouseExportProposal}]`
           : ''
       }${
         warehouseExportReceipt
           ? `  ${t(
-              'warehouseImportReceipt.receiptBy',
+              'warehouseExportReceipt.receiptBy',
             )} [${warehouseExportReceipt}]`
           : ''
       }`
@@ -161,18 +163,20 @@ const displayFollowBusinessTypeManagement = (
       )
       const explaination = `${
         receiptDate
-          ? `${t('warehouseImportReceipt.warehouseImputDate')} [${receiptDate}]`
+          ? `${t(
+              'warehouseExportReceipt.warehouseExportDate',
+            )} [${receiptDate}]`
           : ''
       }${
         warehouseExportProposal
           ? `  ${t(
-              'warehouseImportReceipt.receiptBy',
+              'warehouseExportReceipt.receiptBy',
             )} [${warehouseExportProposal}]`
           : ''
       }${
         warehouseExportReceipt
           ? `  ${t(
-              'warehouseImportReceipt.receiptBy',
+              'warehouseExportReceipt.receiptBy',
             )} [${warehouseExportReceipt}]`
           : ''
       }`
@@ -182,13 +186,15 @@ const displayFollowBusinessTypeManagement = (
   const handleChangeWarehouseImportReciept = async (val) => {
     setFieldValue('items', DEFAULT_ITEMS)
     if (isEmpty(val)) {
-      const warehouseExportProposal = val?.code
-      const warehouseExportReceipt =
+      const warehouseExportProposal =
         values[
           values?.businessTypeId?.bussinessTypeAttributes?.find(
-            (item) => item?.tableName === TABLE_NAME_ENUM.PURCHASED_ODER_IMPORT,
+            (item) =>
+              item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
           )?.id
         ]?.code
+      const warehouseExportReceipt = val?.code
+
       const receiptDate = convertUtcDateToLocalTz(
         values?.receiptDate.toISOString(),
       )

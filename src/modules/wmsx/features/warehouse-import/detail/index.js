@@ -54,53 +54,48 @@ const WarehouseImportDetail = () => {
       switch (val?.movementType) {
         case MOVEMENT_TYPE.PO_IMPORT_RECEIVE:
         case MOVEMENT_TYPE.PO_IMPORT:
-          const res = await getWarehouseImportReceiptDetailsApi(
-            val?.orderId,
-            (data) => {
-              const attributes = data?.attributes?.filter(
-                (e) => e?.tableName && e?.value,
-              )
-              const params = {
-                filter: JSON.stringify(
-                  uniq(map(attributes, 'tableName'))?.map((item) => ({
-                    tableName: item,
-                    id: attributes
-                      ?.filter((e) => e?.tableName === item)
-                      ?.map((d) => d?.value)
-                      .toString(),
-                  })),
-                ),
-              }
-              useWarehouseImportReceiptAction.getAttribuiteBusinessTypeDetailsById(
-                params,
-              )
-            },
+          const res = await getWarehouseImportReceiptDetailsApi(val?.orderId)
+
+          const attributes = res?.data?.attributes?.filter(
+            (e) => e?.tableName && e?.value,
+          )
+          const params = {
+            filter: JSON.stringify(
+              uniq(map(attributes, 'tableName'))?.map((item) => ({
+                tableName: item,
+                id: attributes
+                  ?.filter((e) => e?.tableName === item)
+                  ?.map((d) => d?.value)
+                  .toString(),
+              })),
+            ),
+          }
+          useWarehouseImportReceiptAction.getAttribuiteBusinessTypeDetailsById(
+            params,
           )
           setReceiptDetail(res?.data)
           break
         case MOVEMENT_TYPE.TRANSFER_IMPORT:
-          const response = await getWarehouseTransferDetailsApi(
-            val?.orderId,
-            (data) => {
-              const attributes = data?.attributes?.filter(
-                (e) => e?.tableName && e?.value,
-              )
-              const params = {
-                filter: JSON.stringify(
-                  uniq(map(attributes, 'tableName'))?.map((item) => ({
-                    tableName: item,
-                    id: attributes
-                      ?.filter((e) => e?.tableName === item)
-                      ?.map((d) => d?.value)
-                      .toString(),
-                  })),
-                ),
-              }
-              useWarehouseImportReceiptAction.getAttribuiteBusinessTypeDetailsById(
-                params,
-              )
-            },
+          const response = await getWarehouseTransferDetailsApi(val?.orderId)
+
+          const attributess = response?.data?.attributes?.filter(
+            (e) => e?.tableName && e?.value,
           )
+          const paramss = {
+            filter: JSON.stringify(
+              uniq(map(attributess, 'tableName'))?.map((item) => ({
+                tableName: item,
+                id: attributes
+                  ?.filter((e) => e?.tableName === item)
+                  ?.map((d) => d?.value)
+                  .toString(),
+              })),
+            ),
+          }
+          useWarehouseImportReceiptAction.getAttribuiteBusinessTypeDetailsById(
+            paramss,
+          )
+
           setReceiptDetail(response?.data)
           break
         default:

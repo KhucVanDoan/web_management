@@ -97,7 +97,10 @@ const WarehouseTransferForm = () => {
       code: warehouseTransferDetails?.code || '',
       name: warehouseTransferDetails?.name || '',
       businessTypeId: warehouseTransferDetails?.bussinessType
-        ? warehouseTransferDetails?.bussinessType
+        ? {
+            ...warehouseTransferDetails?.bussinessType,
+            bussinessTypeAttributes: warehouseTransferDetails?.attributes,
+          }
         : '',
       type: warehouseTransferDetails?.type || '',
       reasonId: warehouseTransferDetails?.reason || '',
@@ -133,7 +136,7 @@ const WarehouseTransferForm = () => {
         }),
       ) || [{ ...DEFAULT_ITEM }],
     }),
-    [warehouseTransferDetails],
+    [warehouseTransferDetails, attributesBusinessTypeDetails],
   )
   warehouseTransferDetails?.attributes?.forEach((item) => {
     if (item.tableName) {
@@ -170,10 +173,10 @@ const WarehouseTransferForm = () => {
       ),
     }
     values?.businessTypeId?.bussinessTypeAttributes?.forEach((att, index) => {
-      if (values[att.tableName]) {
-        params[`attributes[${index}].id`] = att.id
-        params[`attributes[${index}].value`] = values[att.tableName]?.id
-      }
+      // if (values[att.tableName]) {
+      //   params[`attributes[${index}].id`] = att.id
+      //   params[`attributes[${index}].value`] = values[att.tableName]?.id
+      // }
       if (values[att.id]) {
         params[`attributes[${index}].id`] = att.id
         params[`attributes[${index}].value`] =

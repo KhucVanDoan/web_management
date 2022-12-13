@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import { Box, Grid } from '@mui/material'
+import { uniq, map } from 'lodash'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
@@ -10,8 +11,13 @@ import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TextField from '~/components/TextField'
-import { MOVEMENT_TYPE, MOVEMENT_TYPE_MAP } from '~/modules/wmsx/constants'
+import {
+  DATA_TYPE,
+  MOVEMENT_TYPE,
+  MOVEMENT_TYPE_MAP,
+} from '~/modules/wmsx/constants'
 import useMovements from '~/modules/wmsx/redux/hooks/useMovements'
+import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import { getWarehouseImportReceiptDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-import-receipt/get-details'
 import { convertUtcDateToLocalTz } from '~/utils'
 
@@ -26,11 +32,30 @@ const MovementImportDetail = ({ breadcrumbs, onBack }) => {
     data: { isLoading, movementDetail },
     actions,
   } = useMovements()
-
+  const {
+    data: { attributesBusinessTypeDetails },
+    actions: useWarehouseImportReceiptAction,
+  } = useWarehouseImportReceipt()
   useEffect(() => {
     actions.getMovementsDetailsById(id, async (val) => {
       const res = await getWarehouseImportReceiptDetailsApi(val?.orderId)
-
+      const attributes = res?.data?.attributes?.filter(
+        (e) => e?.tableName && e?.value,
+      )
+      const params = {
+        filter: JSON.stringify(
+          uniq(map(attributes, 'tableName'))?.map((item) => ({
+            tableName: item,
+            id: attributes
+              ?.filter((e) => e?.tableName === item)
+              ?.map((d) => d?.value)
+              .toString(),
+          })),
+        ),
+      }
+      useWarehouseImportReceiptAction.getAttribuiteBusinessTypeDetailsById(
+        params,
+      )
       setReceiptDetail(res?.data)
     })
     return () => {
@@ -126,29 +151,40 @@ const MovementImportDetail = ({ breadcrumbs, onBack }) => {
                 value={receiptDetail.source?.name}
               />
             </Grid>
-            {[].map((item) => {
+            {receiptDetail?.attributes?.map((item) => {
               if (item.tableName) {
                 return (
                   <Grid item lg={6} xs={12}>
                     <LV
                       label={`${item.fieldName}`}
                       value={
-                        [][item.tableName]?.find(
-                          (itemDetail) => itemDetail.id + '' === item.value,
+                        attributesBusinessTypeDetails[item.tableName]?.find(
+                          (itemDetail) => `${itemDetail.id}` === item.value,
                         )?.name ||
-                        [][item.tableName]?.find(
-                          (itemDetail) => itemDetail.id + '' === item.value,
+                        attributesBusinessTypeDetails[item.tableName]?.find(
+                          (itemDetail) => `${itemDetail.id}` === item.value,
                         )?.code
                       }
                     />
                   </Grid>
                 )
               } else {
-                return (
-                  <Grid item lg={6} xs={12}>
-                    <LV label={`${item.fieldName}`} value={item.value} />
-                  </Grid>
-                )
+                if (item?.type === DATA_TYPE.DATE) {
+                  return (
+                    <Grid item lg={6} xs={12}>
+                      <LV
+                        label={`${item.fieldName}`}
+                        value={convertUtcDateToLocalTz(item.value)}
+                      />
+                    </Grid>
+                  )
+                } else {
+                  return (
+                    <Grid item lg={6} xs={12}>
+                      <LV label={`${item.fieldName}`} value={item.value} />
+                    </Grid>
+                  )
+                }
               }
             })}
             <Grid item xs={12}>
