@@ -1,11 +1,8 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import Cookies from 'universal-cookie'
 
-import { CONFIG_COOKIES } from '~/common/constants'
 import { api } from '~/services/api'
 
 import { loginFailed, loginSuccess, LOGIN_START } from '../actions/auth'
-const cookies = new Cookies()
 
 /**
  * Login
@@ -31,9 +28,9 @@ function* doLogin(action) {
       localStorage.setItem('refreshToken', data.refreshToken.token)
 
       // Save token info to cookies
-      cookies.set('token', data.accessToken.token, CONFIG_COOKIES)
-      cookies.set('refreshToken', data.refreshToken.token, CONFIG_COOKIES)
-      cookies.set('userId', data.userId, CONFIG_COOKIES)
+      // cookies.set('token', data.accessToken.token, CONFIG_COOKIES)
+      // cookies.set('refreshToken', data.refreshToken.token, CONFIG_COOKIES)
+      // cookies.set('userId', data.userId, CONFIG_COOKIES)
 
       // Save user infomation to local storage
       localStorage.setItem('userInfo', JSON.stringify(data.userInfo))

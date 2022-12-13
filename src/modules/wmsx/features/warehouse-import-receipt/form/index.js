@@ -122,6 +122,7 @@ function WarehouseImportReceiptForm() {
           unit: item?.item?.itemUnit,
           lotNumber: item?.lotNumber,
           money: item?.amount,
+          price: item?.price,
           debitAcc: item?.debitAccount,
           creditAcc: item?.creditAccount.replace(/^(\d*?[1-9])0+$/, '$1'),
           importQuantity: item?.quantity,
