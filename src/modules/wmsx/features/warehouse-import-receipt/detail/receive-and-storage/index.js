@@ -11,7 +11,11 @@ import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { ORDER_STATUS_OPTIONS, MOVEMENT_TYPE } from '~/modules/wmsx/constants'
+import {
+  ORDER_STATUS_OPTIONS,
+  MOVEMENT_TYPE,
+  DATA_TYPE,
+} from '~/modules/wmsx/constants'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertUtcDateToLocalTz, getLocalItem } from '~/utils'
@@ -264,14 +268,25 @@ function WarehouseImportReceiveAndStorage() {
                           </Grid>
                         )
                       } else {
-                        return (
-                          <Grid item lg={6} xs={12}>
-                            <LV
-                              label={`${item.fieldName}`}
-                              value={item.value}
-                            />
-                          </Grid>
-                        )
+                        if (item?.type === DATA_TYPE.DATE) {
+                          return (
+                            <Grid item lg={6} xs={12}>
+                              <LV
+                                label={`${item.fieldName}`}
+                                value={convertUtcDateToLocalTz(item.value)}
+                              />
+                            </Grid>
+                          )
+                        } else {
+                          return (
+                            <Grid item lg={6} xs={12}>
+                              <LV
+                                label={`${item.fieldName}`}
+                                value={item.value}
+                              />
+                            </Grid>
+                          )
+                        }
                       }
                     })}
                   </Grid>

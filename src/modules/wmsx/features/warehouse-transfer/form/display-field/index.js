@@ -33,7 +33,7 @@ const DisplayFollowBusinessTypeManagement = (
         return display.push(
           <Grid item lg={6} xs={12}>
             <Field.TextField
-              name={`${item.id}`}
+              name={item.id}
               label={item?.fieldName}
               required={Boolean(item?.required)}
               validate={(val) => {
@@ -48,7 +48,7 @@ const DisplayFollowBusinessTypeManagement = (
         return display.push(
           <Grid item lg={6} xs={12}>
             <Field.TextField
-              name={`${item.id}`}
+              name={item.id}
               label={item?.fieldName}
               type="number"
               required={Boolean(item?.required)}
@@ -64,7 +64,7 @@ const DisplayFollowBusinessTypeManagement = (
         return display.push(
           <Grid item lg={6} xs={12}>
             <Field.DatePicker
-              name={`${item.id}`}
+              name={item.id}
               label={item?.fieldName}
               required={Boolean(item?.required)}
               validate={(val) => {
@@ -81,7 +81,7 @@ const DisplayFollowBusinessTypeManagement = (
             return display.push(
               <Grid item lg={6} xs={12}>
                 <Field.Autocomplete
-                  name={`${item.id}`}
+                  name={item.id}
                   label={t('warehouseImportReceipt.project')}
                   placeholder={t('warehouseImportReceipt.project')}
                   asyncRequest={(s) =>
@@ -114,7 +114,7 @@ const DisplayFollowBusinessTypeManagement = (
             return display.push(
               <Grid item lg={6} xs={12}>
                 <Field.Autocomplete
-                  name={`${item.id}`}
+                  name={item.id}
                   label={t('warehouseImportReceipt.task')}
                   placeholder={t('warehouseImportReceipt.task')}
                   asyncRequest={(s) =>
@@ -148,7 +148,7 @@ const DisplayFollowBusinessTypeManagement = (
             return display.push(
               <Grid item lg={6} xs={12}>
                 <Field.Autocomplete
-                  name={`${item.id}`}
+                  name={item.id}
                   label={item?.fieldName}
                   asyncRequest={(s) => {
                     return searchReceiptDepartmentApi({
@@ -179,7 +179,7 @@ const DisplayFollowBusinessTypeManagement = (
             return display.push(
               <Grid item lg={6} xs={12}>
                 <Field.Autocomplete
-                  name={`${item.id}`}
+                  name={item.id}
                   label={item?.fieldName}
                   asyncRequest={(s) => {
                     return searchVendorsApi({
@@ -210,7 +210,7 @@ const DisplayFollowBusinessTypeManagement = (
             return display.push(
               <Grid item lg={6} xs={12}>
                 <Field.Autocomplete
-                  name={`${item.id}`}
+                  name={item.id}
                   label={item?.fieldName}
                   asyncRequest={(s) => {
                     return searchExpenditureTypeApi({
@@ -241,7 +241,7 @@ const DisplayFollowBusinessTypeManagement = (
             return display.push(
               <Grid item lg={6} xs={12}>
                 <Field.Autocomplete
-                  name={`${item.id}`}
+                  name={item.id}
                   label={item?.fieldName}
                   asyncRequest={(s) => {
                     return searchExpenditureOrgApi({

@@ -36,10 +36,7 @@ import { searchReceiptDepartmentApi } from '~/modules/wmsx/redux/sagas/receipt-d
 import { getSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-management/get-detail'
 import { searchSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-management/search'
 import { getWarehouseExportProposalDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-export-proposal/get-details'
-import {
-  getWarehouseImportReceiptDetailsApi,
-  getWarehouseExportProposalItems,
-} from '~/modules/wmsx/redux/sagas/warehouse-import-receipt/get-details'
+import { getWarehouseImportReceiptDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-import-receipt/get-details'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertUtcDateToLocalTz } from '~/utils'
 
@@ -315,18 +312,18 @@ function WarehouseExportReceiptForm() {
           })
         })
         setItemWarehouseExportProposal(items)
-        const response = await getWarehouseExportProposalItems({
-          id: Number(
-            warehouseExportReceiptDetails?.attributes?.find(
-              (item) =>
-                item?.code ===
-                  CODE_TYPE_DATA_FATHER_JOB.WAREHOUSE_EXPORT_PROPOSAL_ID &&
-                item?.value,
-            )?.value,
-          ),
-          warehouseId: warehouseExportReceiptDetails?.warehouse?.id,
-        })
-        setItemWarehouseExport(response?.data)
+        // const response = await getWarehouseExportProposalItems({
+        //   id: Number(
+        //     warehouseExportReceiptDetails?.attributes?.find(
+        //       (item) =>
+        //         item?.code ===
+        //           CODE_TYPE_DATA_FATHER_JOB.WAREHOUSE_EXPORT_PROPOSAL_ID &&
+        //         item?.value,
+        //     )?.value,
+        //   ),
+        //   warehouseId: warehouseExportReceiptDetails?.warehouse?.id,
+        // })
+        // setItemWarehouseExport(response?.data)
       }
     }
   }, [warehouseExportReceiptDetails])

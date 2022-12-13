@@ -15,7 +15,7 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
 import { ORDER_STATUS } from '~/modules/mesx/constants'
-import { ORDER_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import { DATA_TYPE, ORDER_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -266,11 +266,22 @@ function WarehouseExportReceiptDetail() {
                   </Grid>
                 )
               } else {
-                return (
-                  <Grid item lg={6} xs={12}>
-                    <LV label={`${item.fieldName}`} value={item?.values} />
-                  </Grid>
-                )
+                if (item?.type === DATA_TYPE.DATE) {
+                  return (
+                    <Grid item lg={6} xs={12}>
+                      <LV
+                        label={`${item.fieldName}`}
+                        value={convertUtcDateToLocalTz(item.value)}
+                      />
+                    </Grid>
+                  )
+                } else {
+                  return (
+                    <Grid item lg={6} xs={12}>
+                      <LV label={`${item.fieldName}`} value={item.value} />
+                    </Grid>
+                  )
+                }
               }
             })}
             <Grid item xs={12}>

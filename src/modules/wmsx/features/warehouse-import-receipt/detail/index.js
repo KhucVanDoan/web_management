@@ -15,6 +15,7 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
 import {
+  DATA_TYPE,
   ORDER_STATUS,
   ORDER_STATUS_OPTIONS,
   TABLE_NAME_ENUM,
@@ -249,11 +250,22 @@ function WarehouseImportReceiptDetail() {
                   </Grid>
                 )
               } else {
-                return (
-                  <Grid item lg={6} xs={12}>
-                    <LV label={`${item.fieldName}`} value={item.value} />
-                  </Grid>
-                )
+                if (item?.type === DATA_TYPE.DATE) {
+                  return (
+                    <Grid item lg={6} xs={12}>
+                      <LV
+                        label={`${item.fieldName}`}
+                        value={convertUtcDateToLocalTz(item.value)}
+                      />
+                    </Grid>
+                  )
+                } else {
+                  return (
+                    <Grid item lg={6} xs={12}>
+                      <LV label={`${item.fieldName}`} value={item.value} />
+                    </Grid>
+                  )
+                }
               }
             })}
           </Grid>

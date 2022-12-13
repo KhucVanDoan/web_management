@@ -221,6 +221,35 @@ const displayFollowBusinessTypeManagement = (
     if (!isEmpty(val)) {
       const res = await getWarehouseExportReceiptDetailsApi(val?.id)
       setItemWarehouseExportReceipt(res?.data?.saleOrderExportDetails)
+      const warehouseExportProposal =
+        values[
+          values?.businessTypeId?.bussinessTypeAttributes?.find(
+            (item) =>
+              item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
+          )?.id
+        ]?.code
+      const warehouseExportReceipt = val?.code
+      const receiptDate = convertUtcDateToLocalTz(
+        values?.receiptDate.toISOString(),
+      )
+      const explaination = `${
+        receiptDate
+          ? `${t('warehouseImportReceipt.warehouseImputDate')} [${receiptDate}]`
+          : ''
+      }${
+        warehouseExportProposal
+          ? ` ${t(
+              'warehouseImportReceipt.receiptBy',
+            )} [${warehouseExportProposal}]`
+          : ''
+      }${
+        warehouseExportReceipt
+          ? ` ${t(
+              'warehouseImportReceipt.receiptBy',
+            )} [${warehouseExportReceipt}]`
+          : ''
+      }`
+      setFieldValue('explaination', explaination)
     }
   }
   const display = []
