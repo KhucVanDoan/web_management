@@ -134,7 +134,9 @@ const ItemSettingTable = ({
               getOptionLabel={(opt) => opt?.item?.code}
               getOptionSubLabel={(opt) => opt?.item?.name}
               onChange={(val) => handleChangeItem(val, index)}
-              isOptionEqualToValue={(opt, val) => opt?.itemId === val?.itemId}
+              isOptionEqualToValue={(opt, val) =>
+                opt?.item?.itemId === val?.itemId
+              }
               getOptionDisabled={(opt) =>
                 itemIdCodeList.some(
                   (id) => id === (opt?.itemId || opt?.itemCode?.itemId),
@@ -461,6 +463,7 @@ const ItemSettingTable = ({
       values[warehouseExprotProposal],
       debitAccount,
       values?.businessTypeId,
+      itemWarehouseExportProposal,
     ],
   )
   return (

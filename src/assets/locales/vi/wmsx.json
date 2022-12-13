@@ -2893,6 +2893,8 @@
     "dowload": "Tải phiếu",
     "warehouseExportDate": "Xuất kho ngày",
     "receiptBy": "Theo phiếu",
+    "confirmTitlePopupEBS": "Xác nhận hoàn thành xuất kho",
+    "ConfirmEBS": "Xác nhận xuất kho đồng nghĩa với việc bạn sẽ đồng bộ dữ liệu này sang hệ thống EBS.",
     "items": {
       "STT": "STT",
       "suppliesCode": "Mã vật tư",
@@ -3061,11 +3063,11 @@
       "objectCategory": "Danh mục đối tượng"
     },
     "warehouseExportProposalStatus": {
-      "pending": "Chờ phê duyệt",
+      "pending": "Chưa xuất kho",
       "comfirmed": "Đã phê duyệt",
       "rejected": "Từ chối",
       "noExport": "Chưa xuất kho",
-      "inProgress": "Đang thực hiện",
+      "inProgress": "Đang xuất kho",
       "completed": "Hoàn thành"
     }
   },
