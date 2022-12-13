@@ -77,6 +77,7 @@ function WarehouseExportReceipt() {
     tempItem: null,
     isOpenDeleteModal: false,
     isOpenConfirmModal: false,
+    isOpenConfirmEBSModal: false,
     isOpenRejectedModal: false,
   })
 
@@ -160,7 +161,12 @@ function WarehouseExportReceipt() {
         const isConfirmWarehouseExport = status === ORDER_STATUS.COMPLETED
         return (
           isConfirmWarehouseExport && (
-            <Button variant="text" size="small" bold={false}>
+            <Button
+              variant="text"
+              size="small"
+              bold={false}
+              onClick={() => onClickConfirmEBS(params?.row)}
+            >
               {t('warehouseExportReceipt.confirmWarehouseExport')}
             </Button>
           )
@@ -309,6 +315,15 @@ function WarehouseExportReceipt() {
     })
     setModal({ isOpenConfirmModal: false, tempItem: null })
   }
+  const onClickConfirmEBS = (tempItem) => {
+    setModal({ tempItem, isOpenConfirmEBSModal: true })
+  }
+  const onSubmitConfirmEBS = () => {
+    actions.confirmWarehouseExportEBSById(modal.tempItem?.id, () => {
+      refreshData()
+    })
+    setModal({ isOpenConfirmEBSModal: false, tempItem: null })
+  }
   const onSubmitRejected = () => {
     actions.rejectWarehouseExportReceiptById(modal.tempItem?.id, () => {
       refreshData()
@@ -439,6 +454,18 @@ function WarehouseExportReceipt() {
         submitLabel={t('general:common.yes')}
         noBorderBottom
       >
+        {t('warehouseExportReceipt.Confirm')}
+      </Dialog>
+      <Dialog
+        open={modal.isOpenConfirmEBSModal}
+        title={t('warehouseExportReceipt.confirmTitlePopupEBS')}
+        onCancel={onCloseDeleteModal}
+        cancelLabel={t('general:common.no')}
+        onSubmit={onSubmitConfirmEBS}
+        submitLabel={t('general:common.yes')}
+        noBorderBottom
+      >
+        <div>{t('warehouseExportReceipt.ConfirmEBS')}</div>
         {t('warehouseExportReceipt.Confirm')}
       </Dialog>
       <Dialog

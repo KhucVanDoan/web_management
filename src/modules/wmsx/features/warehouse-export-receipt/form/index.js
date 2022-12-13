@@ -251,13 +251,11 @@ function WarehouseExportReceiptForm() {
         setItemWarehouseExport(res?.data?.purchasedOrderImportDetails)
       }
       if (
-        !isEmpty(
-          warehouseExportReceiptDetails?.attributes?.find(
-            (item) =>
-              item?.code ===
-                CODE_TYPE_DATA_FATHER_JOB.WAREHOUSE_EXPORT_PROPOSAL_ID &&
-              item?.value,
-          ),
+        warehouseExportReceiptDetails?.attributes?.find(
+          (item) =>
+            item?.code ===
+              CODE_TYPE_DATA_FATHER_JOB.WAREHOUSE_EXPORT_PROPOSAL_ID &&
+            item?.value,
         )
       ) {
         const res = await getWarehouseExportProposalDetailsApi(
@@ -282,16 +280,16 @@ function WarehouseExportReceiptForm() {
           })
         })
         setWarehouseList(warehouseList)
-        const items = []
+        const itemWarehouseExportProposal = []
         res?.data?.items?.forEach((item) => {
           item?.childrens?.forEach((chil) => {
-            const findItem = items?.find(
+            const findItem = itemWarehouseExportProposal?.find(
               (w) =>
                 w?.itemId === chil?.itemId &&
                 w?.warehouseExport?.id === chil?.warehouseExport?.id,
             )
             if (isEmpty(findItem)) {
-              items.push({
+              itemWarehouseExportProposal.push({
                 item: {
                   itemId: chil?.itemId,
                   code: chil?.itemResponse?.code || chil?.itemCode,
@@ -311,7 +309,7 @@ function WarehouseExportReceiptForm() {
             }
           })
         })
-        setItemWarehouseExportProposal(items)
+        setItemWarehouseExportProposal(itemWarehouseExportProposal)
         // const response = await getWarehouseExportProposalItems({
         //   id: Number(
         //     warehouseExportReceiptDetails?.attributes?.find(
@@ -326,7 +324,7 @@ function WarehouseExportReceiptForm() {
         // setItemWarehouseExport(response?.data)
       }
     }
-  }, [warehouseExportReceiptDetails])
+  }, [warehouseExportReceiptDetails, id])
   const getTitle = () => {
     switch (mode) {
       case MODAL_MODE.CREATE:
