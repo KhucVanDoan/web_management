@@ -1862,23 +1862,23 @@ export const WAREHOUSE_EXPORT_PROPOSAL_STATUS_OPTION = [
   },
 ]
 export const WAREHOUSE_EXPORT_PROPOSAL_EXPORT_WAREHOUSE_STATUS = {
-  NO_EXPORTED: 0,
-  IN_PROGRESS: 1,
-  COMPLETED: 2,
+  UN_EXPORTED: 5,
+  IN_PROGRESS: 3,
+  COMPLETED: 4,
 }
 export const WAREHOUSE_EXPORT_PROPOSAL_EXPORT_WAREHOUSE_STATUS_OPTION = [
   {
-    id: 0,
-    text: 'warehouseExportProposal.warehouseExportProposalStatus.noExport',
+    id: 5,
+    text: 'warehouseExportProposal.warehouseExportProposalStatus.pending',
     color: 'pending',
   },
   {
-    id: 1,
+    id: 3,
     text: 'warehouseExportProposal.warehouseExportProposalStatus.inProgress',
     color: 'inProgress',
   },
   {
-    id: 2,
+    id: 4,
     text: 'warehouseExportProposal.warehouseExportProposalStatus.completed',
     color: 'completed',
   },
