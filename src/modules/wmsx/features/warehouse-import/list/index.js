@@ -187,7 +187,7 @@ function WarehouseImport() {
           warehouseId: quickFilters?.warehouseId?.map((item) => item?.id),
           departmentReceiptId: filters?.departmentReceiptId?.id,
           businessTypeId: filters?.businessTypeId,
-          createdAt: filters?.createdAt,
+          createdAt: filters?.createdAt||quickFilters?.createdAt,
         },
         columns,
       ),
@@ -220,7 +220,7 @@ function WarehouseImport() {
                 selectedRows?.map((x) => ({ id: x?.id })),
               ),
               keyword: keyword.trim(),
-              filter: convertFilterParams(filters, [
+              filter: convertFilterParams({...filters,createdAt:filters?.createdAt||quickFilters?.createdAt}, [
                 { field: 'createdAt', filterFormat: 'date' },
               ]),
               sort: convertSortParams(sort),

@@ -128,14 +128,14 @@ const displayFollowBusinessTypeManagement = (
                 name: chil?.itemResponse?.name || chil?.itemName,
                 itemUnit: chil?.itemResponse?.itemUnit?.name,
                 exportedQuantity: chil?.exportedQuantity,
-                requestedQuantity: chil?.exportedQuantity,
+                requestedQuantity: chil?.requestedQuantity,
               },
               itemUnit: chil?.itemResponse?.itemUnit,
               itemId: chil?.itemId,
               code: chil?.itemResponse?.code || chil?.itemCode,
               name: chil?.itemResponse?.name || chil?.itemName,
               warehouseExport: chil?.warehouseExport,
-              requestedQuantity: chil?.exportedQuantity,
+              requestedQuantity: chil?.requestedQuantity,
               lotNumber: chil?.lotNumber,
             })
           }

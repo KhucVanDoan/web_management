@@ -151,6 +151,9 @@ function WarehouseExportReceipt() {
       field: 'numberReceiptEBS',
       headerName: t('warehouseExportReceipt.numberReceiptEBS'),
       width: 120,
+      renderCell: (params) => {
+        return params?.row?.ebsId
+      },
     },
     {
       field: 'warehouseExportEBS',
@@ -160,7 +163,7 @@ function WarehouseExportReceipt() {
         const { status } = params?.row
         const isConfirmWarehouseExport = status === ORDER_STATUS.COMPLETED
         return (
-          isConfirmWarehouseExport && (
+          isConfirmWarehouseExport && !params?.row?.ebsId&& (
             <Button
               variant="text"
               size="small"
