@@ -203,7 +203,7 @@ function WarehouseExport() {
           warehouseId: quickFilters?.warehouseId?.map((item) => item?.id),
           departmentReceiptId: filters?.departmentReceiptId?.id,
           businessTypeId: filters?.businessTypeId,
-          createdAt: filters?.createdAt,
+          createdAt: filters?.createdAt||quickFilters?.createdAt,
         },
         columns,
       ),

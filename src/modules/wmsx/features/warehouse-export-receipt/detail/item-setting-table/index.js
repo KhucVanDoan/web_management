@@ -50,7 +50,7 @@ const ItemSettingTableDetail = ({ items }) => {
         headerName: t('warehouseExportReceipt.items.quantityRequest'),
         width: 150,
         renderCell: (params) => {
-          return params?.row?.requestedQuantityWarehouseExportProposal
+          return params?.row?.quantity
         },
       },
       {
