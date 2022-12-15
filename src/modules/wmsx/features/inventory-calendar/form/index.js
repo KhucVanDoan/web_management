@@ -28,6 +28,7 @@ import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
+import { searchUsersApi } from '~/modules/mesx/redux/sagas/user-management/search-users'
 import {
   ACTIVE_STATUS,
   CHECK_POINT_DATA_TYPE,
@@ -94,6 +95,7 @@ const InventoryCalendarForm = () => {
       closingDay: inventoryCalendarDetails?.checkPointDate
         ? new Date(inventoryCalendarDetails?.checkPointDate)
         : new Date(),
+      impersonators: inventoryCalendarDetails?.impersonators || [],
       description: inventoryCalendarDetails?.description || '',
       switchMode:
         inventoryCalendarDetails?.checkPointDataType ||
@@ -104,6 +106,7 @@ const InventoryCalendarForm = () => {
               id: index,
               itemCode: {
                 ...i,
+                itemUnit: i?.item?.itemUnit,
                 id: i?.itemId,
                 name: i?.item?.name,
                 code: i?.item?.code,
@@ -167,6 +170,9 @@ const InventoryCalendarForm = () => {
         warehouseIds: JSON.stringify(
           values?.warehouses?.map((warehouse) => warehouse?.id),
         ),
+        impersonators: JSON.stringify(
+          values?.impersonators?.map((warehouse) => ({ id: warehouse?.id })),
+        ),
         description: values?.description,
         type: values?.type,
         checkPointDataType: +values?.switchMode,
@@ -179,6 +185,9 @@ const InventoryCalendarForm = () => {
         checkPointDate: values?.closingDay?.toISOString(),
         warehouseIds: JSON.stringify(
           values?.warehouses?.map((warehouse) => warehouse?.id),
+        ),
+        impersonators: JSON.stringify(
+          values?.impersonators?.map((warehouse) => ({ id: warehouse?.id })),
         ),
         description: values?.description,
         type: values?.type,
@@ -201,6 +210,9 @@ const InventoryCalendarForm = () => {
         warehouseIds: JSON.stringify(
           values?.warehouses?.map((warehouse) => warehouse?.id),
         ),
+        impersonators: JSON.stringify(
+          values?.impersonators?.map((warehouse) => ({ id: warehouse?.id })),
+        ),
         description: values?.description,
         type: values?.type,
         // items: '[]',
@@ -217,6 +229,9 @@ const InventoryCalendarForm = () => {
         checkPointDate: values?.closingDay?.toISOString(),
         warehouseIds: JSON.stringify(
           values?.warehouses?.map((warehouse) => warehouse?.id),
+        ),
+        impersonators: JSON.stringify(
+          values?.impersonators?.map((warehouse) => ({ id: warehouse?.id })),
         ),
         description: values?.description,
         type: values?.type,
@@ -384,6 +399,28 @@ const InventoryCalendarForm = () => {
                         asyncRequestHelper={(res) => res?.data?.items}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                         getOptionLabel={(opt) => opt?.name}
+                        multiple
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <Field.Autocomplete
+                        name="impersonators"
+                        label={t('inventoryCalendar.impersonators')}
+                        placeholder={t('inventoryCalendar.impersonators')}
+                        asyncRequest={(s) =>
+                          searchUsersApi({
+                            keyword: s,
+                            limit: ASYNC_SEARCH_LIMIT,
+                            filter: convertFilterParams({
+                              status: ACTIVE_STATUS.ACTIVE,
+                            }),
+                          })
+                        }
+                        asyncRequestHelper={(res) => res?.data?.items}
+                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                        getOptionLabel={(opt) => opt?.username}
+                        getOptionSubLabel={(opt) => opt?.fullName}
                         multiple
                         required
                       />

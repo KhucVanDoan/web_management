@@ -139,14 +139,22 @@ function WarehouseImportReceiptForm() {
     }),
     [warehouseImportReceiptDetails, attributesBusinessTypeDetails],
   )
+
   warehouseImportReceiptDetails?.attributes?.forEach((item) => {
-    if (item.tableName) {
-      initialValues[`${item.id}`] =
-        attributesBusinessTypeDetails[item.tableName]?.find(
-          (itemDetail) => `${itemDetail.id}` === item.value,
-        ) || ''
+    if (
+      item.tableName &&
+      attributesBusinessTypeDetails[item.tableName] &&
+      attributesBusinessTypeDetails[item.tableName] instanceof Array
+    ) {
+      initialValues[`${item?.id}`] = attributesBusinessTypeDetails[
+        item.tableName
+      ]?.find((itemDetail) => `${itemDetail.id}` === item.value)
+        ? attributesBusinessTypeDetails[item.tableName]?.find(
+            (itemDetail) => `${itemDetail.id}` === item.value,
+          )
+        : ''
     } else {
-      initialValues[`${item.id}`] = item.value || ''
+      initialValues[`${item?.id}`] = item.value ? item.value : ''
     }
   })
   const getBreadcrumb = () => {
@@ -384,7 +392,7 @@ function WarehouseImportReceiptForm() {
     setItemWarehouseExportReceipt([])
     if (!isEmpty(val)) {
       val?.bussinessTypeAttributes?.forEach((item) => {
-        initialValues[item?.id] = null
+        initialValues[`${item?.id}`] = ''
       })
     }
   }
@@ -422,6 +430,7 @@ function WarehouseImportReceiptForm() {
     }`
     setFieldValue('explaination', explaination)
   }
+
   return (
     <Page
       breadcrumbs={getBreadcrumb()}
