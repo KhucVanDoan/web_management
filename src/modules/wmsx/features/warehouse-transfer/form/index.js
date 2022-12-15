@@ -116,6 +116,9 @@ const WarehouseTransferForm = () => {
       items: warehouseTransferDetails?.warehouseTransferDetailLots?.map(
         (item) => ({
           itemCode: {
+            locations: warehouseTransferDetails?.items?.find(
+              (e) => e?.id === item?.itemId,
+            )?.locations,
             itemId: item?.itemId,
             id: item?.itemId,
             ...item?.item,

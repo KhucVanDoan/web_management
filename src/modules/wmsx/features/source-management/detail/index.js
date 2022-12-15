@@ -90,10 +90,9 @@ const SourceManagementDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('sourceManagement.effectiveDate')}
-                value={` ${convertUtcDateToLocalTz(
-                  detailSourceManagement?.dateFrom,
-                )} -
-                ${convertUtcDateToLocalTz(detailSourceManagement?.dateTo)}`}
+                value={convertUtcDateToLocalTz(
+                  detailSourceManagement?.effectiveDate,
+                )}
               />
             </Grid>
             <Grid item xs={12}>
