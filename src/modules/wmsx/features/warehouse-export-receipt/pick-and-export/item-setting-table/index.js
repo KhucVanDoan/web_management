@@ -118,7 +118,7 @@ const ItemSettingTable = ({ items, itemList, lots, arrayHelpers }) => {
         headerName: t('warehouseExportReceipt.items.quantityRequest'),
         width: 150,
         renderCell: (params) => {
-          return params?.row?.item?.requestedQuantityWarehouseExportProposal
+          return params?.row?.item?.quantity
         },
       },
       {
