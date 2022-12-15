@@ -13,6 +13,7 @@ import Status from '~/components/Status'
 import TextField from '~/components/TextField'
 import {
   CHECK_POINT_DATA_TYPE_MAP,
+  INVENTORY_CALENDAR_STATUS,
   INVENTORY_CALENDAR_STATUS_OPTIONS,
   INVENTORY_TYPE,
   INVENTORY_TYPE_MAP,
@@ -136,7 +137,14 @@ const InventoryCalendarDetail = () => {
                   .join(',')}
               />
             </Grid>
-
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('inventoryCalendar.impersonators')}
+                value={inventoryCalendarDetails?.impersonators
+                  ?.map((w) => w?.username)
+                  .join(',')}
+              />
+            </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('inventoryCalendar.createdByUser')}
@@ -151,20 +159,25 @@ const InventoryCalendarDetail = () => {
                 )}
               />
             </Grid>
-            <Grid item lg={6} xs={12}>
-              <LV
-                label={t('inventoryCalendar.confirmByUser')}
-                value={inventoryCalendarDetails?.confirmer?.username}
-              />
-            </Grid>
-            <Grid item lg={6} xs={12}>
-              <LV
-                label={t('inventoryCalendar.confirmedAt')}
-                value={convertUtcDateToLocalTz(
-                  inventoryCalendarDetails?.confirmedAt,
-                )}
-              />
-            </Grid>
+            {inventoryCalendarDetails?.status ===
+              INVENTORY_CALENDAR_STATUS.CONFIRMED && (
+              <>
+                <Grid item lg={6} xs={12}>
+                  <LV
+                    label={t('inventoryCalendar.confirmByUser')}
+                    value={inventoryCalendarDetails?.confirmer?.username}
+                  />
+                </Grid>
+                <Grid item lg={6} xs={12}>
+                  <LV
+                    label={t('inventoryCalendar.confirmedAt')}
+                    value={convertUtcDateToLocalTz(
+                      inventoryCalendarDetails?.confirmedAt,
+                    )}
+                  />
+                </Grid>
+              </>
+            )}
             <Grid item xs={12}>
               <TextField
                 name="description"

@@ -133,16 +133,21 @@ const ReciptDetail = () => {
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('inventoryCalendar.executionDay')}
-                value={`${convertUtcDateTimeToLocalTz(
-                  inventoryCalendarDetails?.executeFrom,
-                )}-${convertUtcDateTimeToLocalTz(
-                  inventoryCalendarDetails?.executeTo,
-                )}`}
+                label={t('inventoryCalendar.impersonators')}
+                value={inventoryCalendarDetails?.impersonators
+                  ?.map((w) => w?.username)
+                  .join(',')}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV label={t('inventoryCalendar.performer')} value={''} />
+              <LV
+                label={t('inventoryCalendar.executionDay')}
+                value={`${convertUtcDateToLocalTz(
+                  inventoryCalendarDetails?.executeFrom,
+                )}-${convertUtcDateToLocalTz(
+                  inventoryCalendarDetails?.executeTo,
+                )}`}
+              />
             </Grid>
 
             <Grid item lg={6} xs={12}>
@@ -160,12 +165,17 @@ const ReciptDetail = () => {
               />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV label={t('inventoryCalendar.updatedByUser')} value={''} />
+              <LV
+                label={t('inventoryCalendar.updatedByUser')}
+                value={inventoryCalendarDetails?.updatedBy?.username}
+              />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('inventoryCalendar.updatedAt')}
-                value={convertUtcDateToLocalTz('')}
+                value={convertUtcDateToLocalTz(
+                  inventoryCalendarDetails?.updatedAt,
+                )}
               />
             </Grid>
             <Grid item xs={12}>

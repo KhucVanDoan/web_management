@@ -1570,6 +1570,7 @@
     "transactionListDetail": "Chi tiết phiếu kiểm kê",
     "status": "Trạng thái",
     "action": "Hành động",
+    "impersonators": "Người thực hiện",
     "orderNumber": "#",
     "createInventoryCalendarSuccess": "Tạo lệnh kiểm kê thành công",
     "updateInventoryCalendarSuccess": "Cập nhật lệnh kiểm kê thành công",
