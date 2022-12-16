@@ -276,7 +276,6 @@ const ItemSettingTable = (props) => {
             <Field.TextField
               name={`items[${index}].debitAcc`}
               type="number"
-              value={'1519'}
               disabled={true}
             />
           )

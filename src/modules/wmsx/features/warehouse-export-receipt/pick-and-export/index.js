@@ -200,15 +200,19 @@ function WarehouseExportReceiptPickAndExport() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.warehouseExportReceipt')}
-                value={`02${
-                  warehouseExportReceiptDetails?.warehouse?.code
-                    ? `.${warehouseExportReceiptDetails?.warehouse?.code}`
-                    : ''
-                }${
-                  warehouseExportReceiptDetails?.reason?.code
-                    ? `.${warehouseExportReceiptDetails?.reason?.code}`
-                    : ''
-                }`}
+                value={
+                  warehouseExportReceiptDetails?.ebsId
+                    ? warehouseExportReceiptDetails?.ebsId
+                    : `02${
+                        warehouseExportReceiptDetails?.warehouse?.code
+                          ? `.${warehouseExportReceiptDetails?.warehouse?.code}`
+                          : ''
+                      }${
+                        warehouseExportReceiptDetails?.reason?.code
+                          ? `.${warehouseExportReceiptDetails?.reason?.code}`
+                          : ''
+                      }`
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
