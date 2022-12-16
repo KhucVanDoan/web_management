@@ -90,11 +90,12 @@ const WarehouseTransferDetail = () => {
         ...item?.item,
       },
       creditAcc:
+        item?.creditAccount ||
         item?.item?.itemWarehouseSources?.find(
           (item) =>
             item?.warehouseId === warehouseTransferDetails?.sourceWarehouse?.id,
-        )?.accounting || item?.creditAccount,
-      debitAcc: item?.debitAccount,
+        )?.accounting,
+      debitAcc: item?.debitAccount || 1519,
       actualQuantity: Number(item?.actualQuantity),
       exportedQuantity: Number(item?.exportedQuantity),
       lotNumber: item?.lotNumber,
@@ -103,6 +104,8 @@ const WarehouseTransferDetail = () => {
       itemType: item?.item?.itemType?.name,
       planExportedQuantity: item?.exportableQuantity,
       transferQuantity: +item?.planQuantity,
+      amount: +item?.amount,
+      price: +item?.price,
     }))
   const renderHeaderRight = () => {
     switch (warehouseTransferDetails?.status) {
@@ -253,7 +256,10 @@ const WarehouseTransferDetail = () => {
               />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV label={t('warehouseTransfer.receiptNo')} value={''} />
+              <LV
+                label={t('warehouseTransfer.receiptNo')}
+                value={warehouseTransferDetails?.ebsId}
+              />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV

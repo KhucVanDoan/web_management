@@ -116,9 +116,9 @@ const WarehouseTransfer = () => {
         field: 'receiptNoEbs',
         headerName: t('warehouseTransfer.receiptNoEbs'),
         width: 150,
-        // renderCell: (params) => {
-        //   return params?.row?.name
-        // },
+        renderCell: (params) => {
+          return params?.row?.ebsId
+        },
       },
       {
         field: 'status',

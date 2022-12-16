@@ -20,6 +20,7 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
+  ACTIVE_STATUS,
   CODE_TYPE_DATA_FATHER_JOB,
   ORDER_STATUS_OPTIONS,
   PARENT_BUSINESS_TYPE,
@@ -30,7 +31,7 @@ import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseEx
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 import { searchBusinessTypesApi } from '~/modules/wmsx/redux/sagas/business-type-management/search-business-types'
-import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
+import { searchWarehouseByUserApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { searchApi } from '~/modules/wmsx/redux/sagas/reason-management/search'
 import { searchReceiptDepartmentApi } from '~/modules/wmsx/redux/sagas/receipt-department-management/search-receipt-department'
 import { getSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-management/get-detail'
@@ -38,7 +39,11 @@ import { searchSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-man
 import { getWarehouseExportProposalDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-export-proposal/get-details'
 import { getWarehouseImportReceiptDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-import-receipt/get-details'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import { convertFilterParams, convertUtcDateToLocalTz } from '~/utils'
+import {
+  convertFilterParams,
+  convertUtcDateToLocalTz,
+  getLocalItem,
+} from '~/utils'
 
 import displayFollowBusinessTypeManagement from './display-field'
 import ItemSettingTable from './item-setting-table'
@@ -66,6 +71,7 @@ function WarehouseExportReceiptForm() {
   const routeMatch = useRouteMatch()
   const [debitAccount, setDebitAccount] = useState('')
   const [warehouseExportProposalId, setWarehouseExportProposalId] = useState()
+  const loggedInUserInfo = getLocalItem('userInfo')
   const {
     data: { isLoading, warehouseExportReceiptDetails },
     actions,
@@ -690,23 +696,24 @@ function WarehouseExportReceiptForm() {
                             'warehouseExportReceipt.warehouseExport',
                           )}
                           asyncRequest={(s) =>
-                            searchWarehouseApi({
+                            searchWarehouseByUserApi({
                               keyword: s,
+                              userId: loggedInUserInfo?.id,
                               limit: ASYNC_SEARCH_LIMIT,
                               filter: convertFilterParams({
-                                status: 1,
+                                status: ACTIVE_STATUS.ACTIVE,
                               }),
                             })
                           }
-                          disabled={values[warehouseImportReceipt]}
                           asyncRequestHelper={(res) => res?.data?.items}
                           getOptionLabel={(opt) => opt?.code}
+                          disabled={values[warehouseImportReceipt]}
                           getOptionSubLabel={(opt) => opt?.name}
-                          onChange={(val) =>
-                            handleChangeWarehouse(val, setFieldValue, values)
-                          }
                           isOptionEqualToValue={(opt, val) =>
                             opt?.id === val?.id
+                          }
+                          onChange={(val) =>
+                            handleChangeWarehouse(val, setFieldValue, values)
                           }
                           required
                         />
