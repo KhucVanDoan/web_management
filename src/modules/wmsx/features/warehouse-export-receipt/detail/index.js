@@ -225,15 +225,19 @@ function WarehouseExportReceiptDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.number')}
-                value={`03${
-                  warehouseExportReceiptDetails?.warehouse?.code
-                    ? `.${warehouseExportReceiptDetails?.warehouse?.code}`
-                    : ''
-                }${
-                  warehouseExportReceiptDetails?.reason?.code
-                    ? `.${warehouseExportReceiptDetails?.reason?.code}`
-                    : ''
-                }`}
+                value={
+                  warehouseExportReceiptDetails?.transactionNumberCreated
+                    ? warehouseExportReceiptDetails?.transactionNumberCreated
+                    : `03${
+                        warehouseExportReceiptDetails?.warehouse?.code
+                          ? `.${warehouseExportReceiptDetails?.warehouse?.code}`
+                          : ''
+                      }${
+                        warehouseExportReceiptDetails?.reason?.code
+                          ? `.${warehouseExportReceiptDetails?.reason?.code}`
+                          : ''
+                      }`
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
