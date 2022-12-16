@@ -368,7 +368,10 @@ const WarehouseImportDetail = () => {
               />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV label={t('warehouseTransfer.receiptNo')} value={''} />
+              <LV
+                label={t('warehouseTransfer.receiptNo')}
+                value={receiptDetail?.ebsId}
+              />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV

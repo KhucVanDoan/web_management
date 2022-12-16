@@ -76,23 +76,25 @@ const WarehouseExportDetail = () => {
           break
         case MOVEMENT_TYPE.SO_EXPORT:
           const res = await getWarehouseExportReceiptDetailsApi(val?.orderId)
-          const attributess = res?.data?.attributes?.filter(
-            (e) => e?.tableName && e?.value,
-          )
-          const paramss = {
-            filter: JSON.stringify(
-              uniq(map(attributess, 'tableName'))?.map((item) => ({
-                tableName: item,
-                id: attributes
-                  ?.filter((e) => e?.tableName === item)
-                  ?.map((d) => d?.value)
-                  .toString(),
-              })),
-            ),
+          if (res?.statusCode === 200) {
+            const attributess = res?.data?.attributes?.filter(
+              (e) => e?.tableName && e?.value,
+            )
+            const paramss = {
+              filter: JSON.stringify(
+                uniq(map(attributess, 'tableName'))?.map((item) => ({
+                  tableName: item,
+                  id: attributes
+                    ?.filter((e) => e?.tableName === item)
+                    ?.map((d) => d?.value)
+                    .toString(),
+                })),
+              ),
+            }
+            useWarehouseImportReceiptAction.getAttribuiteBusinessTypeDetailsById(
+              paramss,
+            )
           }
-          useWarehouseImportReceiptAction.getAttribuiteBusinessTypeDetailsById(
-            paramss,
-          )
 
           setReceiptDetail(res?.data)
           break
@@ -149,29 +151,37 @@ const WarehouseExportDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.warehouseExportReceipt')}
-                value={`02${
-                  receiptDetail?.warehouse?.code
-                    ? `.${receiptDetail?.warehouse?.code}`
-                    : ''
-                }${
-                  receiptDetail?.reason?.code
-                    ? `.${receiptDetail?.reason?.code}`
-                    : ''
-                }`}
+                value={
+                  receiptDetail?.ebsId
+                    ? receiptDetail?.ebsId
+                    : `02${
+                        receiptDetail?.warehouse?.code
+                          ? `.${receiptDetail?.warehouse?.code}`
+                          : ''
+                      }${
+                        receiptDetail?.reason?.code
+                          ? `.${receiptDetail?.reason?.code}`
+                          : ''
+                      }`
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.number')}
-                value={`03${
-                  receiptDetail?.warehouse?.code
-                    ? `.${receiptDetail?.warehouse?.code}`
-                    : ''
-                }${
-                  receiptDetail?.reason?.code
-                    ? `.${receiptDetail?.reason?.code}`
-                    : ''
-                }`}
+                value={
+                  receiptDetail?.transactionNumberCreated
+                    ? receiptDetail?.transactionNumberCreated
+                    : `03${
+                        receiptDetail?.warehouse?.code
+                          ? `.${receiptDetail?.warehouse?.code}`
+                          : ''
+                      }${
+                        receiptDetail?.reason?.code
+                          ? `.${receiptDetail?.reason?.code}`
+                          : ''
+                      }`
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -188,10 +198,10 @@ const WarehouseExportDetail = () => {
                       label={`${item.fieldName}`}
                       value={
                         attributesBusinessTypeDetails[item.tableName]?.find(
-                          (itemDetail) => itemDetail.id + '' === item.value,
+                          (itemDetail) => itemDetail?.id + '' === item?.value,
                         )?.name ||
                         attributesBusinessTypeDetails[item.tableName]?.find(
-                          (itemDetail) => itemDetail.id + '' === item.value,
+                          (itemDetail) => itemDetail?.id + '' === item?.value,
                         )?.code
                       }
                     />
@@ -280,7 +290,10 @@ const WarehouseExportDetail = () => {
               />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV label={t('warehouseTransfer.receiptNo')} value={''} />
+              <LV
+                label={t('warehouseTransfer.receiptNo')}
+                value={receiptDetail?.ebsId}
+              />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
@@ -295,11 +308,11 @@ const WarehouseExportDetail = () => {
                     <LV
                       label={`${item.fieldName}`}
                       value={
-                        attributesBusinessTypeDetails[item.tableName]?.find(
-                          (itemDetail) => itemDetail.id + '' === item.value,
+                        attributesBusinessTypeDetails[item?.tableName]?.find(
+                          (itemDetail) => itemDetail?.id + '' === item?.value,
                         )?.name ||
-                        attributesBusinessTypeDetails[item.tableName]?.find(
-                          (itemDetail) => itemDetail.id + '' === item.value,
+                        attributesBusinessTypeDetails[item?.tableName]?.find(
+                          (itemDetail) => itemDetail?.id + '' === item?.value,
                         )?.code
                       }
                     />
