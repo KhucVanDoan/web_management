@@ -87,7 +87,7 @@ const ItemSettingTableDetail = ({ items }) => {
         headerName: t('warehouseExportReceipt.items.unitPriceRefer'),
         width: 150,
         renderCell: (params) => {
-          return params?.row?.unitPriceRefer
+          return params?.row?.price
         },
       },
       {
