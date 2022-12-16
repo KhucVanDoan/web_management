@@ -65,8 +65,8 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
               }
               asyncRequestHelper={(res) => res?.data?.items}
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-              getOptionLabel={(opt) => opt?.code}
-              getOptionSubLabel={(opt) => opt?.name}
+              getOptionLabel={(opt) => opt?.name}
+              getOptionSubLabel={(opt) => opt?.code}
               getOptionDisabled={(opt) =>
                 itemIdCodeList.some((id) => id === opt?.id) &&
                 opt?.id !== items[index]?.warehouse?.id

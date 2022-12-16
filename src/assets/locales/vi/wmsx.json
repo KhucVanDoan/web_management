@@ -1254,7 +1254,7 @@
       "description": "Mô tả về phiếu kiểm kê"
     },
     "itemDetails": {
-      "titleTable": "Chi tiết vật tư",
+      "titleTable": "Danh sách vật tư",
       "itemCode": "Mã vật tư",
       "itemName": "Tên vật tư",
       "itemType": "Loại vật tư",
