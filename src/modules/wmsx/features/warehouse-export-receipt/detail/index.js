@@ -61,10 +61,10 @@ function WarehouseExportReceiptDetail() {
   const items = warehouseExportReceiptDetails?.itemsSync?.map((item) => ({
     ...item,
     price: warehouseExportReceiptDetails?.saleOrderExportWarehouseLots?.find(
-      (e) => e?.itemId === item?.itemId,
+      (e) => e?.itemId === item?.id,
     )?.price,
-    money: warehouseExportReceiptDetails?.saleOrderExportWarehouseLots?.find(
-      (e) => e?.itemId === item?.itemId,
+    amount: warehouseExportReceiptDetails?.saleOrderExportWarehouseLots?.find(
+      (e) => e?.itemId === item?.id,
     )?.amount,
   }))
   const dowFile = async (params) => {
