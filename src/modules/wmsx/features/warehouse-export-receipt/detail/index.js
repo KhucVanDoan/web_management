@@ -57,6 +57,16 @@ function WarehouseExportReceiptDetail() {
     data: { attributesBusinessTypeDetails },
     actions: useWarehouseImportReceiptAction,
   } = useWarehouseImportReceipt()
+
+  const items = warehouseExportReceiptDetails?.itemsSync?.map((item) => ({
+    ...item,
+    price: warehouseExportReceiptDetails?.saleOrderExportWarehouseLots?.find(
+      (e) => e?.itemId === item?.itemId,
+    )?.price,
+    money: warehouseExportReceiptDetails?.saleOrderExportWarehouseLots?.find(
+      (e) => e?.itemId === item?.itemId,
+    )?.amount,
+  }))
   const dowFile = async (params) => {
     const uri = `/v1/sales/sale-order-exports/export-delivery-ticket/${params}`
     const res = await api.get(
@@ -211,15 +221,19 @@ function WarehouseExportReceiptDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.warehouseExportReceipt')}
-                value={`02${
-                  warehouseExportReceiptDetails?.warehouse?.code
-                    ? `.${warehouseExportReceiptDetails?.warehouse?.code}`
-                    : ''
-                }${
-                  warehouseExportReceiptDetails?.reason?.code
-                    ? `.${warehouseExportReceiptDetails?.reason?.code}`
-                    : ''
-                }`}
+                value={
+                  warehouseExportReceiptDetails?.ebsId
+                    ? warehouseExportReceiptDetails?.ebsId
+                    : `02${
+                        warehouseExportReceiptDetails?.warehouse?.code
+                          ? `.${warehouseExportReceiptDetails?.warehouse?.code}`
+                          : ''
+                      }${
+                        warehouseExportReceiptDetails?.reason?.code
+                          ? `.${warehouseExportReceiptDetails?.reason?.code}`
+                          : ''
+                      }`
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -305,10 +319,7 @@ function WarehouseExportReceiptDetail() {
             </Grid>
           </Grid>
           <Box sx={{ mt: 3 }}>
-            <ItemSettingTableDetail
-              items={warehouseExportReceiptDetails?.itemsSync || []}
-              mode={mode}
-            />
+            <ItemSettingTableDetail items={items || []} mode={mode} />
           </Box>
           <ActionBar
             onBack={backToList}

@@ -99,11 +99,13 @@ const ReceiveAndStored = () => {
               }
             : '',
           creditAcc:
+            item?.creditAccount ||
             item?.item?.itemWarehouseSources?.find(
               (item) =>
                 item?.warehouseId ===
                 warehouseTransferDetails?.sourceWarehouse?.id,
-            )?.accounting || item?.creditAccount,
+            )?.accounting,
+          debitAcc: item?.debitAcc || 1519,
           itemName: item?.item?.name || '',
           itemType: item?.item?.itemType?.name || '',
           transferQuantity: +item?.planQuantity || '',
@@ -228,7 +230,10 @@ const ReceiveAndStored = () => {
                       />
                     </Grid>
                     <Grid item lg={6} xs={12}>
-                      <LV label={t('warehouseTransfer.receiptNo')} value={''} />
+                      <LV
+                        label={t('warehouseTransfer.receiptNo')}
+                        value={warehouseTransferDetails?.ebsId}
+                      />
                     </Grid>
                     <Grid item lg={6} xs={12}>
                       <LV

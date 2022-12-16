@@ -22,6 +22,7 @@ const ItemSettingTable = (props) => {
     props
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
+  // const [storageDates, setStorageDates] = useState([])
   const handleChangeItem = async (val, index) => {
     if (val) {
       const params = {
@@ -51,6 +52,7 @@ const ItemSettingTable = (props) => {
           )?.accounting,
         )
       }
+      // const storageDate = await getListStorageDateApi(val?.itemId || val?.id)
     } else {
       setFieldValue(`items[${index}].planExportedQuantity`, '')
       setFieldValue(`items[${index}].transferQuantity`, '')
@@ -415,12 +417,11 @@ const ItemSettingTable = (props) => {
         width: 180,
         renderCell: (params, index) => {
           return isView ? (
-            1519
+            params?.row?.debitAcc
           ) : (
             <Field.TextField
-              name={`items[${index}].d ebitAcc`}
+              name={`items[${index}].debitAcc`}
               type="number"
-              value={'1519'}
               disabled={true}
             />
           )

@@ -16,7 +16,10 @@ export const getListItemWarehouseStockApi = (params) => {
   const uri = `v1/items/warehouse-stock`
   return api.get(uri, params)
 }
-
+export const getListStorageDateApi = (params) => {
+  const uri = `v1/items/${params}/storage-dates`
+  return api.get(uri)
+}
 /**
  * Handle get data request and response
  * @param {object} action
