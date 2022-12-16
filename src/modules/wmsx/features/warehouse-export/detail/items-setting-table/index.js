@@ -11,9 +11,12 @@ const ItemSettingTable = ({ items, movementType }) => {
   const { t } = useTranslation(['wmsx'])
   const columns = [
     {
-      field: 'id',
+      field: '#',
       headerName: '#',
       width: 50,
+      renderCell: (_, index) => {
+        return index + 1
+      },
     },
     {
       field: 'code',
