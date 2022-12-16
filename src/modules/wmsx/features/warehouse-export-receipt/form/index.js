@@ -134,7 +134,13 @@ function WarehouseExportReceiptForm() {
             itemId: item?.itemId || item?.id,
             id: item?.itemId || item?.id,
             item: { ...item?.item },
-            requestedQuantity: item?.quantity,
+            requestedQuantity: warehouseExportReceiptDetails?.attributes?.find(
+              (item) =>
+                item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL &&
+                item?.value,
+            )
+              ? item?.quantity
+              : '',
           },
         })) || DEFAULT_ITEMS,
     }),

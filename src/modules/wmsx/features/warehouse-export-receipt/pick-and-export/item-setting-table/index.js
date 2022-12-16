@@ -9,7 +9,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import { OrderTypeEnum } from '~/modules/wmsx/constants'
+import { OrderTypeEnum, TABLE_NAME_ENUM } from '~/modules/wmsx/constants'
 import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 
@@ -118,7 +118,15 @@ const ItemSettingTable = ({ items, itemList, lots, arrayHelpers }) => {
         headerName: t('warehouseExportReceipt.items.quantityRequest'),
         width: 150,
         renderCell: (params) => {
-          return params?.row?.item?.quantity
+          return !isEmpty(
+            warehouseExportReceiptDetails?.attributes?.find(
+              (item) =>
+                item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL &&
+                item?.value,
+            ),
+          )
+            ? params?.row?.item?.quantity
+            : ''
         },
       },
       {
