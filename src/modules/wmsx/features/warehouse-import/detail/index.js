@@ -241,7 +241,7 @@ const WarehouseImportDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseImportReceipt.unit')}
-                value={receiptDetail?.departmentReceipt?.code}
+                value={receiptDetail?.departmentReceipt?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -299,7 +299,7 @@ const WarehouseImportDetail = () => {
                 label={t('warehouseExportReceipt.explain')}
                 multiline
                 rows={3}
-                value={receiptDetail?.explaination}
+                value={receiptDetail?.explanation}
                 readOnly
                 sx={{
                   'label.MuiFormLabel-root': {
