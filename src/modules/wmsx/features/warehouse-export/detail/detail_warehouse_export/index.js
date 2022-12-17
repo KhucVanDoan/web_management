@@ -69,7 +69,7 @@ const MovementWarehouseExportDetail = () => {
     <Page
       breadcrumbs={breadcrumbs}
       title={t('movements.formTitle')}
-      onBack={() => history.push(breadcrumbs[1].route)}
+      onBack={() => history.push(breadcrumbs[0].route)}
       loading={isLoading}
     >
       <Grid container justifyContent="center">
