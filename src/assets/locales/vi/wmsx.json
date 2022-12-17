@@ -3064,12 +3064,17 @@
       "objectCategory": "Danh mục đối tượng"
     },
     "warehouseExportProposalStatus": {
-      "pending": "Chưa xuất kho",
+      "pending": "Chờ phê duyệt",
       "comfirmed": "Đã phê duyệt",
       "rejected": "Từ chối",
       "noExport": "Chưa xuất kho",
       "inProgress": "Đang xuất kho",
       "completed": "Hoàn thành"
+    },
+    "warehouseExportProposalExportStatus": {
+      "pending": "Chờ xuất kho",
+      "comfirmed": "Đã phê duyệt",
+      "inProgress": "Đang xuất kho"
     }
   },
   "defineMaterialCategory": {
