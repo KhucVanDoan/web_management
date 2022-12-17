@@ -130,7 +130,7 @@ const MovementWarehouseExportDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.departmentReception')}
-                value={warehouseExportReceiptDetails?.departmentReceipt?.code}
+                value={warehouseExportReceiptDetails?.departmentReceipt?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -154,29 +154,13 @@ const MovementWarehouseExportDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.warehouseExportReceipt')}
-                value={`02${
-                  warehouseExportReceiptDetails?.warehouse?.code
-                    ? `.${warehouseExportReceiptDetails?.warehouse?.code}`
-                    : ''
-                }${
-                  warehouseExportReceiptDetails?.reason?.code
-                    ? `.${warehouseExportReceiptDetails?.reason?.code}`
-                    : ''
-                }`}
+                value={warehouseExportReceiptDetails?.ebsId}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.number')}
-                value={`03${
-                  warehouseExportReceiptDetails?.warehouse?.code
-                    ? `.${warehouseExportReceiptDetails?.warehouse?.code}`
-                    : ''
-                }${
-                  warehouseExportReceiptDetails?.reason?.code
-                    ? `.${warehouseExportReceiptDetails?.reason?.code}`
-                    : ''
-                }`}
+                value={warehouseExportReceiptDetails?.transactionNumberCreated}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
