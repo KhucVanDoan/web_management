@@ -18,7 +18,6 @@ const ExportProposal = () => {
   const colors = ['#0761AD', '#7F9EF4', '#FF9054', '#B2DF8A', '#FF0909']
 
   const config = {
-    appendPadding: 10,
     data,
     angleField: 'value',
     colorField: 'type',
@@ -28,20 +27,23 @@ const ExportProposal = () => {
       style: { fontSize: 12, textOverflow: 'unset' },
     },
     legend: {
-      offsetX: 10,
-      marker: {
-        symbol: 'square',
-      },
-      itemName: {
-        style: {
-          fontSize: 12,
-          width: 90,
-        },
-      },
-      itemHeight: 18,
-      itemStyle: {
-        width: 90,
-      },
+      position: 'bottom',
+      layout: 'vertical',
+      flipPage: false,
+      // offsetX: 10,
+      // marker: {
+      //   symbol: 'square',
+      // },
+      // itemName: {
+      //   style: {
+      //     fontSize: 12,
+      //     width: 90,
+      //   },
+      // },
+      // itemHeight: 18,
+      // itemStyle: {
+      //   width: 90,
+      // },
     },
     interactions: [
       {
@@ -55,7 +57,7 @@ const ExportProposal = () => {
   }
 
   return (
-    <Card sx={{ p: 2, height: 412 }}>
+    <Card sx={{ p: 2, height: '100%', boxSizing: 'border-box' }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
         <Typography variant="h2">
           {t('dashboard.exportProposal.title')}
@@ -83,9 +85,11 @@ const ExportProposal = () => {
         </Box>
       </Box>
       <Box
-        sx={{
-          height: 320,
-        }}
+        sx={
+          {
+            // height: 320,
+          }
+        }
       >
         <Pie {...config} />
       </Box>

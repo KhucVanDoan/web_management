@@ -185,17 +185,18 @@ const ReportExport = () => {
                       }
                     />
                   </Grid>
-                  <Grid item lg={12} xs={12}>
-                    <Field.DateRangePicker
-                      name="time"
-                      label={t('reportExport.time')}
-                      placeholder={t('reportExport.time')}
-                      required={
-                        values?.type !== REPORT_TYPE.INVENTORY &&
-                        values?.type !== REPORT_TYPE.SITUATION_INVENTORY_PERIOD
-                      }
-                    />
-                  </Grid>
+
+                  {values?.type !== REPORT_TYPE.INVENTORY &&
+                    values?.type !== REPORT_TYPE.SITUATION_INVENTORY_PERIOD && (
+                      <Grid item lg={12} xs={12}>
+                        <Field.DateRangePicker
+                          name="time"
+                          label={t('reportExport.time')}
+                          placeholder={t('reportExport.time')}
+                          required
+                        />
+                      </Grid>
+                    )}
                   <Grid item lg={12} xs={12}>
                     <Field.Autocomplete
                       name="fileFormat"

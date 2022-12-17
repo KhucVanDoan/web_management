@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { Grid } from '@mui/material'
+import { Grid, Box } from '@mui/material'
 import { endOfDay } from 'date-fns'
 import { Form, Formik } from 'formik'
 import moment from 'moment'
@@ -14,13 +14,13 @@ import { addHours } from '~/utils'
 import ExportProposal from './components/export-proposal'
 import ExportReceipt from './components/import-export-receipt/export-receipt'
 import ImportReceipt from './components/import-export-receipt/import-receipt'
-import InventoryQuantity from './components/inventory-quantity'
+// import InventoryQuantity from './components/inventory-quantity'
 import ItemSummary from './components/item-summary'
-import MaterialUsedReport from './components/materials-used'
+// import MaterialUsedReport from './components/materials-used'
 import MovementQuantityReport from './components/movement-quantity-report'
 import MovementReport from './components/movement-report'
 import StockItemReport from './components/stock-item-report'
-import StockItemBySCLReport from './components/stock-item-scl'
+// import StockItemBySCLReport from './components/stock-item-scl'
 
 const breadcrumbs = [
   {
@@ -52,8 +52,12 @@ function Dashboard() {
           >
             {() => (
               <Form>
-                <Grid container rowSpacing={1} columnSpacing={2}>
-                  <Grid item xs={12} lg={9} />
+                <Grid
+                  container
+                  rowSpacing={1}
+                  columnSpacing={2}
+                  sx={{ justifyContent: 'flex-end' }}
+                >
                   <Grid item xs={12} lg={3} md={6}>
                     <Field.DateRangePicker
                       name="createdAt"
@@ -69,35 +73,35 @@ function Dashboard() {
         <Grid item xs={12}>
           <ItemSummary fromDate={fromDate} toDate={toDate} />
         </Grid>
-        <Grid item xs={12} lg={5} md={12} container rowSpacing={2}>
-          <Grid item xs={12}>
+        <Grid item xs={12} lg={6} md={12}>
+          <Box>
             <ImportReceipt fromDate={fromDate} toDate={toDate} />
-          </Grid>
-          <Grid item xs={12}>
+          </Box>
+          <Box sx={{ mt: 2 }}>
             <ExportReceipt fromDate={fromDate} toDate={toDate} />
-          </Grid>
-        </Grid>
-        <Grid item xs={12} lg={3.5} md={12}>
-          <StockItemReport fromDate={fromDate} toDate={toDate} />
-        </Grid>
-        <Grid item xs={12} lg={3.5} md={12}>
-          <ExportProposal fromDate={fromDate} toDate={toDate} />
+          </Box>
         </Grid>
         <Grid item xs={12} lg={6} md={12}>
-          <InventoryQuantity fromDate={fromDate} toDate={toDate} />
+          <StockItemReport fromDate={fromDate} toDate={toDate} />
         </Grid>
+        <Grid item xs={12} lg={6} md={12}>
+          <ExportProposal fromDate={fromDate} toDate={toDate} />
+        </Grid>
+        {/* <Grid item xs={12} lg={6} md={12}>
+          <InventoryQuantity fromDate={fromDate} toDate={toDate} />
+        </Grid> */}
         <Grid item xs={12} lg={6} md={12}>
           <MovementReport fromDate={fromDate} toDate={toDate} />
         </Grid>
         <Grid item xs={12} lg={12} md={12}>
           <MovementQuantityReport fromDate={fromDate} toDate={toDate} />
         </Grid>
-        <Grid item xs={12} lg={6} md={12}>
+        {/* <Grid item xs={12} lg={6} md={12}>
           <MaterialUsedReport fromDate={fromDate} toDate={toDate} />
         </Grid>
         <Grid item xs={12} lg={6} md={12}>
           <StockItemBySCLReport fromDate={fromDate} toDate={toDate} />
-        </Grid>
+        </Grid> */}
       </Grid>
     </Page>
   )
