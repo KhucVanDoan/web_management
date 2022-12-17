@@ -123,7 +123,7 @@ const MovementExportDetail = ({ breadcrumbs, onBack }) => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.departmentReception')}
-                value={receiptDetail?.departmentReceipt?.code}
+                value={receiptDetail?.departmentReceipt?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
