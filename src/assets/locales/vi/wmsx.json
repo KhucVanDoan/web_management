@@ -3073,8 +3073,8 @@
     },
     "warehouseExportProposalExportStatus": {
       "pending": "Chờ xuất kho",
-      "comfirmed": "Đã phê duyệt",
-      "inProgress": "Đang xuất kho"
+      "inProgress": "Đang thực hiện",
+      "completed": "Hoàn thành"
     }
   },
   "defineMaterialCategory": {
