@@ -320,7 +320,7 @@ function ItemsSettingTable(props) {
         field: 'remove',
         headerName: '',
         width: 50,
-        hide: !(items?.length > 1),
+        hide: (items || []).length <= 1 || isView,
         renderCell: (params, idx) => {
           return isView ? null : (
             <IconButton onClick={() => arrayHelpers.remove(idx)} size="large">
@@ -330,7 +330,14 @@ function ItemsSettingTable(props) {
         },
       },
     ],
-    [items, itemList, creditAccount, values?.warehouse, values?.businessTypeId],
+    [
+      items,
+      itemList,
+      creditAccount,
+      values?.warehouse,
+      values?.businessTypeId,
+      isView,
+    ],
   )
 
   return (
