@@ -52,6 +52,7 @@ function WarehouseExport() {
     movementType: 3,
     warehouse: e?.warehouseId,
     createdAt: e?.createdAt,
+    user: e?.user,
   }))
 
   const DEFAULT_FILTERS = {
@@ -97,8 +98,7 @@ function WarehouseExport() {
       width: 120,
       sortable: true,
       renderCell: (params) => {
-        const { form } = params?.row
-        return form?.name || ''
+        return params?.row?.ebsId
       },
     },
     {
@@ -154,7 +154,7 @@ function WarehouseExport() {
       width: 120,
       sortable: false,
       renderCell: (params) => {
-        return params?.row?.user?.username
+        return params?.row?.user?.fullName
       },
     },
     {
@@ -202,8 +202,8 @@ function WarehouseExport() {
           ...quickFilters,
           warehouseId: quickFilters?.warehouseId?.map((item) => item?.id),
           departmentReceiptId: filters?.departmentReceiptId?.id,
-          businessTypeId: filters?.businessTypeId,
-          createdAt: filters?.createdAt||quickFilters?.createdAt,
+          businessTypeId: filters?.businessTypeId?.id,
+          createdAt: filters?.createdAt || quickFilters?.createdAt,
         },
         columns,
       ),
