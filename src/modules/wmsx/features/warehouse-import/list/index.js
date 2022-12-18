@@ -89,8 +89,7 @@ function WarehouseImport() {
       width: 120,
       sortable: true,
       renderCell: (params) => {
-        const { form } = params?.row
-        return form?.name || ''
+        return params?.row?.ebsId
       },
     },
     {
@@ -146,7 +145,7 @@ function WarehouseImport() {
       width: 120,
       sortable: false,
       renderCell: (params) => {
-        return params.row?.user?.username
+        return params.row?.user?.fullName
       },
     },
     {
@@ -186,8 +185,8 @@ function WarehouseImport() {
           ...quickFilters,
           warehouseId: quickFilters?.warehouseId?.map((item) => item?.id),
           departmentReceiptId: filters?.departmentReceiptId?.id,
-          businessTypeId: filters?.businessTypeId,
-          createdAt: filters?.createdAt||quickFilters?.createdAt,
+          businessTypeId: filters?.businessTypeId?.id,
+          createdAt: filters?.createdAt || quickFilters?.createdAt,
         },
         columns,
       ),
@@ -220,9 +219,13 @@ function WarehouseImport() {
                 selectedRows?.map((x) => ({ id: x?.id })),
               ),
               keyword: keyword.trim(),
-              filter: convertFilterParams({...filters,createdAt:filters?.createdAt||quickFilters?.createdAt}, [
-                { field: 'createdAt', filterFormat: 'date' },
-              ]),
+              filter: convertFilterParams(
+                {
+                  ...filters,
+                  createdAt: filters?.createdAt || quickFilters?.createdAt,
+                },
+                [{ field: 'createdAt', filterFormat: 'date' }],
+              ),
               sort: convertSortParams(sort),
             })
           }}
