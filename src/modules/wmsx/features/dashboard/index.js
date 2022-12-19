@@ -17,7 +17,7 @@ import ImportReceipt from './components/import-export-receipt/import-receipt'
 // import InventoryQuantity from './components/inventory-quantity'
 import ItemSummary from './components/item-summary'
 // import MaterialUsedReport from './components/materials-used'
-import MovementQuantityReport from './components/movement-quantity-report'
+// import MovementQuantityReport from './components/movement-quantity-report'
 import MovementReport from './components/movement-report'
 import StockItemReport from './components/stock-item-report'
 // import StockItemBySCLReport from './components/stock-item-scl'
@@ -93,9 +93,9 @@ function Dashboard() {
         <Grid item xs={12} lg={6} md={12}>
           <MovementReport fromDate={fromDate} toDate={toDate} />
         </Grid>
-        <Grid item xs={12} lg={12} md={12}>
+        {/* <Grid item xs={12} lg={12} md={12}>
           <MovementQuantityReport fromDate={fromDate} toDate={toDate} />
-        </Grid>
+        </Grid> */}
         {/* <Grid item xs={12} lg={6} md={12}>
           <MaterialUsedReport fromDate={fromDate} toDate={toDate} />
         </Grid>

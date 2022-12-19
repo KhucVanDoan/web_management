@@ -78,7 +78,7 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
       sortable: true,
       fixed: true,
       renderCell: (params) => {
-        return params?.row?.ebsId
+        return params?.row?.ebsId || params?.row?.order?.ebsId
       },
     },
     {

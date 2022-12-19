@@ -89,7 +89,7 @@ function WarehouseImport() {
       width: 120,
       sortable: true,
       renderCell: (params) => {
-        return params?.row?.ebsId
+        return params?.row?.ebsId || params?.row?.order?.ebsId
       },
     },
     {

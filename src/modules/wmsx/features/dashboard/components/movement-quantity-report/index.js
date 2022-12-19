@@ -33,17 +33,18 @@ const MovementQuantityReport = () => {
     const newData = []
     dataList.forEach((data) => {
       newData.push({
-        tag: data.tag,
+        tag: `Ngày ${data.tag}`,
+        tags: `Ngày ${data.tag}`,
         type: t('dashboard.chart.import'),
         value: data.import,
       })
       newData.push({
-        tag: data.tag,
+        tag: `Ngày ${data.tag}`,
         type: t('dashboard.chart.export'),
         value: data.export,
       })
       newData.push({
-        tag: data.tag,
+        tag: `Ngày ${data.tag}`,
         type: t('dashboard.chart.transfer'),
         value: data.tranfer,
       })
@@ -58,7 +59,6 @@ const MovementQuantityReport = () => {
   }
 
   const data = formatData(movementReport)
-
   const COLOR_PLATE_10 = [
     '#B2DF8A',
     '#1F78B4',
@@ -108,7 +108,6 @@ const MovementQuantityReport = () => {
       },
     },
   }
-
   return (
     <Card sx={{ p: 2 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
