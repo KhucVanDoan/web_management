@@ -30,6 +30,15 @@ const MovementExportWarehouseDetail = () => {
     actions: useWarehouseImportReceiptAction,
   } = useWarehouseImportReceipt()
   const history = useHistory()
+  const items = warehouseExportReceiptDetails?.itemsSync?.map((item) => ({
+    ...item,
+    price: warehouseExportReceiptDetails?.saleOrderExportWarehouseLots?.find(
+      (e) => e?.itemId === item?.id,
+    )?.price,
+    amount: warehouseExportReceiptDetails?.saleOrderExportWarehouseLots?.find(
+      (e) => e?.itemId === item?.id,
+    )?.amount,
+  }))
   useEffect(() => {
     actions.getWarehouseExportReceiptDetailsById(id, (data) => {
       const attributes = data?.attributes?.filter(
@@ -159,29 +168,37 @@ const MovementExportWarehouseDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.warehouseExportReceipt')}
-                value={`02${
-                  warehouseExportReceiptDetails?.warehouse?.code
-                    ? `.${warehouseExportReceiptDetails?.warehouse?.code}`
-                    : ''
-                }${
-                  warehouseExportReceiptDetails?.reason?.code
-                    ? `.${warehouseExportReceiptDetails?.reason?.code}`
-                    : ''
-                }`}
+                value={
+                  warehouseExportReceiptDetails?.ebsId
+                    ? warehouseExportReceiptDetails?.ebsId
+                    : `02${
+                        warehouseExportReceiptDetails?.warehouse?.code
+                          ? `.${warehouseExportReceiptDetails?.warehouse?.code}`
+                          : ''
+                      }${
+                        warehouseExportReceiptDetails?.reason?.code
+                          ? `.${warehouseExportReceiptDetails?.reason?.code}`
+                          : ''
+                      }`
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.number')}
-                value={`03${
-                  warehouseExportReceiptDetails?.warehouse?.code
-                    ? `.${warehouseExportReceiptDetails?.warehouse?.code}`
-                    : ''
-                }${
-                  warehouseExportReceiptDetails?.reason?.code
-                    ? `.${warehouseExportReceiptDetails?.reason?.code}`
-                    : ''
-                }`}
+                value={
+                  warehouseExportReceiptDetails?.transactionNumberCreated
+                    ? warehouseExportReceiptDetails?.transactionNumberCreated
+                    : `03${
+                        warehouseExportReceiptDetails?.warehouse?.code
+                          ? `.${warehouseExportReceiptDetails?.warehouse?.code}`
+                          : ''
+                      }${
+                        warehouseExportReceiptDetails?.reason?.code
+                          ? `.${warehouseExportReceiptDetails?.reason?.code}`
+                          : ''
+                      }`
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -235,10 +252,7 @@ const MovementExportWarehouseDetail = () => {
       </Grid>
 
       <Box sx={{ mt: 3 }}>
-        <ItemSettingTableDetail
-          items={warehouseExportReceiptDetails?.saleOrderExportDetails || []}
-          mode={MODAL_MODE.DETAIL}
-        />
+        <ItemSettingTableDetail items={items || []} mode={MODAL_MODE.DETAIL} />
       </Box>
 
       <ActionBar onBack={() => history.push(breadcrumbs[1].route)} />

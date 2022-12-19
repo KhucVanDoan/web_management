@@ -78,8 +78,7 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
       sortable: true,
       fixed: true,
       renderCell: (params) => {
-        const { form } = params?.row
-        return form?.name || ''
+        return params?.row?.ebsId
       },
     },
     {
@@ -88,8 +87,7 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
       width: 120,
       fixed: true,
       sortable: true,
-      renderCell: (params) =>
-        params.row?.order?.orderCode || params.row?.orderCode,
+      renderCell: (params) => params.row?.order?.code || params.row?.orderCode,
     },
     {
       field: 'orderType',
