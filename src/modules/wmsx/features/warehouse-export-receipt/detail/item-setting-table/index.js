@@ -1,10 +1,12 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useMemo } from 'react'
 
 import { Typography } from '@mui/material'
 import Box from '@mui/material/Box'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
+import { TABLE_NAME_ENUM } from '~/modules/wmsx/constants'
 import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
 
 const ItemSettingTableDetail = ({ items }) => {
@@ -12,18 +14,6 @@ const ItemSettingTableDetail = ({ items }) => {
   const {
     data: { warehouseExportReceiptDetails },
   } = useWarehouseExportReceipt()
-
-  const getAttrValue = useCallback((warehouseId = '', attrName = '') => {
-    const lots =
-      warehouseExportReceiptDetails?.saleOrderExportWarehouseLots || []
-
-    return (
-      lots.find(
-        (item) => item?.saleOrderExportWarehouseDetailId === warehouseId,
-      )?.[attrName] || ''
-    )
-  })
-
   const columns = useMemo(
     () => [
       {
@@ -63,42 +53,50 @@ const ItemSettingTableDetail = ({ items }) => {
       {
         field: 'quantityRequest',
         headerName: t('warehouseExportReceipt.items.quantityRequest'),
-        align: 'right',
-        headerAlign: 'left',
         width: 150,
-        renderCell: ({ row }) => getAttrValue(row.id, 'quantity'),
+        renderCell: (params) => {
+          return !isEmpty(
+            warehouseExportReceiptDetails?.attributes?.find(
+              (item) =>
+                item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL &&
+                item?.value,
+            ),
+          )
+            ? params?.row?.quantity
+            : ''
+        },
       },
       {
         field: 'quantityExport',
         headerName: t('warehouseExportReceipt.items.quantityExport'),
-        align: 'right',
-        headerAlign: 'left',
         width: 150,
-        renderCell: ({ row }) => getAttrValue(row.id, 'collectedQuantity'),
+        renderCell: (params) => {
+          return params?.row?.quantity
+        },
       },
       {
         field: 'actualExportedQuantity',
         headerName: t('warehouseExportReceipt.actualExportedQuantity'),
-        align: 'right',
-        headerAlign: 'left',
         width: 150,
-        renderCell: ({ row }) => getAttrValue(row.id, 'actualQuantity'),
+        renderCell: (params) => {
+          return params?.row?.actualQuantity
+        },
       },
       {
         field: 'unitPriceRefer',
         headerName: t('warehouseExportReceipt.items.unitPriceRefer'),
-        align: 'right',
-        headerAlign: 'left',
         width: 150,
-        renderCell: ({ row }) => getAttrValue(row.id, 'price'),
+        renderCell: (params) => {
+          return params?.row?.price
+        },
       },
       {
         field: 'totalMoney',
         headerName: t('warehouseExportReceipt.items.totalMoney'),
-        align: 'right',
-        headerAlign: 'left',
         width: 150,
-        renderCell: ({ row }) => getAttrValue(row.id, 'amount'),
+        renderCell: (params) => {
+          return params?.row?.amount
+        },
       },
       {
         field: 'debitAccount',
@@ -117,7 +115,7 @@ const ItemSettingTableDetail = ({ items }) => {
         },
       },
     ],
-    [items, getAttrValue],
+    [items],
   )
   return (
     <>
