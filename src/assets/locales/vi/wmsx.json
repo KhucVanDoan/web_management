@@ -1272,9 +1272,9 @@
       "actualQuantity": "Số lượng giao dịch",
       "receiveQuantity": "Số lượng nhận",
       "storedQuantity": "SL cất",
-      "unstoredQuantity": "SL cần cất",
+      "unstoredQuantity": "SL cần cất còn lại",
       "pickedQuantity": "SL lấy",
-      "unpickedQuantity": "SL cần lấy"
+      "unpickedQuantity": "SL cần lấy còn lại"
     },
     "movementsStatus": {
       "poi": "Lệnh nhập theo đơn",

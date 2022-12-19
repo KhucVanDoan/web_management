@@ -8,45 +8,21 @@ import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import {
-  ORDER_STATUS,
   WAREHOUSE_EXPORT_TYPE,
   WAREHOUSE_EXPORT_TYPE_OPTIONS,
 } from '~/modules/wmsx/constants'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
-import { searchWarehouseExportReceiptApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/search'
-import { convertFilterParams, convertSortParams } from '~/utils'
+import { convertSortParams } from '~/utils'
 
 const WarehouseExportFilter = ({
   setQuickFilters,
   quickFilters,
   defaultFilter,
-  setExportReceiptList,
-  setIsExport,
 }) => {
   const { t } = useTranslation(['wmsx'])
 
   const onSubmit = async (values) => {
-    if (values?.movementType === 'export') {
-      const response = await searchWarehouseExportReceiptApi({
-        filter: convertFilterParams(
-          {
-            status: [
-              ORDER_STATUS.IN_COLLECTING,
-              ORDER_STATUS.COLLECTED,
-              ORDER_STATUS.COMPLETED,
-            ],
-            warehouseId: values?.warehouseId?.id,
-            createdAt: values?.createdAt,
-          },
-          [{ field: 'createdAt', filterFormat: 'date' }],
-        ),
-      })
-      setExportReceiptList(response?.data?.items)
-      setIsExport(true)
-    } else {
-      setQuickFilters(values)
-      setIsExport(false)
-    }
+    setQuickFilters(values)
   }
 
   const getMovementTypeList = (values) => {
