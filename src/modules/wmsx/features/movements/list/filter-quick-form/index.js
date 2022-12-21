@@ -112,6 +112,7 @@ const MovementsFilter = ({
                       options={movementTypeOpts}
                       getOptionValue={(opt) => opt?.type || opt?.id}
                       getOptionLabel={(opt) => t(opt?.text)}
+                      clearIcon={false}
                     />
                   </Grid>
                   <Grid item xs={12}>

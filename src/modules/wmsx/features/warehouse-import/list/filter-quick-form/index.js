@@ -136,6 +136,7 @@ const WarehouseImportFilter = ({
                       options={getMovementTypeList(values)}
                       getOptionValue={(opt) => opt?.id}
                       getOptionLabel={(opt) => t(opt?.text)}
+                      clearIcon={false}
                     />
                   </Grid>
 
