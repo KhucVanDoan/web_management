@@ -18,7 +18,9 @@ import {
 } from '~/modules/wmsx/constants'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { api } from '~/services/api'
 import { convertUtcDateToLocalTz, getLocalItem } from '~/utils'
+import { getFileNameFromHeader } from '~/utils/api'
 import addNotification from '~/utils/toast'
 
 import ItemsSettingTable from './items-setting-table'
@@ -79,7 +81,31 @@ function WarehouseImportReceiveAndStorage() {
   const backToDetail = () => {
     history.push(ROUTE.WAREHOUSE_IMPORT_RECEIPT.LIST.PATH)
   }
-
+  const dowAttachment = async (params) => {
+    const uri = `/v1/files/${params}`
+    const res = await api.get(
+      uri,
+      {},
+      {
+        responseType: 'blob',
+        getHeaders: true,
+      },
+    )
+    if (res.status === 500) {
+      addNotification(res?.statusText, NOTIFICATION_TYPE.ERROR)
+    } else {
+      const filename = getFileNameFromHeader(res)
+      const blob = new Blob([res?.data])
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      const nameFile = decodeURI(filename)
+      link.setAttribute('download', nameFile)
+      document.body.appendChild(link)
+      link.click()
+      URL.revokeObjectURL(url)
+    }
+  }
   const renderActionBar = (handleReset) => {
     return (
       <ActionBar
@@ -203,7 +229,15 @@ function WarehouseImportReceiveAndStorage() {
                     <Grid item lg={6} xs={12}>
                       <LV
                         label={t('warehouseImportReceipt.attachedFile')}
-                        value={warehouseImportReceiptDetails.attachedFile}
+                        value={
+                          warehouseImportReceiptDetails.attachment?.fileName
+                        }
+                        file={true}
+                        onClick={() =>
+                          dowAttachment(
+                            warehouseImportReceiptDetails.attachment?.id,
+                          )
+                        }
                       />
                     </Grid>
                     <Grid item lg={6} xs={12}>

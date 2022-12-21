@@ -9,7 +9,7 @@ import {
 } from '~/common/constants'
 import { Field } from '~/components/Formik'
 import { searchBusinessTypesApi } from '~/modules/wmsx/redux/sagas/business-type-management/search-business-types'
-import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
+// import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { searchReceiptDepartmentApi } from '~/modules/wmsx/redux/sagas/receipt-department-management/search-receipt-department'
 import { convertFilterParams } from '~/utils'
 // import { ORDER_STATUS_OPTIONS } from '~/modules/wmsx/constants'
@@ -39,7 +39,7 @@ const FilterForm = () => {
           }}
         />
       </Grid>
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <Field.Autocomplete
           name="warehouseId"
           label={t('movements.importExport.warehouseName')}
@@ -57,7 +57,7 @@ const FilterForm = () => {
           getOptionLabel={(opt) => opt?.code}
           getOptionSubLabel={(opt) => opt?.name}
         />
-      </Grid>
+      </Grid> */}
       <Grid item xs={12}>
         <Field.Autocomplete
           name="departmentReceiptId"
