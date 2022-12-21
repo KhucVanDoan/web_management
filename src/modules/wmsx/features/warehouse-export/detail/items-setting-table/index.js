@@ -9,6 +9,65 @@ import { MOVEMENT_TYPE } from '~/modules/wmsx/constants'
 
 const ItemSettingTable = ({ items, movementType }) => {
   const { t } = useTranslation(['wmsx'])
+  const getRows = (items) => {
+    let rows = []
+    let rowSpanMatrix = []
+    items?.forEach((item) => {
+      const totalLotsInItem = item?.lots?.length
+      const totalQuantityTaken = item?.lots?.reduce(
+        (acc, curr) => acc + Number(curr?.quantity),
+        0,
+      )
+      if (item?.lots.length > 0) {
+        item?.lots?.forEach((lot, lotIndex) => {
+          let obj = {
+            code: item?.code,
+            name: item?.name,
+            itemUnit: item?.itemUnit,
+            quantity: lot?.quantity,
+            lotNumber: lot?.lotNumber,
+            locationCode: lot?.locationCode,
+            locationName: lot?.locationName,
+            planQuantity: item?.planQuantity - totalQuantityTaken,
+          }
+          if (totalLotsInItem === 1) {
+            rowSpanMatrix.push([1])
+          } else if (lotIndex === totalLotsInItem - 1) {
+            rowSpanMatrix.push([-1, -1, -1, -1, -1, 1, 1, -1, 1])
+          } else if (lotIndex === 0) {
+            rowSpanMatrix.push([
+              totalLotsInItem,
+              totalLotsInItem,
+              totalLotsInItem,
+              totalLotsInItem,
+              totalLotsInItem,
+              1,
+              1,
+              totalLotsInItem,
+              1,
+            ])
+          } else {
+            rowSpanMatrix.push([-1, -1, -1, -1, -1, 1, 1, -1, 1])
+          }
+          rows.push(obj)
+        })
+      } else {
+        let obj = {
+          code: item?.code,
+          name: item?.name,
+          itemUnit: item?.itemUnit,
+          quantity: item?.quantity,
+          lotNumber: '',
+          mfg: '',
+          confirmedQuantity: '',
+          actualQuantity: '',
+        }
+        rowSpanMatrix.push([1])
+        rows.push(obj)
+      }
+    })
+    return { rows, rowSpanMatrix }
+  }
   const columns = [
     {
       field: '#',
@@ -38,7 +97,7 @@ const ItemSettingTable = ({ items, movementType }) => {
       headerName: t('movements.itemDetails.lotNumber'),
       width: 120,
       renderCell: (params) => {
-        return params?.row?.lots[0]?.lotNumber
+        return params?.row?.lotNumber
       },
     },
     {
@@ -50,14 +109,6 @@ const ItemSettingTable = ({ items, movementType }) => {
       },
     },
     {
-      field: 'unpickedQuantity',
-      headerName: t('movements.itemDetails.unpickedQuantity'),
-      width: 120,
-      renderCell: (params) => {
-        return Number(params.row?.lots[0]?.planQuantity)
-      },
-    },
-    {
       field: 'location',
       headerName:
         (movementType === MOVEMENT_TYPE.SO_EXPORT ||
@@ -66,7 +117,15 @@ const ItemSettingTable = ({ items, movementType }) => {
         t('movements.itemDetails.locationPick'),
       width: 120,
       renderCell: (params) => {
-        return params?.row?.lots[0]?.locationCode
+        return params?.row?.locationCode
+      },
+    },
+    {
+      field: 'unpickedQuantity',
+      headerName: t('movements.itemDetails.unpickedQuantity'),
+      width: 120,
+      renderCell: (params) => {
+        return Number(params.row?.planQuantity)
       },
     },
   ]
@@ -87,8 +146,9 @@ const ItemSettingTable = ({ items, movementType }) => {
       </Box>
 
       <DataTable
-        rows={items}
+        rows={getRows(items)?.rows}
         columns={columns}
+        rowSpanMatrix={getRows(items).rowSpanMatrix}
         total={items.length}
         striped={false}
         hideSetting

@@ -105,6 +105,7 @@ function WarehouseImportReceiptForm() {
           }
         : null,
       contractNumber: warehouseImportReceiptDetails?.contractNumber || '',
+      attachments: warehouseImportReceiptDetails?.attachment || '',
       departmentReceiptId:
         warehouseImportReceiptDetails?.departmentReceipt || '',
       warehouse: warehouseImportReceiptDetails?.warehouse || '',
@@ -315,7 +316,7 @@ function WarehouseImportReceiptForm() {
       sourceId: values?.sourceId?.id,
       warehouseId: values?.warehouse?.id,
       contractNumber: values?.contractNumber,
-      attachments: values?.attachments || '',
+      attachment: values?.attachments || '',
       items: JSON.stringify(
         values?.items?.map((item) => ({
           id:
@@ -499,14 +500,15 @@ function WarehouseImportReceiptForm() {
                           </Box>
                         }
                       >
-                        {values?.attachments ? (
+                        {values?.attachment ? (
                           <>
                             <label htmlFor="select-file">
                               <Typography
                                 className={classes.uploadText}
                                 sx={{ mt: 8 / 12 }}
                               >
-                                {values?.attachments?.name}
+                                {values?.attachment?.fileName ||
+                                  values?.attachment?.name}
                               </Typography>
                             </label>
                             <input
@@ -516,7 +518,7 @@ function WarehouseImportReceiptForm() {
                               multiple
                               type="file"
                               onChange={(e) => {
-                                setFieldValue('attachments', e.target.files[0])
+                                setFieldValue('attachment', e.target.files[0])
                               }}
                             />
                           </>
@@ -533,7 +535,7 @@ function WarehouseImportReceiptForm() {
                               multiple
                               type="file"
                               onChange={(e) => {
-                                setFieldValue('attachments', e.target.files[0])
+                                setFieldValue('attachment', e.target.files[0])
                               }}
                             />
                           </Button>
