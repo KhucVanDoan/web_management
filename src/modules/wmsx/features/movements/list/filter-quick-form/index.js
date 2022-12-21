@@ -21,6 +21,8 @@ const MovementsFilter = ({
 }) => {
   const { t } = useTranslation(['wmsx'])
   const onSubmit = async (values) => {
+    setQuickFilters(values)
+    setExportReceiptList([])
     if (values?.movementType === 'export') {
       let createdAt = ''
       if (values?.createdAt[0] && !values?.createdAt[1]) {
@@ -66,10 +68,6 @@ const MovementsFilter = ({
     } else {
       setMovement('')
       setExportReceiptList([])
-      setQuickFilters({
-        createdAt: values?.createdAt,
-        movementType: values?.movementType,
-      })
     }
   }
 
