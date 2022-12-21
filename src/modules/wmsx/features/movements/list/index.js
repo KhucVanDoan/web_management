@@ -28,7 +28,7 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
   const { t } = useTranslation('wmsx')
   const history = useHistory()
   const location = useLocation()
-  const { parentId } = useParams()
+  const { parentId, warehouseId } = useParams()
   const {
     data: { movementList, total, isLoading },
     actions,
@@ -78,7 +78,7 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
       sortable: true,
       fixed: true,
       renderCell: (params) => {
-        return params?.row?.ebsId
+        return params?.row?.ebsId || params?.row?.order?.ebsId
       },
     },
     {
@@ -176,6 +176,7 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
         {
           movementType: movementType,
           orderId: parentId,
+          warehouseId: warehouseId,
           ...filters,
         },
         columns,

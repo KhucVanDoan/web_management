@@ -3,7 +3,15 @@ import React from 'react'
 import { Typography, Box } from '@mui/material'
 import { PropTypes } from 'prop-types'
 
-const LabelValue = ({ label, value, children, sx, ...props }) => {
+const LabelValue = ({
+  label,
+  value,
+  children,
+  sx,
+  file,
+  onClick,
+  ...props
+}) => {
   return (
     <Box
       sx={{
@@ -25,7 +33,9 @@ const LabelValue = ({ label, value, children, sx, ...props }) => {
         {children ? (
           children
         ) : typeof value === 'string' ? (
-          <Typography>{value}</Typography>
+          <Typography color={file ? 'primary' : ''} onClick={() => onClick()}>
+            {value}
+          </Typography>
         ) : (
           value
         )}
@@ -38,13 +48,16 @@ LabelValue.defaultProps = {
   label: null,
   value: null,
   children: null,
+  file: null,
   sx: {},
 }
 
 LabelValue.propTypes = {
   label: PropTypes.node,
+  file: PropTypes.node,
   value: PropTypes.node,
   children: PropTypes.node,
+  onClick: PropTypes.func,
   sx: PropTypes.shape(),
 }
 

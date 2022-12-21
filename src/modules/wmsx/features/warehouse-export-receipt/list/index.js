@@ -163,7 +163,8 @@ function WarehouseExportReceipt() {
         const { status } = params?.row
         const isConfirmWarehouseExport = status === ORDER_STATUS.COMPLETED
         return (
-          isConfirmWarehouseExport && !params?.row?.ebsId&& (
+          isConfirmWarehouseExport &&
+          !params?.row?.ebsId && (
             <Button
               variant="text"
               size="small"
@@ -183,7 +184,7 @@ function WarehouseExportReceipt() {
       align: 'center',
       fixed: true,
       renderCell: (params) => {
-        const { id, status } = params?.row
+        const { id, status, warehouseId } = params?.row
         const isEdit =
           status === ORDER_STATUS.PENDING || status === ORDER_STATUS.REJECTED
         const isDelete =
@@ -257,7 +258,7 @@ function WarehouseExportReceipt() {
                     `${ROUTE.WAREHOUSE_EXPORT_RECEIPT.TRANSACTIONS.LIST.PATH.replace(
                       ':parentId',
                       `${id}`,
-                    )}`,
+                    ).replace(':warehouseId', `${warehouseId?.id}`)}`,
                   )
                 }
               >
