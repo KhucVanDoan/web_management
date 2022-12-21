@@ -1981,36 +1981,36 @@ export const REPORT_TYPE_MAP = {
 }
 
 export const REPORT_TYPE_OPTIONS = [
-  // {
-  //   id: 5,
-  //   text: 'reportType.orderImportInCompleted',
-  //   code: 'W001',
-  // },
-  // {
-  //   id: 6,
-  //   text: 'reportType.itemImportedButNotPutToPosition',
-  //   code: 'W002',
-  // },
-  // {
-  //   id: 4,
-  //   text: 'reportType.orderExportInCompleted',
-  //   code: 'W003',
-  // },
-  // {
-  //   id: 3,
-  //   text: 'reportType.orderTransferInCompleted',
-  //   code: 'W004',
-  // },
-  // {
-  //   id: 2,
-  //   text: 'reportType.itemInventoryBelowSafe',
-  //   code: 'W005',
-  // },
-  // {
-  //   id: 1,
-  //   text: 'reportType.itemInventoryBelowMinimum',
-  //   code: 'W006',
-  // },
+  {
+    id: 5,
+    text: 'reportType.orderImportInCompleted',
+    code: 'W001',
+  },
+  {
+    id: 6,
+    text: 'reportType.itemImportedButNotPutToPosition',
+    code: 'W002',
+  },
+  {
+    id: 4,
+    text: 'reportType.orderExportInCompleted',
+    code: 'W003',
+  },
+  {
+    id: 3,
+    text: 'reportType.orderTransferInCompleted',
+    code: 'W004',
+  },
+  {
+    id: 2,
+    text: 'reportType.itemInventoryBelowSafe',
+    code: 'W005',
+  },
+  {
+    id: 1,
+    text: 'reportType.itemInventoryBelowMinimum',
+    code: 'W006',
+  },
   {
     id: 9,
     text: 'reportType.inventory',
@@ -2021,16 +2021,16 @@ export const REPORT_TYPE_OPTIONS = [
   //   text: 'reportType.orderImportByRequestForItem',
   //   code: 'W008',
   // },
-  // {
-  //   id: 16,
-  //   text: 'reportType.ageOfItemStock',
-  //   code: 'W009',
-  // },
-  // {
-  //   id: 7,
-  //   text: 'reportType.itemInventory',
-  //   code: 'W010',
-  // },
+  {
+    id: 16,
+    text: 'reportType.ageOfItemStock',
+    code: 'W009',
+  },
+  {
+    id: 7,
+    text: 'reportType.itemInventory',
+    code: 'W010',
+  },
   {
     id: 14,
     text: 'reportType.situationImportPeriod',
@@ -2046,26 +2046,26 @@ export const REPORT_TYPE_OPTIONS = [
     text: 'reportType.situationTransfer',
     code: 'W013',
   },
-  // {
-  //   id: 13,
-  //   text: 'reportType.situationInventoryPeriod',
-  //   code: 'W014',
-  // },
-  // {
-  //   id: 10,
-  //   text: 'reportType.itemInventoryImportedNoQRCode',
-  //   code: 'W015',
-  // },
-  // {
-  //   id: 11,
-  //   text: 'reportType.orderExportByRequestForItem',
-  //   code: 'W016',
-  // },
-  // {
-  //   id: 17,
-  //   text: 'reportType.stored',
-  //   code: 'W017',
-  // },
+  {
+    id: 13,
+    text: 'reportType.situationInventoryPeriod',
+    code: 'W014',
+  },
+  {
+    id: 10,
+    text: 'reportType.itemInventoryImportedNoQRCode',
+    code: 'W015',
+  },
+  {
+    id: 11,
+    text: 'reportType.orderExportByRequestForItem',
+    code: 'W016',
+  },
+  {
+    id: 17,
+    text: 'reportType.stored',
+    code: 'W017',
+  },
 ]
 
 export const REPORT_FILE_TYPE = {
