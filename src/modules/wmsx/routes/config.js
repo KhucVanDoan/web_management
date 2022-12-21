@@ -532,7 +532,7 @@ export const ROUTE = {
     },
     TRANSACTIONS: {
       LIST: {
-        PATH: '/wms/warehouse-export-receipt/:parentId/transactions',
+        PATH: '/wms/warehouse-export-receipt/:parentId/transactions/:warehouseId',
         TITLE: 'movements',
       },
       DETAIL: {

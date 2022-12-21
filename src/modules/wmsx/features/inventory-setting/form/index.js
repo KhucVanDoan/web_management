@@ -47,7 +47,8 @@ function InventorySettingForm() {
       unit: '',
       inventoryLimit: Number(inventorySettingDetail?.inventoryLimit) || 0,
       minInventoryLimit: Number(inventorySettingDetail?.minInventoryLimit) || 0,
-      maxInventoryLimit: Number(inventorySettingDetail?.maxInventoryLimit) || 0,
+      maxInventoryLimit:
+        Number(inventorySettingDetail?.maxInventoryLimit) || '',
       reorderPoint: Number(inventorySettingDetail?.reorderPoint) || 0,
       eoq: Number(inventorySettingDetail?.eoq) || 0,
       leadtime: Number(inventorySettingDetail?.leadtime) || 0,
