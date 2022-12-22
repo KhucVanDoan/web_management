@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react'
 
+import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded'
 import { Typography } from '@mui/material'
 import Box from '@mui/material/Box'
 import Tab from '@mui/material/Tab'
 import MuiTabs from '@mui/material/Tabs'
+import { useTheme } from '@mui/material/styles'
 import { isArray, isUndefined, findIndex } from 'lodash'
 import PropTypes from 'prop-types'
 
 const Tabs = ({ list, children, sx, onChange, value: externalValue }) => {
   const [value, setValue] = useState(0)
+  const theme = useTheme()
 
   useEffect(() => {
     if (isUndefined(externalValue)) return
@@ -51,7 +54,30 @@ const Tabs = ({ list, children, sx, onChange, value: externalValue }) => {
           allowScrollButtonsMobile
         >
           {list.map((item, index) => {
-            return <Tab key={`Tab-${index}`} label={getLabel(item)} wrapped />
+            return (
+              <Tab
+                key={`Tab-${index}`}
+                label={getLabel(item)}
+                wrapped
+                {...(item.error
+                  ? {
+                      icon: (
+                        <WarningAmberRoundedIcon
+                          fontSize="small"
+                          sx={{
+                            mr: '4px !important',
+                            color: `${theme.palette.error.main}`,
+                          }}
+                        />
+                      ),
+                      iconPosition: 'start',
+                      sx: {
+                        minHeight: '48px',
+                      },
+                    }
+                  : {})}
+              />
+            )
           })}
         </MuiTabs>
       </Box>
