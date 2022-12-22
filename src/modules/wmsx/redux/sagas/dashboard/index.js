@@ -21,6 +21,8 @@ import {
   setSaleOrderExports,
   WMSX_GET_TOTAL_ITEM_SUMMARY_REPORT,
   setTotalItemSummaryReport,
+  setItemStockHistories,
+  WMSX_GET_ITEM_STOCK_HISTORIES,
 } from '~/modules/wmsx/redux/actions/dashboard'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
@@ -84,7 +86,10 @@ export const getDashboardWarehouses = (params) => {
   const uri = `/v1/warehouses/dashboard/warehouse/list`
   return api.get(uri, params)
 }
-
+export const getDashboardItemStockHistories = (params) => {
+  const uri = `/v1/reports/dashboard/item-stock-histories`
+  return api.get(uri, params)
+}
 /**
  * Handle get data request and response
  * @param {object} action
@@ -352,6 +357,32 @@ function* doGetSaleOrderExports(action) {
   }
 }
 
+function* doGetItemStockHistories(action) {
+  try {
+    const response = yield call(getDashboardItemStockHistories, action?.payload)
+    if (response?.statusCode === 200) {
+      yield put(setItemStockHistories(response.data))
+
+      // Call callback action if provided
+      if (action.onSuccess) {
+        yield action.onSuccess()
+      }
+    } else {
+      addNotification(
+        response?.message || response?.statusText,
+        NOTIFICATION_TYPE.ERROR,
+      )
+
+      throw new Error(response?.message)
+    }
+  } catch (error) {
+    // Call callback action if provided
+    if (action.onError) {
+      yield action.onError()
+    }
+  }
+}
+
 export default function* watchDashboard() {
   yield takeLatest(WMSX_GET_TRANSFER_REPORT, doGetTransferReport)
   yield takeLatest(WMSX_GET_ITEM_STOCK_REPORT, doGetItemStockReport)
@@ -369,4 +400,5 @@ export default function* watchDashboard() {
   yield takeLatest(WMSX_GET_REPORT_GAP_IN_STOCK, doReportGapInStock)
   yield takeLatest(WMSX_GET_PURCHASED_ORDER_IMPORTS, doGetPurchasedOrderImports)
   yield takeLatest(WMSX_GET_SALE_ORDER_EXPORTS, doGetSaleOrderExports)
+  yield takeLatest(WMSX_GET_ITEM_STOCK_HISTORIES, doGetItemStockHistories)
 }

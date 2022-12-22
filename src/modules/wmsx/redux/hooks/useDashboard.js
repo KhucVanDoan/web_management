@@ -187,3 +187,19 @@ export const useDashboardSaleOrderExports = () => {
     data,
   }
 }
+export const useDashboardItemStockHistory = () => {
+  const data = useSelector((state) =>
+    get(state, 'wmsx.dashboard.itemStockHistories'),
+  )
+
+  const dispatch = useDispatch()
+  const actions = useMemo(
+    () => bindActionCreators(dashboardActions, dispatch),
+    [dispatch],
+  )
+
+  return {
+    actions,
+    data,
+  }
+}

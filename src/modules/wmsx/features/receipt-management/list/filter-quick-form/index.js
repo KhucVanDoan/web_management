@@ -67,7 +67,19 @@ const ReceiptManagementFilter = ({
                       name="receiptDate"
                       label={t('receiptManagement.createdAt')}
                       placeholder={t('receiptManagement.createdAt')}
-                      maxDate={new Date()}
+                      maxDate={
+                        new Date(
+                          sub(new Date(), {
+                            years: 0,
+                            months: 0,
+                            weeks: 0,
+                            days: 1,
+                            hours: 0,
+                            minutes: 0,
+                            seconds: 0,
+                          }),
+                        )
+                      }
                       minDate={
                         new Date(
                           sub(new Date(), {
