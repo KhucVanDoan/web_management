@@ -33,6 +33,10 @@ export const WMSX_GET_SALE_ORDER_EXPORTS = 'WMSX_GET_SALE_ORDER_EXPORTS'
 export const WMSX_GET_SALE_ORDER_EXPORTS_SUCCESS =
   'WMSX_GET_SALE_ORDER_EXPORTS_SUCCESS'
 
+export const WMSX_GET_ITEM_STOCK_HISTORIES = 'WMSX_GET_ITEM_STOCK_HISTORIES'
+export const WMSX_GET_ITEM_STOCK_HISTORIES_SUCCESS =
+  'WMSX_GET_ITEM_STOCK_HISTORIES_SUCCESS'
+
 export function getPurchasedOrderImports(payload) {
   return {
     type: WMSX_GET_PURCHASED_ORDER_IMPORTS,
@@ -171,6 +175,17 @@ export const getReportGapInstockSuccess = (payload) => ({
   payload,
 })
 
+export const getItemStockHistories = (payload, onSuccess, onError) => ({
+  type: WMSX_GET_ITEM_STOCK_HISTORIES,
+  payload,
+  onError,
+  onSuccess,
+})
+
+export const setItemStockHistories = (payload) => ({
+  type: WMSX_GET_ITEM_STOCK_HISTORIES_SUCCESS,
+  payload,
+})
 export default {
   getItemGroupStockSummary,
   setItemGroupStockSummary,
@@ -192,4 +207,6 @@ export default {
   setPurchasedOrderImports,
   getSaleOrderExports,
   setSaleOrderExports,
+  getItemStockHistories,
+  setItemStockHistories,
 }

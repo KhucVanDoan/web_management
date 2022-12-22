@@ -10,14 +10,11 @@ const MovementsFilter = ({
   setQuickFilters,
   defaultFilter,
   movementTypeOpts,
-  setExportReceiptList,
-
   warehouse,
 }) => {
   const { t } = useTranslation(['wmsx'])
   const onSubmit = async (values) => {
     setQuickFilters(values)
-    setExportReceiptList([])
   }
 
   return (

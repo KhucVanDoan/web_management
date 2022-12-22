@@ -71,6 +71,7 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
         movementType: 3,
         warehouse: e?.warehouseId,
         createdAt: e?.createdAt,
+        ebsId: e?.ebsId,
       })),
     [filters, warehouseExportReceiptList],
   )
