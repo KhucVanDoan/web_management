@@ -103,7 +103,7 @@ const FilterForm = () => {
           placeholder={t('movements.importExport.createdAt')}
         />
       </Grid>
-      {/* <Grid item xs={12}>
+      <Grid item xs={12}>
         <Field.TextField
           name="createdByUser"
           label={t('movements.createdByUser')}
@@ -112,7 +112,8 @@ const FilterForm = () => {
             maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
           }}
         />
-      </Grid> */}
+      </Grid>{' '}
+      */}
       {/* <Grid item xs={12}>
         <Field.Autocomplete
           name="status"

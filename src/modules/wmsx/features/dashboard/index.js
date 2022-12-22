@@ -11,7 +11,7 @@ import Page from '~/components/Page'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { addHours } from '~/utils'
 
-import ExportProposal from './components/export-proposal'
+// import ExportProposal from './components/export-proposal'
 import ExportReceipt from './components/import-export-receipt/export-receipt'
 import ImportReceipt from './components/import-export-receipt/import-receipt'
 // import InventoryQuantity from './components/inventory-quantity'
@@ -84,9 +84,9 @@ function Dashboard() {
         <Grid item xs={12} lg={6} md={12}>
           <StockItemReport fromDate={fromDate} toDate={toDate} />
         </Grid>
-        <Grid item xs={12} lg={6} md={12}>
+        {/* <Grid item xs={12} lg={6} md={12}>
           <ExportProposal fromDate={fromDate} toDate={toDate} />
-        </Grid>
+        </Grid> */}
         {/* <Grid item xs={12} lg={6} md={12}>
           <InventoryQuantity fromDate={fromDate} toDate={toDate} />
         </Grid> */}
