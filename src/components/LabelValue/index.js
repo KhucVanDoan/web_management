@@ -49,6 +49,7 @@ LabelValue.defaultProps = {
   value: null,
   children: null,
   file: null,
+  onClick: () => {},
   sx: {},
 }
 

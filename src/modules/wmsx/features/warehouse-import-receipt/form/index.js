@@ -105,7 +105,7 @@ function WarehouseImportReceiptForm() {
           }
         : null,
       contractNumber: warehouseImportReceiptDetails?.contractNumber || '',
-      attachments: warehouseImportReceiptDetails?.attachment || '',
+      attachment: warehouseImportReceiptDetails?.attachment || '',
       departmentReceiptId:
         warehouseImportReceiptDetails?.departmentReceipt || '',
       warehouse: warehouseImportReceiptDetails?.warehouse || '',
@@ -316,7 +316,10 @@ function WarehouseImportReceiptForm() {
       sourceId: values?.sourceId?.id,
       warehouseId: values?.warehouse?.id,
       contractNumber: values?.contractNumber,
-      attachment: !values?.attachment?.id ? values?.attachment : '',
+      attachment:
+        !values?.attachment?.name || values?.attachment?.id
+          ? ''
+          : values?.attachment,
       items: JSON.stringify(
         values?.items?.map((item) => ({
           id:
@@ -500,15 +503,16 @@ function WarehouseImportReceiptForm() {
                           </Box>
                         }
                       >
-                        {values?.attachment ? (
+                        {values?.attachment?.name ||
+                        !isEmpty(values?.attachment) ? (
                           <>
                             <label htmlFor="select-file">
                               <Typography
                                 className={classes.uploadText}
                                 sx={{ mt: 8 / 12 }}
                               >
-                                {values?.attachment?.fileName ||
-                                  values?.attachment?.name}
+                                {values?.attachment?.name ||
+                                  values?.attachment?.fileName}
                               </Typography>
                             </label>
                             <input

@@ -20,6 +20,10 @@ export const getListStorageDateApi = (params) => {
   const uri = `v1/items/${params}/storage-dates`
   return api.get(uri)
 }
+export const checkItemWarehouseImport = (params) => {
+  const uri = `v1/items/item-warehouses/get-item-destination-warehouse`
+  return api.get(uri, params)
+}
 /**
  * Handle get data request and response
  * @param {object} action

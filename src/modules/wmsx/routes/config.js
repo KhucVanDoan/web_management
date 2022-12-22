@@ -536,7 +536,7 @@ export const ROUTE = {
         TITLE: 'movements',
       },
       DETAIL: {
-        PATH: '/wms/warehouse-export-receipt/:parentId/transactions/:id',
+        PATH: '/wms/warehouse-export-receipt/:parentId/transactions/:warehouseId/:id',
         TITLE: 'movementDetail',
       },
       DETAIL_TRANSACTION: {

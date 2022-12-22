@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo } from 'react'
 
 import IconButton from '@mui/material/IconButton'
 import { PropTypes } from 'prop-types'
@@ -15,12 +15,12 @@ import {
   WAREHOUSE_MOVEMENT_ORDER_TYPE_MAP,
 } from '~/modules/wmsx/constants'
 import useMovements from '~/modules/wmsx/redux/hooks/useMovements'
-import { searchWarehouseExportReceiptApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/search'
+import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import {
   convertFilterParams,
   convertSortParams,
-  convertUtcDateTimeToLocalTz,
+  convertUtcDateToLocalTz,
 } from '~/utils'
 
 import MovementsFilter from './filter-quick-form'
@@ -34,23 +34,21 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
     data: { movementList, total, isLoading },
     actions,
   } = useMovements()
+  const {
+    data: {
+      warehouseExportReceiptList,
+      total: totalExport,
+      isLoading: loadingExport,
+    },
+    actions: exportAction,
+  } = useWarehouseExportReceipt()
   const warehouse =
     movementList?.length > 0 ? movementList?.[0]?.warehouse : null
   const DEFAULT_FILTERS = {
     createdAt: '',
     movementType: movementType,
   }
-  const [exportReceiptList, setExportReceiptList] = useState([])
-  const [totals, setTotals] = useState(0)
 
-  const exportReceiptListFormat = exportReceiptList?.map((e) => ({
-    id: e?.id,
-    orderCode: e?.code,
-    orderType: 3,
-    movementType: 3,
-    warehouse: e?.warehouseId,
-    createdAt: e?.createdAt,
-  }))
   const {
     page,
     pageSize,
@@ -63,109 +61,127 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
     setFilters,
     setKeyword,
   } = useQueryState()
+  const exportReceiptListFormat = useMemo(
+    () =>
+      warehouseExportReceiptList?.map((e) => ({
+        ...e,
+        id: e?.id,
+        orderCode: e?.code,
+        orderType: 3,
+        movementType: 3,
+        warehouse: e?.warehouseId,
+        createdAt: e?.createdAt,
+      })),
+    [filters, warehouseExportReceiptList],
+  )
 
-  const columns = [
-    {
-      field: 'id',
-      headerName: t('movements.code'),
-      width: 120,
-      sortable: true,
-      fixed: true,
-    },
-    {
-      field: 'formNumber',
-      headerName: t('movements.importExport.formNumber'),
-      width: 120,
-      sortable: true,
-      fixed: true,
-      renderCell: (params) => {
-        return params?.row?.ebsId || params?.row?.order?.ebsId
+  const columns = useMemo(
+    () => [
+      {
+        field: 'id',
+        headerName: t('movements.code'),
+        width: 120,
+        sortable: true,
+        fixed: true,
       },
-    },
-    {
-      field: 'idWms',
-      headerName: t('movements.importExport.idWms'),
-      width: 120,
-      fixed: true,
-      sortable: true,
-      renderCell: (params) => params.row?.order?.code || params.row?.orderCode,
-    },
-    {
-      field: 'orderType',
-      headerName: t('movements.importExport.receiptType'),
-      width: 120,
-      renderCell: (params) => {
-        return t(WAREHOUSE_MOVEMENT_ORDER_TYPE_MAP[params.row?.orderType])
+      {
+        field: 'formNumber',
+        headerName: t('movements.importExport.formNumber'),
+        width: 120,
+        sortable: true,
+        fixed: true,
+        renderCell: (params) => {
+          return params?.row?.ebsId || params?.row?.order?.ebsId
+        },
       },
-    },
-    {
-      field: 'movementType',
-      headerName: t('movements.importExport.movementType'),
-      width: 120,
-      renderCell: (params) => {
-        return t(MOVEMENT_TYPE_MAP[params.row?.movementType])
+      {
+        field: 'idWms',
+        headerName: t('movements.importExport.idWms'),
+        width: 120,
+        fixed: true,
+        sortable: true,
+        renderCell: (params) =>
+          params.row?.order?.code || params.row?.orderCode,
       },
-    },
-    {
-      field: 'warehouseName',
-      headerName: t('movements.importExport.warehouseName'),
-      width: 120,
-      sortable: false,
-      renderCell: (params) => {
-        return params?.row?.warehouse?.name
+      {
+        field: 'orderType',
+        headerName: t('movements.importExport.receiptType'),
+        width: 120,
+        renderCell: (params) => {
+          return t(WAREHOUSE_MOVEMENT_ORDER_TYPE_MAP[params.row?.orderType])
+        },
       },
-    },
-    {
-      field: 'createdAt',
-      headerName: t('movements.importExport.executeDate'),
-      filterFormat: 'date',
-      width: 120,
-      sortable: true,
-      renderCell: (params) => {
-        const createdAt = params.row.createdAt
-        return convertUtcDateTimeToLocalTz(createdAt)
+      {
+        field: 'movementType',
+        headerName: t('movements.importExport.movementType'),
+        width: 120,
+        renderCell: (params) => {
+          return t(MOVEMENT_TYPE_MAP[params.row?.movementType])
+        },
       },
-    },
-    {
-      field: 'createdByUser',
-      headerName: t('movements.createdByUser'),
-      width: 120,
-      sortable: false,
-      renderCell: (params) => {
-        return params?.row?.user?.username
+      {
+        field: 'warehouseName',
+        headerName: t('movements.importExport.warehouseName'),
+        width: 120,
+        sortable: false,
+        renderCell: (params) => {
+          return params?.row?.warehouse?.name
+        },
       },
-    },
-    {
-      field: 'action',
-      headerName: t('movements.action'),
-      width: 100,
-      align: 'center',
-      fixed: true,
-      renderCell: (params) => {
-        const { id, movementType, orderType } = params.row
-        return (
-          <div>
-            <IconButton
-              onClick={() => {
-                if (orderType === 3 && movementType !== 5) {
-                  history.push(
-                    ROUTE.WAREHOUSE_EXPORT_RECEIPT.TRANSACTIONS.DETAIL_TRANSACTION.PATH.replace(
-                      ':id',
-                      `${id}`,
-                    ),
-                  )
-                } else {
-                  history.push(`${location.pathname}/${id}`)
-                }
-              }}
-            >
-              <Icon name="show" />
-            </IconButton>
-          </div>
-        )
+      {
+        field: 'createdAt',
+        headerName: t('movements.importExport.executeDate'),
+        filterFormat: 'date',
+        width: 120,
+        sortable: true,
+        renderCell: (params) => {
+          const createdAt = params.row.createdAt
+          return convertUtcDateToLocalTz(createdAt)
+        },
       },
-    },
-  ]
+      {
+        field: 'createdByUser',
+        headerName: t('movements.createdByUser'),
+        width: 120,
+        sortable: false,
+        renderCell: (params) => {
+          return params?.row?.user?.fullName
+        },
+      },
+      {
+        field: 'action',
+        headerName: t('movements.action'),
+        width: 100,
+        align: 'center',
+        fixed: true,
+        renderCell: (params) => {
+          const { id, movementType, orderType } = params.row
+          return (
+            <div>
+              <IconButton
+                onClick={() => {
+                  if (orderType === 3 && movementType !== 5) {
+                    history.push(
+                      ROUTE.WAREHOUSE_EXPORT_RECEIPT.TRANSACTIONS.DETAIL_TRANSACTION.PATH.replace(
+                        ':id',
+                        `${id}`,
+                      ),
+                    )
+                  } else {
+                    history.push(`${location.pathname}/${id}`)
+                  }
+                }}
+              >
+                <Icon name="show" />
+              </IconButton>
+            </div>
+          )
+        },
+      },
+    ],
+    [warehouseExportReceiptList, movementList],
+  )
+
   const refreshData = async () => {
     if (!parentId) return
     const params = {
@@ -197,14 +213,8 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
         warehouseId: warehouseId,
       }),
     }
-    setExportReceiptList([])
-
     if (filters?.movementType === 'export') {
-      const response = await searchWarehouseExportReceiptApi(
-        paramsWarehouseExportRecipt,
-      )
-      setExportReceiptList(response?.data?.items)
-      setTotals(response?.data?.meta?.total)
+      exportAction.searchWarehouseExportReceipt(paramsWarehouseExportRecipt)
     } else {
       actions.searchMovements(params)
     }
@@ -221,14 +231,13 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
       onSearch={setKeyword}
       onBack={onBack}
       placeholder={t('movements.searchPlaceholder')}
-      loading={isLoading}
+      loading={filters?.movementType === 'export' ? loadingExport : isLoading}
     >
       <MovementsFilter
         setQuickFilters={setFilters}
         quickFilters={filters}
         defaultFilter={DEFAULT_FILTERS}
         movementTypeOpts={movementTypeOpts}
-        setExportReceiptList={setExportReceiptList}
         warehouse={warehouse}
       />
       <DataTable
@@ -244,7 +253,7 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
-        total={totals || total}
+        total={filters?.movementType === 'export' ? totalExport : total}
         sort={sort}
       />
     </Page>
