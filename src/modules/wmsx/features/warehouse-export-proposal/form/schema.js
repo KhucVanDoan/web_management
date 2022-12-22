@@ -9,7 +9,6 @@ export const defineSchema = (t) =>
     nameAddressOfRecipient: Yup.string()
       .nullable()
       .required(t('general:form.required')),
-    construction: Yup.object().nullable().required(t('general:form.required')),
     createdAtPaper: Yup.date().nullable().required(t('general:form.required')),
     reasonUse: Yup.string().nullable().required(t('general:form.required')),
     items: Yup.array().of(

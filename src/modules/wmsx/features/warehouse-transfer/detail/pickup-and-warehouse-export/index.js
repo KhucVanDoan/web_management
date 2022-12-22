@@ -109,6 +109,8 @@ const PickupAndWarehouseExport = () => {
         itemType: item?.item?.itemType?.name || '',
         transferQuantity: +item?.planQuantity || '',
         ExportedQuantity: item?.quantity || '',
+        amount: item?.amount || '',
+        price: item?.price || '',
       }),
     ),
   }
@@ -303,6 +305,7 @@ const PickupAndWarehouseExport = () => {
                       items={values?.items}
                       arrayHelpers={arrayHelpers}
                       setFieldValue={setFieldValue}
+                      values={values}
                     />
                   )}
                 />

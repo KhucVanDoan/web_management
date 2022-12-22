@@ -111,6 +111,8 @@ const ReceiveAndStored = () => {
           transferQuantity: +item?.planQuantity || '',
           actualExportedQuantity: +item?.planQuantity || '',
           inputedQuantity: item?.quantity || '',
+          amount: item?.amount || '',
+          price: item?.price || '',
         }),
       ),
     }),
@@ -312,6 +314,7 @@ const ReceiveAndStored = () => {
                       items={values?.items}
                       arrayHelpers={arrayHelpers}
                       setFieldValue={setFieldValue}
+                      values={values}
                     />
                   )}
                 />

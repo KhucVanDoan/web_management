@@ -420,7 +420,6 @@ function WarehouseExportReceiptForm() {
                           asyncRequestHelper={(res) => res?.data?.items}
                           getOptionLabel={(opt) => opt?.code}
                           getOptionSubLabel={(opt) => opt?.name}
-                          required
                         />
                       </Grid>
                       <Grid item lg={6} xs={12}>
