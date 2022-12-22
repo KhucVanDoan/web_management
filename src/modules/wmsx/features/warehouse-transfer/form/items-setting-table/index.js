@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 
 import { Button, Checkbox, IconButton, Typography } from '@mui/material'
 import { Box } from '@mui/system'
@@ -14,15 +14,19 @@ import {
   WAREHOUSE_TRANSFER_TYPE,
 } from '~/modules/wmsx/constants'
 import { getItemWarehouseStockAvailableApi } from '~/modules/wmsx/redux/sagas/warehouse-transfer/get-item-warehouse-stock-available'
-import { getListItemWarehouseStockApi } from '~/modules/wmsx/redux/sagas/warehouse-transfer/get-list-item'
-import { convertFilterParams } from '~/utils'
+import {
+  checkItemWarehouseImport,
+  getListItemWarehouseStockApi,
+  getListStorageDateApi,
+} from '~/modules/wmsx/redux/sagas/warehouse-transfer/get-list-item'
+import { convertFilterParams, convertUtcDateToLocalTz } from '~/utils'
 
 const ItemSettingTable = (props) => {
   const { mode, arrayHelpers, items, values, setFieldValue, type, status } =
     props
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
-  // const [storageDates, setStorageDates] = useState([])
+  const [storageDates, setStorageDates] = useState([])
   const handleChangeItem = async (val, index) => {
     if (val) {
       const params = {
@@ -52,11 +56,41 @@ const ItemSettingTable = (props) => {
           )?.accounting,
         )
       }
-      // const storageDate = await getListStorageDateApi(val?.itemId || val?.id)
     } else {
       setFieldValue(`items[${index}].planExportedQuantity`, '')
       setFieldValue(`items[${index}].transferQuantity`, '')
       setFieldValue(`items[${index}].creditAcc`, '')
+    }
+    if (values?.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG) {
+      const storageDate = await getListStorageDateApi(val?.itemId || val?.id)
+      const checkItem = await checkItemWarehouseImport({
+        itemId: val?.itemId || val?.id,
+        warehouseId: values?.destinationWarehouseId?.id,
+      })
+      if (checkItem?.statusCode === 200) {
+        const findItem = checkItem?.data?.find(
+          (item) => item?.itemId === (val?.itemId || val?.id),
+        )
+        if (!isEmpty(findItem)) {
+          setFieldValue(`items[${index}].itemCodeWarehouseImp`, true)
+        } else {
+          setFieldValue(`items[${index}].itemCodeWarehouseImp`, false)
+        }
+      }
+      if (storageDate?.statusCode === 200) {
+        storageDate?.data?.storageDates?.forEach((item) => {
+          const findStorage = storageDates?.find(
+            (date) =>
+              date?.itemId === item?.itemId &&
+              new Date(date?.storageDate)?.toISOString() ===
+                new Date(item?.storageDate)?.toISOString(),
+          )
+          if (isEmpty(findStorage)) {
+            storageDates.push(item)
+          }
+        })
+        setStorageDates([...storageDates])
+      }
     }
   }
   const handleChangeLotnumber = async (val, index, payload) => {
@@ -274,13 +308,20 @@ const ItemSettingTable = (props) => {
           type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_SHORT ||
           values?.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_SHORT,
         renderCell: (params, index) => {
+          const storageDateList = storageDates?.filter(
+            (item) =>
+              item?.itemId ===
+              (params?.row?.itemCode?.itemId || params?.row?.itemCode?.id),
+          )
           return isView ? (
-            ''
+            params?.row?.storageDate
           ) : (
-            <Field.TextField
+            <Field.Autocomplete
               name={`items[${index}].warehouseImportDate`}
-              disabled={true}
               placeholder={t('warehouseTransfer.table.warehouseImportDate')}
+              options={storageDateList}
+              getOptionLabel={(opt) => convertUtcDateToLocalTz(opt.storageDate)}
+              getOptionValue={(option) => option?.storageDate}
             />
           )
         },
@@ -361,7 +402,7 @@ const ItemSettingTable = (props) => {
             <Checkbox name="itemCodeWarehouseImp" disabled />
           ) : (
             <Field.Checkbox
-              name={`itemDefault[${index}].itemCodeWarehouseImp`}
+              name={`items[${index}].itemCodeWarehouseImp`}
               disabled
             />
           )

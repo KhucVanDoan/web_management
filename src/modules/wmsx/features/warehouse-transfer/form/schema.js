@@ -12,7 +12,6 @@ const warehouseTranferSchema = (t, type) => {
       .required(t('general:form.required')),
     type: Yup.string().nullable().required(t('general:form.required')),
     reasonId: Yup.object().nullable().required(t('general:form.required')),
-    sourceId: Yup.object().nullable().required(t('general:form.required')),
     destinationWarehouseId: Yup.object()
       .nullable()
       .required(t('general:form.required'))

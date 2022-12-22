@@ -170,6 +170,7 @@ const WarehouseTransferForm = () => {
           locatorId: +item?.locator?.locatorId || null,
           quantity: +item.transferQuantity,
           lotNumber: item?.lotNumber || null,
+          storageDate: item?.warehouseImportDate,
           debitAccount: '1519',
           creditAccount: item?.creditAcc,
         })),
@@ -430,7 +431,6 @@ const WarehouseTransferForm = () => {
                         getOptionLabel={(opt) => opt?.code}
                         getOptionSubLabel={(opt) => opt?.name}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                        required
                       />
                     </Grid>
                     <Grid item lg={6} xs={12}>

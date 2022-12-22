@@ -3072,7 +3072,7 @@
       "completed": "Hoàn thành"
     },
     "warehouseExportProposalExportStatus": {
-      "pending": "Chờ xuất kho",
+      "pending": "Chưa xuất kho",
       "inProgress": "Đang thực hiện",
       "completed": "Hoàn thành"
     }

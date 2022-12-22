@@ -13,7 +13,7 @@ import { OrderTypeEnum } from '~/modules/wmsx/constants'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 
 const ItemSettingTable = (props) => {
-  const { mode, arrayHelpers, items, setFieldValue } = props
+  const { mode, arrayHelpers, items, setFieldValue, values } = props
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
   const {
@@ -43,7 +43,14 @@ const ItemSettingTable = (props) => {
       warehouseTransferDetails?.warehouseTransferDetailLots?.find(
         (item) => item?.itemId === val?.itemId,
       )?.planQuantity
+    const findItem = values?.items?.find(
+      (item) => item?.id && item?.itemCode?.itemId === val?.itemId,
+    )
     setFieldValue(`items[${index}].transferQuantity`, +planQuantity)
+    setFieldValue(`items[${index}].debitAcc`, findItem?.debitAcc || 1519)
+    setFieldValue(`items[${index}].creditAcc`, findItem?.creditAcc)
+    setFieldValue(`items[${index}].price`, findItem?.price)
+    setFieldValue(`items[${index}].amount`, findItem?.amount)
   }
   const handleChangLotNumber = (val, params, index) => {
     const planQuantity =
