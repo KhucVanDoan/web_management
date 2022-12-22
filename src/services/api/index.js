@@ -3,7 +3,6 @@ import axios from 'axios'
 
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import { logout } from '~/modules/auth/redux/actions/auth'
-import history from '~/services/history'
 import store from '~/store'
 import { validateStatus } from '~/utils/api'
 import i18n from '~/utils/i18n'
@@ -82,17 +81,6 @@ export const createInstance = (baseURL) => {
             if (refresh.statusCode === 200) {
               axios.defaults.headers.common['Authorization'] =
                 refresh.data.accessToken.token
-              //save to cookies
-              // cookies.set(
-              //   'token',
-              //   refresh.data.accessToken.token,
-              //   CONFIG_COOKIES,
-              // )
-              // cookies.set(
-              //   'refreshToken',
-              //   refresh.data.refreshToken.token,
-              //   CONFIG_COOKIES,
-              // )
 
               // save to localStorage
               localStorage.setItem('token', refresh.data.accessToken.token)
@@ -103,11 +91,11 @@ export const createInstance = (baseURL) => {
               response.config._isRefreshBefore = true
               return instance(response.config)
             } else {
-              // startLogout()
+              startLogout()
             }
           })
           .catch(() => {
-            // startLogout()
+            startLogout()
           })
       } else if (response?.status === 401) {
         startLogout()
@@ -292,10 +280,7 @@ const instance = createInstance(BASE_URL)
 const reportInstance = createInstance(REPORT_URL)
 
 const startLogout = () => {
-  if (history.location.pathname !== '/login') {
-    const callbackUrl = history.location.pathname
-    store.dispatch(logout(callbackUrl))
-  }
+  store.dispatch(logout())
 }
 
 /**
