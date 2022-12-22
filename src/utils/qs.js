@@ -1,6 +1,6 @@
 import queryString from 'query-string'
 
-const parse = (str, opts) =>
+const parse = (str, opts = {}) =>
   queryString.parse(str, {
     arrayFormat: 'comma',
     parseNumbers: true,
@@ -8,7 +8,7 @@ const parse = (str, opts) =>
     ...opts,
   })
 
-const stringify = (obj, opts) =>
+const stringify = (obj, opts = {}) =>
   queryString.stringify(obj, {
     arrayFormat: 'comma',
     ...opts,

@@ -28,7 +28,10 @@ const ItemSettingTable = ({ items, movementType }) => {
             lotNumber: lot?.lotNumber,
             locationCode: lot?.locationCode,
             locationName: lot?.locationName,
-            planQuantity: item?.planQuantity - totalQuantityTaken,
+            planQuantity:
+              item?.planQuantity > 0
+                ? item?.planQuantity - totalQuantityTaken
+                : 0,
           }
           if (totalLotsInItem === 1) {
             rowSpanMatrix.push([1])

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
 import IconButton from '@mui/material/IconButton'
-import { isEmpty } from 'lodash'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useLocation, useParams } from 'react-router-dom'
@@ -12,9 +11,11 @@ import Icon from '~/components/Icon'
 import Page from '~/components/Page'
 import {
   MOVEMENT_TYPE_MAP,
+  ORDER_STATUS,
   WAREHOUSE_MOVEMENT_ORDER_TYPE_MAP,
 } from '~/modules/wmsx/constants'
 import useMovements from '~/modules/wmsx/redux/hooks/useMovements'
+import { searchWarehouseExportReceiptApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/search'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import {
   convertFilterParams,
@@ -40,7 +41,7 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
     movementType: movementType,
   }
   const [exportReceiptList, setExportReceiptList] = useState([])
-  const [movement, setMovement] = useState('')
+  const [totals, setTotals] = useState(0)
 
   const exportReceiptListFormat = exportReceiptList?.map((e) => ({
     id: e?.id,
@@ -165,8 +166,7 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
       },
     },
   ]
-
-  const refreshData = () => {
+  const refreshData = async () => {
     if (!parentId) return
     const params = {
       keyword: keyword.trim(),
@@ -183,9 +183,31 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
       ),
       sort: convertSortParams(sort),
     }
+    const paramsWarehouseExportRecipt = {
+      keyword: keyword.trim(),
+      page,
+      limit: pageSize,
+      filter: convertFilterParams({
+        status: [
+          ORDER_STATUS.IN_COLLECTING,
+          ORDER_STATUS.COLLECTED,
+          ORDER_STATUS.COMPLETED,
+        ],
+        createdAt: filters?.createdAt,
+        warehouseId: warehouseId,
+      }),
+    }
     setExportReceiptList([])
-    setMovement('')
-    actions.searchMovements(params)
+
+    if (filters?.movementType === 'export') {
+      const response = await searchWarehouseExportReceiptApi(
+        paramsWarehouseExportRecipt,
+      )
+      setExportReceiptList(response?.data?.items)
+      setTotals(response?.data?.meta?.total)
+    } else {
+      actions.searchMovements(params)
+    }
   }
 
   useEffect(() => {
@@ -207,13 +229,12 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
         defaultFilter={DEFAULT_FILTERS}
         movementTypeOpts={movementTypeOpts}
         setExportReceiptList={setExportReceiptList}
-        setMovement={setMovement}
         warehouse={warehouse}
       />
       <DataTable
         title={t('movements.title')}
         rows={
-          isEmpty(exportReceiptList) && movement !== 'export'
+          filters?.movementType !== 'export'
             ? movementList
             : exportReceiptListFormat
         }
@@ -223,7 +244,7 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
-        total={total}
+        total={totals || total}
         sort={sort}
       />
     </Page>
