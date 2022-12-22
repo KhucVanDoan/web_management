@@ -588,7 +588,7 @@ TableCollapse.defaultProps = {
   title: '',
   hideSetting: false,
   onSettingChange: () => {},
-  enableResizable: true,
+  enableResizable: false,
   isRoot: true,
 }
 
