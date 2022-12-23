@@ -129,6 +129,7 @@ const WarehouseTransferForm = () => {
           locator: { ...item?.locator, locatorId: item?.locatorId },
           itemType: item?.item?.itemType?.name,
           transferQuantity: +item?.planQuantity,
+          itemCodeWarehouseImp: Boolean(item?.isExistInDestinationWarehouse),
           debitAcc: item?.debitAccount,
           creditAcc:
             item?.item?.itemWarehouseSources?.find(
@@ -159,7 +160,7 @@ const WarehouseTransferForm = () => {
       bussinessTypeId: values?.businessTypeId?.id,
       sourceWarehouseId: +values?.sourceWarehouseId?.id,
       receiptDate: values?.receiptDate.toISOString(),
-      sourceId: values?.sourceId?.id,
+      sourceId: !isEmpty(values?.sourceId) ? values?.sourceId?.id : null,
       reasonId: values?.reasonId?.id,
       type: +values?.type,
       receiver: values?.deliver,
@@ -171,6 +172,7 @@ const WarehouseTransferForm = () => {
           quantity: +item.transferQuantity,
           lotNumber: item?.lotNumber || null,
           storageDate: item?.warehouseImportDate,
+          isExistInDestinationWarehouse: item?.itemCodeWarehouseImp ? 1 : 0,
           debitAccount: '1519',
           creditAccount: item?.creditAcc,
         })),
@@ -514,6 +516,9 @@ const WarehouseTransferForm = () => {
                         getOptionLabel={(opt) => opt?.code}
                         getOptionSubLabel={(opt) => opt?.name}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                        onChange={() =>
+                          setFieldValue('items', [{ ...DEFAULT_ITEM }])
+                        }
                         required
                       />
                     </Grid>

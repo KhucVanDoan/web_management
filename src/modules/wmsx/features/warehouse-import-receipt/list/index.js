@@ -19,7 +19,11 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import { exportCompanyApi } from '~/modules/database/redux/sagas/define-company/import-export-company'
 import { TYPE_ENUM_EXPORT } from '~/modules/mesx/constants'
-import { ORDER_STATUS, ORDER_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import {
+  ORDER_STATUS,
+  ORDER_STATUS_OPTIONS,
+  STATUS_SYNC_ORDER_TO_EBS,
+} from '~/modules/wmsx/constants'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import {
@@ -156,11 +160,10 @@ function WarehouseImportReceipt() {
       headerName: t('warehouseImportReceipt.warehouseImportEbs'),
       width: 250,
       renderCell: (params) => {
-        const { status } = params?.row
+        const { syncStatus } = params?.row
         const isConfirmWarehouseImport =
-          status === ORDER_STATUS.IN_PROGRESS ||
-          status === ORDER_STATUS.COMPLETED ||
-          status === ORDER_STATUS.RECEIVED
+          syncStatus === STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC ||
+          syncStatus === STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR
         return (
           isConfirmWarehouseImport &&
           !params?.row?.ebsId && (

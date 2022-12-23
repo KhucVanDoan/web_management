@@ -37,6 +37,7 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
   const {
     data: {
       warehouseExportReceiptList,
+      warehouseExportReceiptDetails,
       total: totalExport,
       isLoading: loadingExport,
     },
@@ -48,7 +49,9 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
     createdAt: '',
     movementType: movementType,
   }
-
+  useEffect(() => {
+    exportAction.getWarehouseExportReceiptDetailsById(parentId)
+  }, [])
   const {
     page,
     pageSize,
@@ -204,15 +207,18 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams({
-        status: [
-          ORDER_STATUS.IN_COLLECTING,
-          ORDER_STATUS.COLLECTED,
-          ORDER_STATUS.COMPLETED,
-        ],
-        createdAt: filters?.createdAt,
-        warehouseId: warehouseId,
-      }),
+      filter: convertFilterParams(
+        {
+          status: [
+            ORDER_STATUS.IN_COLLECTING,
+            ORDER_STATUS.COLLECTED,
+            ORDER_STATUS.COMPLETED,
+          ],
+          createdAt: filters?.createdAt,
+          code: warehouseExportReceiptDetails?.code,
+        },
+        [{ field: 'createdAt', filterFormat: 'date' }],
+      ),
     }
     if (filters?.movementType === 'export') {
       exportAction.searchWarehouseExportReceipt(paramsWarehouseExportRecipt)

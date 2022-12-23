@@ -112,8 +112,7 @@ const FilterForm = () => {
             maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
           }}
         />
-      </Grid>{' '}
-      */}
+      </Grid>
       {/* <Grid item xs={12}>
         <Field.Autocomplete
           name="status"
