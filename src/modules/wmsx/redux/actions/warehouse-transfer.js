@@ -40,6 +40,13 @@ export const CONFIRM_WAREHOUSE_TRANSFER_SUCCESS =
 export const CONFIRM_WAREHOUSE_TRANSFER_FAILED =
   'WMSX_CONFIRM_WAREHOUSE_TRANSFER_FAILED'
 
+export const CONFIRM_WAREHOUSE_TRANSFER_EBS_START =
+  'WMSX_CONFIRM_WAREHOUSE_TRANSFER_EBS_START'
+export const CONFIRM_WAREHOUSE_TRANSFER_EBS_SUCCESS =
+  'WMSX_CONFIRM_WAREHOUSE_TRANSFER_EBS_SUCCESS'
+export const CONFIRM_WAREHOUSE_TRANSFER_EBS_FAILED =
+  'WMSX_CONFIRM_WAREHOUSE_TRANSFER_EBS_FAILED'
+
 export const REJECT_WAREHOUSE_TRANSFER_START =
   'WMSX_REJECT_WAREHOUSE_TRANSFER_START'
 export const REJECT_WAREHOUSE_TRANSFER_SUCCESS =
@@ -313,6 +320,37 @@ export function confirmWarehouseTransferByIdSuccess(payload) {
 export function confirmWarehouseTransferByIdFailed() {
   return {
     type: CONFIRM_WAREHOUSE_TRANSFER_FAILED,
+  }
+}
+
+export function confirmWarehouseTransferEBS(Id, onSuccess, onError) {
+  return {
+    type: CONFIRM_WAREHOUSE_TRANSFER_EBS_START,
+    payload: Id,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+/**
+ * Get confirm warehouse transfer by id success action
+ * @param {*} payload
+ * @returns {object}
+ */
+export function confirmWarehouseTransferEBSSuccess(payload) {
+  return {
+    type: CONFIRM_WAREHOUSE_TRANSFER_EBS_SUCCESS,
+    payload: payload,
+  }
+}
+
+/**
+ * Get confirm warehouse transfer by id failed action
+ * @returns {object}
+ */
+export function confirmWarehouseTransferEBSFailed() {
+  return {
+    type: CONFIRM_WAREHOUSE_TRANSFER_EBS_FAILED,
   }
 }
 
@@ -603,4 +641,7 @@ export default {
   getItemWarehouseStockAvailableSuccess,
   getItemWarehouseStockAvailableFailed,
   resetWarehouseTransfer,
+  confirmWarehouseTransferEBS,
+  confirmWarehouseTransferEBSSuccess,
+  confirmWarehouseTransferEBSFailed,
 }

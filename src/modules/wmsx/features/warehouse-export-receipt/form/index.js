@@ -145,7 +145,7 @@ function WarehouseExportReceiptForm() {
                 item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL &&
                 item?.value,
             )
-              ? item?.quantity
+              ? item?.requestedQuantityWarehouseExportProposal
               : '',
           },
         })) || DEFAULT_ITEMS,

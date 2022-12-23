@@ -64,22 +64,10 @@ const ReceiptManagementFilter = ({
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.DateRangePicker
-                      name="receiptDate"
+                      name="createdAt"
                       label={t('receiptManagement.createdAt')}
                       placeholder={t('receiptManagement.createdAt')}
-                      maxDate={
-                        new Date(
-                          sub(new Date(), {
-                            years: 0,
-                            months: 0,
-                            weeks: 0,
-                            days: 1,
-                            hours: 0,
-                            minutes: 0,
-                            seconds: 0,
-                          }),
-                        )
-                      }
+                      maxDate={new Date()}
                       minDate={
                         new Date(
                           sub(new Date(), {

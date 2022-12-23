@@ -34,7 +34,7 @@ const FilterForm = () => {
       </Grid>
       <Grid item xs={12}>
         <Field.DateRangePicker
-          name="receiptDate"
+          name="createdAt"
           label={t('receiptManagement.createdAt')}
           placeholder={t('receiptManagement.createdAt')}
           maxDate={new Date()}
