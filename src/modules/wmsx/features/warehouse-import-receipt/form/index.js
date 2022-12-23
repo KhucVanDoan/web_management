@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
 import { Box, FormLabel, Grid, Typography } from '@mui/material'
 import { Formik, Form, FieldArray } from 'formik'
-import { uniq, map, isEmpty } from 'lodash'
+import { uniq, map, isEmpty, isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
@@ -396,7 +396,9 @@ function WarehouseImportReceiptForm() {
     setItemWarehouseExportReceipt([])
     if (!isEmpty(val)) {
       val?.bussinessTypeAttributes?.forEach((item) => {
-        initialValues[`${item?.id}`] = ''
+        if (!isNil(item?.id)) {
+          setFieldValue(item?.id, '')
+        }
       })
     }
   }
