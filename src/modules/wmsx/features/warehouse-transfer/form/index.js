@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { Box, Grid, Typography } from '@mui/material'
 import { sub } from 'date-fns'
 import { FieldArray, Form, Formik } from 'formik'
-import { isEmpty, uniq, map } from 'lodash'
+import { isEmpty, uniq, map, isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
@@ -280,11 +280,15 @@ const WarehouseTransferForm = () => {
     //   })
     // }
   }
-  const handleChangeBusinessType = (val) => {
+  const handleChangeBusinessType = (val, setFieldValue) => {
     if (!isEmpty(val)) {
-      val?.bussinessTypeAttributes?.forEach((item) => {
-        initialValues[item?.id] = ''
-      })
+      if (!isEmpty(val)) {
+        val?.bussinessTypeAttributes?.forEach((item) => {
+          if (!isNil(item?.id)) {
+            setFieldValue(item?.id, '')
+          }
+        })
+      }
     }
   }
   return (
@@ -384,7 +388,9 @@ const WarehouseTransferForm = () => {
                             }),
                           })
                         }
-                        onChange={(val) => handleChangeBusinessType(val)}
+                        onChange={(val) =>
+                          handleChangeBusinessType(val, setFieldValue)
+                        }
                         asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => opt?.code}
                         getOptionSubLabel={(opt) => opt?.name}

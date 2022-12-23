@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { Box, Grid, Typography } from '@mui/material'
 import { sub } from 'date-fns'
 import { Formik, Form, FieldArray } from 'formik'
-import { uniq, map, isEmpty } from 'lodash'
+import { uniq, map, isEmpty, isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
@@ -462,7 +462,9 @@ function WarehouseExportReceiptForm() {
     setWarehouseList([])
     if (!isEmpty(val)) {
       val?.bussinessTypeAttributes?.forEach((item) => {
-        initialValues[item?.id] = ''
+        if (!isNil(item?.id)) {
+          setFieldValue(item?.id, '')
+        }
       })
     }
   }
