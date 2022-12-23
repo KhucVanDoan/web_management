@@ -20,10 +20,7 @@ const InventoryQuantity = ({ fromDate, toDate }) => {
 
   const [itemCode, setItemCode] = useState('')
 
-  const {
-    // data: itemStockHistories,
-    actions,
-  } = useDashboardItemStockHistory()
+  const { data: itemStockHistories, actions } = useDashboardItemStockHistory()
 
   useEffect(() => {
     actions.getItemStockHistories({
@@ -42,51 +39,51 @@ const InventoryQuantity = ({ fromDate, toDate }) => {
   const handleChangeItem = (value) => {
     setItemCode(value?.code)
   }
-  // const data = itemStockHistories?.map((item) => ({
-  //   time: item?.tag,
-  //   value: item?.amount,
-  //   quantity: item?.quantity,
-  //   type: t('dashboard.inventoryQuantity.quantity'),
-  //   name: t('dashboard.inventoryQuantity.value'),
-  // }))
+  const data = itemStockHistories?.map((item) => ({
+    time: item?.tag,
+    value: item?.amount,
+    quantity: item?.quantity,
+    type: t('dashboard.inventoryQuantity.quantity'),
+    name: t('dashboard.inventoryQuantity.value'),
+  }))
 
-  const data = [
-    {
-      time: '2019-03',
-      value: 350,
-      quantity: 800,
-      type: t('dashboard.inventoryQuantity.quantity'),
-      name: t('dashboard.inventoryQuantity.value'),
-    },
-    {
-      time: '2019-04',
-      value: 900,
-      quantity: 600,
-      type: t('dashboard.inventoryQuantity.quantity'),
-      name: t('dashboard.inventoryQuantity.value'),
-    },
-    {
-      time: '2019-05',
-      value: 300,
-      quantity: 400,
-      type: t('dashboard.inventoryQuantity.quantity'),
-      name: t('dashboard.inventoryQuantity.value'),
-    },
-    {
-      time: '2019-06',
-      value: 450,
-      quantity: 380,
-      type: t('dashboard.inventoryQuantity.quantity'),
-      name: t('dashboard.inventoryQuantity.value'),
-    },
-    {
-      time: '2019-07',
-      value: 470,
-      quantity: 220,
-      type: t('dashboard.inventoryQuantity.quantity'),
-      name: t('dashboard.inventoryQuantity.value'),
-    },
-  ]
+  // const data = [
+  //   {
+  //     time: '2019-03',
+  //     value: 350,
+  //     quantity: 800,
+  //     type: t('dashboard.inventoryQuantity.quantity'),
+  //     name: t('dashboard.inventoryQuantity.value'),
+  //   },
+  //   {
+  //     time: '2019-04',
+  //     value: 900,
+  //     quantity: 600,
+  //     type: t('dashboard.inventoryQuantity.quantity'),
+  //     name: t('dashboard.inventoryQuantity.value'),
+  //   },
+  //   {
+  //     time: '2019-05',
+  //     value: 300,
+  //     quantity: 400,
+  //     type: t('dashboard.inventoryQuantity.quantity'),
+  //     name: t('dashboard.inventoryQuantity.value'),
+  //   },
+  //   {
+  //     time: '2019-06',
+  //     value: 450,
+  //     quantity: 380,
+  //     type: t('dashboard.inventoryQuantity.quantity'),
+  //     name: t('dashboard.inventoryQuantity.value'),
+  //   },
+  //   {
+  //     time: '2019-07',
+  //     value: 470,
+  //     quantity: 220,
+  //     type: t('dashboard.inventoryQuantity.quantity'),
+  //     name: t('dashboard.inventoryQuantity.value'),
+  //   },
+  // ]
 
   const config = {
     data: [data, data],

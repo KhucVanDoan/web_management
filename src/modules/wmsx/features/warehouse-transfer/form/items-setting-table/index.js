@@ -1,6 +1,12 @@
 import React, { useMemo, useState } from 'react'
 
-import { Button, Checkbox, IconButton, Typography } from '@mui/material'
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  IconButton,
+  Typography,
+} from '@mui/material'
 import { Box } from '@mui/system'
 import { flatMap, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
@@ -56,27 +62,26 @@ const ItemSettingTable = (props) => {
           )?.accounting,
         )
       }
-    } else {
-      setFieldValue(`items[${index}].planExportedQuantity`, '')
-      setFieldValue(`items[${index}].transferQuantity`, '')
-      setFieldValue(`items[${index}].creditAcc`, '')
-    }
-    if (values?.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG) {
-      const storageDate = await getListStorageDateApi(val?.itemId || val?.id)
+      setFieldValue(`items[${index}].debitAcc`, '1519')
       const checkItem = await checkItemWarehouseImport({
         itemId: val?.itemId || val?.id,
         warehouseId: values?.destinationWarehouseId?.id,
       })
       if (checkItem?.statusCode === 200) {
-        const findItem = checkItem?.data?.find(
-          (item) => item?.itemId === (val?.itemId || val?.id),
-        )
-        if (!isEmpty(findItem)) {
+        if (checkItem?.data?.length > 0) {
           setFieldValue(`items[${index}].itemCodeWarehouseImp`, true)
         } else {
           setFieldValue(`items[${index}].itemCodeWarehouseImp`, false)
         }
       }
+    } else {
+      setFieldValue(`items[${index}].planExportedQuantity`, '')
+      setFieldValue(`items[${index}].transferQuantity`, '')
+      setFieldValue(`items[${index}].creditAcc`, '')
+      setFieldValue(`items[${index}].itemCodeWarehouseImp`, false)
+    }
+    if (values?.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG) {
+      const storageDate = await getListStorageDateApi(val?.itemId || val?.id)
       if (storageDate?.statusCode === 200) {
         storageDate?.data?.storageDates?.forEach((item) => {
           const findStorage = storageDates?.find(
@@ -399,11 +404,16 @@ const ItemSettingTable = (props) => {
         width: 100,
         renderCell: (params, index) => {
           return isView ? (
-            <Checkbox name="itemCodeWarehouseImp" disabled />
+            <Checkbox checked={params?.row?.itemCodeWarehouseImp} disabled />
           ) : (
-            <Field.Checkbox
-              name={`items[${index}].itemCodeWarehouseImp`}
-              disabled
+            <FormControlLabel
+              label=""
+              control={
+                <Field.Checkbox
+                  name={`items[${index}].itemCodeWarehouseImp`}
+                  disabled
+                />
+              }
             />
           )
         },
@@ -502,7 +512,14 @@ const ItemSettingTable = (props) => {
         },
       },
     ],
-    [values?.type, values?.sourceWarehouseId, type, items],
+    [
+      values?.type,
+      values?.sourceWarehouseId,
+      type,
+      items,
+      storageDates,
+      values?.destinationWarehouseId,
+    ],
   )
   return (
     <>

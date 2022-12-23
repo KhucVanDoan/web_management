@@ -111,7 +111,7 @@ function ReceiptManagement() {
       },
     },
     {
-      field: 'receiptDate',
+      field: 'createdAt',
       headerName: t('receiptManagement.createdAt'),
       filterFormat: 'date',
       width: 120,

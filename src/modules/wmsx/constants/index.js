@@ -2269,3 +2269,11 @@ export const OrderTypeEnum = {
   RO: 7,
   PROPOSAL: 8,
 }
+
+export const STATUS_SYNC_ORDER_TO_EBS = {
+  OUT_OF_SYNC: 0,
+  SYNC_WSO2_ERROR: 1,
+  SYNC_WSO2_SUCCESS: 2,
+  COMPLETED: 3,
+  CANCEL: 4,
+}

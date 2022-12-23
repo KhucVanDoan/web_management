@@ -7,7 +7,9 @@ import { useParams, useHistory } from 'react-router-dom'
 import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import TextField from '~/components/TextField'
+import { ORDER_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import useReceiptManagement from '~/modules/wmsx/redux/hooks/useReceiptManagement'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertUtcDateToLocalTz } from '~/utils'
@@ -54,17 +56,17 @@ const ReceiptManagementDetail = () => {
       <Grid container justifyContent="center">
         <Grid item xl={11} xs={12}>
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
-            {/* <Grid item xs={12}>
+            <Grid item xs={12}>
               <LV
-                label={t('receiptManagement.movementStatus')}
+                label={t('general.status')}
                 value={
                   <Status
                     options={ORDER_STATUS_OPTIONS}
-                    value={Number(movementDetail?.status)}
+                    value={Number(receiptDetail?.status)}
                   />
                 }
               />
-            </Grid> */}
+            </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('receiptManagement.receiptNo')}
@@ -119,7 +121,7 @@ const ReceiptManagementDetail = () => {
                 label={t('materialManagement.description')}
                 multiline
                 rows={3}
-                value={receiptDetail?.description}
+                value={receiptDetail?.explaination}
                 readOnly
                 sx={{
                   'label.MuiFormLabel-root': {

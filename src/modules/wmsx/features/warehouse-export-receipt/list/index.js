@@ -17,7 +17,11 @@ import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { ORDER_STATUS, ORDER_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import {
+  ORDER_STATUS,
+  ORDER_STATUS_OPTIONS,
+  STATUS_SYNC_ORDER_TO_EBS,
+} from '~/modules/wmsx/constants'
 import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
 import {
   exportWarehouseExportReceiptApi,
@@ -160,8 +164,10 @@ function WarehouseExportReceipt() {
       headerName: t('warehouseExportReceipt.warehouseExportEBS'),
       width: 150,
       renderCell: (params) => {
-        const { status } = params?.row
-        const isConfirmWarehouseExport = status === ORDER_STATUS.COMPLETED
+        const { syncStatus } = params?.row
+        const isConfirmWarehouseExport =
+          syncStatus === STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC ||
+          syncStatus === STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR
         return (
           isConfirmWarehouseExport &&
           !params?.row?.ebsId && (
@@ -270,7 +276,6 @@ function WarehouseExportReceipt() {
       },
     },
   ]
-
   const refreshData = () => {
     const params = {
       keyword: keyword.trim(),
@@ -282,6 +287,7 @@ function WarehouseExportReceipt() {
           businessTypeId: filters?.businessTypeId?.id,
           departmentReceiptId: filters?.departmentReceiptId?.id,
           warehouseId: filters?.warehouseId?.id,
+          sourceId: filters?.sourceId?.id,
         },
         columns,
       ),

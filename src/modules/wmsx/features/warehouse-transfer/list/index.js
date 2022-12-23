@@ -19,6 +19,7 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
+  STATUS_SYNC_ORDER_TO_EBS,
   TRANSFER_STATUS,
   TRANSFER_STATUS_OPTIONS,
   WAREHOUSE_TRANSFER_MAP,
@@ -44,6 +45,7 @@ const WarehouseTransfer = () => {
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
   const [isOpenRejectModal, setIsOpenRejectModal] = useState(false)
+  const [isOpenConfirmEBSModal, setIsOpenConfirmEBSModal] = useState(false)
   const [selectedRows, setSelectedRows] = useState([])
   const { canAccess } = useApp()
   const {
@@ -132,6 +134,30 @@ const WarehouseTransfer = () => {
               value={status}
               variant="text"
             />
+          )
+        },
+      },
+      {
+        field: 'warehouseTransferEBS',
+        headerName: t('warehouseTransfer.warehouseTransferEBS'),
+        width: 150,
+        renderCell: (params) => {
+          const { syncStatus } = params?.row
+          const isConfirmWarehouseExport =
+            syncStatus === STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC ||
+            syncStatus === STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR
+          return (
+            isConfirmWarehouseExport &&
+            !params?.row?.ebsId && (
+              <Button
+                variant="text"
+                size="small"
+                bold={false}
+                onClick={() => onClickConfirmEBS(params?.row)}
+              >
+                {t('warehouseTransfer.confirmWarehouseTransferEBS')}
+              </Button>
+            )
           )
         },
       },
@@ -283,6 +309,10 @@ const WarehouseTransfer = () => {
     setTempItem(tempItem)
     setIsOpenConfirmModal(true)
   }
+  const onClickConfirmEBS = (tempItem) => {
+    setTempItem(tempItem)
+    setIsOpenConfirmEBSModal(true)
+  }
 
   const submitConfirm = () => {
     actions.confirmWarehouseTransferById(tempItem?.id, () => {
@@ -290,6 +320,13 @@ const WarehouseTransfer = () => {
     })
     setTempItem(null)
     setIsOpenConfirmModal(false)
+  }
+  const onSubmitConfirmEBS = () => {
+    actions.confirmWarehouseTransferEBS(tempItem?.id, () => {
+      refreshData()
+    })
+    setTempItem(null)
+    setIsOpenConfirmEBSModal(false)
   }
   const onClickRejected = (tempItem) => {
     setTempItem(tempItem)
@@ -423,6 +460,18 @@ const WarehouseTransfer = () => {
           value={tempItem?.name}
           sx={{ mt: 4 / 3 }}
         />
+      </Dialog>
+      <Dialog
+        open={isOpenConfirmEBSModal}
+        title={t('warehouseTransfer.confirmTitlePopupEBS')}
+        onCancel={() => setIsOpenConfirmEBSModal(false)}
+        cancelLabel={t('general:common.no')}
+        onSubmit={onSubmitConfirmEBS}
+        submitLabel={t('general:common.yes')}
+        noBorderBottom
+      >
+        <div>{t('warehouseTransfer.ConfirmEBS')}</div>
+        {t('warehouseTransfer.Confirm')}
       </Dialog>
       <Dialog
         open={isOpenRejectModal}
