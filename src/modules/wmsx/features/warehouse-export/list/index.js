@@ -47,6 +47,7 @@ function WarehouseExport() {
   const exportReceiptListFormat = useMemo(
     () =>
       exportReceiptList?.map((e) => ({
+        ...e,
         id: e?.id,
         orderCode: e?.code,
         orderType: 3,

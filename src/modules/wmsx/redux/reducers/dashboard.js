@@ -9,6 +9,7 @@ import {
   WMSX_GET_REPORT_GAP_IN_STOCK_SUCCESS,
   WMSX_GET_PURCHASED_ORDER_IMPORTS_SUCCESS,
   WMSX_GET_SALE_ORDER_EXPORTS_SUCCESS,
+  WMSX_GET_ITEM_STOCK_HISTORIES_SUCCESS,
 } from '../actions/dashboard'
 
 const initialState = {
@@ -23,6 +24,7 @@ const initialState = {
   gapInStock: [],
   purchasedOrderImports: {},
   saleOrderExports: {},
+  itemStockHistories: [],
 }
 
 export default function dashboard(state = initialState, action) {
@@ -76,6 +78,11 @@ export default function dashboard(state = initialState, action) {
       return {
         ...state,
         saleOrderExports: action.payload,
+      }
+    case WMSX_GET_ITEM_STOCK_HISTORIES_SUCCESS:
+      return {
+        ...state,
+        itemStockHistories: action.payload,
       }
     default:
       return state

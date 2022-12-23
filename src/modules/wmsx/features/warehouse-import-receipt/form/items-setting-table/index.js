@@ -49,7 +49,7 @@ function ItemsSettingTable(props) {
       )
     }
     if (!isEmpty(warehouseExportProposal) && isEmpty(receiptRequired)) {
-      setFieldValue(`items[${index}].importQuantity`, val?.requestedQuantity)
+      setFieldValue(`items[${index}].importQuantity`, val?.quantity)
     }
     setFieldValue(
       `items[${index}].unit`,
@@ -61,6 +61,7 @@ function ItemsSettingTable(props) {
     setFieldValue(`items[${index}].money`, '')
     if (!isEmpty(values[receiptRequired])) {
       setFieldValue(`items[${index}].importQuantity`, +val?.quantity)
+      setFieldValue(`items[${index}].requestedQuantity`, +val?.quantity)
     }
   }
   const columns = useMemo(
@@ -198,15 +199,21 @@ function ItemsSettingTable(props) {
         renderCell: (params, index) => {
           return isView ? (
             <>{params?.row?.requestedQuantityWarehouseExportProposal}</>
-          ) : values[receiptRequired] ? (
+          ) : !isEmpty(values[warehouseExportProposal]) &&
+            isEmpty(values[receiptRequired]) ? (
             <Field.TextField
               name={`items[${index}].requestedQuantity`}
-              value={+params?.row?.itemCode?.quantity}
+              value={+params?.row?.itemCode?.requestedQuantity}
+              disabled={true}
+            />
+          ) : !isEmpty(values[receiptRequired]) ? (
+            <Field.TextField
+              name={`items[${index}].itemCode.quantity`}
               disabled={true}
             />
           ) : (
             <Field.TextField
-              name={`items[${index}].itemCode.requestedQuantity`}
+              name={`items[${index}].requestedQuantity`}
               type="number"
               disabled={true}
             />
@@ -220,9 +227,9 @@ function ItemsSettingTable(props) {
         renderCell: (params, index) => {
           return isView ? (
             params?.row?.quantity
-          ) : values[receiptRequired] ? (
+          ) : !isEmpty(values[receiptRequired]) ? (
             <Field.TextField
-              name={`items[${index}].importQuantity`}
+              name={`items[${index}].itemCode.quantity`}
               disabled={true}
             />
           ) : (

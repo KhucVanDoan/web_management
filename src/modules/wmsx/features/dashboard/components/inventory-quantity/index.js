@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { DualAxes } from '@ant-design/plots/es'
 import { Box, Card, Typography } from '@mui/material'
@@ -7,13 +7,48 @@ import { useTranslation } from 'react-i18next'
 import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Autocomplete from '~/components/Autocomplete'
 import DateGroupToggle from '~/components/DateGroupToggle'
+import { useDashboardItemStockHistory } from '~/modules/wmsx/redux/hooks/useDashboard'
 import {
   getDashboardItems,
   getDashboardWarehouses,
 } from '~/modules/wmsx/redux/sagas/dashboard'
 
-const InventoryQuantity = () => {
+const InventoryQuantity = ({ fromDate, toDate }) => {
   const { t } = useTranslation(['wmsx'])
+  const [warehouseCode, setWarehouseCode] = useState('')
+  const [groupBy, setGroupBy] = useState(0)
+
+  const [itemCode, setItemCode] = useState('')
+
+  const {
+    // data: itemStockHistories,
+    actions,
+  } = useDashboardItemStockHistory()
+
+  useEffect(() => {
+    actions.getItemStockHistories({
+      reportType: groupBy,
+      from: fromDate?.toISOString()?.substring(0, 10),
+      to: toDate?.toISOString()?.substring(0, 10),
+      itemCode: itemCode,
+      warehouseCode: warehouseCode,
+    })
+  }, [itemCode, warehouseCode, fromDate, toDate, groupBy])
+
+  const handleChangeWarehouse = (value) => {
+    setWarehouseCode(value?.code)
+  }
+
+  const handleChangeItem = (value) => {
+    setItemCode(value?.code)
+  }
+  // const data = itemStockHistories?.map((item) => ({
+  //   time: item?.tag,
+  //   value: item?.amount,
+  //   quantity: item?.quantity,
+  //   type: t('dashboard.inventoryQuantity.quantity'),
+  //   name: t('dashboard.inventoryQuantity.value'),
+  // }))
 
   const data = [
     {
@@ -109,7 +144,6 @@ const InventoryQuantity = () => {
     },
   }
 
-  const [groupBy, setGroupBy] = useState(0)
   return (
     <Card sx={{ p: 2 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
@@ -141,6 +175,7 @@ const InventoryQuantity = () => {
           }
           asyncRequestHelper={(res) => res?.data?.items}
           getOptionLabel={(opt) => opt?.name}
+          onChange={(val) => handleChangeWarehouse(val)}
         />
         <Autocomplete
           sx={{ width: '45%' }}
@@ -154,6 +189,7 @@ const InventoryQuantity = () => {
           }
           asyncRequestHelper={(res) => res?.data?.items}
           getOptionLabel={(opt) => opt?.name}
+          onChange={(val) => handleChangeItem(val)}
         />
       </Box>
       <Box sx={{ height: 360 }}>
