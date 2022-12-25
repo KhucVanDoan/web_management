@@ -1,12 +1,6 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
-import {
-  Button,
-  Checkbox,
-  FormControlLabel,
-  IconButton,
-  Typography,
-} from '@mui/material'
+import { Button, Checkbox, IconButton, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { flatMap, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
@@ -33,6 +27,22 @@ const ItemSettingTable = (props) => {
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
   const [storageDates, setStorageDates] = useState([])
+  useEffect(() => {
+    items?.forEach((item) => {
+      item?.storageDates?.forEach((d) => {
+        const findStorage = storageDates?.find(
+          (e) =>
+            e?.itemId === d?.itemId &&
+            new Date(e?.storageDate)?.toISOString() ===
+              new Date(d?.storageDate)?.toISOString(),
+        )
+        if (isEmpty(findStorage)) {
+          storageDates.push(d)
+        }
+      })
+    })
+    setStorageDates([...storageDates])
+  }, [items])
   const handleChangeItem = async (val, index) => {
     if (val) {
       const params = {
@@ -74,28 +84,28 @@ const ItemSettingTable = (props) => {
           setFieldValue(`items[${index}].itemCodeWarehouseImp`, false)
         }
       }
+      if (values?.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG) {
+        const storageDate = await getListStorageDateApi(val?.itemId || val?.id)
+        if (storageDate?.statusCode === 200) {
+          storageDate?.data?.storageDates?.forEach((item) => {
+            const findStorage = storageDates?.find(
+              (date) =>
+                date?.itemId === item?.itemId &&
+                new Date(date?.storageDate)?.toISOString() ===
+                  new Date(item?.storageDate)?.toISOString(),
+            )
+            if (isEmpty(findStorage)) {
+              storageDates.push(item)
+            }
+          })
+          setStorageDates([...storageDates])
+        }
+      }
     } else {
       setFieldValue(`items[${index}].planExportedQuantity`, '')
       setFieldValue(`items[${index}].transferQuantity`, '')
       setFieldValue(`items[${index}].creditAcc`, '')
       setFieldValue(`items[${index}].itemCodeWarehouseImp`, false)
-    }
-    if (values?.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG) {
-      const storageDate = await getListStorageDateApi(val?.itemId || val?.id)
-      if (storageDate?.statusCode === 200) {
-        storageDate?.data?.storageDates?.forEach((item) => {
-          const findStorage = storageDates?.find(
-            (date) =>
-              date?.itemId === item?.itemId &&
-              new Date(date?.storageDate)?.toISOString() ===
-                new Date(item?.storageDate)?.toISOString(),
-          )
-          if (isEmpty(findStorage)) {
-            storageDates.push(item)
-          }
-        })
-        setStorageDates([...storageDates])
-      }
     }
   }
   const handleChangeLotnumber = async (val, index, payload) => {
@@ -326,6 +336,7 @@ const ItemSettingTable = (props) => {
               placeholder={t('warehouseTransfer.table.warehouseImportDate')}
               options={storageDateList}
               getOptionLabel={(opt) => convertUtcDateToLocalTz(opt.storageDate)}
+              isOptionEqualToValue={(opt, val) => opt?.storageDate === val}
               getOptionValue={(option) => option?.storageDate}
             />
           )
@@ -406,14 +417,9 @@ const ItemSettingTable = (props) => {
           return isView ? (
             <Checkbox checked={params?.row?.itemCodeWarehouseImp} disabled />
           ) : (
-            <FormControlLabel
-              label=""
-              control={
-                <Field.Checkbox
-                  name={`items[${index}].itemCodeWarehouseImp`}
-                  disabled
-                />
-              }
+            <Field.Checkbox
+              name={`items[${index}].itemCodeWarehouseImp`}
+              disabled
             />
           )
         },
@@ -515,7 +521,6 @@ const ItemSettingTable = (props) => {
     [
       values?.type,
       values?.sourceWarehouseId,
-      type,
       items,
       storageDates,
       values?.destinationWarehouseId,

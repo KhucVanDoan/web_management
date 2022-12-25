@@ -133,6 +133,7 @@ function WarehouseImportReceiptForm() {
             code: item?.item?.code,
             name: item?.item?.name,
             requestedQuantity: item?.requestedQuantityWarehouseExportProposal,
+            quantity: item?.quantity,
             item: { ...item?.item },
           },
         }),

@@ -63,7 +63,7 @@ const WarehouseImportDetail = () => {
             filter: JSON.stringify(
               uniq(map(attributes, 'tableName'))?.map((item) => ({
                 tableName: item,
-                id: attributes
+                id: (attributes || [])
                   ?.filter((e) => e?.tableName === item)
                   ?.map((d) => d?.value)
                   .toString(),
