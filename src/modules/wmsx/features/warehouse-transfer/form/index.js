@@ -123,6 +123,10 @@ const WarehouseTransferForm = () => {
             id: item?.itemId,
             ...item?.item,
           },
+          storageDates: warehouseTransferDetails?.items?.find(
+            (e) => e?.id === item?.itemId,
+          )?.storageDates,
+          warehouseImportDate: item?.storageDate,
           planExportedQuantity: item?.exportableQuantity,
           lotNumber: item?.lotNumber,
           itemName: item?.item?.name,
@@ -190,8 +194,18 @@ const WarehouseTransferForm = () => {
       }
     })
     if (isUpdate) {
+      Object.keys(params).forEach((key) => {
+        if (params[key] === null) {
+          delete params[key]
+        }
+      })
       actions.updateWarehouseTransfer({ ...params, id: id }, backToList)
     } else {
+      Object.keys(params).forEach((key) => {
+        if (params[key] === null) {
+          delete params[key]
+        }
+      })
       actions.createWarehouseTransfer(params, backToList)
     }
   }
