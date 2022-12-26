@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
 import { Box, FormLabel, Grid, Typography } from '@mui/material'
 import { Formik, Form, FieldArray } from 'formik'
-import { uniq, map, isEmpty, isNil } from 'lodash'
+import { uniq, map, isEmpty, isNil, keyBy } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
@@ -11,6 +11,7 @@ import {
   ASYNC_SEARCH_LIMIT,
   MODAL_MODE,
   TEXTFIELD_REQUIRED_LENGTH,
+  NOTIFICATION_TYPE,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
@@ -43,6 +44,7 @@ import {
   convertUtcDateToLocalTz,
   getLocalItem,
 } from '~/utils'
+import addNotification from '~/utils/toast'
 
 import displayFollowBusinessTypeManagement from '../display-field'
 import ItemsSettingTable from './items-setting-table'
@@ -133,6 +135,7 @@ function WarehouseImportReceiptForm() {
             code: item?.item?.code,
             name: item?.item?.name,
             requestedQuantity: item?.requestedQuantityWarehouseExportProposal,
+            quantity: item?.quantity,
             item: { ...item?.item },
           },
         }),
@@ -306,6 +309,15 @@ function WarehouseImportReceiptForm() {
   }
 
   const onSubmit = (values) => {
+    if (itemReceipt?.length) {
+      const itemById = keyBy(values?.items, 'itemId');
+      const isMissingItem = itemReceipt.some(item => !itemById[item.itemId]);
+      if (isMissingItem) {
+        addNotification(t('warehouseImportReceipt.missedItemBasedOnReceipt'), NOTIFICATION_TYPE.ERROR)
+        return
+      }
+    }
+
     const params = {
       deliver: values?.deliver,
       businessTypeId: values?.businessTypeId?.id,
