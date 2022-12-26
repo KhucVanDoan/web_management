@@ -63,6 +63,14 @@ const ReportExport = () => {
     exportReportApi(convertValues)
   }
 
+  const isTimeRequired = (type) =>
+    ![
+      REPORT_TYPE.INVENTORY,
+      REPORT_TYPE.SITUATION_INVENTORY_PERIOD,
+      REPORT_TYPE.ITEM_INVENTORY_BELOW_MINIMUM,
+      REPORT_TYPE.ITEM_INVENTORY_BELOW_SAFE,
+    ].includes(type)
+
   const renderActionBar = (handleReset) => {
     return (
       <Box
@@ -96,7 +104,7 @@ const ReportExport = () => {
         onSubmit={onSubmit}
         enableReinitialize
       >
-        {({ handleReset, values }) => (
+        {({ handleReset, setFieldValue, values }) => (
           <Form>
             <Grid container justifyContent="center" sx={{ mb: 3 }}>
               <Grid item xl={6} xs={12}>
@@ -115,6 +123,11 @@ const ReportExport = () => {
                       getOptionSubLabel={(opt) => t(opt?.text)}
                       getOptionValue={(opt) => opt?.id}
                       required
+                      onChange={(val) => {
+                        if (!isTimeRequired(val)) {
+                          setFieldValue('time', [new Date(), new Date()])
+                        }
+                      }}
                     />
                   </Grid>
                   {/* <Grid item lg={12} xs={12}>
@@ -186,17 +199,17 @@ const ReportExport = () => {
                     />
                   </Grid>
 
-                  {values?.type !== REPORT_TYPE.INVENTORY &&
-                    values?.type !== REPORT_TYPE.SITUATION_INVENTORY_PERIOD && (
-                      <Grid item lg={12} xs={12}>
-                        <Field.DateRangePicker
-                          name="time"
-                          label={t('reportExport.time')}
-                          placeholder={t('reportExport.time')}
-                          required
-                        />
-                      </Grid>
-                    )}
+                  {isTimeRequired(values?.type) && (
+                    <Grid item lg={12} xs={12}>
+                      <Field.DateRangePicker
+                        name="time"
+                        label={t('reportExport.time')}
+                        placeholder={t('reportExport.time')}
+                        required
+                      />
+                    </Grid>
+                  )}
+
                   <Grid item lg={12} xs={12}>
                     <Field.Autocomplete
                       name="fileFormat"
