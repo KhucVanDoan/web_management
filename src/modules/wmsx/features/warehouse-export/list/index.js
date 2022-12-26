@@ -44,6 +44,7 @@ function WarehouseExport() {
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
   const [exportReceiptList, setExportReceiptList] = useState([])
+  const [momentsType, setMomentsType] = useState(WAREHOUSE_EXPORT_TYPE.SO)
   const exportReceiptListFormat = useMemo(
     () =>
       exportReceiptList?.map((e) => ({
@@ -79,7 +80,6 @@ function WarehouseExport() {
     setPageSize,
     setSort,
     setFilters,
-    setKeyword,
     quickFilters,
     setQuickFilters,
   } = useQueryState({
@@ -281,7 +281,6 @@ function WarehouseExport() {
       breadcrumbs={breadcrumbs}
       title={t('menu.warehouseExport')}
       renderHeaderRight={renderHeaderRight}
-      onSearch={setKeyword}
       placeholder={t('warehouseExport.searchPlaceholder')}
       loading={isLoading}
     >
@@ -289,6 +288,7 @@ function WarehouseExport() {
         setQuickFilters={setQuickFilters}
         quickFilters={quickFilters}
         defaultFilter={DEFAULT_QUICK_FILTERS}
+        setMomentsType={setMomentsType}
       />
       <DataTable
         title={t('warehouseExport.tableTitle')}
@@ -309,7 +309,7 @@ function WarehouseExport() {
         total={total}
         sort={sort}
         filters={{
-          form: <FilterForm />,
+          form: <FilterForm momentsType={momentsType} />,
           defaultValue: DEFAULT_FILTERS,
           values: filters,
           onApply: setFilters,

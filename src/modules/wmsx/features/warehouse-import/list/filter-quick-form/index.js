@@ -18,6 +18,7 @@ const WarehouseImportFilter = ({
   setQuickFilters,
   quickFilters,
   defaultFilter,
+  setMomentsType,
 }) => {
   const { t } = useTranslation(['wmsx'])
 
@@ -60,6 +61,7 @@ const WarehouseImportFilter = ({
   }
   const hanldeChangeOrderType = (val, values, setFieldValue) => {
     if (val) {
+      setMomentsType(val)
       switch (val) {
         case WAREHOUSE_IMPORT_TYPE.SO:
           return setFieldValue('movementType', null)
@@ -123,6 +125,7 @@ const WarehouseImportFilter = ({
                       options={WAREHOUSE_IMPORT_TYPE_OPTIONS}
                       getOptionValue={(opt) => opt?.id}
                       getOptionLabel={(opt) => t(opt?.text)}
+                      clearIcon={false}
                       onChange={(val) =>
                         hanldeChangeOrderType(val, values, setFieldValue)
                       }

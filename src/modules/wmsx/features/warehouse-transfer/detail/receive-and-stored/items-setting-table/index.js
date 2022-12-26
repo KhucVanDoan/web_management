@@ -243,7 +243,7 @@ const ItemSettingTable = (props) => {
         renderCell: (params) => {
           return (
             <Checkbox
-              checked={params?.row?.required}
+              checked={params?.row?.itemCodeWarehouseImp}
               name="itemCodeWarehouseImp"
               disabled
             />

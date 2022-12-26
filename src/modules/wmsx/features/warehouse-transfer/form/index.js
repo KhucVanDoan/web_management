@@ -577,6 +577,7 @@ const WarehouseTransferForm = () => {
                       arrayHelpers={arrayHelpers}
                       setFieldValue={setFieldValue}
                       values={values}
+                      type={type}
                     />
                   )}
                 />
