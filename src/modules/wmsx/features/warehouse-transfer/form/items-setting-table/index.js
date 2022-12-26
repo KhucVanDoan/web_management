@@ -1,6 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react'
 
-import { Button, Checkbox, IconButton, Typography } from '@mui/material'
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  IconButton,
+  Typography,
+} from '@mui/material'
 import { Box } from '@mui/system'
 import { flatMap, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
@@ -22,8 +28,7 @@ import {
 import { convertFilterParams, convertUtcDateToLocalTz } from '~/utils'
 
 const ItemSettingTable = (props) => {
-  const { mode, arrayHelpers, items, values, setFieldValue, type, status } =
-    props
+  const { mode, arrayHelpers, items, values, setFieldValue, status } = props
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
   const [storageDates, setStorageDates] = useState([])
@@ -72,7 +77,6 @@ const ItemSettingTable = (props) => {
           )?.accounting,
         )
       }
-      setFieldValue(`items[${index}].debitAcc`, '1519')
       const checkItem = await checkItemWarehouseImport({
         itemId: val?.itemId || val?.id,
         warehouseId: values?.destinationWarehouseId?.id,
@@ -84,6 +88,7 @@ const ItemSettingTable = (props) => {
           setFieldValue(`items[${index}].itemCodeWarehouseImp`, false)
         }
       }
+      setFieldValue(`items[${index}].debitAcc`, '1519')
       if (values?.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG) {
         const storageDate = await getListStorageDateApi(val?.itemId || val?.id)
         if (storageDate?.statusCode === 200) {
@@ -253,7 +258,6 @@ const ItemSettingTable = (props) => {
         headerName: t('warehouseTransfer.table.locator'),
         width: 150,
         hide:
-          type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_SHORT ||
           values?.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_SHORT ||
           values?.type === '',
         renderCell: (params, index) => {
@@ -319,9 +323,7 @@ const ItemSettingTable = (props) => {
         field: 'warehouseImportDate',
         headerName: t('warehouseTransfer.table.warehouseImportDate'),
         width: 180,
-        hide:
-          type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_SHORT ||
-          values?.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_SHORT,
+        hide: values?.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_SHORT,
         renderCell: (params, index) => {
           const storageDateList = storageDates?.filter(
             (item) =>
@@ -417,9 +419,14 @@ const ItemSettingTable = (props) => {
           return isView ? (
             <Checkbox checked={params?.row?.itemCodeWarehouseImp} disabled />
           ) : (
-            <Field.Checkbox
-              name={`items[${index}].itemCodeWarehouseImp`}
-              disabled
+            <FormControlLabel
+              control={
+                <Field.Checkbox
+                  name={`items[${index}].itemCodeWarehouseImp`}
+                  disabled
+                />
+              }
+              label=""
             />
           )
         },
@@ -504,11 +511,10 @@ const ItemSettingTable = (props) => {
         headerName: '',
         width: 50,
         hide: isView,
-        renderCell: (params) => {
-          const idx = items.findIndex((item) => item.id === params.row.id)
+        renderCell: (_, index) => {
           return isView ? null : (
             <IconButton
-              onClick={() => arrayHelpers.remove(idx)}
+              onClick={() => arrayHelpers.remove(index)}
               disabled={items?.length === 1}
               size="large"
             >
@@ -521,7 +527,7 @@ const ItemSettingTable = (props) => {
     [
       values?.type,
       values?.sourceWarehouseId,
-      items,
+      values?.items,
       storageDates,
       values?.destinationWarehouseId,
     ],

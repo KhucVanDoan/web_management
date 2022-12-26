@@ -8,27 +8,17 @@ import {
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
 import { Field } from '~/components/Formik'
+import {
+  PARENT_BUSINESS_TYPE,
+  WAREHOUSE_IMPORT_TYPE,
+} from '~/modules/wmsx/constants'
 import { searchBusinessTypesApi } from '~/modules/wmsx/redux/sagas/business-type-management/search-business-types'
-// import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { searchReceiptDepartmentApi } from '~/modules/wmsx/redux/sagas/receipt-department-management/search-receipt-department'
 import { convertFilterParams } from '~/utils'
-// import { ORDER_STATUS_OPTIONS } from '~/modules/wmsx/constants'
-
-const FilterForm = () => {
+const FilterForm = ({ momentsType }) => {
   const { t } = useTranslation('wmsx')
-
   return (
     <Grid container rowSpacing={4 / 3}>
-      {/* <Grid item xs={12}>
-        <Field.TextField
-          name="code"
-          label={t('movements.importExport.movementCode')}
-          placeholder={t('movements.importExport.movementCode')}
-          inputProps={{
-            maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-          }}
-        />
-      </Grid> */}
       <Grid item xs={12}>
         <Field.TextField
           name="orderCode"
@@ -39,25 +29,6 @@ const FilterForm = () => {
           }}
         />
       </Grid>
-      {/* <Grid item xs={12}>
-        <Field.Autocomplete
-          name="warehouseId"
-          label={t('movements.importExport.warehouseName')}
-          placeholder={t('movements.importExport.warehouseName')}
-          asyncRequest={(s) =>
-            searchWarehouseApi({
-              keyword: s,
-              limit: ASYNC_SEARCH_LIMIT,
-              filter: convertFilterParams({
-                status: 1,
-              }),
-            })
-          }
-          asyncRequestHelper={(res) => res?.data?.items}
-          getOptionLabel={(opt) => opt?.code}
-          getOptionSubLabel={(opt) => opt?.name}
-        />
-      </Grid> */}
       <Grid item xs={12}>
         <Field.Autocomplete
           name="departmentReceiptId"
@@ -88,6 +59,12 @@ const FilterForm = () => {
               limit: ASYNC_SEARCH_LIMIT,
               filter: convertFilterParams({
                 status: 1,
+                parentBusiness:
+                  momentsType === WAREHOUSE_IMPORT_TYPE.PO
+                    ? PARENT_BUSINESS_TYPE.IMPORT
+                    : momentsType === WAREHOUSE_IMPORT_TYPE.TRANSFER
+                    ? PARENT_BUSINESS_TYPE.TRANSFER
+                    : null,
               }),
             })
           }
@@ -113,16 +90,6 @@ const FilterForm = () => {
           }}
         />
       </Grid>
-      {/* <Grid item xs={12}>
-        <Field.Autocomplete
-          name="status"
-          label={t('movements.movementStatus')}
-          placeholder={t('movements.movementStatus')}
-          options={ORDER_STATUS_OPTIONS}
-          getOptionLabel={(opt) => (opt?.text ? t(opt?.text) : '')}
-          getOptionValue={(opt) => opt?.id?.toString()}
-        />
-      </Grid> */}
     </Grid>
   )
 }

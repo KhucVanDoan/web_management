@@ -164,12 +164,14 @@ function WarehouseExportReceipt() {
       headerName: t('warehouseExportReceipt.warehouseExportEBS'),
       width: 150,
       renderCell: (params) => {
-        const { syncStatus } = params?.row
-        const isConfirmWarehouseExport =
+        const { status, syncStatus } = params?.row
+        const isConfirmWarehouseExport = status === ORDER_STATUS.COMPLETED
+        const isSync =
           syncStatus === STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC ||
           syncStatus === STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR
         return (
           isConfirmWarehouseExport &&
+          isSync &&
           !params?.row?.ebsId && (
             <Button
               variant="text"
@@ -276,6 +278,7 @@ function WarehouseExportReceipt() {
       },
     },
   ]
+
   const refreshData = () => {
     const params = {
       keyword: keyword.trim(),

@@ -67,7 +67,6 @@ const ReceiptManagementFilter = ({
                       name="createdAt"
                       label={t('receiptManagement.createdAt')}
                       placeholder={t('receiptManagement.createdAt')}
-                      maxDate={new Date()}
                       minDate={
                         new Date(
                           sub(new Date(), {
@@ -81,6 +80,7 @@ const ReceiptManagementFilter = ({
                           }),
                         )
                       }
+                      maxDate={new Date()}
                     />
                   </Grid>
                   <Grid item xs={12}>

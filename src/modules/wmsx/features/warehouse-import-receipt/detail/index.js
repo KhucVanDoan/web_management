@@ -162,7 +162,7 @@ function WarehouseImportReceiptDetail() {
     )
   }
   const receiptRequired = warehouseImportReceiptDetails?.attributes?.find(
-    (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT && item?.value,
+    (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT,
   )
   return (
     <Page

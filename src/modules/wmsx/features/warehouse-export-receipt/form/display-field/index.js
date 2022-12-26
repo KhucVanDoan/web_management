@@ -10,6 +10,7 @@ import {
   DATA_TYPE,
   ORDER_STATUS,
   TABLE_NAME_ENUM,
+  WAREHOUSE_EXPORT_PROPOSAL_EXPORT_WAREHOUSE_STATUS,
   WAREHOUSE_EXPORT_PROPOSAL_STATUS,
 } from '~/modules/wmsx/constants'
 import { searchConstructionItemsApi } from '~/modules/wmsx/redux/sagas/construction-items-management/search-construction-items'
@@ -367,6 +368,10 @@ const displayFollowBusinessTypeManagement = (
                       limit: ASYNC_SEARCH_LIMIT,
                       filter: convertFilterParams({
                         status: WAREHOUSE_EXPORT_PROPOSAL_STATUS.CONFIRMED,
+                        exportStatus: [
+                          WAREHOUSE_EXPORT_PROPOSAL_EXPORT_WAREHOUSE_STATUS.UN_EXPORTED,
+                          WAREHOUSE_EXPORT_PROPOSAL_EXPORT_WAREHOUSE_STATUS.IN_PROGRESS,
+                        ],
                       }),
                     })
                   }

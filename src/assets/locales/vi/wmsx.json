@@ -2957,7 +2957,7 @@
     "suggestExport": "Giấy đề nghị xuất vật tư",
     "explaination": "Diễn giải",
     "contractNo": "Số hợp đồng",
-    "unit": "Đơn vị nhập",
+    "unit": "Phòng ban nhận",
     "expenditureType": "Loại nghiệp vụ",
     "createdAt": "Ngày lập phiếu",
     "warehouseExportReceipt": "ID phiếu xuất WMS",

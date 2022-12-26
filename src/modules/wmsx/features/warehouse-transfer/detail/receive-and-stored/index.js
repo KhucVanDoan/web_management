@@ -105,6 +105,7 @@ const ReceiveAndStored = () => {
                 item?.warehouseId ===
                 warehouseTransferDetails?.sourceWarehouse?.id,
             )?.accounting,
+          itemCodeWarehouseImp: Boolean(item?.isExistInDestinationWarehouse),
           debitAcc: item?.debitAcc || 1519,
           itemName: item?.item?.name || '',
           itemType: item?.item?.itemType?.name || '',
