@@ -34,7 +34,6 @@ const MovementQuantityReport = () => {
     dataList.forEach((data) => {
       newData.push({
         tag: `Ngày ${data.tag}`,
-        tags: `Ngày ${data.tag}`,
         type: t('dashboard.chart.import'),
         value: data.import,
       })
@@ -51,6 +50,44 @@ const MovementQuantityReport = () => {
     })
     return newData
   }
+
+  const generateTooltip = (title, items) => (
+    <>
+      <h3 style={{ marginTop: 16 }}>{title}</h3>
+      <ul style={{ paddingLeft: 0 }}>
+        {items?.map((item, i) => {
+          const { tag, value, color, data } = item
+          return (
+            <li
+              key={tag}
+              className="g2-tooltip-list-item"
+              data-index={i}
+              style={{
+                marginBottom: 4,
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              <span
+                className="g2-tooltip-marker"
+                style={{ backgroundColor: color }}
+              ></span>
+              <span
+                style={{
+                  display: 'inline-flex',
+                  flex: 1,
+                  justifyContent: 'space-between',
+                }}
+              >
+                <span style={{ marginRight: 16 }}>{data?.type}:</span>
+                <span>{value}</span>
+              </span>
+            </li>
+          )
+        })}
+      </ul>
+    </>
+  )
 
   const handleChangeSelect = (value) => {
     setSelectedDate(value)
@@ -82,6 +119,9 @@ const MovementQuantityReport = () => {
         formatter: (v) =>
           `${v}`.replace(/\d{1,3}(?=(\d{3})+$)/g, (s) => `${s},`),
       },
+    },
+    tooltip: {
+      customContent: (title, items) => generateTooltip(title, items),
     },
     color: COLOR_PLATE_10,
     lineStyle: () => {

@@ -2995,7 +2995,8 @@
       "receivedQuantity": "SL thực nhập"
     },
     "receiveAndStorageBtn": "Nhập kho & Cất hàng",
-    "importedItemIsNotEnough": "Chưa nhập đủ vật tư"
+    "importedItemIsNotEnough": "Chưa nhập đủ vật tư",
+    "missedItemBasedOnReceipt": "Chưa chọn đủ vật tư trong phiếu receipt"
   },
   "warehouseExportProposal": {
     "list": "Danh sách giấy đề nghị xuất vật tư",

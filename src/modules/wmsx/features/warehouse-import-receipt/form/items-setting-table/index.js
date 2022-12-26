@@ -11,7 +11,8 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import { ACTIVE_STATUS } from '~/modules/wmsx/constants'
+import { ACTIVE_STATUS, TABLE_NAME_ENUM } from '~/modules/wmsx/constants'
+import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
 import { convertFilterParams, scrollToBottom } from '~/utils'
 
@@ -26,11 +27,16 @@ function ItemsSettingTable(props) {
     values,
     creditAccount,
   } = props
-
+  const {
+    data: { warehouseImportReceiptDetails },
+  } = useWarehouseImportReceipt()
   const isView = mode === MODAL_MODE.DETAIL
   const receiptRequired = values?.businessTypeId?.bussinessTypeAttributes?.find(
-    (item) => item?.tableName === 'receipts',
+    (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT,
   )?.id
+  const valuesReceiptRequired = warehouseImportReceiptDetails?.attributes?.find(
+    (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT && item?.value,
+  )
   const warehouseExportProposal =
     values?.businessTypeId?.bussinessTypeAttributes?.find(
       (item) => item?.tableName === 'warehouse_export_proposals',
@@ -198,7 +204,11 @@ function ItemsSettingTable(props) {
         width: 180,
         renderCell: (params, index) => {
           return isView ? (
-            <>{params?.row?.requestedQuantityWarehouseExportProposal}</>
+            <>
+              {valuesReceiptRequired
+                ? params?.row?.quantity
+                : params?.row?.requestedQuantityWarehouseExportProposal}
+            </>
           ) : !isEmpty(values[warehouseExportProposal]) &&
             isEmpty(values[receiptRequired]) ? (
             <Field.TextField
