@@ -761,7 +761,8 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
         objectCategoryId: item?.objectCategory?.id || null,
         manufacturingCountryId: item?.producingCountry?.id || null,
         itemQuanlityId: item?.materialQuality?.id || null,
-        itemTypeSettingId: null,
+        itemTypeSettingId: item?.suppliesType?.id || null,
+        name: item?.suppliesNameNeedGrantCode,
       })),
     }
     actions.requestItemCode(params, () => setOpenModal(false))

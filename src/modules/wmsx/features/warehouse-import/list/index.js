@@ -43,6 +43,7 @@ function WarehouseImport() {
   } = useWarehouseImport()
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
+  const [momentsType, setMomentsType] = useState(WAREHOUSE_IMPORT_TYPE.PO)
 
   const DEFAULT_QUICK_FILTERS = {
     createdAt: '',
@@ -50,13 +51,11 @@ function WarehouseImport() {
     orderType: WAREHOUSE_IMPORT_TYPE.PO,
     movementType: MOVEMENT_TYPE.PO_IMPORT_RECEIVE,
   }
-
   const DEFAULT_FILTERS = {
     code: '',
     createdByUser: '',
     status: '',
   }
-
   const {
     page,
     pageSize,
@@ -67,7 +66,6 @@ function WarehouseImport() {
     setPageSize,
     setSort,
     setFilters,
-    setKeyword,
     quickFilters,
     setQuickFilters,
   } = useQueryState({
@@ -238,7 +236,6 @@ function WarehouseImport() {
     <Page
       breadcrumbs={breadcrumbs}
       title={t('menu.warehouseImport')}
-      onSearch={setKeyword}
       placeholder={t('warehouseImport.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}
       loading={isLoading}
@@ -247,6 +244,7 @@ function WarehouseImport() {
         setQuickFilters={setQuickFilters}
         quickFilters={quickFilters}
         defaultFilter={DEFAULT_QUICK_FILTERS}
+        setMomentsType={setMomentsType}
       />
       <DataTable
         title={t('movements.title')}
@@ -263,7 +261,7 @@ function WarehouseImport() {
         total={total}
         sort={sort}
         filters={{
-          form: <FilterForm />,
+          form: <FilterForm momentsType={momentsType} />,
           values: filters,
           onApply: setFilters,
         }}

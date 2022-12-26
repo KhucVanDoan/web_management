@@ -390,7 +390,7 @@ const displayFollowBusinessTypeManagement = (
                       keyword: s,
                       limit: ASYNC_SEARCH_LIMIT,
                       filter: convertFilterParams({
-                        status: ACTIVE_STATUS.ACTIVE,
+                        status: ACTIVE_STATUS.INACTIVE,
                       }),
                     })
                   }}

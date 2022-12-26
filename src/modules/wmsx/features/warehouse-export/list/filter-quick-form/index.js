@@ -18,6 +18,7 @@ const WarehouseExportFilter = ({
   setQuickFilters,
   quickFilters,
   defaultFilter,
+  setMomentsType,
 }) => {
   const { t } = useTranslation(['wmsx'])
 
@@ -70,6 +71,7 @@ const WarehouseExportFilter = ({
   }
   const hanldeChangeOrderType = (val, values, setFieldValue) => {
     if (val) {
+      setMomentsType(val)
       switch (val) {
         case WAREHOUSE_EXPORT_TYPE.SO:
           return setFieldValue('movementType', null)
@@ -133,6 +135,7 @@ const WarehouseExportFilter = ({
                       options={WAREHOUSE_EXPORT_TYPE_OPTIONS}
                       getOptionValue={(opt) => opt?.id}
                       getOptionLabel={(opt) => t(opt?.text)}
+                      clearIcon={false}
                       onChange={(val) =>
                         hanldeChangeOrderType(val, values, setFieldValue)
                       }

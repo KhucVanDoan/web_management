@@ -160,12 +160,17 @@ function WarehouseImportReceipt() {
       headerName: t('warehouseImportReceipt.warehouseImportEbs'),
       width: 250,
       renderCell: (params) => {
-        const { syncStatus } = params?.row
+        const { status, syncStatus } = params?.row
         const isConfirmWarehouseImport =
+          status === ORDER_STATUS.IN_PROGRESS ||
+          status === ORDER_STATUS.COMPLETED ||
+          status === ORDER_STATUS.RECEIVED
+        const isSync =
           syncStatus === STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC ||
           syncStatus === STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR
         return (
           isConfirmWarehouseImport &&
+          isSync &&
           !params?.row?.ebsId && (
             <Button
               variant="text"

@@ -1,11 +1,9 @@
 import React from 'react'
 
 import { Grid, Box } from '@mui/material'
-import { sub } from 'date-fns'
 import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 
-import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 
@@ -33,33 +31,33 @@ const ReceiptManagementFilter = ({
                   columnSpacing={{ xl: 8, xs: 4 }}
                 >
                   <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      name="code"
+                    <Field.Autocomplete
+                      name="receiptCode"
                       label={t('receiptManagement.receiptCode')}
                       placeholder={t('receiptManagement.receiptCode')}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-                      }}
+                      options={[]}
+                      getOptionValue={(opt) => opt?.id}
+                      getOptionLabel={(opt) => opt?.name}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      name="receiptNumber"
+                    <Field.Autocomplete
+                      name="receiptNo"
                       label={t('receiptManagement.receiptNo')}
                       placeholder={t('receiptManagement.receiptNo')}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-                      }}
+                      options={[]}
+                      getOptionValue={(opt) => opt?.id}
+                      getOptionLabel={(opt) => opt?.name}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      name="contractNumber"
+                    <Field.Autocomplete
+                      name="contractNo"
                       label={t('receiptManagement.contractNo')}
                       placeholder={t('receiptManagement.contractNo')}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-                      }}
+                      options={[]}
+                      getOptionValue={(opt) => opt?.id}
+                      getOptionLabel={(opt) => opt?.name}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -67,32 +65,6 @@ const ReceiptManagementFilter = ({
                       name="createdAt"
                       label={t('receiptManagement.createdAt')}
                       placeholder={t('receiptManagement.createdAt')}
-                      maxDate={
-                        new Date(
-                          sub(new Date(), {
-                            years: 0,
-                            months: 0,
-                            weeks: 0,
-                            days: 1,
-                            hours: 0,
-                            minutes: 0,
-                            seconds: 0,
-                          }),
-                        )
-                      }
-                      minDate={
-                        new Date(
-                          sub(new Date(), {
-                            years: 1,
-                            months: 0,
-                            weeks: 0,
-                            days: 0,
-                            hours: 0,
-                            minutes: 0,
-                            seconds: 0,
-                          }),
-                        )
-                      }
                     />
                   </Grid>
                   <Grid item xs={12}>
