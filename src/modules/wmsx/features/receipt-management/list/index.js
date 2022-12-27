@@ -164,6 +164,7 @@ function ReceiptManagement() {
         {
           ...filters,
           ...quickFilters,
+          createdAt: filters?.createdAt || quickFilters?.createdAt,
         },
         columns,
       ),

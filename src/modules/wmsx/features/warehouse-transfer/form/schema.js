@@ -101,7 +101,6 @@ const warehouseTranferSchema = (t, type) => {
                 message: t('wmsx:warehouseTransfer.duplicateItem'),
               })
             }
-
             return true
           }),
         transferQuantity: Yup.number()
