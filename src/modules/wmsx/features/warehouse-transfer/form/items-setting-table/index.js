@@ -366,6 +366,10 @@ const ItemSettingTable = (props) => {
           ) : (
             <Field.TextField
               name={`items[${index}].transferQuantity`}
+              numberProps={{
+                thousandSeparator: true,
+                decimalScale: 2,
+              }}
               validate={(val) => {
                 if (+val > +params?.row?.planExportedQuantity) {
                   return t('general:form.maxNumber', {
