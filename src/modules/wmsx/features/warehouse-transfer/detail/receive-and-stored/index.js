@@ -82,8 +82,8 @@ const ReceiveAndStored = () => {
   const initialValues = useMemo(
     () => ({
       items: warehouseTransferDetails?.warehouseTransferDetailLots?.map(
-        (item) => ({
-          id: new Date().getTime(),
+        (item, index) => ({
+          id: `${item?.itemId}-${index}`,
           itemCode:
             {
               itemId: item?.itemId,
@@ -201,7 +201,11 @@ const ReceiveAndStored = () => {
                     <Grid item lg={6} xs={12}>
                       <LV
                         label={t('warehouseTransfer.source')}
-                        value={`${warehouseTransferDetails?.source?.code} - ${warehouseTransferDetails?.source?.name}`}
+                        value={
+                          !isEmpty(warehouseTransferDetails?.source)
+                            ? `${warehouseTransferDetails?.source?.code} - ${warehouseTransferDetails?.source?.name}`
+                            : ''
+                        }
                       />
                     </Grid>
                     <Grid item lg={6} xs={12}>

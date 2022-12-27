@@ -1,6 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react'
 
-import { Button, Checkbox, IconButton, Typography } from '@mui/material'
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  IconButton,
+  Typography,
+} from '@mui/material'
 import { Box } from '@mui/system'
 import { flatMap, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
@@ -62,18 +68,6 @@ const ItemSettingTable = (props) => {
         `items[${index}].planExportedQuantity`,
         planExportedQuantity?.quantity,
       )
-      const payload = {
-        itemId: val?.itemId || val?.id,
-        warehouseId: values?.destinationWarehouseId?.id,
-      }
-      const checkItem = await checkItemWarehouseImport(payload)
-      if (checkItem?.statusCode === 200) {
-        if (checkItem?.data?.length > 0) {
-          setFieldValue(`items[${index}].itemCodeWarehouseImp`, true)
-        } else {
-          setFieldValue(`items[${index}].itemCodeWarehouseImp`, false)
-        }
-      }
       setFieldValue(`items[${index}].transferQuantity`, '')
       if (val?.itemWarehouseSources?.length > 0) {
         setFieldValue(
@@ -82,6 +76,17 @@ const ItemSettingTable = (props) => {
             (item) => item?.warehouseId === values?.sourceWarehouseId?.id,
           )?.accounting,
         )
+      }
+      const checkItem = await checkItemWarehouseImport({
+        itemId: val?.itemId || val?.id,
+        warehouseId: values?.destinationWarehouseId?.id,
+      })
+      if (checkItem?.statusCode === 200) {
+        if (checkItem?.data?.length > 0) {
+          setFieldValue(`items[${index}].itemCodeWarehouseImp`, true)
+        } else {
+          setFieldValue(`items[${index}].itemCodeWarehouseImp`, false)
+        }
       }
       setFieldValue(`items[${index}].debitAcc`, '1519')
       if (values?.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG) {
@@ -366,6 +371,10 @@ const ItemSettingTable = (props) => {
           ) : (
             <Field.TextField
               name={`items[${index}].transferQuantity`}
+              numberProps={{
+                thousandSeparator: true,
+                decimalScale: 2,
+              }}
               validate={(val) => {
                 if (+val > +params?.row?.planExportedQuantity) {
                   return t('general:form.maxNumber', {
@@ -414,9 +423,14 @@ const ItemSettingTable = (props) => {
           return isView ? (
             <Checkbox checked={params?.row?.itemCodeWarehouseImp} disabled />
           ) : (
-            <Field.Checkbox
-              name={`items[${index}].itemCodeWarehouseImp`}
-              disabled
+            <FormControlLabel
+              control={
+                <Field.Checkbox
+                  name={`items[${index}].itemCodeWarehouseImp`}
+                  disabled
+                />
+              }
+              label=""
             />
           )
         },

@@ -9,7 +9,7 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
-import { ORDER_STATUS_OPTIONS } from '~/modules/mesx/constants'
+import { RECEIPT_MANAGEMENT_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useReceiptManagement from '~/modules/wmsx/redux/hooks/useReceiptManagement'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertUtcDateToLocalTz } from '~/utils'
@@ -61,7 +61,7 @@ const ReceiptManagementDetail = () => {
                 label={t('general.status')}
                 value={
                   <Status
-                    options={ORDER_STATUS_OPTIONS}
+                    options={RECEIPT_MANAGEMENT_STATUS_OPTIONS}
                     value={Number(receiptDetail?.status)}
                   />
                 }

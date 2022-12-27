@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 
 import { Button, Checkbox, IconButton, Typography } from '@mui/material'
 import { Box } from '@mui/system'
@@ -50,6 +50,10 @@ const ItemSettingTable = (props) => {
       `items[${index}].actualExportedQuantity`,
       +findItem?.actualExportedQuantity,
     )
+    setFieldValue(
+      `items[${index}].itemCodeWarehouseImp`,
+      findItem?.itemCodeWarehouseImp,
+    )
   }
   const handleChangLotNumber = (val, params, index) => {
     const planQuantity =
@@ -60,8 +64,8 @@ const ItemSettingTable = (props) => {
       )?.planQuantity
     setFieldValue(`items[${index}].transferQuantity`, +planQuantity)
   }
-  const getColumns = () => {
-    return [
+  const getColumns = useMemo(
+    () => [
       {
         field: 'id',
         headerName: '#',
@@ -323,8 +327,9 @@ const ItemSettingTable = (props) => {
           )
         },
       },
-    ]
-  }
+    ],
+    [items],
+  )
   return (
     <>
       <Box
@@ -344,12 +349,6 @@ const ItemSettingTable = (props) => {
             onClick={() => {
               arrayHelpers.push({
                 id: new Date().getTime(),
-                itemCode: null,
-                itemName: null,
-                itemUnit: '',
-                locator: '',
-                lotNumber: '',
-                packageId: '',
                 inputedQuantity: '',
               })
             }}
@@ -360,7 +359,7 @@ const ItemSettingTable = (props) => {
       </Box>
       <DataTable
         rows={items}
-        columns={getColumns()}
+        columns={getColumns}
         hideSetting
         hideFooter
         striped={false}
