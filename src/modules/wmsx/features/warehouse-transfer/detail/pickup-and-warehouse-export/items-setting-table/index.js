@@ -51,6 +51,10 @@ const ItemSettingTable = (props) => {
     setFieldValue(`items[${index}].creditAcc`, findItem?.creditAcc)
     setFieldValue(`items[${index}].price`, findItem?.price)
     setFieldValue(`items[${index}].amount`, findItem?.amount)
+    setFieldValue(
+      `items[${index}].itemCodeWarehouseImp`,
+      findItem?.itemCodeWarehouseImp,
+    )
   }
   const handleChangLotNumber = (val, params, index) => {
     const planQuantity =
@@ -344,9 +348,6 @@ const ItemSettingTable = (props) => {
             onClick={() => {
               arrayHelpers.push({
                 id: new Date().getTime(),
-                itemcode: '',
-                lotNumber: '',
-                packageId: '',
                 planQuantity: 1,
               })
             }}

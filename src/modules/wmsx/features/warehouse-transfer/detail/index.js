@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 
 import { Grid } from '@mui/material'
 import { Box } from '@mui/system'
-import { uniq, map } from 'lodash'
+import { uniq, map, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
@@ -227,7 +227,11 @@ const WarehouseTransferDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseTransfer.source')}
-                value={`${warehouseTransferDetails?.source?.code} - ${warehouseTransferDetails?.source?.name}`}
+                value={
+                  !isEmpty(warehouseTransferDetails?.source)
+                    ? `${warehouseTransferDetails?.source?.code} - ${warehouseTransferDetails?.source?.name}`
+                    : ''
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>

@@ -26,7 +26,9 @@ const ItemSettingTable = ({
 }) => {
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
-  const hiden = Boolean(values?.warehouseId?.manageByLot)
+  const hiden = Boolean(
+    values?.warehouseId?.isManageByLot || values?.warehouseId?.manageByLot,
+  )
   const warehouseExprotProposal =
     values?.businessTypeId?.bussinessTypeAttributes?.find(
       (item) => item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
@@ -152,9 +154,7 @@ const ItemSettingTable = ({
             <Field.Autocomplete
               name={`items[${index}].itemCode`}
               placeholder={t('warehouseExportReceipt.items.suppliesCode')}
-              options={itemWarehouseExportProposal?.filter(
-                (item) => item?.warehouseExport?.id === values?.warehouseId?.id,
-              )}
+              options={itemList}
               getOptionLabel={(opt) => opt?.item?.code}
               getOptionSubLabel={(opt) => opt?.item?.name}
               onChange={(val) => handleChangeItem(val, index)}
@@ -367,7 +367,10 @@ const ItemSettingTable = ({
                   return t('general:form.maxNumber', {
                     max: params?.row?.planExportedQuantity,
                   })
-                } else if (params?.row?.itemCode?.requestedQuantity || params?.row?.itemCode?.requestedQuantity === 0) {
+                } else if (
+                  params?.row?.itemCode?.requestedQuantity ||
+                  params?.row?.itemCode?.requestedQuantity === 0
+                ) {
                   if (val > params?.row?.itemCode?.requestedQuantity) {
                     return t('general:form.maxNumber', {
                       max: params?.row?.itemCode?.requestedQuantity,
