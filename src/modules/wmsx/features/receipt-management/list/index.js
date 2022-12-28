@@ -74,6 +74,9 @@ function ReceiptManagement() {
       headerName: '#',
       width: 50,
       fixed: true,
+      renderCell: (_, index) => {
+        return index + 1
+      },
     },
     {
       field: 'code',
@@ -161,6 +164,7 @@ function ReceiptManagement() {
         {
           ...filters,
           ...quickFilters,
+          createdAt: filters?.createdAt || quickFilters?.createdAt,
         },
         columns,
       ),

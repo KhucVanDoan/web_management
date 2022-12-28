@@ -81,7 +81,8 @@ const PickupAndWarehouseExport = () => {
   }
   const initialValues = {
     items: warehouseTransferDetails?.warehouseTransferDetailLots?.map(
-      (item) => ({
+      (item, index) => ({
+        id: `${item?.itemId}-${index}`,
         itemCode: !isEmpty(item?.item)
           ? {
               itemId: item?.itemId,
@@ -193,6 +194,16 @@ const PickupAndWarehouseExport = () => {
                             ]
                           }`,
                         )}
+                      />
+                    </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <LV
+                        label={t('warehouseTransfer.source')}
+                        value={
+                          !isEmpty(warehouseTransferDetails?.source)
+                            ? `${warehouseTransferDetails?.source?.code} - ${warehouseTransferDetails?.source?.name}`
+                            : ''
+                        }
                       />
                     </Grid>
                     <Grid item lg={6} xs={12}>
