@@ -48,6 +48,7 @@ const DEFAULT_ITEM = {
   mfg: '',
   packageId: '',
   planExportedQuantity: '',
+  itemCodeWarehouseImp: false,
   unitType: '',
 }
 const WarehouseTransferForm = () => {
