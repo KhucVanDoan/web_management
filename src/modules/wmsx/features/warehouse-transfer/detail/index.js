@@ -99,6 +99,7 @@ const WarehouseTransferDetail = () => {
       actualQuantity: Number(item?.actualQuantity),
       exportedQuantity: Number(item?.exportedQuantity),
       itemCodeWarehouseImp: Boolean(item?.isExistInDestinationWarehouse),
+      storageDate: convertUtcDateToLocalTz(item?.storageDate),
       lotNumber: item?.lotNumber,
       locator: item?.locator,
       itemName: item?.item?.name,

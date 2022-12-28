@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 
-import { IconButton, Typography } from '@mui/material'
+import { createFilterOptions, IconButton, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
 import { flatMap, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
@@ -103,6 +103,10 @@ const ItemSettingTable = ({
       )
     }
   }
+  const filterOptions = createFilterOptions({
+    stringify: ({ code, name }) => `${code} ${name}`,
+  })
+
   const columns = useMemo(
     () => [
       {
@@ -158,6 +162,8 @@ const ItemSettingTable = ({
               getOptionLabel={(opt) => opt?.item?.code}
               getOptionSubLabel={(opt) => opt?.item?.name}
               onChange={(val) => handleChangeItem(val, index)}
+              filterOptions={filterOptions}
+              filterSelectedOptions
               isOptionEqualToValue={(opt, val) => opt?.itemId === val?.itemId}
               getOptionDisabled={(opt) =>
                 itemIdCodeList.some(
@@ -177,6 +183,8 @@ const ItemSettingTable = ({
               options={itemWarehouseStockList}
               getOptionLabel={(opt) => opt?.code}
               getOptionSubLabel={(opt) => opt?.name}
+              filterOptions={filterOptions}
+              filterSelectedOptions
               onChange={(val) => handleChangeItem(val, index)}
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
               getOptionDisabled={(opt) =>
