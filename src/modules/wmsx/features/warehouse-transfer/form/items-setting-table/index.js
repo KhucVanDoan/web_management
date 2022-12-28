@@ -28,7 +28,8 @@ import {
 import { convertFilterParams, convertUtcDateToLocalTz } from '~/utils'
 
 const ItemSettingTable = (props) => {
-  const { mode, arrayHelpers, items, values, setFieldValue, status } = props
+  const { mode, arrayHelpers, items, values, setFieldValue, status, type } =
+    props
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
   const [storageDates, setStorageDates] = useState([])
@@ -323,7 +324,9 @@ const ItemSettingTable = (props) => {
         field: 'warehouseImportDate',
         headerName: t('warehouseTransfer.table.warehouseImportDate'),
         width: 180,
-        hide: values?.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_SHORT,
+        hide:
+          values?.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_SHORT ||
+          type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_SHORT,
         renderCell: (params, index) => {
           const storageDateList = storageDates?.filter(
             (item) =>

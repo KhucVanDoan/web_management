@@ -348,6 +348,7 @@ const ItemSettingTable = (props) => {
             onClick={() => {
               arrayHelpers.push({
                 id: new Date().getTime(),
+                itemCodeWarehouseImp: false,
                 planQuantity: 1,
               })
             }}
