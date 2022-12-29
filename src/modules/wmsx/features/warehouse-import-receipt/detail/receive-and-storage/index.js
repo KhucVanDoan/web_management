@@ -15,6 +15,7 @@ import {
   ORDER_STATUS_OPTIONS,
   MOVEMENT_TYPE,
   DATA_TYPE,
+  TABLE_NAME_ENUM,
 } from '~/modules/wmsx/constants'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -171,7 +172,9 @@ function WarehouseImportReceiveAndStorage() {
       },
     ],
   }
-
+  const receiptRequired = warehouseImportReceiptDetails?.attributes?.find(
+    (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT,
+  )
   return (
     <Page
       breadcrumbs={breadcrumbs}
@@ -278,29 +281,62 @@ function WarehouseImportReceiveAndStorage() {
                         value={warehouseImportReceiptDetails.source?.name}
                       />
                     </Grid>
+                    {receiptRequired && (
+                      <Grid item lg={6} xs={12}>
+                        <LV
+                          label={t('warehouseImportReceipt.contractNumber')}
+                          value={warehouseImportReceiptDetails?.contractNumber}
+                        />
+                      </Grid>
+                    )}
                     {warehouseImportReceiptDetails?.attributes?.map((item) => {
                       if (item.tableName) {
-                        return (
-                          <Grid item lg={6} xs={12}>
-                            <LV
-                              label={`${item.fieldName}`}
-                              value={
-                                attributesBusinessTypeDetails[
-                                  item.tableName
-                                ]?.find(
-                                  (itemDetail) =>
-                                    itemDetail.id + '' === item.value,
-                                )?.name ||
-                                attributesBusinessTypeDetails[
-                                  item.tableName
-                                ]?.find(
-                                  (itemDetail) =>
-                                    itemDetail.id + '' === item.value,
-                                )?.code
-                              }
-                            />
-                          </Grid>
-                        )
+                        if (item?.tableName === TABLE_NAME_ENUM.RECEIPT) {
+                          return (
+                            <Grid item lg={6} xs={12}>
+                              <LV
+                                label={`${item.fieldName}`}
+                                value={
+                                  attributesBusinessTypeDetails[
+                                    item.tableName
+                                  ]?.find(
+                                    (itemDetail) =>
+                                      `${itemDetail.id}` === item.value,
+                                  )?.name ||
+                                  attributesBusinessTypeDetails[
+                                    item.tableName
+                                  ]?.find(
+                                    (itemDetail) =>
+                                      `${itemDetail.id}` === item.value,
+                                  )?.code ||
+                                  warehouseImportReceiptDetails?.receiptNumber
+                                }
+                              />
+                            </Grid>
+                          )
+                        } else {
+                          return (
+                            <Grid item lg={6} xs={12}>
+                              <LV
+                                label={`${item.fieldName}`}
+                                value={
+                                  attributesBusinessTypeDetails[
+                                    item.tableName
+                                  ]?.find(
+                                    (itemDetail) =>
+                                      `${itemDetail.id}` === item.value,
+                                  )?.name ||
+                                  attributesBusinessTypeDetails[
+                                    item.tableName
+                                  ]?.find(
+                                    (itemDetail) =>
+                                      `${itemDetail.id}` === item.value,
+                                  )?.code
+                                }
+                              />
+                            </Grid>
+                          )
+                        }
                       } else {
                         if (item?.type === DATA_TYPE.DATE) {
                           return (

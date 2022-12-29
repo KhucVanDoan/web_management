@@ -89,7 +89,7 @@ const ItemSettingTable = ({ items, itemList, lots, arrayHelpers }) => {
         width: 250,
         renderCell: (params, index) => {
           const lotNumbersOfItem = lots?.filter(
-            (lot) => lot.itemId === params?.row?.id,
+            (lot) => lot.itemId === params?.row?.item?.id,
           )
           return (
             <Field.Autocomplete
