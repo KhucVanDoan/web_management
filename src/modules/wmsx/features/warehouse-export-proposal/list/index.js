@@ -376,23 +376,12 @@ function WarehouseExportProposal() {
             FUNCTION_CODE.WAREHOUSE_IMPORT_WAREHOUSE_EXPORT_PROPOSAL,
           )
             ? {
-                onImport: () =>
-                  importWarehouseExportProposalApi({
-                    columnSettings: JSON.stringify(columnsSettings),
-                    queryIds: JSON.stringify(
-                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
-                    ),
-                    keyword: keyword.trim(),
-                    filter: convertFilterParams(filters, [
-                      { field: 'createdAt', filterFormat: 'date' },
-                    ]),
-                    sort: convertSortParams(sort),
-                  }),
+                onImport: (importFile) =>
+                  importWarehouseExportProposalApi(importFile),
               }
             : {})}
           onDownloadTemplate={getWarehouseExportProposalTemplateApi}
           onRefresh={refreshData}
-          disabled
         />
 
         <Guard code={FUNCTION_CODE.WAREHOUSE_CREATE_WAREHOUSE_EXPORT_PROPOSAL}>

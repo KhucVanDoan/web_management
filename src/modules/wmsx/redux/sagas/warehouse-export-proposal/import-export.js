@@ -6,7 +6,7 @@ import { api } from '~/services/api'
  * @returns {Promise}
  */
 export const importWarehouseExportProposalApi = (params) => {
-  const uri = `____ENTER_IMPORT_EXPORT_URL_HERE____`
+  const uri = `/v1/warehouses/warehouse-export-proposals/import`
   const formData = new FormData()
   formData.append('file', params)
   return api.postMultiplePart(uri, formData)
@@ -28,7 +28,7 @@ export const exportWarehouseExportProposalApi = (params) => {
  * @returns {Promise}
  */
 export const getWarehouseExportProposalTemplateApi = () => {
-  const uri = `____ENTER_IMPORT_EXPORT_URL_HERE____`
+  const uri = `/v1/warehouses/imports/templates/5`
   return api.get(uri)
 }
 
