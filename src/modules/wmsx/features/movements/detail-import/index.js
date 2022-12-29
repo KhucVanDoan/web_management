@@ -15,6 +15,7 @@ import {
   DATA_TYPE,
   MOVEMENT_TYPE,
   MOVEMENT_TYPE_MAP,
+  TABLE_NAME_ENUM,
 } from '~/modules/wmsx/constants'
 import useMovements from '~/modules/wmsx/redux/hooks/useMovements'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
@@ -62,7 +63,9 @@ const MovementImportDetail = ({ breadcrumbs, onBack }) => {
       actions.resetMovementsDetailsState()
     }
   }, [id])
-
+  const receiptRequired = receiptDetail?.attributes?.find(
+    (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT,
+  )
   return (
     <Page
       breadcrumbs={breadcrumbs}
@@ -151,23 +154,50 @@ const MovementImportDetail = ({ breadcrumbs, onBack }) => {
                 value={receiptDetail.source?.name}
               />
             </Grid>
+            {receiptRequired && (
+              <Grid item lg={6} xs={12}>
+                <LV
+                  label={t('warehouseImportReceipt.contractNumber')}
+                  value={receiptDetail?.contractNumber}
+                />
+              </Grid>
+            )}
             {receiptDetail?.attributes?.map((item) => {
               if (item.tableName) {
-                return (
-                  <Grid item lg={6} xs={12}>
-                    <LV
-                      label={`${item.fieldName}`}
-                      value={
-                        attributesBusinessTypeDetails[item.tableName]?.find(
-                          (itemDetail) => `${itemDetail.id}` === item.value,
-                        )?.name ||
-                        attributesBusinessTypeDetails[item.tableName]?.find(
-                          (itemDetail) => `${itemDetail.id}` === item.value,
-                        )?.code
-                      }
-                    />
-                  </Grid>
-                )
+                if (item?.tableName === TABLE_NAME_ENUM.RECEIPT) {
+                  return (
+                    <Grid item lg={6} xs={12}>
+                      <LV
+                        label={`${item.fieldName}`}
+                        value={
+                          attributesBusinessTypeDetails[item.tableName]?.find(
+                            (itemDetail) => `${itemDetail.id}` === item.value,
+                          )?.name ||
+                          attributesBusinessTypeDetails[item.tableName]?.find(
+                            (itemDetail) => `${itemDetail.id}` === item.value,
+                          )?.code ||
+                          receiptDetail?.receiptNumber
+                        }
+                      />
+                    </Grid>
+                  )
+                } else {
+                  return (
+                    <Grid item lg={6} xs={12}>
+                      <LV
+                        label={`${item.fieldName}`}
+                        value={
+                          attributesBusinessTypeDetails[item.tableName]?.find(
+                            (itemDetail) => `${itemDetail.id}` === item.value,
+                          )?.name ||
+                          attributesBusinessTypeDetails[item.tableName]?.find(
+                            (itemDetail) => `${itemDetail.id}` === item.value,
+                          )?.code
+                        }
+                      />
+                    </Grid>
+                  )
+                }
               } else {
                 if (item?.type === DATA_TYPE.DATE) {
                   return (

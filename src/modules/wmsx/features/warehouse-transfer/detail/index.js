@@ -20,6 +20,7 @@ import {
   TRANSFER_STATUS,
   TRANSFER_STATUS_OPTIONS,
   WAREHOUSE_TRANSFER_MAP,
+  WAREHOUSE_TRANSFER_TYPE,
 } from '~/modules/wmsx/constants'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
@@ -97,7 +98,11 @@ const WarehouseTransferDetail = () => {
         )?.accounting,
       debitAcc: item?.debitAccount || 1519,
       actualQuantity: Number(item?.actualQuantity),
-      exportedQuantity: Number(item?.exportedQuantity),
+      exportedQuantity:
+        warehouseTransferDetails?.type ===
+        WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG
+          ? Number(item?.actualQuantity)
+          : Number(item?.exportedQuantity),
       itemCodeWarehouseImp: Boolean(item?.isExistInDestinationWarehouse),
       storageDate: convertUtcDateToLocalTz(item?.storageDate),
       lotNumber: item?.lotNumber,
