@@ -562,6 +562,7 @@ const ItemSettingTable = (props) => {
                 arrayHelpers.push({
                   ids: new Date().getTime(),
                   itemcode: null,
+                  itemCodeWarehouseImp: false,
                   itemName: '',
                   itemType: '',
                   lotNumber: '',
