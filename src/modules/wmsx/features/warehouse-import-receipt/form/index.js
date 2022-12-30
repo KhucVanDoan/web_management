@@ -310,8 +310,14 @@ function WarehouseImportReceiptForm() {
 
   const onSubmit = (values) => {
     if (itemReceipt?.length) {
-      const itemById = keyBy(map(values?.items, 'itemCode'), 'itemId')
-      const isMissingItem = itemReceipt.some((item) => !itemById[item.itemId])
+      const itemById = keyBy(
+          values?.items?.map(item => ({
+          ...item,
+          itemId: item?.itemCode?.itemId,
+        })),
+        'itemId'
+      );
+      const isMissingItem = itemReceipt.some(item => !itemById[item.itemId]);
       if (isMissingItem) {
         addNotification(
           t('warehouseImportReceipt.missedItemBasedOnReceipt'),

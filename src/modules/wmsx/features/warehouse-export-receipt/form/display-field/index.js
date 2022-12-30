@@ -552,7 +552,7 @@ const displayFollowBusinessTypeManagement = (
                       filter: convertFilterParams({
                         status: [
                           ORDER_STATUS.COMPLETED,
-                          ORDER_STATUS.RECEIVED,
+                          // ORDER_STATUS.RECEIVED,
                           ORDER_STATUS.IN_PROGRESS,
                         ],
                       }),
