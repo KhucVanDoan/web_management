@@ -63,13 +63,46 @@ const ReportExport = () => {
     exportReportApi(convertValues)
   }
 
-  const isTimeRequired = (type) =>
-    ![
-      REPORT_TYPE.INVENTORY,
-      REPORT_TYPE.SITUATION_INVENTORY_PERIOD,
-      REPORT_TYPE.ITEM_INVENTORY_BELOW_MINIMUM,
-      REPORT_TYPE.ITEM_INVENTORY_BELOW_SAFE,
+  const isConstructionEnabled = (type) =>
+    [
+      REPORT_TYPE.ORDER_IMPORT_INCOMPLETED,
+      REPORT_TYPE.ORDER_EXPORT_INCOMPLETED,
+      REPORT_TYPE.SITUATION_IMPORT_PERIOD,
+      REPORT_TYPE.SITUATION_EXPORT_PERIOD,
     ].includes(type)
+
+  const isDepartmentEnabled = (type) =>
+    type === REPORT_TYPE.SITUATION_EXPORT_PERIOD
+
+  const isTimeEnabled = (type) =>
+    [
+      REPORT_TYPE.ORDER_TRANSFER_INCOMPLETED,
+      REPORT_TYPE.ORDER_EXPORT_INCOMPLETED,
+      REPORT_TYPE.ORDER_IMPORT_INCOMPLETED,
+      REPORT_TYPE.ITEM_IMPORTED_BUT_NOT_PUT_TO_POSITION,
+      REPORT_TYPE.ITEM_INVENTORY,
+      REPORT_TYPE.ITEM_INVENTORY_IMPORTED_NO_QR_CODE,
+      REPORT_TYPE.ORDER_EXPORT_BY_REQUEST_FOR_ITEM,
+      REPORT_TYPE.SITUATION_TRANSFER,
+      REPORT_TYPE.SITUATION_INVENTORY_PERIOD,
+      REPORT_TYPE.SITUATION_IMPORT_PERIOD,
+      REPORT_TYPE.SITUATION_EXPORT_PERIOD,
+      REPORT_TYPE.STORED,
+    ].includes(type)
+
+  const handleChangeReportType = (type, setFieldValue) => {
+    if (!isConstructionEnabled(type)) {
+      setFieldValue('construction', null)
+    }
+
+    if (!isDepartmentEnabled(type)) {
+      setFieldValue('receivingDepartment', null)
+    }
+
+    if (!isTimeEnabled(type)) {
+      setFieldValue('time', [new Date(), new Date()])
+    }
+  }
 
   const renderActionBar = (handleReset) => {
     return (
@@ -123,46 +156,31 @@ const ReportExport = () => {
                       getOptionSubLabel={(opt) => t(opt?.text)}
                       getOptionValue={(opt) => opt?.id}
                       required
-                      onChange={(val) => {
-                        if (!isTimeRequired(val)) {
-                          setFieldValue('time', [new Date(), new Date()])
+                      onChange={(type) =>
+                        handleChangeReportType(type, setFieldValue)
+                      }
+                    />
+                  </Grid>
+
+                  {isConstructionEnabled(values?.type) && (
+                    <Grid item lg={12} xs={12}>
+                      <Field.Autocomplete
+                        name="construction"
+                        label={t('reportExport.construction')}
+                        placeholder={t('reportExport.construction')}
+                        asyncRequest={(s) =>
+                          searchConstructionsApi({
+                            keyword: s,
+                            limit: ASYNC_SEARCH_LIMIT,
+                          })
                         }
-                      }}
-                    />
-                  </Grid>
-                  {/* <Grid item lg={12} xs={12}>
-                    <Field.Autocomplete
-                      name="company"
-                      label={t('reportExport.company')}
-                      placeholder={t('reportExport.company')}
-                      asyncRequest={(s) =>
-                        searchCompaniesApi({
-                          keyword: s,
-                          limit: ASYNC_SEARCH_LIMIT,
-                        })
-                      }
-                      asyncRequestHelper={(res) => res?.data?.items}
-                      getOptionLabel={(opt) => opt?.code}
-                      getOptionSubLabel={(opt) => opt?.name}
-                      required
-                    />
-                  </Grid> */}
-                  <Grid item lg={12} xs={12}>
-                    <Field.Autocomplete
-                      name="construction"
-                      label={t('reportExport.construction')}
-                      placeholder={t('reportExport.construction')}
-                      asyncRequest={(s) =>
-                        searchConstructionsApi({
-                          keyword: s,
-                          limit: ASYNC_SEARCH_LIMIT,
-                        })
-                      }
-                      asyncRequestHelper={(res) => res?.data?.items}
-                      getOptionLabel={(opt) => opt?.code}
-                      getOptionSubLabel={(opt) => opt?.name}
-                    />
-                  </Grid>
+                        asyncRequestHelper={(res) => res?.data?.items}
+                        getOptionLabel={(opt) => opt?.code}
+                        getOptionSubLabel={(opt) => opt?.name}
+                      />
+                    </Grid>
+                  )}
+
                   <Grid item lg={12} xs={12}>
                     <Field.Autocomplete
                       name="warehouse"
@@ -179,27 +197,30 @@ const ReportExport = () => {
                       getOptionSubLabel={(opt) => opt?.name}
                     />
                   </Grid>
-                  <Grid item lg={12} xs={12}>
-                    <Field.Autocomplete
-                      name="receivingDepartment"
-                      label={t('reportExport.receivingDepartment')}
-                      placeholder={t('reportExport.receivingDepartment')}
-                      asyncRequest={(s) =>
-                        searchReceiptDepartmentApi({
-                          keyword: s,
-                          limit: ASYNC_SEARCH_LIMIT,
-                        })
-                      }
-                      asyncRequestHelper={(res) => res?.data?.items}
-                      getOptionLabel={(opt) => opt?.code}
-                      getOptionSubLabel={(opt) => opt?.name}
-                      disabled={
-                        values?.type !== REPORT_TYPE.SITUATION_EXPORT_PERIOD
-                      }
-                    />
-                  </Grid>
 
-                  {isTimeRequired(values?.type) && (
+                  {isDepartmentEnabled(values?.type) && (
+                    <Grid item lg={12} xs={12}>
+                      <Field.Autocomplete
+                        name="receivingDepartment"
+                        label={t('reportExport.receivingDepartment')}
+                        placeholder={t('reportExport.receivingDepartment')}
+                        asyncRequest={(s) =>
+                          searchReceiptDepartmentApi({
+                            keyword: s,
+                            limit: ASYNC_SEARCH_LIMIT,
+                          })
+                        }
+                        asyncRequestHelper={(res) => res?.data?.items}
+                        getOptionLabel={(opt) => opt?.code}
+                        getOptionSubLabel={(opt) => opt?.name}
+                        disabled={
+                          values?.type !== REPORT_TYPE.SITUATION_EXPORT_PERIOD
+                        }
+                      />
+                    </Grid>
+                  )}
+
+                  {isTimeEnabled(values?.type) && (
                     <Grid item lg={12} xs={12}>
                       <Field.DateRangePicker
                         name="time"
