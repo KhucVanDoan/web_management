@@ -373,6 +373,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
             isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
             asyncRequestHelper={(res) => res?.data?.items}
             getOptionLabel={(opt) => opt?.code}
+            getOptionSubLabel={(opt) => opt?.name}
             disabled={!params?.row?.supplyCode}
           />
         )
@@ -400,6 +401,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
             isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
             asyncRequestHelper={(res) => res?.data?.items}
             getOptionLabel={(opt) => opt?.code}
+            getOptionSubLabel={(opt) => opt?.name}
             disabled={!params?.row?.supplyCode}
           />
         )
@@ -694,7 +696,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
     {
       field: '#',
       headerName: '#',
-      width: 50,
+      width: 10,
       renderCell: (_, index) => {
         return index + 1
       },
@@ -702,7 +704,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
     {
       field: 'nameMaterialCode',
       headerName: t('warehouseExportProposal.nameMaterialCode'),
-      width: 50,
+      width: 150,
       renderCell: (params) => {
         return params?.row?.suppliesNameNeedGrantCode
       },
@@ -710,7 +712,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
     {
       field: 'unit',
       headerName: t('warehouseExportProposal.unit'),
-      width: 200,
+      width: 100,
       renderCell: (params) => {
         return params?.row?.unit?.name || params?.row?.unit
       },
@@ -728,7 +730,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       headerName: t('warehouseExportProposal.items.suppliesType'),
       width: 150,
       renderCell: (params) => {
-        return params?.row?.suppliesType?.code
+        return params?.row?.suppliesType?.name
       },
     },
     {
@@ -736,7 +738,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       headerName: t('warehouseExportProposal.items.producingCountry'),
       width: 150,
       renderCell: (params) => {
-        return params?.row?.producingCountry?.code
+        return params?.row?.producingCountry?.name
       },
     },
     {
@@ -744,7 +746,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       headerName: t('warehouseExportProposal.items.materialQuality'),
       width: 150,
       renderCell: (params) => {
-        return params?.row?.materialQuality?.code
+        return params?.row?.materialQuality?.name
       },
     },
   ]
