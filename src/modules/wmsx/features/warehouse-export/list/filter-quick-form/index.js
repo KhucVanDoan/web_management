@@ -136,6 +136,7 @@ const WarehouseExportFilter = ({
                       getOptionValue={(opt) => opt?.id}
                       getOptionLabel={(opt) => t(opt?.text)}
                       clearIcon={false}
+                      disableClearable
                       onChange={(val) =>
                         hanldeChangeOrderType(val, values, setFieldValue)
                       }

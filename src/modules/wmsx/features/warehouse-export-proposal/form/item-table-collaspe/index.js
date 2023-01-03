@@ -711,7 +711,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
     },
     {
       field: 'unit',
-      headerName: t('warehouseExportProposal.unit'),
+      headerName: t('warehouseExportProposal.unitItem'),
       width: 100,
       renderCell: (params) => {
         return params?.row?.unit?.name || params?.row?.unit

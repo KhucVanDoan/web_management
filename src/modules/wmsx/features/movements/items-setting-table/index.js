@@ -13,15 +13,16 @@ const ItemSettingTable = ({ items, movementType }) => {
   const getRows = (items) => {
     let rows = []
     let rowSpanMatrix = []
-    items?.forEach((item) => {
+    items?.forEach((item, index) => {
       const totalLotsInItem = item?.lots?.length
-      // const totalQuantityTaken = item?.lots?.reduce(
-      //   (acc, curr) => acc + Number(curr?.quantity),
-      //   0,
-      // )
+      const totalQuantityTaken = item?.lots?.reduce(
+        (acc, curr) => acc + Number(curr?.quantity),
+        0,
+      )
       if (item?.lots.length > 0) {
         item?.lots?.forEach((lot, lotIndex) => {
           let obj = {
+            index: index,
             code: item?.code,
             name: item?.name,
             itemUnit: item?.itemUnit,
@@ -29,7 +30,10 @@ const ItemSettingTable = ({ items, movementType }) => {
             lotNumber: lot?.lotNumber,
             locationCode: lot?.locationCode,
             locationName: lot?.locationName,
-            planQuantity: lot?.planQuantity,
+            planQuantity:
+              lot?.planQuantity > 0
+                ? lot?.planQuantity - totalQuantityTaken
+                : lot?.planQuantity,
           }
           if (totalLotsInItem === 1) {
             rowSpanMatrix.push([1])
@@ -54,6 +58,7 @@ const ItemSettingTable = ({ items, movementType }) => {
         })
       } else {
         let obj = {
+          index: index,
           code: item?.code,
           name: item?.name,
           itemUnit: item?.itemUnit,
@@ -74,8 +79,8 @@ const ItemSettingTable = ({ items, movementType }) => {
       field: 'id',
       headerName: '#',
       width: 50,
-      renderCell: (_, index) => {
-        return index + 1
+      renderCell: (params) => {
+        return params?.row?.index + 1
       },
     },
     {

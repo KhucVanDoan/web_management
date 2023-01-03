@@ -33,19 +33,19 @@ const MovementQuantityReport = () => {
     const newData = []
     dataList.forEach((data) => {
       newData.push({
-        tag: `Ngày ${data.tag}`,
         type: t('dashboard.chart.import'),
         value: data.import,
+        tag: `${t('general:days')} ${data.tag}`,
       })
       newData.push({
-        tag: `Ngày ${data.tag}`,
         type: t('dashboard.chart.export'),
         value: data.export,
+        tag: `${t('general:days')} ${data.tag}`,
       })
       newData.push({
-        tag: `Ngày ${data.tag}`,
         type: t('dashboard.chart.transfer'),
         value: data.tranfer,
+        tag: `${t('general:days')} ${data.tag}`,
       })
     })
     return newData
@@ -108,7 +108,6 @@ const MovementQuantityReport = () => {
     '#269A99',
     '#FF99C3',
   ]
-
   const config = {
     data,
     xField: 'tag',
@@ -126,7 +125,7 @@ const MovementQuantityReport = () => {
     color: COLOR_PLATE_10,
     lineStyle: () => {
       return {
-        lineDash: [3, 3],
+        lineDash: [4, 3],
         opacity: 0.6,
       }
     },

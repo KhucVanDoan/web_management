@@ -86,13 +86,13 @@ function InventoryStatistics() {
     {
       field: 'itemCode',
       headerName: t('inventoryStatistics.code'),
-      width: 80,
+      width: 200,
       fixed: true,
     },
     {
       field: 'itemName',
       headerName: t('inventoryStatistics.name'),
-      width: 150,
+      width: 255,
       fixed: true,
     },
     {
@@ -105,7 +105,7 @@ function InventoryStatistics() {
     {
       field: 'warehouseName',
       headerName: t('inventoryStatistics.warehouseName'),
-      width: 150,
+      width: 255,
       renderCell: (params) => params.row?.warehouseName,
     },
     {
@@ -260,6 +260,7 @@ function InventoryStatistics() {
           onPageChange={setPage}
           onPageSizeChange={setPageSize}
           onSortChange={setSort}
+          enableResizable={false}
           onSettingChange={setColumnsSettings}
           //onSelectionChange={setSelectedRows}
           selected={selectedRows}

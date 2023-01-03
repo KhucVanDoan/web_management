@@ -4,9 +4,13 @@ import { Grid, Box, Typography } from '@mui/material'
 import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 
+import { TEXTFIELD_ALLOW, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
-import { DATA_SYNC_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import {
+  DATA_SYNC_STATUS_OPTIONS,
+  TYPE_TRANSACTION_DATA_SYNC_OPTION,
+} from '~/modules/wmsx/constants'
 
 import { validateSchema } from './schema'
 
@@ -39,19 +43,20 @@ const QuickFilter = ({ setQuickFilters, quickFilters, defaultFilter }) => {
                 >
                   <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
-                      name="type"
+                      name="typeTransaction"
                       label={t('dataSyncManagement.type')}
                       placeholder={t('dataSyncManagement.placeholder.type')}
-                      options={[]}
-                      getOptionValue={(opt) => opt?.id || ''}
-                      getOptionLabel={(opt) => opt?.name}
+                      options={TYPE_TRANSACTION_DATA_SYNC_OPTION}
+                      getOptionValue={(opt) => opt?.value || ''}
+                      getOptionLabel={(opt) => t(`${opt?.text}`)}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.DateRangePicker
-                      name="date"
+                      name="dateFrom"
                       label={t('dataSyncManagement.date')}
                       placeholder={t('dataSyncManagement.placeholder.date')}
+                      maxDate={new Date()}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -61,6 +66,10 @@ const QuickFilter = ({ setQuickFilters, quickFilters, defaultFilter }) => {
                       placeholder={t(
                         'dataSyncManagement.placeholder.objectCode',
                       )}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
+                      }}
+                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>

@@ -13,6 +13,7 @@ import TextField from '~/components/TextField'
 import {
   MOVEMENT_TYPE,
   MOVEMENT_TYPE_MAP,
+  TABLE_NAME_ENUM,
   WAREHOUSE_TRANSFER_MAP,
 } from '~/modules/wmsx/constants'
 import useMovements from '~/modules/wmsx/redux/hooks/useMovements'
@@ -110,6 +111,9 @@ const WarehouseImportDetail = () => {
   const backToList = () => {
     history.push(ROUTE.WAREHOUSE_IMPORT.LIST.PATH)
   }
+  const receiptRequired = receiptDetail?.attributes?.find(
+    (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT,
+  )
   const display = () => {
     switch (movementDetail?.movementType) {
       case MOVEMENT_TYPE.PO_IMPORT_RECEIVE:
@@ -169,6 +173,14 @@ const WarehouseImportDetail = () => {
                 value={receiptDetail?.source?.name}
               />
             </Grid>
+            {receiptRequired && (
+              <Grid item lg={6} xs={12}>
+                <LV
+                  label={t('warehouseImportReceipt.contractNumber')}
+                  value={receiptDetail?.contractNumber}
+                />
+              </Grid>
+            )}
             {receiptDetail?.attributes?.map((item) => {
               if (item.tableName) {
                 return (
@@ -268,6 +280,14 @@ const WarehouseImportDetail = () => {
                 value={receiptDetail?.source?.name}
               />
             </Grid>
+            {receiptRequired && (
+              <Grid item lg={6} xs={12}>
+                <LV
+                  label={t('warehouseImportReceipt.contractNumber')}
+                  value={receiptDetail?.contractNumber}
+                />
+              </Grid>
+            )}
             {receiptDetail?.attributes?.map((item) => {
               if (item.tableName) {
                 return (
