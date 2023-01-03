@@ -370,22 +370,6 @@ const ItemSettingTable = ({
                 thousandSeparator: true,
                 decimalScale: 2,
               }}
-              validate={(val) => {
-                if (val > params?.row?.planExportedQuantity) {
-                  return t('general:form.maxNumber', {
-                    max: params?.row?.planExportedQuantity,
-                  })
-                } else if (
-                  params?.row?.itemCode?.requestedQuantity ||
-                  params?.row?.itemCode?.requestedQuantity === 0
-                ) {
-                  if (val > params?.row?.itemCode?.requestedQuantity) {
-                    return t('general:form.maxNumber', {
-                      max: params?.row?.itemCode?.requestedQuantity,
-                    })
-                  }
-                }
-              }}
             />
           )
         },
