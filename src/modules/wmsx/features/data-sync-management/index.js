@@ -47,8 +47,8 @@ const DataSyncManagement = () => {
   })
 
   const DEFAULT_FILTERS = {
-    code: '',
-    name: '',
+    resourceCode: '',
+    signalCode: '',
   }
 
   const DEFAULT_QUICK_FILTERS = {
@@ -80,12 +80,15 @@ const DataSyncManagement = () => {
     {
       field: '#',
       headerName: '#',
-      width: 20,
+      width: 30,
+      renderCell: (_, index) => {
+        return index + 1
+      },
     },
     {
       field: 'signalCode',
       headerName: t('dataSyncManagement.signalCode'),
-      width: 200,
+      width: 250,
       sortable: true,
       fixed: true,
     },
@@ -96,7 +99,7 @@ const DataSyncManagement = () => {
       fixed: true,
     },
     {
-      field: 'type',
+      field: 'typeTransaction',
       headerName: t('dataSyncManagement.type'),
       width: 150,
     },
@@ -132,7 +135,7 @@ const DataSyncManagement = () => {
       width: 150,
     },
     {
-      field: 'receivedDate',
+      field: 'dateFrom',
       headerName: t('dataSyncManagement.receivedDate'),
       filterFormat: 'date',
       width: 150,
@@ -184,7 +187,7 @@ const DataSyncManagement = () => {
     id: item?.id,
     signalCode: item?.id,
     resourceCode: item?.resourceCode,
-    receivedDate: item?.dateFrom ? convertUtcDateToLocalTz(item?.dateFrom) : '',
+    dateFrom: item?.dateFrom ? convertUtcDateToLocalTz(item?.dateFrom) : '',
     sentDate: item?.dateNow ? convertUtcDateToLocalTz(item?.dateNow) : '',
     fromSystem: item?.fromSystem,
     toSystem: item?.toSystem,
@@ -197,12 +200,18 @@ const DataSyncManagement = () => {
       page,
       keyword: keyword.trim(),
       limit: pageSize,
-      filter: convertFilterParams({ ...filters, ...quickFilters }, columns),
+      filter: convertFilterParams(
+        {
+          ...filters,
+          ...quickFilters,
+          resourceCode: filters?.resourceCode || quickFilters?.resourceCode,
+        },
+        columns,
+      ),
       sort: convertSortParams(sort),
     }
     actions.searchDataSyncManagement(params)
   }
-
   useEffect(() => {
     refreshData()
   }, [page, pageSize, keyword, filters, sort, quickFilters])

@@ -525,10 +525,6 @@ function WarehouseExportProposal() {
                     />
                   </Button>
                 </LabelValue>
-                {/* <Button color="grayF4" onClick={onCloseModal}>
-                  {t('general:common.no')}
-                </Button>
-                <Button type="submit">{t('general:common.yes')}</Button> */}
               </Form>
             )
           }}

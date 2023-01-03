@@ -2277,3 +2277,37 @@ export const STATUS_SYNC_ORDER_TO_EBS = {
   COMPLETED: 3,
   CANCEL: 4,
 }
+export const TYPE_TRANSACTION_DATA_SYNC = {
+  WAREHOUSE_TRANSFER: 'Chuyển kho',
+  PO_IMPORT: 'Phiếu nhập kho',
+  SO_EXPORT: 'Phiếu xuất kho',
+  TRANSACTION: 'Giao dịch',
+  LOCATION: 'Vị trí',
+  LOCATION_ITEM: 'Vị trí-Vật tư',
+}
+export const TYPE_TRANSACTION_DATA_SYNC_OPTION = [
+  {
+    value: TYPE_TRANSACTION_DATA_SYNC.TRANSACTION,
+    text: 'dataSyncManagement.warehouseExportReceipt',
+  },
+  {
+    value: TYPE_TRANSACTION_DATA_SYNC.WAREHOUSE_TRANSFER,
+    text: 'dataSyncManagement.warehouseTransfer',
+  },
+  {
+    value: TYPE_TRANSACTION_DATA_SYNC.LOCATION,
+    text: 'dataSyncManagement.location',
+  },
+  {
+    value: TYPE_TRANSACTION_DATA_SYNC.LOCATION_ITEM,
+    text: 'dataSyncManagement.locationItem',
+  },
+  // {
+  //   value: TYPE_TRANSACTION_DATA_SYNC.PO_IMPORT,
+  //   text: 'dataSyncManagement.warehouseImportReceipt',
+  // },
+  // {
+  //   value: TYPE_TRANSACTION_DATA_SYNC.SO_EXPORT,
+  //   text: 'dataSyncManagement.warehouseExportReceipt',
+  // },
+]

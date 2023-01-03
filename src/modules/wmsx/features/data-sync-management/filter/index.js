@@ -13,10 +13,12 @@ const FilterForm = () => {
     <Grid container rowSpacing={4 / 3}>
       <Grid item xs={12}>
         <Field.TextField
-          name="objectCode"
+          name="resourceCode"
           label={t('dataSyncManagement.objectCode')}
           placeholder={t('dataSyncManagement.objectCode')}
-          inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX }}
+          inputProps={{
+            maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
+          }}
           allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
         />
       </Grid>

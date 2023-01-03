@@ -29,14 +29,22 @@ export const formSchema = (t) =>
                   min: NUMBER_FIELD_REQUIRED_SIZE.WATTAGE.MIN,
                 }),
               })
+            } else if (value > context?.parent?.planExportedQuantity) {
+              return context.createError({
+                message: t('general:form.maxNumber', {
+                  max: context?.parent?.planExportedQuantity,
+                }),
+              })
+            } else if (
+              context?.parent?.quantityRequest ||
+              context?.parent?.quantityRequest === 0
+            ) {
+              return context.createError({
+                message: t('general:form.maxNumber', {
+                  max: context?.parent?.quantityRequest,
+                }),
+              })
             }
-            // else if (value > context?.parent?.planExportedQuantity) {
-            //   return context.createError({
-            //     message: t('general:form.maxNumber', {
-            //       max: context?.parent?.planExportedQuantity,
-            //     }),
-            //   })
-            // }
             return true
           }),
         // money: Yup.string().nullable().required(t('general:form.required')),

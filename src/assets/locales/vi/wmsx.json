@@ -3004,6 +3004,7 @@
     "print": "Máy in",
     "paperNumber": "Số giấy",
     "unit": "Đơn vị",
+    "unitItem": "Đơn vị tính",
     "time": "Thời gian",
     "creator": "Người tạo",
     "materialReceiver": "Người lĩnh vật tư",
@@ -3277,7 +3278,13 @@
       "success": "Thành công",
       "inProgress": "Đang xử lý",
       "cancel": "Huỷ"
-    }
+    },
+    "warehouseTransfer": "Lệnh chuyển kho",
+    "warehouseImportReceipt": "Phiếu nhập kho",
+    "warehouseExportReceipt": "Phiếu xuất kho",
+    "transaction": "Giao dịch",
+    "location": "Vị trí",
+    "locationItem": "Vị trí-Vật tư"
   },
   "roleList": {
     "title": "Danh sách vai trò",
