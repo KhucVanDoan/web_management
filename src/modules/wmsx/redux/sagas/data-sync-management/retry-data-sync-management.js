@@ -18,6 +18,10 @@ const retryDataSyncManagementApi = (params) => {
   return api.put(uri)
 }
 
+export const detailDataSyncManagementApi = (params) => {
+  const uri = `/v1/datasync/jobs/${params}`
+  return api.get(uri)
+}
 /**
  * Handle get data request and response
  * @param {object} action
