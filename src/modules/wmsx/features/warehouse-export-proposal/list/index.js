@@ -3,10 +3,8 @@ import React, { useState, useEffect } from 'react'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
 import { Box, FormLabel, Typography } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
-import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
-import * as Yup from 'yup'
 
 // import { BULK_ACTION } from '~/common/constants'
 // import { API_URL } from '~/common/constants/apiUrl'
@@ -97,7 +95,7 @@ function WarehouseExportProposal() {
 
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
-
+  const [attachedFile, setAttachedFile] = useState({})
   const columns = [
     {
       field: 'paperNumber',
@@ -335,12 +333,21 @@ function WarehouseExportProposal() {
       isOpenRejectModal: false,
       tempItem: null,
     })
+    setAttachedFile([])
   }
   const onSubmitConfirm = () => {
-    actions.confirmWarehouseExportProposalById(modal.tempItem?.id, () => {
-      refreshData()
-    })
+    const params = {
+      id: modal.tempItem?.id,
+      attachment: attachedFile,
+    }
+    actions.confirmWarehouseExportProposalById(
+      attachedFile?.name ? params : { id: modal.tempItem?.id },
+      () => {
+        refreshData()
+      },
+    )
     setModal({ isOpenComfirmModal: false, tempItem: null })
+    setAttachedFile([])
   }
 
   const onSubmitReject = () => {
@@ -469,66 +476,43 @@ function WarehouseExportProposal() {
         noBorderBottom
       >
         {t('warehouseExportProposal.Confirm')}
-        <Formik
-          initialValues={{
-            attachedFile: null,
-          }}
-          validationSchema={() =>
-            Yup.object().shape({
-              attachedFile: Yup.mixed().required(t('general:form.required')),
-            })
+
+        <LabelValue
+          label={
+            <Box sx={{ mt: 8 / 12 }}>
+              <FormLabel>
+                <Typography color={'text.main'} component="span">
+                  {t('inventoryAdjust.attachment')}
+                </Typography>
+              </FormLabel>
+            </Box>
           }
-          onSubmit={onSubmitConfirm}
-          enableReinitialize
         >
-          {({ values, setFieldValue }) => {
-            return (
-              <Form>
-                <LabelValue
-                  label={
-                    <Box sx={{ mt: 8 / 12 }}>
-                      <FormLabel>
-                        <Typography color={'text.main'} component="span">
-                          {t('inventoryAdjust.attachment')}
-                        </Typography>
-                      </FormLabel>
-                    </Box>
-                  }
-                >
-                  {values?.attachedFile && (
-                    <label htmlFor="select-file">
-                      <Typography sx={{ mt: 8 / 12 }}>
-                        {values?.attachedFile
-                          ?.map((i) => i?.name)
-                          ?.join('\r\n')}
-                      </Typography>
-                    </label>
-                  )}
-                  <Button
-                    variant="contained"
-                    component="label"
-                    sx={{ backgroundColor: '#fff' }}
-                  >
-                    <FileUploadIcon color="primary" />
-                    <input
-                      hidden
-                      id="select-file"
-                      multiple
-                      type="file"
-                      accept="image/gif, image/jpeg, image/png, application/pdf, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                      onChange={(e) => {
-                        setFieldValue(
-                          'attachedFile',
-                          Object.values(e.target.files),
-                        )
-                      }}
-                    />
-                  </Button>
-                </LabelValue>
-              </Form>
-            )
-          }}
-        </Formik>
+          {attachedFile && (
+            <label htmlFor="select-file">
+              <Typography sx={{ mt: 8 / 12 }} color="primary">
+                {attachedFile?.name}
+              </Typography>
+            </label>
+          )}
+          <Button
+            variant="contained"
+            component="label"
+            sx={{ backgroundColor: '#fff' }}
+          >
+            <FileUploadIcon color="primary" />
+            <input
+              hidden
+              id="select-file"
+              multiple
+              type="file"
+              accept="image/gif, image/jpeg, image/png, application/pdf, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+              onChange={(e) => {
+                setAttachedFile(e.target.files[0])
+              }}
+            />
+          </Button>
+        </LabelValue>
       </Dialog>
       <Dialog
         open={modal.isOpenRejectModal}

@@ -191,7 +191,7 @@ const DataSyncManagement = () => {
     sentDate: item?.dateNow ? convertUtcDateToLocalTz(item?.dateNow) : '',
     fromSystem: item?.fromSystem,
     toSystem: item?.toSystem,
-    type: item?.typeTransaction,
+    typeTransaction: item?.typeTransaction,
     status: item?.status,
   }))
 
