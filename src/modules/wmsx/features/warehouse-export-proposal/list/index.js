@@ -482,7 +482,7 @@ function WarehouseExportProposal() {
             <Box sx={{ mt: 8 / 12 }}>
               <FormLabel>
                 <Typography color={'text.main'} component="span">
-                  {t('inventoryAdjust.attachment')}
+                  {t('warehouseExportProposal.attachment')}
                 </Typography>
               </FormLabel>
             </Box>

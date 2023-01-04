@@ -39,7 +39,7 @@ function* doConfirmWarehouseExportProposal(action) {
         NOTIFICATION_TYPE.ERROR,
       )
 
-      throw new Error(response?.payload?.message)
+      throw new Error(response?.message)
     }
   } catch (error) {
     yield put(confirmWarehouseExportProposalByIdFailed())

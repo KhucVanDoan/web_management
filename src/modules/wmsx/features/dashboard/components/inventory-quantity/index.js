@@ -41,8 +41,8 @@ const InventoryQuantity = ({ fromDate, toDate }) => {
   }
   const data = itemStockHistories?.map((item) => ({
     time: item?.tag,
-    value: item?.amount,
-    quantity: item?.quantity,
+    value: item?.quantity,
+    quantity: item?.amount,
     type: t('dashboard.inventoryQuantity.quantity'),
     name: t('dashboard.inventoryQuantity.value'),
   }))

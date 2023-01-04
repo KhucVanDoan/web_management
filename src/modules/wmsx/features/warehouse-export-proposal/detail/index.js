@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 
 import { Box, Button, Grid, Typography } from '@mui/material'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
@@ -156,6 +157,31 @@ function WarehouseExportProposalDetail() {
       </>
     )
   }
+  const dowAttachment = async (params) => {
+    const uri = `/v1/files/${params}`
+    const res = await api.get(
+      uri,
+      {},
+      {
+        responseType: 'blob',
+        getHeaders: true,
+      },
+    )
+    if (res.status === 500) {
+      addNotification(res?.statusText, NOTIFICATION_TYPE.ERROR)
+    } else {
+      const filename = getFileNameFromHeader(res)
+      const blob = new Blob([res?.data])
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      const nameFile = decodeURI(filename)
+      link.setAttribute('download', nameFile)
+      document.body.appendChild(link)
+      link.click()
+      URL.revokeObjectURL(url)
+    }
+  }
   return (
     <Page
       breadcrumbs={breadcrumbs}
@@ -255,6 +281,18 @@ function WarehouseExportProposalDetail() {
                 value={warehouseExportProposalDetails?.construction?.name}
               />
             </Grid>
+            {!isEmpty(warehouseExportProposalDetails?.attachment) && (
+              <Grid item lg={6} xs={12}>
+                <LV
+                  label={t('warehouseExportProposal.attachment')}
+                  value={warehouseExportProposalDetails?.attachment?.fileName}
+                  file={true}
+                  onClick={() =>
+                    dowAttachment(warehouseExportProposalDetails.attachment?.id)
+                  }
+                />
+              </Grid>
+            )}
             <Grid item xs={12}>
               <TextField
                 name="reasonUse"
