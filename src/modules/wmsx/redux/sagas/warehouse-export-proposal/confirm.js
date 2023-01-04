@@ -10,8 +10,12 @@ import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 const confirmWarehouseExportProposalApi = (params) => {
-  const uri = `/v1/warehouses/warehouse-export-proposals/${params}/confirm`
-  return api.put(uri)
+  let form_data = new FormData()
+  for (let key in params) {
+    form_data.append(key, params[key])
+  }
+  const uri = `/v1/warehouses/warehouse-export-proposals/${params?.id}/confirm`
+  return api.put(uri, form_data)
 }
 
 function* doConfirmWarehouseExportProposal(action) {
@@ -20,7 +24,6 @@ function* doConfirmWarehouseExportProposal(action) {
       confirmWarehouseExportProposalApi,
       action?.payload,
     )
-
     if (response?.statusCode === 200) {
       yield put(confirmWarehouseExportProposalByIdSuccess(response.payload))
 
@@ -36,7 +39,7 @@ function* doConfirmWarehouseExportProposal(action) {
         NOTIFICATION_TYPE.ERROR,
       )
 
-      throw new Error(response?.message)
+      throw new Error(response?.payload?.message)
     }
   } catch (error) {
     yield put(confirmWarehouseExportProposalByIdFailed())

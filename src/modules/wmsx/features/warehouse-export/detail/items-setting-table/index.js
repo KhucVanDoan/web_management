@@ -31,7 +31,7 @@ const ItemSettingTable = ({ items, movementType }) => {
             locationName: lot?.locationName,
             planQuantity:
               item?.planQuantity > 0
-                ? item?.planQuantity - totalQuantityTaken
+                ? (item?.planQuantity - totalQuantityTaken).toFixed(2)
                 : 0,
           }
           if (totalLotsInItem === 1) {
