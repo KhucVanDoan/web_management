@@ -125,7 +125,7 @@ const ItemSettingTable = ({ items, itemList, lots, arrayHelpers }) => {
                 item?.value,
             ),
           )
-            ? params?.row?.item?.quantity
+            ? params?.row?.item?.requestedQuantityWarehouseExportProposal
             : ''
         },
       },

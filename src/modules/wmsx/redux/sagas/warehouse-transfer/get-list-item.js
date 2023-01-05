@@ -17,7 +17,7 @@ export const getListItemWarehouseStockApi = (params) => {
   return api.get(uri, params)
 }
 export const getListStorageDateApi = (params) => {
-  const uri = `v1/items/${params}/storage-dates`
+  const uri = `v1/items/${params?.id}/storage-dates?locatorIds=${params?.locatorId}`
   return api.get(uri)
 }
 export const checkItemWarehouseImport = (params) => {

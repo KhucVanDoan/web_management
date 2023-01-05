@@ -22,24 +22,27 @@ import addNotification from '~/utils/toast'
 import ItemSettingTable from './item-setting-table'
 import { formSchema } from './schema'
 
-const breadcrumbs = [
-  {
-    title: 'receiptCommandManagement',
-  },
-  {
-    route: ROUTE.WAREHOUSE_EXPORT_RECEIPT.LIST.PATH,
-    title: ROUTE.WAREHOUSE_EXPORT_RECEIPT.LIST.TITLE,
-  },
-  {
-    route: ROUTE.WAREHOUSE_EXPORT_RECEIPT.PICK_AND_EXPORT.PATH,
-    title: ROUTE.WAREHOUSE_EXPORT_RECEIPT.PICK_AND_EXPORT.TITLE,
-  },
-]
-
 function WarehouseExportReceiptPickAndExport() {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
   const { id } = useParams()
+  const breadcrumbs = [
+    {
+      title: 'receiptCommandManagement',
+    },
+    {
+      route: ROUTE.WAREHOUSE_EXPORT_RECEIPT.LIST.PATH,
+      title: ROUTE.WAREHOUSE_EXPORT_RECEIPT.LIST.TITLE,
+    },
+    {
+      route: ROUTE.WAREHOUSE_EXPORT_RECEIPT.DETAIL.PATH.replace(':id', id),
+      title: ROUTE.WAREHOUSE_EXPORT_RECEIPT.DETAIL.TITLE,
+    },
+    {
+      route: ROUTE.WAREHOUSE_EXPORT_RECEIPT.PICK_AND_EXPORT.PATH,
+      title: ROUTE.WAREHOUSE_EXPORT_RECEIPT.PICK_AND_EXPORT.TITLE,
+    },
+  ]
   const routeMatch = useRouteMatch()
   const MODE_MAP = {
     [ROUTE.WAREHOUSE_EXPORT_RECEIPT.DETAIL.PATH]: MODAL_MODE.DETAIL,
