@@ -88,7 +88,8 @@ const warehouseTranferSchema = (t, type) => {
           }),
         locator: Yup.object()
           .nullable()
-          .required(t('general:form.required'))
+          //@TODO doan.khucvan mai check lại đoạn này tùy từng loại chuyển kho mới required!
+          // .required(t('general:form.required'))
           .test('', (value, context) => {
             const findItem = context?.from[1]?.value?.items?.find(
               (item) =>
