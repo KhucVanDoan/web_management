@@ -62,7 +62,9 @@ const ItemSettingTableDetail = ({ items }) => {
                 item?.value,
             ),
           )
-            ? params?.row?.requestedQuantityWarehouseExportProposal
+            ? Math.round(
+                params?.row?.requestedQuantityWarehouseExportProposal * 100,
+              ) / 100
             : ''
         },
       },

@@ -93,21 +93,21 @@ const ItemSettingTable = (props) => {
       }
       setFieldValue(`items[${index}].debitAcc`, '1519')
       if (values?.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG) {
-        const storageDate = await getListStorageDateApi(val?.itemId || val?.id)
-        if (storageDate?.statusCode === 200) {
-          storageDate?.data?.storageDates?.forEach((item) => {
-            const findStorage = storageDates?.find(
-              (date) =>
-                date?.itemId === item?.itemId &&
-                new Date(date?.storageDate)?.toISOString() ===
-                  new Date(item?.storageDate)?.toISOString(),
-            )
-            if (isEmpty(findStorage)) {
-              storageDates.push(item)
-            }
-          })
-          setStorageDates([...storageDates])
-        }
+        // const storageDate = await getListStorageDateApi(val?.itemId || val?.id)
+        // if (storageDate?.statusCode === 200) {
+        //   storageDate?.data?.storageDates?.forEach((item) => {
+        //     const findStorage = storageDates?.find(
+        //       (date) =>
+        //         date?.itemId === item?.itemId &&
+        //         new Date(date?.storageDate)?.toISOString() ===
+        //           new Date(item?.storageDate)?.toISOString(),
+        //     )
+        //     if (isEmpty(findStorage)) {
+        //       storageDates.push(item)
+        //     }
+        //   })
+        //   setStorageDates([...storageDates])
+        // }
       }
     } else {
       setFieldValue(`items[${index}].planExportedQuantity`, '')
@@ -144,6 +144,25 @@ const ItemSettingTable = (props) => {
   }
   const handleChangeLocator = async (val, index, payload) => {
     if (val) {
+      setFieldValue(`items[${index}].warehouseImportDate`, '')
+      const storageDate = await getListStorageDateApi({
+        id: payload?.row?.itemCode?.id || payload?.row?.itemCode?.itemId,
+        locatorId: val?.locatorId,
+      })
+      if (storageDate?.statusCode === 200) {
+        storageDate?.data?.storageDates?.forEach((item) => {
+          const findStorage = storageDates?.find(
+            (date) =>
+              date?.itemId === item?.itemId &&
+              new Date(date?.storageDate)?.toISOString() ===
+                new Date(item?.storageDate)?.toISOString(),
+          )
+          if (isEmpty(findStorage)) {
+            storageDates.push(item)
+          }
+        })
+        setStorageDates([...storageDates])
+      }
       const params = {
         items: [
           {
@@ -333,7 +352,8 @@ const ItemSettingTable = (props) => {
           const storageDateList = storageDates?.filter(
             (item) =>
               item?.itemId ===
-              (params?.row?.itemCode?.itemId || params?.row?.itemCode?.id),
+                (params?.row?.itemCode?.itemId || params?.row?.itemCode?.id) &&
+              item?.locatorId === params?.row?.locator?.locatorId,
           )
           return isView ? (
             params?.row?.storageDate
@@ -345,6 +365,7 @@ const ItemSettingTable = (props) => {
               getOptionLabel={(opt) => convertUtcDateToLocalTz(opt.storageDate)}
               isOptionEqualToValue={(opt, val) => opt?.storageDate === val}
               getOptionValue={(option) => option?.storageDate}
+              disabled={!params?.row?.locator}
             />
           )
         },

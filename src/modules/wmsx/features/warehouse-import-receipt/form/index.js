@@ -29,7 +29,7 @@ import {
 import useSourceManagement from '~/modules/wmsx/redux/hooks/useSourceManagement'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import { searchBusinessTypesApi } from '~/modules/wmsx/redux/sagas/business-type-management/search-business-types'
-import { searchWarehouseByUserApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
+import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { searchApi } from '~/modules/wmsx/redux/sagas/reason-management/search'
 import { searchReceiptDepartmentApi } from '~/modules/wmsx/redux/sagas/receipt-department-management/search-receipt-department'
 import { getReceiptDetailsApi } from '~/modules/wmsx/redux/sagas/receipt-management/get-receipt-details'
@@ -39,11 +39,7 @@ import { getWarehouseExportProposalDetailsApi } from '~/modules/wmsx/redux/sagas
 import { getWarehouseExportReceiptDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/get-details'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { useClasses } from '~/themes'
-import {
-  convertFilterParams,
-  convertUtcDateToLocalTz,
-  getLocalItem,
-} from '~/utils'
+import { convertFilterParams, convertUtcDateToLocalTz } from '~/utils'
 import addNotification from '~/utils/toast'
 
 import displayFollowBusinessTypeManagement from '../display-field'
@@ -69,7 +65,6 @@ function WarehouseImportReceiptForm() {
   const { id } = useParams()
   const classes = useClasses(style)
   const routeMatch = useRouteMatch()
-  const loggedInUserInfo = getLocalItem('userInfo')
   const [itemReceipt, setItemReceipt] = useState([])
   const [itemWarehouseExportProposal, setItemWarehouseExportProposal] =
     useState([])
@@ -311,13 +306,13 @@ function WarehouseImportReceiptForm() {
   const onSubmit = (values) => {
     if (itemReceipt?.length) {
       const itemById = keyBy(
-          values?.items?.map(item => ({
+        values?.items?.map((item) => ({
           ...item,
           itemId: item?.itemCode?.itemId,
         })),
-        'itemId'
-      );
-      const isMissingItem = itemReceipt.some(item => !itemById[item.itemId]);
+        'itemId',
+      )
+      const isMissingItem = itemReceipt.some((item) => !itemById[item.itemId])
       if (isMissingItem) {
         addNotification(
           t('warehouseImportReceipt.missedItemBasedOnReceipt'),
@@ -634,12 +629,12 @@ function WarehouseImportReceiptForm() {
                         label={t('warehouseImportReceipt.warehouse')}
                         placeholder={t('warehouseImportReceipt.warehouse')}
                         asyncRequest={(s) =>
-                          searchWarehouseByUserApi({
+                          searchWarehouseApi({
                             keyword: s,
-                            userId: loggedInUserInfo?.id,
                             limit: ASYNC_SEARCH_LIMIT,
                             filter: convertFilterParams({
                               status: ACTIVE_STATUS.ACTIVE,
+                              userWarehouse: ACTIVE_STATUS.ACTIVE,
                             }),
                           })
                         }

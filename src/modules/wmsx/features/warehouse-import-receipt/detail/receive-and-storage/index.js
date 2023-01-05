@@ -27,28 +27,27 @@ import addNotification from '~/utils/toast'
 import ItemsSettingTable from './items-setting-table'
 import { formSchema } from './schema'
 
-const breadcrumbs = [
-  {
-    title: 'receiptCommandManagement',
-  },
-  {
-    route: ROUTE.WAREHOUSE_IMPORT_RECEIPT.LIST.PATH,
-    title: ROUTE.WAREHOUSE_IMPORT_RECEIPT.LIST.TITLE,
-  },
-  {
-    route: ROUTE.WAREHOUSE_IMPORT_RECEIPT.DETAIL.PATH,
-    title: ROUTE.WAREHOUSE_IMPORT_RECEIPT.DETAIL.TITLE,
-  },
-  {
-    route: ROUTE.WAREHOUSE_IMPORT_RECEIPT.RECEIVE_AND_STORAGE.PATH,
-    title: ROUTE.WAREHOUSE_IMPORT_RECEIPT.RECEIVE_AND_STORAGE.TITLE,
-  },
-]
-
 function WarehouseImportReceiveAndStorage() {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
   const { id } = useParams()
+  const breadcrumbs = [
+    {
+      title: 'receiptCommandManagement',
+    },
+    {
+      route: ROUTE.WAREHOUSE_IMPORT_RECEIPT.LIST.PATH,
+      title: ROUTE.WAREHOUSE_IMPORT_RECEIPT.LIST.TITLE,
+    },
+    {
+      route: ROUTE.WAREHOUSE_IMPORT_RECEIPT.DETAIL.PATH.replace(':id', id),
+      title: ROUTE.WAREHOUSE_IMPORT_RECEIPT.DETAIL.TITLE,
+    },
+    {
+      route: ROUTE.WAREHOUSE_IMPORT_RECEIPT.RECEIVE_AND_STORAGE.PATH,
+      title: ROUTE.WAREHOUSE_IMPORT_RECEIPT.RECEIVE_AND_STORAGE.TITLE,
+    },
+  ]
   const {
     data: {
       warehouseImportReceiptDetails,

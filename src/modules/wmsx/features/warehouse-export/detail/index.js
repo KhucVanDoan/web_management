@@ -118,7 +118,7 @@ const WarehouseExportDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.createdAt')}
-                value={convertUtcDateToLocalTz(receiptDetail?.createdAt)}
+                value={convertUtcDateToLocalTz(receiptDetail?.receiptDate)}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
