@@ -27,20 +27,6 @@ import ItemSettingTable from './items-setting-table'
 import { formSchema } from './schema'
 
 const PickupAndWarehouseExport = () => {
-  const breadcrumbs = [
-    {
-      route: ROUTE.WAREHOUSE_TRANSFER.LIST.PATH,
-      title: ROUTE.WAREHOUSE_TRANSFER.LIST.TITLE,
-    },
-    {
-      route: ROUTE.WAREHOUSE_TRANSFER.DETAIL.PATH,
-      title: ROUTE.WAREHOUSE_TRANSFER.DETAIL.TITLE,
-    },
-    {
-      route: ROUTE.WAREHOUSE_TRANSFER.PICKUP.PATH,
-      title: ROUTE.WAREHOUSE_TRANSFER.PICKUP.TITLE,
-    },
-  ]
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
   const { id } = useParams()
@@ -52,6 +38,20 @@ const PickupAndWarehouseExport = () => {
     data: { attributesBusinessTypeDetails },
     actions: useWarehouseImportReceiptAction,
   } = useWarehouseImportReceipt()
+  const breadcrumbs = [
+    {
+      route: ROUTE.WAREHOUSE_TRANSFER.LIST.PATH,
+      title: ROUTE.WAREHOUSE_TRANSFER.LIST.TITLE,
+    },
+    {
+      route: ROUTE.WAREHOUSE_TRANSFER.DETAIL.PATH.replace(':id', id),
+      title: ROUTE.WAREHOUSE_TRANSFER.DETAIL.TITLE,
+    },
+    {
+      route: ROUTE.WAREHOUSE_TRANSFER.PICKUP.PATH,
+      title: ROUTE.WAREHOUSE_TRANSFER.PICKUP.TITLE,
+    },
+  ]
   useEffect(() => {
     actions.getWarehouseTransferDetailsById(id, (data) => {
       const attributes = data?.attributes?.filter(
@@ -230,7 +230,7 @@ const PickupAndWarehouseExport = () => {
                       <LV
                         label={t('warehouseTransfer.createdAt')}
                         value={convertUtcDateToLocalTz(
-                          warehouseTransferDetails?.createdAt,
+                          warehouseTransferDetails?.receiptDate,
                         )}
                       />
                     </Grid>

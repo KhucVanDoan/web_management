@@ -27,13 +27,16 @@ import ItemSettingTable from './items-setting-table'
 import { formSchema } from './schema'
 
 const ReceiveAndStored = () => {
+  const { t } = useTranslation(['wmsx'])
+  const history = useHistory()
+  const { id } = useParams()
   const breadcrumbs = [
     {
       route: ROUTE.WAREHOUSE_TRANSFER.LIST.PATH,
       title: ROUTE.WAREHOUSE_TRANSFER.LIST.TITLE,
     },
     {
-      route: ROUTE.WAREHOUSE_TRANSFER.DETAIL.PATH,
+      route: ROUTE.WAREHOUSE_TRANSFER.DETAIL.PATH.replace(':id', id),
       title: ROUTE.WAREHOUSE_TRANSFER.DETAIL.TITLE,
     },
     {
@@ -41,9 +44,6 @@ const ReceiveAndStored = () => {
       title: ROUTE.WAREHOUSE_TRANSFER.RECEIVE.TITLE,
     },
   ]
-  const { t } = useTranslation(['wmsx'])
-  const history = useHistory()
-  const { id } = useParams()
   const {
     data: { warehouseTransferDetails, isLoading },
     actions,
@@ -232,7 +232,7 @@ const ReceiveAndStored = () => {
                       <LV
                         label={t('warehouseTransfer.createdAt')}
                         value={convertUtcDateToLocalTz(
-                          warehouseTransferDetails?.createdAt,
+                          warehouseTransferDetails?.receiptDate,
                         )}
                       />
                     </Grid>
