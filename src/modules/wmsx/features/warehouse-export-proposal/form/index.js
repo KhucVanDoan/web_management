@@ -10,6 +10,7 @@ import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 import {
   ASYNC_SEARCH_LIMIT,
   MODAL_MODE,
+  NOTIFICATION_TYPE,
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
@@ -27,11 +28,14 @@ import {
 import useWarehouseExportProposal from '~/modules/wmsx/redux/hooks/useWarehouseExportProposal'
 import { searchConstructionsApi } from '~/modules/wmsx/redux/sagas/construction-management/search-constructions'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { api } from '~/services/api'
 import {
   getLocalItem,
   convertFilterParams,
   convertUtcDateToLocalTz,
 } from '~/utils'
+import { getFileNameFromHeader } from '~/utils/api'
+import addNotification from '~/utils/toast'
 
 import ItemSettingTable from './item-setting-table'
 import ItemTableCollaspe from './item-table-collaspe'
@@ -306,6 +310,31 @@ function WarehouseExportReceiptForm() {
         )
       default:
         break
+    }
+  }
+  const dowAttachment = async (params) => {
+    const uri = `/v1/files/${params}`
+    const res = await api.get(
+      uri,
+      {},
+      {
+        responseType: 'blob',
+        getHeaders: true,
+      },
+    )
+    if (res.status === 500) {
+      addNotification(res?.statusText, NOTIFICATION_TYPE.ERROR)
+    } else {
+      const filename = getFileNameFromHeader(res)
+      const blob = new Blob([res?.data])
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      const nameFile = decodeURI(filename)
+      link.setAttribute('download', nameFile)
+      document.body.appendChild(link)
+      link.click()
+      URL.revokeObjectURL(url)
     }
   }
   return (
@@ -750,6 +779,25 @@ function WarehouseExportReceiptForm() {
                             }
                           />
                         </Grid>
+                        {!isEmpty(
+                          warehouseExportProposalDetails?.attachment,
+                        ) && (
+                          <Grid item lg={6} xs={12}>
+                            <LV
+                              label={t('warehouseExportProposal.attachment')}
+                              value={
+                                warehouseExportProposalDetails?.attachment
+                                  ?.fileName
+                              }
+                              file={true}
+                              onClick={() =>
+                                dowAttachment(
+                                  warehouseExportProposalDetails.attachment?.id,
+                                )
+                              }
+                            />
+                          </Grid>
+                        )}
                         <Grid item xs={12}>
                           <TextField
                             name="reasonUse"

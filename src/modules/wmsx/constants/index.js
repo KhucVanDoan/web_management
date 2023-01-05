@@ -2287,7 +2287,7 @@ export const TYPE_TRANSACTION_DATA_SYNC = {
 }
 export const TYPE_TRANSACTION_DATA_SYNC_OPTION = [
   {
-    value: TYPE_TRANSACTION_DATA_SYNC.TRANSACTION,
+    value: TYPE_TRANSACTION_DATA_SYNC.SO_EXPORT,
     text: 'dataSyncManagement.warehouseExportReceipt',
   },
   {
@@ -2295,13 +2295,17 @@ export const TYPE_TRANSACTION_DATA_SYNC_OPTION = [
     text: 'dataSyncManagement.warehouseTransfer',
   },
   {
-    value: TYPE_TRANSACTION_DATA_SYNC.LOCATION,
-    text: 'dataSyncManagement.location',
+    value: TYPE_TRANSACTION_DATA_SYNC.TRANSACTION,
+    text: 'dataSyncManagement.transaction',
   },
-  {
-    value: TYPE_TRANSACTION_DATA_SYNC.LOCATION_ITEM,
-    text: 'dataSyncManagement.locationItem',
-  },
+  // {
+  //   value: TYPE_TRANSACTION_DATA_SYNC.LOCATION,
+  //   text: 'dataSyncManagement.location',
+  // },
+  // {
+  //   value: TYPE_TRANSACTION_DATA_SYNC.LOCATION_ITEM,
+  //   text: 'dataSyncManagement.locationItem',
+  // },
   // {
   //   value: TYPE_TRANSACTION_DATA_SYNC.PO_IMPORT,
   //   text: 'dataSyncManagement.warehouseImportReceipt',

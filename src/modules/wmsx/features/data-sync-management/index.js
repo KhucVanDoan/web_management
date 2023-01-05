@@ -21,7 +21,14 @@ import {
   convertUtcDateToLocalTz,
 } from '~/utils'
 
-import { DATA_SYNC_STATUS, DATA_SYNC_STATUS_OPTIONS } from '../../constants'
+import {
+  DATA_SYNC_STATUS,
+  DATA_SYNC_STATUS_OPTIONS,
+  MOVEMENT_TYPE,
+  OrderTypeEnum,
+  TYPE_TRANSACTION_DATA_SYNC,
+} from '../../constants'
+import { detailDataSyncManagementApi } from '../../redux/sagas/data-sync-management/retry-data-sync-management'
 import FilterForm from './filter'
 import QuickFilter from './filter-quick-form'
 
@@ -32,12 +39,11 @@ const breadcrumbs = [
 ]
 
 const DataSyncManagement = () => {
-  const history = useHistory()
   const {
     data: { dataSyncManagementList, isLoading, total },
     actions,
   } = useDataSyncManagement()
-
+  const history = useHistory()
   const { t } = useTranslation(['wmsx'])
   const [selectedRows, setSelectedRows] = useState([])
   const [modal, setModal] = useState({
@@ -152,14 +158,11 @@ const DataSyncManagement = () => {
           status === DATA_SYNC_STATUS.ERROR_SYNC
         return (
           <div>
-            <IconButton
-              onClick={() =>
-                history
+            <IconButton onClick={() => handleClickView(params)}>
+              {/* history
                   .push
-                  // ROUTE.INVENTORY.DETAIL.PATH.replace(':id', `${id}`),
-                  ()
-              }
-            >
+                  ROUTE.INVENTORY.DETAIL.PATH.replace(':id', `${id}`), */}
+
               <Icon name="show" />
             </IconButton>
 
@@ -233,6 +236,82 @@ const DataSyncManagement = () => {
       isOpenRejectModal: false,
       tempItem: null,
     })
+  }
+  const handleClickView = async (params) => {
+    const response = await detailDataSyncManagementApi(params?.row?.id)
+    switch (response?.data?.typeTransaction) {
+      case TYPE_TRANSACTION_DATA_SYNC.PO_IMPORT:
+        return history.push(
+          ROUTE.WAREHOUSE_IMPORT_RECEIPT.DETAIL.PATH.replace(
+            ':id',
+            `${response?.data?.object?.id}`,
+          ),
+        )
+      case TYPE_TRANSACTION_DATA_SYNC.SO_EXPORT:
+        return history.push(
+          ROUTE.WAREHOUSE_EXPORT_RECEIPT.DETAIL.PATH.replace(
+            ':id',
+            `${response?.data?.object?.id}`,
+          ),
+        )
+      case TYPE_TRANSACTION_DATA_SYNC.TRANSACTION:
+        switch (response?.data?.object?.orderType) {
+          case OrderTypeEnum.PO:
+            return history.push(
+              ROUTE.WAREHOUSE_IMPORT.DETAIL.PATH.replace(
+                ':id',
+                `${response?.data?.object?.data[0]?.warehouseMovementId}`,
+              ),
+            )
+          case OrderTypeEnum.SO:
+            if (response?.data?.object?.data[0]?.movementType !== 5) {
+              return history.push(
+                ROUTE.WAREHOUSE_EXPORT.DETAIL_EXPORT.PATH.replace(
+                  ':id',
+                  `${response?.data?.object?.orderId}`,
+                ),
+              )
+            } else {
+              return history.push(
+                ROUTE.WAREHOUSE_EXPORT.DETAIL.PATH.replace(
+                  ':id',
+                  `${response?.data?.object?.data[0]?.warehouseMovementId}`,
+                ),
+              )
+            }
+          case OrderTypeEnum.TRANSFER:
+            if (
+              response?.data?.object?.data[0]?.movementType ===
+              MOVEMENT_TYPE.TRANSFER_EXPORT
+            ) {
+              return history.push(
+                ROUTE.WAREHOUSE_EXPORT.DETAIL.PATH.replace(
+                  ':id',
+                  `${response?.data?.object?.data[0]?.warehouseMovementId}`,
+                ),
+              )
+            } else {
+              return history.push(
+                ROUTE.WAREHOUSE_IMPORT.DETAIL.PATH.replace(
+                  ':id',
+                  `${response?.data?.object?.data[0]?.warehouseMovementId}`,
+                ),
+              )
+            }
+          default:
+            break
+        }
+        break
+      case TYPE_TRANSACTION_DATA_SYNC.WAREHOUSE_TRANSFER:
+        return history.push(
+          ROUTE.WAREHOUSE_TRANSFER.DETAIL.PATH.replace(
+            ':id',
+            `${response?.data?.object?.id}`,
+          ),
+        )
+      default:
+        break
+    }
   }
   const onSubmitRetry = () => {
     actions.retryDataSyncManagement(modal.tempItem?.id, () => {
