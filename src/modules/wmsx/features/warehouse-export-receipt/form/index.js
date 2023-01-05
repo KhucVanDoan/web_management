@@ -31,7 +31,7 @@ import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseEx
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 import { searchBusinessTypesApi } from '~/modules/wmsx/redux/sagas/business-type-management/search-business-types'
-import { searchWarehouseByUserApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
+import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { searchApi } from '~/modules/wmsx/redux/sagas/reason-management/search'
 import { searchReceiptDepartmentApi } from '~/modules/wmsx/redux/sagas/receipt-department-management/search-receipt-department'
 import { getSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-management/get-detail'
@@ -39,11 +39,7 @@ import { searchSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-man
 import { getWarehouseExportProposalDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-export-proposal/get-details'
 import { getWarehouseImportReceiptDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-import-receipt/get-details'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import {
-  convertFilterParams,
-  convertUtcDateToLocalTz,
-  getLocalItem,
-} from '~/utils'
+import { convertFilterParams, convertUtcDateToLocalTz } from '~/utils'
 
 import displayFollowBusinessTypeManagement from './display-field'
 import ItemSettingTable from './item-setting-table'
@@ -71,7 +67,6 @@ function WarehouseExportReceiptForm() {
   const routeMatch = useRouteMatch()
   const [debitAccount, setDebitAccount] = useState('')
   const [warehouseExportProposalId, setWarehouseExportProposalId] = useState()
-  const loggedInUserInfo = getLocalItem('userInfo')
   const {
     data: { isLoading, warehouseExportReceiptDetails },
     actions,
@@ -145,7 +140,9 @@ function WarehouseExportReceiptForm() {
                 item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL &&
                 item?.value,
             )
-              ? item?.requestedQuantityWarehouseExportProposal
+              ? Math.round(
+                  item?.requestedQuantityWarehouseExportProposal * 100,
+                ) / 100
               : '',
           },
         })) || DEFAULT_ITEMS,
@@ -698,12 +695,12 @@ function WarehouseExportReceiptForm() {
                             'warehouseExportReceipt.warehouseExport',
                           )}
                           asyncRequest={(s) =>
-                            searchWarehouseByUserApi({
+                            searchWarehouseApi({
                               keyword: s,
-                              userId: loggedInUserInfo?.id,
                               limit: ASYNC_SEARCH_LIMIT,
                               filter: convertFilterParams({
                                 status: ACTIVE_STATUS.ACTIVE,
+                                userWarehouse: ACTIVE_STATUS.ACTIVE,
                               }),
                             })
                           }

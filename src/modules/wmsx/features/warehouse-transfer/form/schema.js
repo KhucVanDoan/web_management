@@ -88,6 +88,7 @@ const warehouseTranferSchema = (t, type) => {
           }),
         locator: Yup.object()
           .nullable()
+          .required(t('general:form.required'))
           .test('', (value, context) => {
             const findItem = context?.from[1]?.value?.items?.find(
               (item) =>
@@ -103,6 +104,9 @@ const warehouseTranferSchema = (t, type) => {
             }
             return true
           }),
+        warehouseImportDate: Yup.date()
+          .nullable()
+          .required(t('general:form.required')),
         transferQuantity: Yup.number()
           .nullable()
           .required(t('general:form.required'))
