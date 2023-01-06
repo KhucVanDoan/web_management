@@ -160,7 +160,7 @@ function WarehouseExportReceiptPickAndExport() {
               <LV
                 label={t('warehouseExportReceipt.createdAt')}
                 value={convertUtcDateToLocalTz(
-                  warehouseExportReceiptDetails?.createdAt,
+                  warehouseExportReceiptDetails?.receiptDate,
                 )}
               />
             </Grid>

@@ -45,11 +45,9 @@ const DEFAULT_ITEM = {
   itemType: '',
   lotNumber: '',
   transferQuantity: '',
-  mfg: '',
-  packageId: '',
+  locator: '',
   planExportedQuantity: '',
   itemCodeWarehouseImp: false,
-  unitType: '',
 }
 const WarehouseTransferForm = () => {
   const history = useHistory()
