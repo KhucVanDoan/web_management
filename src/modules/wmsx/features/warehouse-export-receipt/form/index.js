@@ -126,7 +126,14 @@ function WarehouseExportReceiptForm() {
           money: item?.amount,
           lotNumber: item?.lots[0]?.lotNumber,
           quantityExport: item?.quantity,
-          quantityRequest: item?.quantity,
+          quantityRequest: warehouseExportReceiptDetails?.attributes?.find(
+            (item) =>
+              item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL &&
+              item?.value,
+          )
+            ? Math.round(item?.requestedQuantityWarehouseExportProposal * 100) /
+              100
+            : '',
           planExportedQuantity: item?.exportableQuantity,
           debitAccount: item?.debitAccount,
           creditAccount: item?.creditAccount,
