@@ -300,6 +300,16 @@ const ItemSettingTable = (props) => {
               disabled={isEmpty(itemCode)}
               onChange={(val) => handleChangeLocator(val, index, params)}
               getOptionLabel={(opt) => opt?.code}
+              validate={(val) => {
+                if (
+                  values?.type ===
+                  WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG
+                ) {
+                  if (isEmpty(val)) {
+                    return t('general:form.required')
+                  }
+                }
+              }}
             />
           )
         },
@@ -366,6 +376,16 @@ const ItemSettingTable = (props) => {
               isOptionEqualToValue={(opt, val) => opt?.storageDate === val}
               getOptionValue={(option) => option?.storageDate}
               disabled={!params?.row?.locator}
+              validate={(val) => {
+                if (
+                  values?.type ===
+                  WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG
+                ) {
+                  if (isEmpty(val)) {
+                    return t('general:form.required')
+                  }
+                }
+              }}
             />
           )
         },
@@ -584,13 +604,9 @@ const ItemSettingTable = (props) => {
                   ids: new Date().getTime(),
                   itemcode: null,
                   itemCodeWarehouseImp: false,
-                  itemName: '',
-                  itemType: '',
+                  locator: '',
                   lotNumber: '',
-                  mfg: '',
-                  packageId: '',
                   planQuantity: 1,
-                  unitType: '',
                 })
               }}
             >
