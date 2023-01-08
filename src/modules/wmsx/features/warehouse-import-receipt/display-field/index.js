@@ -58,6 +58,7 @@ const displayFollowBusinessTypeManagement = (
   )?.id
   const handleChangeReceipt = (val) => {
     setItemReceipt([])
+    setFieldValue('receiptDate', '')
     if (isEmpty(val)) {
       setItemReceipt([])
       setFieldValue('contractNumber', '')
