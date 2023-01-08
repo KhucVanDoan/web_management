@@ -506,7 +506,7 @@ function WarehouseImportReceiptForm() {
                         maxDate={new Date()}
                         minDate={
                           !isEmpty(values[receiptRequired])
-                            ? new Date(values[receiptRequired]?.createdAt)
+                            ? new Date(values[receiptRequired]?.receiptDate)
                             : new Date(
                                 sub(new Date(), {
                                   years: 0,
