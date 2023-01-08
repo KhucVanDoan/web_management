@@ -2,18 +2,13 @@ import React, { useMemo } from 'react'
 
 import { Typography } from '@mui/material'
 import Box from '@mui/material/Box'
-import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
-import { TABLE_NAME_ENUM } from '~/modules/wmsx/constants'
-import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
 
 const ItemSettingTableDetail = ({ items }) => {
   const { t } = useTranslation(['wmsx'])
-  const {
-    data: { warehouseExportReceiptDetails },
-  } = useWarehouseExportReceipt()
+
   const columns = useMemo(
     () => [
       {
@@ -50,24 +45,24 @@ const ItemSettingTableDetail = ({ items }) => {
           return params?.row?.item?.itemUnit
         },
       },
-      {
-        field: 'quantityRequest',
-        headerName: t('warehouseExportReceipt.items.quantityRequest'),
-        width: 150,
-        renderCell: (params) => {
-          return !isEmpty(
-            warehouseExportReceiptDetails?.attributes?.find(
-              (item) =>
-                item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL &&
-                item?.value,
-            ),
-          )
-            ? Math.round(
-                params?.row?.requestedQuantityWarehouseExportProposal * 100,
-              ) / 100
-            : ''
-        },
-      },
+      // {
+      //   field: 'quantityRequest',
+      //   headerName: t('warehouseExportReceipt.items.quantityRequest'),
+      //   width: 150,
+      //   renderCell: (params) => {
+      //     return !isEmpty(
+      //       warehouseExportReceiptDetails?.attributes?.find(
+      //         (item) =>
+      //           item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL &&
+      //           item?.value,
+      //       ),
+      //     )
+      //       ? Math.round(
+      //           params?.row?.requestedQuantityWarehouseExportProposal * 100,
+      //         ) / 100
+      //       : ''
+      //   },
+      // },
       {
         field: 'quantityExport',
         headerName: t('warehouseExportReceipt.items.quantityExport'),
