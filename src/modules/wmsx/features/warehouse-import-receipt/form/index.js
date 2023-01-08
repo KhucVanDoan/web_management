@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 
 import FileUploadIcon from '@mui/icons-material/FileUpload'
 import { Box, FormLabel, Grid, Typography } from '@mui/material'
+import { sub } from 'date-fns'
 import { Formik, Form, FieldArray } from 'formik'
 import { uniq, map, isEmpty, isNil, keyBy } from 'lodash'
 import { useTranslation } from 'react-i18next'
@@ -503,6 +504,21 @@ function WarehouseImportReceiptForm() {
                         label={t('warehouseImportReceipt.receiptDate')}
                         placeholder={t('warehouseImportReceipt.receiptDate')}
                         maxDate={new Date()}
+                        minDate={
+                          !isEmpty(values[receiptRequired])
+                            ? new Date(values[receiptRequired]?.createdAt)
+                            : new Date(
+                                sub(new Date(), {
+                                  years: 0,
+                                  months: 3,
+                                  weeks: 0,
+                                  days: 0,
+                                  hours: 0,
+                                  minutes: 0,
+                                  seconds: 0,
+                                }),
+                              )
+                        }
                         onChange={(val) =>
                           handleChangeReceiptDate(val, values, setFieldValue)
                         }
