@@ -4,10 +4,9 @@ import { Grid, Typography } from '@mui/material'
 import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 
-import { MODAL_MODE, TEXTFIELD_ALLOW } from '~/common/constants'
+import { TEXTFIELD_ALLOW } from '~/common/constants'
 import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import { useApp } from '~/common/hooks/useApp'
-import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import useQrCode from '~/modules/wmsx/redux/hooks/useQrCode'
@@ -75,10 +74,10 @@ const QrCode = () => {
 
   const editable = canAccess(FUNCTION_CODE.REPORT_CREATE_QR_CODE_SETTING)
 
-  const renderActionBar = (handleReset) => {
-    if (!editable) return null
-    return <ActionBar onCancel={handleReset} mode={MODAL_MODE.UPDATE} />
-  }
+  // const renderActionBar = (handleReset) => {
+  //   if (!editable) return null
+  //   return <ActionBar onCancel={handleReset} mode={MODAL_MODE.UPDATE} />
+  // }
 
   return (
     <Page
@@ -92,7 +91,7 @@ const QrCode = () => {
         onSubmit={onSubmit}
         enableReinitialize
       >
-        {({ handleReset }) => (
+        {() => (
           <Form>
             <Grid container justifyContent="center">
               <Grid item xl={11} xs={12}>
@@ -130,7 +129,7 @@ const QrCode = () => {
                       allow={TEXTFIELD_ALLOW.NUMERIC}
                       inputProps={{ maxLength: 2 }}
                       required={editable}
-                      disabled={!editable}
+                      disabled
                     />
                   </Grid>
 
@@ -180,7 +179,7 @@ const QrCode = () => {
                       allow={TEXTFIELD_ALLOW.NUMERIC}
                       inputProps={{ maxLength: 2 }}
                       required={editable}
-                      disabled={!editable}
+                      disabled
                     />
                   </Grid>
                   <Grid item lg={4} xs={12}>
@@ -206,7 +205,7 @@ const QrCode = () => {
                       allow={TEXTFIELD_ALLOW.NUMERIC}
                       inputProps={{ maxLength: 2 }}
                       required={editable}
-                      disabled={!editable}
+                      disabled
                     />
                   </Grid>
                   <Grid item lg={4} xs={12}>
@@ -232,7 +231,7 @@ const QrCode = () => {
                       allow={TEXTFIELD_ALLOW.NUMERIC}
                       inputProps={{ maxLength: 2 }}
                       required={editable}
-                      disabled={!editable}
+                      disabled
                     />
                   </Grid>
 
@@ -265,13 +264,13 @@ const QrCode = () => {
                       allow={TEXTFIELD_ALLOW.NUMERIC}
                       inputProps={{ maxLength: 1 }}
                       required={editable}
-                      disabled={!editable}
+                      disabled
                     />
                   </Grid>
                 </Grid>
               </Grid>
             </Grid>
-            {renderActionBar(handleReset)}
+            {/* {renderActionBar(handleReset)} */}
           </Form>
         )}
       </Formik>
