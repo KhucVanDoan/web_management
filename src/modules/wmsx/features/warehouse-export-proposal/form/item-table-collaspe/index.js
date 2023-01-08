@@ -453,7 +453,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
             onClick={() => {
               handleRemoveRow(params, index, parentIndex)
             }}
-            disabled={params?.row?.itemId}
+            disabled={params?.row?.itemId || index === 0}
           >
             <Icon name="remove" />
           </IconButton>

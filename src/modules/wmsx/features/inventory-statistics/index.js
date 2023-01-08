@@ -57,7 +57,6 @@ function InventoryStatistics() {
     pageSize,
     sort,
     keyword,
-    setKeyword,
     filters,
     setPage,
     setPageSize,
@@ -242,7 +241,6 @@ function InventoryStatistics() {
       breadcrumbs={breadcrumbs}
       title={t('menu.inventoryStatistics')}
       loading={isLoading}
-      onSearch={setKeyword}
       renderHeaderRight={renderHeaderRight}
     >
       <InventoryStatisticFilter
