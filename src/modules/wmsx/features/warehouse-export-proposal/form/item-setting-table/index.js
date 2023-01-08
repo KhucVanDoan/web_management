@@ -59,6 +59,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
               asyncRequestHelper={(res) => res?.data?.items}
               getOptionLabel={(opt) => opt?.name}
+              getOptionSubLabel={(opt) => opt?.code}
               // renderInput={(params) => (
               //   <TextField
               //     {...params}
@@ -156,6 +157,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
               }}
               asyncRequestHelper={(res) => res?.data?.items}
               getOptionLabel={(opt) => opt?.name}
+              getOptionSubLabel={(opt) => opt?.code}
             />
           )
         },
