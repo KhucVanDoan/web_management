@@ -21,7 +21,7 @@ import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseIm
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { api } from '~/services/api'
 import { convertUtcDateToLocalTz, getLocalItem } from '~/utils'
-import { getFileNameFromHeader } from '~/utils/api'
+import { downloadFile } from '~/utils/file'
 import addNotification from '~/utils/toast'
 
 import ItemsSettingTable from './items-setting-table'
@@ -82,7 +82,7 @@ function WarehouseImportReceiveAndStorage() {
     history.push(ROUTE.WAREHOUSE_IMPORT_RECEIPT.LIST.PATH)
   }
   const dowAttachment = async (params) => {
-    const uri = `/v1/files/${params}`
+    const uri = `/v1/files/${params?.id}`
     const res = await api.get(
       uri,
       {},
@@ -94,16 +94,12 @@ function WarehouseImportReceiveAndStorage() {
     if (res.status === 500) {
       addNotification(res?.statusText, NOTIFICATION_TYPE.ERROR)
     } else {
-      const filename = getFileNameFromHeader(res)
-      const blob = new Blob([res?.data])
-      const url = URL.createObjectURL(blob)
-      const link = document.createElement('a')
-      link.href = url
-      const nameFile = decodeURI(filename)
-      link.setAttribute('download', nameFile)
-      document.body.appendChild(link)
-      link.click()
-      URL.revokeObjectURL(url)
+      downloadFile(
+        res?.data,
+        warehouseImportReceiptDetails.attachment?.fileName,
+        `${res?.data?.type}`,
+        `.${params?.fileName?.split('.').pop()}`,
+      )
     }
   }
   const renderActionBar = (handleReset) => {
@@ -237,7 +233,7 @@ function WarehouseImportReceiveAndStorage() {
                         file={true}
                         onClick={() =>
                           dowAttachment(
-                            warehouseImportReceiptDetails.attachment?.id,
+                            warehouseImportReceiptDetails.attachment,
                           )
                         }
                       />

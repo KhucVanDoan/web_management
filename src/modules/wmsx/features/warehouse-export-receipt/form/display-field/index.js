@@ -194,7 +194,6 @@ const displayFollowBusinessTypeManagement = (
               item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
           )?.id
         ]?.code
-      const warehouseExportReceipt = val?.code
 
       const receiptDate = convertUtcDateToLocalTz(
         values?.receiptDate.toISOString(),
@@ -212,10 +211,8 @@ const displayFollowBusinessTypeManagement = (
             )} [${warehouseExportProposal}]`
           : ''
       }${
-        warehouseExportReceipt
-          ? `  ${t(
-              'warehouseExportReceipt.receiptBy',
-            )} [${warehouseExportReceipt}]`
+        val?.code
+          ? `  ${t('warehouseExportReceipt.receiptBy')} [${val?.code}]`
           : ''
       }`
       setFieldValue('explanation', explaination)
@@ -234,7 +231,7 @@ const displayFollowBusinessTypeManagement = (
       const receiptDate = convertUtcDateToLocalTz(
         values?.receiptDate.toISOString(),
       )
-      const explaination = `${
+      const explaination1 = `${
         receiptDate
           ? `${t(
               'warehouseExportReceipt.warehouseExportDate',
@@ -246,6 +243,14 @@ const displayFollowBusinessTypeManagement = (
               'warehouseExportReceipt.receiptBy',
             )} [${warehouseExportProposal}]`
           : ''
+      }
+      `
+      const explaination2 = `${
+        receiptDate
+          ? `${t(
+              'warehouseExportReceipt.warehouseExportDate',
+            )} [${receiptDate}]`
+          : ''
       }${
         warehouseExportReceipt
           ? `  ${t(
@@ -253,7 +258,10 @@ const displayFollowBusinessTypeManagement = (
             )} [${warehouseExportReceipt}]`
           : ''
       }`
-      setFieldValue('explanation', explaination)
+      setFieldValue(
+        'explanation',
+        warehouseExportReceipt ? explaination2 : explaination1,
+      )
     }
   }
   const validate = (val, item) => {

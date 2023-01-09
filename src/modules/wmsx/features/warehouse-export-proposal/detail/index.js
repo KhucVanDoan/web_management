@@ -21,6 +21,7 @@ import { ROUTE } from '~/modules/wmsx/routes/config'
 import { api } from '~/services/api'
 import { convertUtcDateToLocalTz } from '~/utils'
 import { getFileNameFromHeader } from '~/utils/api'
+import { downloadFile } from '~/utils/file'
 import addNotification from '~/utils/toast'
 
 import ItemSettingTable from '../form/item-setting-table'
@@ -158,7 +159,7 @@ function WarehouseExportProposalDetail() {
     )
   }
   const dowAttachment = async (params) => {
-    const uri = `/v1/files/${params}`
+    const uri = `/v1/files/${params?.id}`
     const res = await api.get(
       uri,
       {},
@@ -167,19 +168,15 @@ function WarehouseExportProposalDetail() {
         getHeaders: true,
       },
     )
-    if (res.status === 500) {
-      addNotification(res?.statusText, NOTIFICATION_TYPE.ERROR)
+    if (res.status === 200) {
+      downloadFile(
+        res?.data,
+        warehouseExportProposalDetails.attachment?.fileName,
+        `${res?.data?.type}`,
+        `.${params?.fileName?.split('.').pop()}`,
+      )
     } else {
-      const filename = getFileNameFromHeader(res)
-      const blob = new Blob([res?.data])
-      const url = URL.createObjectURL(blob)
-      const link = document.createElement('a')
-      link.href = url
-      const nameFile = decodeURI(filename)
-      link.setAttribute('download', nameFile)
-      document.body.appendChild(link)
-      link.click()
-      URL.revokeObjectURL(url)
+      addNotification(res?.statusText, NOTIFICATION_TYPE.ERROR)
     }
   }
   return (
@@ -288,7 +285,7 @@ function WarehouseExportProposalDetail() {
                   value={warehouseExportProposalDetails?.attachment?.fileName}
                   file={true}
                   onClick={() =>
-                    dowAttachment(warehouseExportProposalDetails.attachment?.id)
+                    dowAttachment(warehouseExportProposalDetails.attachment)
                   }
                 />
               </Grid>

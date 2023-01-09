@@ -215,7 +215,7 @@ function InventorySettingForm() {
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
                           filter: convertFilterParams({
-                            warehouseId: values?.warehouse?.id,
+                            status: ACTIVE_STATUS.ACTIVE,
                           }),
                         })
                       }

@@ -506,7 +506,7 @@ function WarehouseExportProposal() {
               id="select-file"
               multiple
               type="file"
-              accept="image/gif, image/jpeg, image/png, application/pdf, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+              accept="image/gif, image/jpeg, image/png, application/pdf"
               onChange={(e) => {
                 setAttachedFile(e.target.files[0])
               }}

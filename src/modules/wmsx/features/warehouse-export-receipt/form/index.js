@@ -225,6 +225,9 @@ function WarehouseExportReceiptForm() {
           warehouseTransferAction.getListItemWarehouseStock({
             warehouseId: data?.warehouse?.id || data?.warehouseId,
             isGetAll: 1,
+            filter: convertFilterParams({
+              status: ACTIVE_STATUS.ACTIVE,
+            }),
           })
         }
         const attributes = data?.attributes?.filter(
@@ -326,18 +329,6 @@ function WarehouseExportReceiptForm() {
           })
         })
         setItemWarehouseExportProposal(itemWarehouseExportProposal)
-        // const response = await getWarehouseExportProposalItems({
-        //   id: Number(
-        //     warehouseExportReceiptDetails?.attributes?.find(
-        //       (item) =>
-        //         item?.code ===
-        //           CODE_TYPE_DATA_FATHER_JOB.WAREHOUSE_EXPORT_PROPOSAL_ID &&
-        //         item?.value,
-        //     )?.value,
-        //   ),
-        //   warehouseId: warehouseExportReceiptDetails?.warehouse?.id,
-        // })
-        // setItemWarehouseExport(response?.data)
       }
     }
   }, [warehouseExportReceiptDetails, id])
@@ -457,13 +448,50 @@ function WarehouseExportReceiptForm() {
       warehouseTransferAction.getListItemWarehouseStock({
         warehouseId: val?.id,
         isGetAll: 1,
+        filter: convertFilterParams({
+          status: ACTIVE_STATUS.ACTIVE,
+        }),
       })
     }
   }
-  const handleChangeBusinessType = (val, setFieldValue) => {
+  const handleChangeBusinessType = (val, setFieldValue, values) => {
     setFieldValue('items', DEFAULT_ITEMS)
     setItemWarehouseExport([])
     setWarehouseList([])
+    const warehouseExportProposal =
+      values[
+        values?.businessTypeId?.bussinessTypeAttributes?.find(
+          (item) =>
+            item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
+        )?.id
+      ]?.code
+    const warehouseExportReceipt =
+      values[
+        values?.businessTypeId?.bussinessTypeAttributes?.find(
+          (item) => item?.tableName === TABLE_NAME_ENUM.SALE_ORDER_EXPORT,
+        )?.id
+      ]?.code
+    const receiptDate = convertUtcDateToLocalTz(
+      values?.receiptDate.toISOString(),
+    )
+    const explaination = `${
+      receiptDate
+        ? `${t('warehouseExportReceipt.warehouseExportDate')} [${receiptDate}]`
+        : ''
+    }${
+      warehouseExportProposal
+        ? ` ${t(
+            'warehouseExportReceipt.receiptBy',
+          )} [${warehouseExportProposal}]`
+        : ''
+    }${
+      warehouseExportReceipt
+        ? ` ${t(
+            'warehouseExportReceipt.receiptBy',
+          )} [${warehouseExportReceipt}]`
+        : ''
+    }`
+    setFieldValue('explanation', explaination)
     if (!isEmpty(val)) {
       val?.bussinessTypeAttributes?.forEach((item) => {
         if (!isNil(item?.id)) {
@@ -643,7 +671,7 @@ function WarehouseExportReceiptForm() {
                           })
                         }
                         onChange={(val) =>
-                          handleChangeBusinessType(val, setFieldValue)
+                          handleChangeBusinessType(val, setFieldValue, values)
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => opt?.code}
