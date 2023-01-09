@@ -552,9 +552,9 @@ function WarehouseImportReceiptForm() {
                             <input
                               hidden
                               id="select-file"
-                              accept="file/*"
                               multiple
                               type="file"
+                              accept="application/pdf"
                               onChange={(e) => {
                                 setFieldValue('attachment', e.target.files[0])
                               }}
@@ -568,7 +568,7 @@ function WarehouseImportReceiptForm() {
                             <FileUploadIcon color="primary" />
                             <input
                               hidden
-                              accept="file/*"
+                              accept="application/pdf"
                               id="select-file"
                               multiple
                               type="file"
