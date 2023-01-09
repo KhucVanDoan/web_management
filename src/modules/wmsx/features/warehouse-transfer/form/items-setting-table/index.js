@@ -16,6 +16,7 @@ import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import {
+  ACTIVE_STATUS,
   TRANSFER_STATUS,
   WAREHOUSE_TRANSFER_TYPE,
 } from '~/modules/wmsx/constants'
@@ -222,6 +223,7 @@ const ItemSettingTable = (props) => {
                   limit: ASYNC_SEARCH_LIMIT,
                   filter: convertFilterParams({
                     warehouseId: values?.sourceWarehouseId?.id,
+                    status: ACTIVE_STATUS.ACTIVE,
                   }),
                 })
               }
@@ -295,7 +297,9 @@ const ItemSettingTable = (props) => {
             <>{params?.row?.locator?.code}</>
           ) : (
             <Field.Autocomplete
-              name={`items[${index}].locator`}
+              name={`items[${index}].locat filter: convertFilterParams({
+                status: ACTIVE_STATUS.ACTIVE,
+              }),or`}
               options={locationList}
               disabled={isEmpty(itemCode)}
               onChange={(val) => handleChangeLocator(val, index, params)}

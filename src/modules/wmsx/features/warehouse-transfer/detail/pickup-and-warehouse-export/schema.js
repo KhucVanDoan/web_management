@@ -7,6 +7,7 @@ export const formSchema = (t, manageByLot) =>
       Yup.object().shape({
         locator: Yup.object()
           .nullable()
+          .required(t('general:form.required'))
           .test('', (value, context) => {
             if (manageByLot) {
               const findItem = context?.from[2]?.value?.items?.find(

@@ -39,11 +39,13 @@ export const formSchema = (t) =>
               context?.parent?.quantityRequest ||
               context?.parent?.quantityRequest === 0
             ) {
-              return context.createError({
-                message: t('general:form.maxNumber', {
-                  max: context?.parent?.quantityRequest,
-                }),
-              })
+              if (value > context?.parent?.quantityRequest) {
+                return context.createError({
+                  message: t('general:form.maxNumber', {
+                    max: context?.parent?.quantityRequest,
+                  }),
+                })
+              }
             }
             return true
           }),
