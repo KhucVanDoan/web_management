@@ -96,12 +96,13 @@ function WarehouseImportReceiveAndStorage() {
     } else {
       downloadFile(
         res?.data,
-        warehouseImportReceiptDetails.attachment?.fileName,
+        warehouseImportReceiptDetails.attachment?.fileName?.split('.').shift(),
         `${res?.data?.type}`,
-        `.${params?.fileName?.split('.').pop()}`,
+        [`${params?.fileName?.split('.').pop()}`],
       )
     }
   }
+
   const renderActionBar = (handleReset) => {
     return (
       <ActionBar

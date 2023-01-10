@@ -267,6 +267,7 @@ const UsedMaterialsReport = () => {
           }
           asyncRequestHelper={(res) => res?.data?.items}
           getOptionLabel={(opt) => opt?.name}
+          getOptionSubLabel={(opt) => opt?.code}
           onChange={handleChangeSelect}
         />
       </Box>

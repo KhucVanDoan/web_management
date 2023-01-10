@@ -8,6 +8,10 @@ export const defineSchema = (t, inventoryType, dataSnapshot) => {
     type: Yup.string().nullable().required(t('general:form.required')),
     switchMode: Yup.number().nullable().required(t('general:form.required')),
     closingDay: Yup.date().nullable().required(t('general:form.required')),
+    impersonators: Yup.array().test({
+      message: t('general:form.required'),
+      test: (arr) => arr.length !== 0,
+    }),
     warehouses: Yup.array().test({
       message: t('general:form.required'),
       test: (arr) => arr.length !== 0,

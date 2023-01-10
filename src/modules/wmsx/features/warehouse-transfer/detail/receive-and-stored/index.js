@@ -91,13 +91,7 @@ const ReceiveAndStored = () => {
               ...item?.item,
             } || null,
           lotNumber: item?.lotNumber ? item?.lotNumber : null,
-          locator: !isEmpty(item?.locator)
-            ? {
-                ...item?.locator,
-                locatorId: item?.locatorId,
-                itemId: item?.itemId,
-              }
-            : '',
+          locator: '',
           creditAcc:
             item?.creditAccount ||
             item?.item?.itemWarehouseSources?.find(

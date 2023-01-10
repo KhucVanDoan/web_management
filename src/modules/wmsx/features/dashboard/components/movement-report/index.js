@@ -169,6 +169,7 @@ const MovementReport = ({ fromDate, toDate }) => {
           }
           asyncRequestHelper={(res) => res?.data?.items}
           getOptionLabel={(opt) => opt?.name}
+          getOptionSubLabel={(opt) => opt?.code}
           onChange={handleChangeWarehouse}
         />
         <Autocomplete
@@ -183,6 +184,7 @@ const MovementReport = ({ fromDate, toDate }) => {
           }
           asyncRequestHelper={(res) => res?.data?.items}
           getOptionLabel={(opt) => opt?.name}
+          getOptionSubLabel={(opt) => opt?.code}
           onChange={handleChangeItem}
         />
       </Box>
