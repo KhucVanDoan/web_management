@@ -172,6 +172,7 @@ const InventoryQuantity = ({ fromDate, toDate }) => {
           }
           asyncRequestHelper={(res) => res?.data?.items}
           getOptionLabel={(opt) => opt?.name}
+          getOptionSubLabel={(opt) => opt?.code}
           onChange={(val) => handleChangeWarehouse(val)}
         />
         <Autocomplete
@@ -186,6 +187,7 @@ const InventoryQuantity = ({ fromDate, toDate }) => {
           }
           asyncRequestHelper={(res) => res?.data?.items}
           getOptionLabel={(opt) => opt?.name}
+          getOptionSubLabel={(opt) => opt?.code}
           onChange={(val) => handleChangeItem(val)}
         />
       </Box>

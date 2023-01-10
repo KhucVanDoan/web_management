@@ -115,6 +115,7 @@ const ItemReport = () => {
           options={itemTypeList}
           getOptionValue={(opt) => opt?.id || ''}
           getOptionLabel={(opt) => opt?.name}
+          getOptionSubLabel={(opt) => opt?.code}
           onChange={handleChangeSelect}
           disableClearable
         />
