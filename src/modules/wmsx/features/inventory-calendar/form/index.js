@@ -95,7 +95,10 @@ const InventoryCalendarForm = () => {
       closingDay: inventoryCalendarDetails?.checkPointDate
         ? new Date(inventoryCalendarDetails?.checkPointDate)
         : new Date(),
-      impersonators: inventoryCalendarDetails?.impersonators || [],
+      impersonators:
+        inventoryCalendarDetails?.impersonators?.length > 0
+          ? inventoryCalendarDetails?.impersonators
+          : [],
       description: inventoryCalendarDetails?.description || '',
       switchMode:
         inventoryCalendarDetails?.checkPointDataType ||
@@ -116,6 +119,7 @@ const InventoryCalendarForm = () => {
     }),
     [inventoryCalendarDetails, itemUpdate],
   )
+
   const getBreadcrumb = () => {
     const breadcrumbs = [
       {

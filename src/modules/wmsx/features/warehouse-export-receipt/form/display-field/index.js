@@ -221,17 +221,18 @@ const displayFollowBusinessTypeManagement = (
       const res = await getWarehouseImportReceiptDetailsApi(val?.id)
       setItemWarehouseExport(res?.data?.purchasedOrderImportDetails)
       setFieldValue('warehouseId', res?.data?.warehouse)
-      const warehouseExportProposal = val?.code
-      const warehouseExportReceipt =
+      const warehouseExportProposal =
         values[
           values?.businessTypeId?.bussinessTypeAttributes?.find(
-            (item) => item?.tableName === TABLE_NAME_ENUM.PURCHASED_ODER_IMPORT,
+            (item) =>
+              item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
           )?.id
         ]?.code
+
       const receiptDate = convertUtcDateToLocalTz(
         values?.receiptDate.toISOString(),
       )
-      const explaination1 = `${
+      const explaination = `${
         receiptDate
           ? `${t(
               'warehouseExportReceipt.warehouseExportDate',
@@ -243,25 +244,12 @@ const displayFollowBusinessTypeManagement = (
               'warehouseExportReceipt.receiptBy',
             )} [${warehouseExportProposal}]`
           : ''
-      }
-      `
-      const explaination2 = `${
-        receiptDate
-          ? `${t(
-              'warehouseExportReceipt.warehouseExportDate',
-            )} [${receiptDate}]`
-          : ''
       }${
-        warehouseExportReceipt
-          ? `  ${t(
-              'warehouseExportReceipt.receiptBy',
-            )} [${warehouseExportReceipt}]`
+        val?.code
+          ? `  ${t('warehouseExportReceipt.receiptBy')} [${val?.code}]`
           : ''
       }`
-      setFieldValue(
-        'explanation',
-        warehouseExportReceipt ? explaination2 : explaination1,
-      )
+      setFieldValue('explanation', explaination)
     }
   }
   const validate = (val, item) => {

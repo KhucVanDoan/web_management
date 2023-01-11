@@ -297,9 +297,7 @@ const ItemSettingTable = (props) => {
             <>{params?.row?.locator?.code}</>
           ) : (
             <Field.Autocomplete
-              name={`items[${index}].locat filter: convertFilterParams({
-                status: ACTIVE_STATUS.ACTIVE,
-              }),or`}
+              name={`items[${index}].locator`}
               options={locationList}
               disabled={isEmpty(itemCode)}
               onChange={(val) => handleChangeLocator(val, index, params)}
@@ -379,7 +377,7 @@ const ItemSettingTable = (props) => {
               getOptionLabel={(opt) => convertUtcDateToLocalTz(opt.storageDate)}
               isOptionEqualToValue={(opt, val) => opt?.storageDate === val}
               getOptionValue={(option) => option?.storageDate}
-              disabled={!params?.row?.locator}
+              disabled={isEmpty(params?.row?.locator)}
               validate={(val) => {
                 if (
                   values?.type ===

@@ -171,9 +171,9 @@ function WarehouseExportProposalDetail() {
     if (res.status === 200) {
       downloadFile(
         res?.data,
-        warehouseExportProposalDetails.attachment?.fileName,
+        warehouseExportProposalDetails.attachment?.fileName?.split('.').shift(),
         `${res?.data?.type}`,
-        `.${params?.fileName?.split('.').pop()}`,
+        [`${params?.fileName?.split('.').pop()}`],
       )
     } else {
       addNotification(res?.statusText, NOTIFICATION_TYPE.ERROR)
