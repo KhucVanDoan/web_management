@@ -105,7 +105,7 @@ const MovementTransferDetail = ({ breadcrumbs, onBack }) => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('movements.importExport.createdUser')}
-                value={movementDetail?.user?.username}
+                value={movementDetail?.user?.fullName}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
