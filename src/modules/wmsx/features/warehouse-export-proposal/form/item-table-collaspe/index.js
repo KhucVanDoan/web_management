@@ -533,7 +533,8 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
           <Field.Autocomplete
             name={`itemTableCollaspe[${parentIndex}].details[${index}].warehouseExport`}
             options={litWarehouse}
-            getOptionLabel={(opt) => opt?.warehouse?.name}
+            getOptionLabel={(opt) => opt?.warehouse?.code}
+            getOptionSubLabel={(opt) => opt?.warehouse?.name}
             onChange={(val) =>
               handleChangeWarehouse(val, params, parentIndex, index)
             }

@@ -5,11 +5,7 @@ import { Formik, Form } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
-import {
-  ASYNC_SEARCH_LIMIT,
-  MODAL_MODE,
-  TEXTFIELD_ALLOW,
-} from '~/common/constants'
+import { ASYNC_SEARCH_LIMIT, MODAL_MODE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
@@ -250,7 +246,10 @@ function InventorySettingForm() {
                       label={t('inventorySetting.inventoryLimit')}
                       placeholder={t('inventorySetting.inventoryLimit')}
                       type="number"
-                      allow={TEXTFIELD_ALLOW.NUMERIC}
+                      numberProps={{
+                        thousandSeparator: true,
+                        decimalScale: 2,
+                      }}
                       required
                     />
                   </Grid>
@@ -260,7 +259,10 @@ function InventorySettingForm() {
                       label={t('inventorySetting.minInventoryLimit')}
                       placeholder={t('inventorySetting.minInventoryLimit')}
                       type="number"
-                      allow={TEXTFIELD_ALLOW.NUMERIC}
+                      numberProps={{
+                        thousandSeparator: true,
+                        decimalScale: 2,
+                      }}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -269,7 +271,10 @@ function InventorySettingForm() {
                       label={t('inventorySetting.maxInventoryLimit')}
                       placeholder={t('inventorySetting.maxInventoryLimit')}
                       type="number"
-                      allow={TEXTFIELD_ALLOW.NUMERIC}
+                      numberProps={{
+                        thousandSeparator: true,
+                        decimalScale: 2,
+                      }}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -278,7 +283,10 @@ function InventorySettingForm() {
                       label={t('inventorySetting.reorderPoint')}
                       placeholder={t('inventorySetting.reorderPoint')}
                       type="number"
-                      allow={TEXTFIELD_ALLOW.NUMERIC}
+                      numberProps={{
+                        thousandSeparator: true,
+                        decimalScale: 2,
+                      }}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -287,7 +295,10 @@ function InventorySettingForm() {
                       label={t('inventorySetting.eoq')}
                       placeholder={t('inventorySetting.eoq')}
                       type="number"
-                      allow={TEXTFIELD_ALLOW.NUMERIC}
+                      numberProps={{
+                        thousandSeparator: true,
+                        decimalScale: 2,
+                      }}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -296,7 +307,10 @@ function InventorySettingForm() {
                       label={t('inventorySetting.leadtime')}
                       placeholder={t('inventorySetting.leadtime')}
                       type="number"
-                      allow={TEXTFIELD_ALLOW.NUMERIC}
+                      numberProps={{
+                        thousandSeparator: true,
+                        decimalScale: 2,
+                      }}
                       InputProps={{
                         endAdornment: (
                           <InputAdornment position="end" sx={{ ml: 0, pr: 1 }}>

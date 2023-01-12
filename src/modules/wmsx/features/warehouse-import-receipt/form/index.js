@@ -406,11 +406,20 @@ function WarehouseImportReceiptForm() {
       })
     }
   }
-  const handleChangeBusinessType = (val, setFieldValue) => {
+  const handleChangeBusinessType = (val, setFieldValue, values) => {
     setFieldValue('items', [{ ...DEFAULT_ITEMS }])
     setItemReceipt([])
     setItemWarehouseExportProposal([])
     setItemWarehouseExportReceipt([])
+    const receiptDate = convertUtcDateToLocalTz(
+      values?.receiptDate.toISOString(),
+    )
+    const explaination = `${
+      receiptDate
+        ? `${t('warehouseExportReceipt.warehouseExportDate')} [${receiptDate}]`
+        : ''
+    }`
+    setFieldValue('explaination', explaination)
     if (!isEmpty(val)) {
       val?.bussinessTypeAttributes?.forEach((item) => {
         if (!isNil(item?.id)) {
@@ -633,7 +642,7 @@ function WarehouseImportReceiptForm() {
                         getOptionLabel={(opt) => opt?.code}
                         getOptionSubLabel={(opt) => opt?.name}
                         onChange={(val) =>
-                          handleChangeBusinessType(val, setFieldValue)
+                          handleChangeBusinessType(val, setFieldValue, values)
                         }
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                         required
