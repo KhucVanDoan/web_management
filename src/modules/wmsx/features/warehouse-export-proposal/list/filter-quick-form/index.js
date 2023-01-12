@@ -15,11 +15,16 @@ const QuickFilter = ({ setQuickFilters, quickFilters, defaultFilter }) => {
   const [startDate, setStartDate] = useState()
   const [endDate, setEndDate] = useState()
   const [selectedDate, setSelectedDate] = useState()
-
   const handleChangeSelect = (value) => {
-    setSelectedDate(value)
-    setStartDate(`${format(startOfMonth(value), 'yyyy-MM-dd')}T00:00:00.000Z`)
-    setEndDate(`${format(endOfMonth(value), 'yyyy-MM-dd')}T23:59:59.999Z`)
+    if (value) {
+      setSelectedDate(value)
+      setStartDate(`${format(startOfMonth(value), 'yyyy-MM-dd')}T00:00:00.000Z`)
+      setEndDate(`${format(endOfMonth(value), 'yyyy-MM-dd')}T23:59:59.999Z`)
+    } else {
+      setSelectedDate(null)
+      setStartDate('')
+      setEndDate('')
+    }
   }
   const onSubmit = (values) => {
     setQuickFilters({
