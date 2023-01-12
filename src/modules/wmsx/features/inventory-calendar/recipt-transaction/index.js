@@ -135,7 +135,7 @@ const ReciptDetail = () => {
               <LV
                 label={t('inventoryCalendar.impersonators')}
                 value={inventoryCalendarDetails?.impersonators
-                  ?.map((w) => w?.username)
+                  ?.map((w) => w?.fullName)
                   .join(',')}
               />
             </Grid>
@@ -153,7 +153,7 @@ const ReciptDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('inventoryCalendar.createdByUser')}
-                value={inventoryCalendarDetails?.createdByUser?.username}
+                value={inventoryCalendarDetails?.createdByUser?.fullName}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -167,7 +167,7 @@ const ReciptDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('inventoryCalendar.updatedByUser')}
-                value={inventoryCalendarDetails?.updatedBy?.username}
+                value={inventoryCalendarDetails?.updatedBy?.fullName}
               />
             </Grid>
             <Grid item lg={6} xs={12}>

@@ -86,6 +86,7 @@ const DataSyncManagement = () => {
     {
       field: '#',
       headerName: '#',
+      align: 'center',
       width: 30,
       renderCell: (_, index) => {
         return index + 1

@@ -511,7 +511,7 @@ function WarehouseExportReceiptForm() {
     const warehouseExportReceipt =
       values[
         values?.businessTypeId?.bussinessTypeAttributes?.find(
-          (item) => item?.tableName === TABLE_NAME_ENUM.SALE_ORDER_EXPORT,
+          (item) => item?.tableName === TABLE_NAME_ENUM.PURCHASED_ODER_IMPORT,
         )?.id
       ]?.code
     const receiptDate = convertUtcDateToLocalTz(val.toISOString())

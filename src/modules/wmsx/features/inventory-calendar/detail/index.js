@@ -141,14 +141,14 @@ const InventoryCalendarDetail = () => {
               <LV
                 label={t('inventoryCalendar.impersonators')}
                 value={inventoryCalendarDetails?.impersonators
-                  ?.map((w) => w?.username)
+                  ?.map((w) => w?.fullName)
                   .join(',')}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('inventoryCalendar.createdByUser')}
-                value={inventoryCalendarDetails?.createdByUser?.username}
+                value={inventoryCalendarDetails?.createdByUser?.fullName}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -165,7 +165,7 @@ const InventoryCalendarDetail = () => {
                 <Grid item lg={6} xs={12}>
                   <LV
                     label={t('inventoryCalendar.confirmByUser')}
-                    value={inventoryCalendarDetails?.confirmer?.username}
+                    value={inventoryCalendarDetails?.confirmer?.fullName}
                   />
                 </Grid>
                 <Grid item lg={6} xs={12}>
