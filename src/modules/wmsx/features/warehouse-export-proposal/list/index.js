@@ -58,7 +58,7 @@ function WarehouseExportProposal() {
   }
   const { canAccess } = useApp()
   const DEFAULT_QUICK_FILTERS = {
-    time: '',
+    time: [],
     startDate: '',
     endDate: '',
     statusWarehouseExport: '',

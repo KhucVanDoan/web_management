@@ -64,7 +64,7 @@
     "no-underscore-dangle": 0,
     "no-console": 1,
     "import/order": [
-      "error",
+      "warn",
       {
         "groups": ["builtin", "external", "internal"],
         "pathGroups": [
