@@ -39,22 +39,31 @@ const ItemSettingTable = (props) => {
     }
   }, [warehouseTransferDetails])
   const handleChangItem = (val, index) => {
-    const planQuantity =
-      warehouseTransferDetails?.warehouseTransferDetailLots?.find(
-        (item) => item?.itemId === val?.itemId,
-      )?.planQuantity
-    const findItem = values?.items?.find(
-      (item) => item?.id && item?.itemCode?.itemId === val?.itemId,
-    )
-    setFieldValue(`items[${index}].transferQuantity`, +planQuantity)
-    setFieldValue(`items[${index}].debitAcc`, findItem?.debitAcc || 1519)
-    setFieldValue(`items[${index}].creditAcc`, findItem?.creditAcc)
-    setFieldValue(`items[${index}].price`, findItem?.price)
-    setFieldValue(`items[${index}].amount`, findItem?.amount)
-    setFieldValue(
-      `items[${index}].itemCodeWarehouseImp`,
-      findItem?.itemCodeWarehouseImp,
-    )
+    if (!isEmpty(val)) {
+      const planQuantity =
+        warehouseTransferDetails?.warehouseTransferDetailLots?.find(
+          (item) => item?.itemId === val?.itemId,
+        )?.planQuantity
+      const findItem = values?.items?.find(
+        (item) => item?.id && item?.itemCode?.itemId === val?.itemId,
+      )
+      setFieldValue(`items[${index}].transferQuantity`, +planQuantity)
+      setFieldValue(`items[${index}].debitAcc`, findItem?.debitAcc || 1519)
+      setFieldValue(`items[${index}].creditAcc`, findItem?.creditAcc)
+      setFieldValue(`items[${index}].price`, findItem?.price)
+      setFieldValue(`items[${index}].amount`, findItem?.amount)
+      setFieldValue(
+        `items[${index}].itemCodeWarehouseImp`,
+        findItem?.itemCodeWarehouseImp,
+      )
+    } else {
+      setFieldValue(`items[${index}].transferQuantity`, '')
+      setFieldValue(`items[${index}].debitAcc`, '')
+      setFieldValue(`items[${index}].creditAcc`, '')
+      setFieldValue(`items[${index}].price`, '')
+      setFieldValue(`items[${index}].amount`, '')
+      setFieldValue(`items[${index}].itemCodeWarehouseImp`, '')
+    }
   }
   const handleChangLotNumber = (val, params, index) => {
     const planQuantity =
