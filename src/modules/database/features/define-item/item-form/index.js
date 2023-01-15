@@ -407,7 +407,6 @@ function DefineItemForm() {
                             label={t('defineItem.price')}
                             placeholder={t('defineItem.price')}
                             numberProps={{
-                              thousandSeparator: true,
                               decimalScale: 3,
                             }}
                           />

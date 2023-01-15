@@ -5,6 +5,7 @@ import Box from '@mui/material/Box'
 import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
+import NumberFormatText from '~/components/NumberFormat'
 
 const ItemSettingTableDetail = ({ items }) => {
   const { t } = useTranslation(['wmsx'])
@@ -67,33 +68,39 @@ const ItemSettingTableDetail = ({ items }) => {
         field: 'quantityExport',
         headerName: t('warehouseExportReceipt.items.quantityExport'),
         width: 150,
-        renderCell: (params) => {
-          return params?.row?.quantity
-        },
+        renderCell: (params) => (
+          <NumberFormatText
+            value={params?.row?.quantity}
+            formatter="quantity"
+          />
+        ),
       },
       {
         field: 'actualExportedQuantity',
         headerName: t('warehouseExportReceipt.actualExportedQuantity'),
         width: 150,
-        renderCell: (params) => {
-          return params?.row?.actualQuantity
-        },
+        renderCell: (params) => (
+          <NumberFormatText
+            value={params?.row?.actualQuantity}
+            formatter="quantity"
+          />
+        ),
       },
       {
         field: 'unitPriceRefer',
         headerName: t('warehouseExportReceipt.items.unitPriceRefer'),
         width: 150,
-        renderCell: (params) => {
-          return params?.row?.price
-        },
+        renderCell: (params) => (
+          <NumberFormatText value={params?.row?.price} formatter="price" />
+        ),
       },
       {
         field: 'totalMoney',
         headerName: t('warehouseExportReceipt.items.totalMoney'),
         width: 150,
-        renderCell: (params) => {
-          return params?.row?.amount
-        },
+        renderCell: (params) => (
+          <NumberFormatText value={params?.row?.amount} formatter="price" />
+        ),
       },
       {
         field: 'debitAccount',

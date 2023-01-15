@@ -12,6 +12,7 @@ import Dialog from '~/components/Dialog'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
+import NumberFormatText from '~/components/NumberFormat'
 import Page from '~/components/Page'
 import useInventoryStatistics from '~/modules/wmsx/redux/hooks/useInventoryStatistics'
 import { exportInventoryStatisticsApi } from '~/modules/wmsx/redux/sagas/inventory-statistics/import-export-inventory-statistics'
@@ -123,17 +124,25 @@ function InventoryStatistics() {
       field: 'quantity',
       headerName: t('inventoryStatistics.quantity'),
       width: 150,
-      renderCell: (params) => Number(params.row?.stock),
+      renderCell: (params) => (
+        <NumberFormatText value={params.row?.stock} formatter="quantity" />
+      ),
     },
     {
       field: 'price',
       headerName: t('inventoryStatistics.price'),
       width: 150,
+      renderCell: (params) => (
+        <NumberFormatText value={params.row?.price} formatter="price" />
+      ),
     },
     {
       field: 'amount',
       headerName: t('inventoryStatistics.intoMoney'),
       width: 150,
+      renderCell: (params) => (
+        <NumberFormatText value={params.row?.amount} formatter="price" />
+      ),
     },
     {
       field: 'type',

@@ -34,6 +34,7 @@ const TextField = ({
   onChange,
   allow,
   numberProps,
+  formatter,
   ...props
 }) => {
   const classes = useClasses(style(readOnly))
@@ -108,11 +109,12 @@ const TextField = ({
                 onPaste: handlePaste,
               }
             : {})}
-          {...(!isEmpty(numberProps)
+          {...(!isEmpty(numberProps) || !!formatter
             ? {
                 inputComponent: NumberFormatInput,
                 inputProps: {
-                  numberProps: numberProps,
+                  numberProps,
+                  formatter,
                 },
               }
             : {})}
@@ -160,6 +162,7 @@ TextField.propTypes = {
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
   numberProps: PropTypes.shape(),
+  formatter: PropTypes.oneOf(['quantity', 'price']),
 }
 
 export default TextField
