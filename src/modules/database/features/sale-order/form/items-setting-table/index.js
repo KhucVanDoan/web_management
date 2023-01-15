@@ -151,7 +151,6 @@ function ItemSettingTable(props) {
             <Field.TextField
               name={`items[${index}].price`}
               numberProps={{
-                thousandSeparator: true,
                 decimalScale: 2,
               }}
             />

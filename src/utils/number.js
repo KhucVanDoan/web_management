@@ -20,3 +20,12 @@ export const convertNumberWithSISymbol = (num, digits = 2) => {
 
   return (num / si[i].value).toFixed(digits).replace(rx, '$1') + si[i].symbol
 }
+
+export const convertNumberWithThousandSeparator = (num, digits = 2) => {
+  if (!num) return 0
+
+  return (+Number(num).toFixed(digits))
+    .toString()
+    .replace(/\d(?=(\d{3})+(?!\d))/g, '$& ')
+    .replace('.', ',')
+}

@@ -11,6 +11,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import NumberFormatText from '~/components/NumberFormat'
 import { ACTIVE_STATUS, TABLE_NAME_ENUM } from '~/modules/wmsx/constants'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
@@ -170,10 +171,7 @@ function ItemsSettingTable(props) {
           return isView ? (
             params?.row?.item?.name
           ) : (
-            <Field.TextField
-              name={`items[${index}].itemName`}
-              disabled={true}
-            />
+            <Field.TextField name={`items[${index}].itemName`} disabled />
           )
         },
       },
@@ -185,7 +183,7 @@ function ItemsSettingTable(props) {
           return isView ? (
             params?.row?.item?.itemUnit
           ) : (
-            <Field.TextField name={`items[${index}].unit`} disabled={true} />
+            <Field.TextField name={`items[${index}].unit`} disabled />
           )
         },
       },
@@ -204,28 +202,33 @@ function ItemsSettingTable(props) {
         width: 180,
         renderCell: (params, index) => {
           return isView ? (
-            <>
-              {valuesReceiptRequired
-                ? params?.row?.quantity
-                : params?.row?.requestedQuantityWarehouseExportProposal}
-            </>
+            <NumberFormatText
+              value={
+                valuesReceiptRequired
+                  ? params?.row?.quantity
+                  : params?.row?.requestedQuantityWarehouseExportProposal
+              }
+              formatter="quantity"
+            />
           ) : !isEmpty(values[warehouseExportProposal]) &&
             isEmpty(values[receiptRequired]) ? (
             <Field.TextField
               name={`items[${index}].requestedQuantity`}
               value={+params?.row?.itemCode?.requestedQuantity}
-              disabled={true}
+              formatter="quantity"
+              disabled
             />
           ) : !isEmpty(values[receiptRequired]) ? (
             <Field.TextField
               name={`items[${index}].itemCode.quantity`}
-              disabled={true}
+              formatter="quantity"
+              disabled
             />
           ) : (
             <Field.TextField
               name={`items[${index}].requestedQuantity`}
-              type="number"
-              disabled={true}
+              formatter="quantity"
+              disabled
             />
           )
         },
@@ -236,19 +239,20 @@ function ItemsSettingTable(props) {
         width: 180,
         renderCell: (params, index) => {
           return isView ? (
-            params?.row?.quantity
+            <NumberFormatText
+              value={params?.row?.quantity}
+              formatter="quantity"
+            />
           ) : !isEmpty(values[receiptRequired]) ? (
             <Field.TextField
               name={`items[${index}].itemCode.quantity`}
-              disabled={true}
+              disabled
+              formatter="quantity"
             />
           ) : (
             <Field.TextField
               name={`items[${index}].importQuantity`}
-              numberProps={{
-                thousandSeparator: true,
-                decimalScale: 2,
-              }}
+              formatter="quantity"
               // validate={(val) => {
               //   if (val) {
               //     if (val > params?.row?.itemCode?.requestedQuantity) {
@@ -268,16 +272,9 @@ function ItemsSettingTable(props) {
         width: 180,
         renderCell: (params, index) => {
           return isView ? (
-            <>{params?.row?.amount}</>
+            <NumberFormatText value={params?.row?.amount} formatter="price" />
           ) : (
-            <Field.TextField
-              name={`items[${index}].money`}
-              type="number"
-              numberProps={{
-                thousandSeparator: true,
-                decimalScale: 2,
-              }}
-            />
+            <Field.TextField name={`items[${index}].money`} formatter="price" />
           )
         },
       },
@@ -287,17 +284,13 @@ function ItemsSettingTable(props) {
         width: 180,
         renderCell: (params, index) => {
           return isView ? (
-            params?.row?.price
+            <NumberFormatText value={params?.row?.price} formatter="price" />
           ) : (
             <Field.TextField
               name={`items[${index}].price`}
-              type="number"
               value={params?.row?.money / params?.row?.importQuantity}
-              numberProps={{
-                thousandSeparator: true,
-                decimalScale: 2,
-              }}
-              disabled={true}
+              formatter="price"
+              disabled
             />
           )
         },
@@ -310,10 +303,7 @@ function ItemsSettingTable(props) {
           return isView ? (
             <>{params?.row?.debitAccount}</>
           ) : (
-            <Field.TextField
-              name={`items[${index}].debitAcc`}
-              disabled={true}
-            />
+            <Field.TextField name={`items[${index}].debitAcc`} disabled />
           )
         },
       },
@@ -328,7 +318,7 @@ function ItemsSettingTable(props) {
             <Field.TextField
               name={`items[${index}].creditAcc`}
               value={creditAccount.replace(/^(\d*?[1-9])0+$/, '$1')}
-              disabled={true}
+              disabled
             />
           )
         },

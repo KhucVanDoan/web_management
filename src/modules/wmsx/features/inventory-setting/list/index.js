@@ -16,6 +16,7 @@ import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
+import NumberFormatText from '~/components/NumberFormat'
 import Page from '~/components/Page'
 import useInventorySetting from '~/modules/wmsx/redux/hooks/useInventorySetting'
 import {
@@ -117,18 +118,27 @@ function InventorySetting() {
       headerName: t('inventorySetting.minInventoryLimit'),
       width: 50,
       sortable: true,
+      renderCell: ({ row }) => (
+        <NumberFormatText value={row.minInventoryLimit} formatter="quantity" />
+      ),
     },
     {
       field: 'inventoryLimit',
       headerName: t('inventorySetting.inventoryLimit'),
       width: 50,
       sortable: true,
+      renderCell: ({ row }) => (
+        <NumberFormatText value={row.inventoryLimit} formatter="quantity" />
+      ),
     },
     {
       field: 'maxInventoryLimit',
       headerName: t('inventorySetting.maxInventoryLimit'),
       width: 50,
       sortable: true,
+      renderCell: ({ row }) => (
+        <NumberFormatText value={row.maxInventoryLimit} formatter="quantity" />
+      ),
     },
     {
       field: 'action',

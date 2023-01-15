@@ -12,6 +12,7 @@ import {
   getDashboardItems,
   getDashboardWarehouses,
 } from '~/modules/wmsx/redux/sagas/dashboard'
+import { convertNumberWithThousandSeparator } from '~/utils'
 const MovementReport = ({ fromDate, toDate }) => {
   const { t } = useTranslation(['wmsx'])
 
@@ -135,6 +136,24 @@ const MovementReport = ({ fromDate, toDate }) => {
     ],
     legend: {
       position: 'bottom',
+    },
+    tooltip: {
+      formatter: (datum) => {
+        if (
+          datum.type === t('dashboard.movementReport.importQuantity') ||
+          datum.type === t('dashboard.movementReport.exportQuantity')
+        )
+          return {
+            ...datum,
+            name: datum.type,
+            value: convertNumberWithThousandSeparator(datum.value, 5),
+          }
+
+        return {
+          ...datum,
+          value: convertNumberWithThousandSeparator(datum.count, 2),
+        }
+      },
     },
   }
 

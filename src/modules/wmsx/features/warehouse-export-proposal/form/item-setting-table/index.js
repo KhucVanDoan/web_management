@@ -14,6 +14,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import NumberFormatText from '~/components/NumberFormat'
 import { ACTIVE_STATUS } from '~/modules/wmsx/constants'
 import { searchUomsApi } from '~/modules/wmsx/redux/sagas/define-uom/search-uom'
 import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
@@ -168,15 +169,14 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
         width: 100,
         renderCell: (params, index) => {
           return isView ? (
-            params?.row?.quantityRequest
+            <NumberFormatText
+              value={params?.row?.quantityRequest}
+              formatter="quantity"
+            />
           ) : (
             <Field.TextField
               name={`items[${index}].quantityRequest`}
-              type="number"
-              numberProps={{
-                thousandSeparator: true,
-                decimalScale: 2,
-              }}
+              formatter="quantity"
               required
             />
           )

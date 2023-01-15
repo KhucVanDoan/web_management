@@ -94,6 +94,7 @@ function MaterialManagementDetail() {
 
   const getBreadcrumb = () => {
     const breadcrumbs = [
+      { title: 'database' },
       {
         route: ROUTE.MATERIAL_MANAGEMENT.LIST.PATH,
         title: ROUTE.MATERIAL_MANAGEMENT.LIST.TITLE,

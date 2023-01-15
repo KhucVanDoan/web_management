@@ -5,11 +5,7 @@ import { Formik, Form } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
-import {
-  ASYNC_SEARCH_LIMIT,
-  MODAL_MODE,
-  TEXTFIELD_ALLOW,
-} from '~/common/constants'
+import { ASYNC_SEARCH_LIMIT, MODAL_MODE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
@@ -249,8 +245,7 @@ function InventorySettingForm() {
                       name="inventoryLimit"
                       label={t('inventorySetting.inventoryLimit')}
                       placeholder={t('inventorySetting.inventoryLimit')}
-                      type="number"
-                      allow={TEXTFIELD_ALLOW.NUMERIC}
+                      formatter="quantity"
                       required
                     />
                   </Grid>
@@ -259,8 +254,7 @@ function InventorySettingForm() {
                       name="minInventoryLimit"
                       label={t('inventorySetting.minInventoryLimit')}
                       placeholder={t('inventorySetting.minInventoryLimit')}
-                      type="number"
-                      allow={TEXTFIELD_ALLOW.NUMERIC}
+                      formatter="quantity"
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -268,8 +262,7 @@ function InventorySettingForm() {
                       name="maxInventoryLimit"
                       label={t('inventorySetting.maxInventoryLimit')}
                       placeholder={t('inventorySetting.maxInventoryLimit')}
-                      type="number"
-                      allow={TEXTFIELD_ALLOW.NUMERIC}
+                      formatter="quantity"
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -277,8 +270,7 @@ function InventorySettingForm() {
                       name="reorderPoint"
                       label={t('inventorySetting.reorderPoint')}
                       placeholder={t('inventorySetting.reorderPoint')}
-                      type="number"
-                      allow={TEXTFIELD_ALLOW.NUMERIC}
+                      formatter="quantity"
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -286,8 +278,7 @@ function InventorySettingForm() {
                       name="eoq"
                       label={t('inventorySetting.eoq')}
                       placeholder={t('inventorySetting.eoq')}
-                      type="number"
-                      allow={TEXTFIELD_ALLOW.NUMERIC}
+                      formatter="quantity"
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -296,7 +287,9 @@ function InventorySettingForm() {
                       label={t('inventorySetting.leadtime')}
                       placeholder={t('inventorySetting.leadtime')}
                       type="number"
-                      allow={TEXTFIELD_ALLOW.NUMERIC}
+                      numberProps={{
+                        decimalScale: 2,
+                      }}
                       InputProps={{
                         endAdornment: (
                           <InputAdornment position="end" sx={{ ml: 0, pr: 1 }}>

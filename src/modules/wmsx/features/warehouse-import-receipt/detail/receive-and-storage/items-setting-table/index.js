@@ -95,7 +95,6 @@ function ItemsSettingTable(props) {
             <Field.TextField
               name={`items[${index}].receivedQuantity`}
               numberProps={{
-                thousandSeparator: true,
                 decimalScale: 2,
               }}
               validate={() => {

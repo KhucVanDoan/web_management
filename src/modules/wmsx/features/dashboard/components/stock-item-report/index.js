@@ -11,6 +11,7 @@ import {
   getDashboardItems,
   getDashboardWarehouses,
 } from '~/modules/wmsx/redux/sagas/dashboard'
+import { convertNumberWithThousandSeparator } from '~/utils'
 
 const StockItemReport = ({ fromDate, toDate }) => {
   const { t } = useTranslation(['wmsx'])
@@ -64,7 +65,20 @@ const StockItemReport = ({ fromDate, toDate }) => {
     label: {
       type: 'outer',
       style: { fontSize: 14, textOverflow: 'unset' },
+      formatter: (datum) => {
+        return convertNumberWithThousandSeparator(datum.value, 5)
+      },
     },
+    tooltip: {
+      formatter: (datum) => {
+        return {
+          ...datum,
+          name: datum.type,
+          value: convertNumberWithThousandSeparator(datum.value, 5),
+        }
+      },
+    },
+
     interactions: [
       {
         type: 'element-selected',
@@ -81,6 +95,12 @@ const StockItemReport = ({ fromDate, toDate }) => {
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           fontSize: '16px',
+        },
+        formatter: (_, items = []) => {
+          const total = items.reduce((acc, cur) => {
+            return acc + (cur?.value || 0)
+          }, 0)
+          return convertNumberWithThousandSeparator(total, 5)
         },
       },
     },

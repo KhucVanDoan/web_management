@@ -101,6 +101,7 @@ export default function inventoryCalendar(state = initialState, action) {
         ...state,
         itemListDetailRecipt: action.payload.list,
         isLoadingItem: false,
+        isLoading: false,
         totalItem: action.payload.total,
       }
     case GET_LIST_ITEM_DETAIL_RECIPT_FAILED:
@@ -108,6 +109,7 @@ export default function inventoryCalendar(state = initialState, action) {
         ...state,
         itemListDetailRecipt: [],
         isLoadingItem: false,
+        isLoading: false,
         totalItem: 0,
       }
     case APPROVE_INVENTORY_CALENDAR_FAILED:

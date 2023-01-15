@@ -17,7 +17,7 @@
   "menu": {
     "wmsx": "WMS",
     "dashboard": "Dashboard",
-    "database": "Quản lý dữ liệu cơ sở",
+    "database": "Danh mục dữ liệu",
     "companyManagement": "Quản lý công ty",
     "companyManagementCreate": "Tạo công ty",
     "companyManagementEdit": "Sửa công ty",
@@ -111,7 +111,7 @@
     "defineExpenditureType": "Định nghĩa loại chi phí",
     "defineExpenditureTypeCreate": "Tạo loại chi phí",
     "defineExpenditureTypeEdit": "Sửa loại chi phí",
-    "materialManagement": "Quản lý vật tư",
+    "materialManagement": "Danh mục vật tư",
     "materialManagementCreate": "Tạo vật tư",
     "materialManagementEdit": "Sửa vật tư",
     "materialManagementDetail": "Chi tiết vật tư",

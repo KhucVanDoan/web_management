@@ -6,6 +6,7 @@ import { useParams, useHistory } from 'react-router-dom'
 
 import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
+import NumberFormatText from '~/components/NumberFormat'
 import Page from '~/components/Page'
 import useInventorySetting from '~/modules/wmsx/redux/hooks/useInventorySetting'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -87,31 +88,56 @@ function InventorySettingDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('inventorySetting.inventoryLimit')}
-                value={inventorySettingDetail?.inventoryLimit}
+                value={
+                  <NumberFormatText
+                    value={inventorySettingDetail?.inventoryLimit}
+                    formatter="quantity"
+                  />
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('inventorySetting.minInventoryLimit')}
-                value={inventorySettingDetail?.minInventoryLimit}
+                value={
+                  <NumberFormatText
+                    value={inventorySettingDetail?.minInventoryLimit}
+                    formatter="quantity"
+                  />
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('inventorySetting.maxInventoryLimit')}
-                value={inventorySettingDetail?.maxInventoryLimit}
+                value={
+                  <NumberFormatText
+                    value={inventorySettingDetail?.maxInventoryLimit}
+                    formatter="quantity"
+                  />
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('inventorySetting.reorderPoint')}
-                value={inventorySettingDetail?.reorderPoint}
+                value={
+                  <NumberFormatText
+                    value={inventorySettingDetail?.reorderPoint}
+                    formatter="quantity"
+                  />
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('inventorySetting.eoq')}
-                value={inventorySettingDetail?.eoq}
+                value={
+                  <NumberFormatText
+                    value={inventorySettingDetail?.eoq}
+                    formatter="quantity"
+                  />
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
