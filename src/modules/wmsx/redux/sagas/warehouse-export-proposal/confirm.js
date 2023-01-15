@@ -24,7 +24,7 @@ function* doConfirmWarehouseExportProposal(action) {
       confirmWarehouseExportProposalApi,
       action?.payload,
     )
-    if (response?.statusCode === 200) {
+    if (response?.statusCode === 200 || response?.payload?.statusCode === 200) {
       yield put(confirmWarehouseExportProposalByIdSuccess(response.payload))
 
       // Call callback action if provided
@@ -32,10 +32,13 @@ function* doConfirmWarehouseExportProposal(action) {
         yield action.onSuccess()
       }
 
-      addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
+      addNotification(
+        response?.message || response?.payload?.message,
+        NOTIFICATION_TYPE.SUCCESS,
+      )
     } else {
       addNotification(
-        response?.message || response?.statusText,
+        response?.message || response?.statusText || response?.payload?.message,
         NOTIFICATION_TYPE.ERROR,
       )
 

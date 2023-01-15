@@ -113,7 +113,6 @@ const ShiftTable = ({ mode, shifts, arrayHelpers, status }) => {
             <Field.TextField
               name={`shifts[${index}].pricePerHour`}
               numberProps={{
-                thousandSeparator: true,
                 decimalScale: 3,
                 allowNegative: false,
               }}

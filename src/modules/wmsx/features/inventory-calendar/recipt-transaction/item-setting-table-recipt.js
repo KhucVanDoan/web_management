@@ -7,20 +7,19 @@ import { useQueryState } from '~/common/hooks'
 import DataTableCollapse from '~/components/DataTableCollapse'
 import useInventoryCalendar from '~/modules/wmsx/redux/hooks/useInventoryCalendar'
 
-import FilterForm from './filter-form'
+// import FilterForm from './filter-form'
 
 function ItemSettingTableRecipt() {
   const { id } = useParams()
   const { t } = useTranslation(['wmsx'])
-  const { page, pageSize, setPage, setPageSize, setSort, filters, setFilters } =
-    useQueryState()
+  const { page, pageSize, setPage, setPageSize, setSort } = useQueryState()
   const {
     data: { isLoadingItem, totalItem, itemListDetailRecipt },
     actions,
   } = useInventoryCalendar()
   useEffect(() => {
     refreshData()
-  }, [id, page])
+  }, [id, page, pageSize])
   const refreshData = () => {
     const params = {
       id: id,
@@ -48,7 +47,7 @@ function ItemSettingTableRecipt() {
     {
       field: 'itemCode',
       headerName: t('inventoryCalendar.items.itemCode'),
-      width: 50,
+      width: 250,
       renderCell: (params) => {
         return params?.row?.item?.code
       },
@@ -56,7 +55,7 @@ function ItemSettingTableRecipt() {
     {
       field: 'itemName',
       headerName: t('inventoryCalendar.items.itemName'),
-      width: 50,
+      width: 250,
       renderCell: (params) => {
         return params?.row?.item?.name
       },
@@ -64,7 +63,7 @@ function ItemSettingTableRecipt() {
     {
       field: 'unit',
       headerName: t('inventoryCalendar.items.unit'),
-      width: 50,
+      width: 150,
       renderCell: (params) => {
         return params?.row?.item?.itemUnit?.name
       },
@@ -72,7 +71,7 @@ function ItemSettingTableRecipt() {
     {
       field: 'inventoryDay',
       headerName: t('inventoryCalendar.items.inventoryDay'),
-      width: 50,
+      width: 150,
       renderCell: (params) => {
         return params?.row?.inventoryDay
       },
@@ -88,24 +87,24 @@ function ItemSettingTableRecipt() {
     {
       field: 'location',
       headerName: t('inventoryCalendar.items.location'),
-      width: 50,
+      width: 150,
     },
     {
       field: 'lotNumber',
       headerName: t('inventoryCalendar.items.lotNumber'),
-      width: 50,
+      width: 150,
     },
     {
       field: 'planQuantity',
       headerName: t('inventoryCalendar.items.planQuantity'),
-      width: 50,
+      width: 80,
     },
     {
       field: 'importedQuantityFromCheckPointToExecuteDate',
       headerName: t(
         'inventoryCalendar.items.importedQuantityFromCheckPointToExecuteDate',
       ),
-      width: 50,
+      width: 80,
     },
     {
       field: 'exportedQuantityFromCheckPointToExecuteDate',
@@ -117,44 +116,44 @@ function ItemSettingTableRecipt() {
     {
       field: 'inventoryQuantityAtExecuteDate',
       headerName: t('inventoryCalendar.items.inventoryQuantityAtExecuteDate'),
-      width: 50,
+      width: 80,
     },
     {
       field: 'actualInventoryQuantity',
       headerName: t('inventoryCalendar.items.actualInventoryQuantity'),
-      width: 50,
+      width: 80,
     },
     {
       field: 'importedQuantityFromStartExecute',
       headerName: t('inventoryCalendar.items.importedQuantityFromStartExecute'),
-      width: 50,
+      width: 80,
     },
     {
       field: 'exportedQuantityFromStartExecute',
       headerName: t('inventoryCalendar.items.exportedQuantityFromStartExecute'),
-      width: 50,
+      width: 80,
     },
     {
       field: 'remainingQuantityAtCheckPoint',
       headerName: t('inventoryCalendar.items.remainingQuantityAtCheckPoint'),
-      width: 50,
+      width: 80,
     },
     {
       field: 'actualRemainingQuantityAtCheckPoint',
       headerName: t(
         'inventoryCalendar.items.actualRemainingQuantityAtCheckPoint',
       ),
-      width: 50,
+      width: 80,
     },
     {
       field: 'excessQuantity',
       headerName: t('inventoryCalendar.items.excessQuantity'),
-      width: 50,
+      width: 80,
     },
     {
       field: 'missingQuantity',
       headerName: t('inventoryCalendar.items.missingQuantity'),
-      width: 50,
+      width: 80,
     },
   ]
   return (
@@ -167,10 +166,11 @@ function ItemSettingTableRecipt() {
         columns={getColumns}
         pageSize={pageSize}
         page={page}
-        filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}
+        // filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
+        hideSetting
         striped={false}
       />
     </>
