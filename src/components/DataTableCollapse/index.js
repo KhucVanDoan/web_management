@@ -103,6 +103,7 @@ const DataTableCollapse = (props) => {
           visibleColumns={visibleColumns}
           onApplySetting={handleApplySetting}
           filters={filters}
+          hideSetting={hideSetting}
           tableSettingKey={tableSettingKey}
           setVisibleColumns={setVisibleColumns}
           onSettingChange={onSettingChange}
@@ -152,7 +153,10 @@ const DataTableCollapse = (props) => {
                         // classes.tableRowHover,
                         'original',
                         {
-                          [classes.tableRowSelected]: open[index],
+                          [classes.tableRowSelected]: open[index], // onChange={(newPage, newPageSize) => {
+                          //   onPageChange(newPage)
+                          //   onPageSizeChange(newPageSize)
+                          // }}
                           [classes.tableRowRootSelected]: open[index] && isRoot,
                         },
                       )}
@@ -243,10 +247,8 @@ const DataTableCollapse = (props) => {
       </TableContainer>
       {!hideFooter && (
         <Pagination
-          onChange={(newPage, newPageSize) => {
-            onPageChange(newPage)
-            onPageSizeChange(newPageSize)
-          }}
+          onPageChange={onPageChange}
+          onPageSizeChange={onPageSizeChange}
           total={total}
           pageSize={pageSize}
           page={page}
