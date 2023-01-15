@@ -22,11 +22,27 @@ const FilterForm = () => {
           allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
         />
       </Grid>
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <Field.TextField
           name="signalCode"
           label={t('dataSyncManagement.signalCode')}
           placeholder={t('dataSyncManagement.signalCode')}
+          inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX }}
+        />
+      </Grid> */}
+      <Grid item xs={12}>
+        <Field.TextField
+          name="fromSystem"
+          label={t('dataSyncManagement.fromSystem')}
+          placeholder={t('dataSyncManagement.fromSystem')}
+          inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX }}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <Field.TextField
+          name="toSystem"
+          label={t('dataSyncManagement.toSystem')}
+          placeholder={t('dataSyncManagement.toSystem')}
           inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX }}
         />
       </Grid>
