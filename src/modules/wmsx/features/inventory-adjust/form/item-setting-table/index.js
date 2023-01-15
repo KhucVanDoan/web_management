@@ -9,12 +9,12 @@ import {
   ASYNC_SEARCH_LIMIT,
   MODAL_MODE,
   NUMBER_FIELD_REQUIRED_SIZE,
-  TEXTFIELD_ALLOW,
 } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import NumberFormatText from '~/components/NumberFormat'
 import { ACTIVE_STATUS, INVENTORY_ADJUST_TYPE } from '~/modules/wmsx/constants'
 import { searchLocationsApi } from '~/modules/wmsx/redux/sagas/location-management/search-locations'
 import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
@@ -243,16 +243,14 @@ const ItemSettingTable = ({
         width: 150,
         renderCell: (params, index) => {
           return isView ? (
-            params?.row?.quantity
+            <NumberFormatText
+              value={params?.row?.quantity}
+              formatter="quantity"
+            />
           ) : (
             <Field.TextField
               name={`items[${index}].quantity`}
-              numberProps={{
-                thousandSeparator: true,
-                decimalScale: 2,
-              }}
-              allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
-              type="number"
+              formatter="quantity"
               validate={(val) => {
                 if (!val && val !== 0) {
                   return t('general:form.required')
@@ -288,7 +286,10 @@ const ItemSettingTable = ({
         hide: values?.type !== INVENTORY_ADJUST_TYPE.WAREHOUSE_EXPORT,
         renderCell: (params, index) => {
           return isView ? (
-            params?.row?.quantityExported
+            <NumberFormatText
+              value={params?.row?.quantityExported}
+              formatter="quantity"
+            />
           ) : (
             <Field.TextField
               name={
@@ -297,6 +298,7 @@ const ItemSettingTable = ({
                   : `items[${index}].locator.quantityExported`
               }
               placeholder={t('inventoryAdjust.items.quantityExported')}
+              formatter="quantity"
               disabled
             />
           )
@@ -308,18 +310,16 @@ const ItemSettingTable = ({
         width: 150,
         renderCell: (params, index) => {
           return isView ? (
-            params?.row?.amount
+            <NumberFormatText value={params?.row?.amount} formatter="price" />
           ) : values?.type === INVENTORY_ADJUST_TYPE.WAREHOUSE_IMPORT ? (
             <Field.TextField
               name={`items[${index}].amount`}
-              numberProps={{
-                thousandSeparator: true,
-                decimalScale: 2,
-              }}
+              formatter="price"
             />
           ) : (
             <Field.TextField
               name={`items[${index}].amount`}
+              formatter="price"
               disabled
               required
             />
@@ -332,9 +332,14 @@ const ItemSettingTable = ({
         width: 150,
         renderCell: (params, index) => {
           return isView ? (
-            params?.row?.price
+            <NumberFormatText value={params?.row?.price} formatter="price" />
           ) : (
-            <Field.TextField name={`items[${index}].price`} disabled required />
+            <Field.TextField
+              name={`items[${index}].price`}
+              formatter="price"
+              disabled
+              required
+            />
           )
         },
       },

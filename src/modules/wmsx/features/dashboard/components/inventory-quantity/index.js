@@ -12,6 +12,7 @@ import {
   getDashboardItems,
   getDashboardWarehouses,
 } from '~/modules/wmsx/redux/sagas/dashboard'
+import { convertNumberWithThousandSeparator } from '~/utils'
 
 const InventoryQuantity = ({ fromDate, toDate }) => {
   const { t } = useTranslation(['wmsx'])
@@ -41,54 +42,16 @@ const InventoryQuantity = ({ fromDate, toDate }) => {
   }
   const data = itemStockHistories?.map((item) => ({
     time: item?.rangeDate,
-    value: item?.quantity,
-    quantity: item?.amount,
+    quantity: item?.quantity,
+    amount: item?.amount,
     type: t('dashboard.inventoryQuantity.quantity'),
     name: t('dashboard.inventoryQuantity.value'),
   }))
 
-  // const data = [
-  //   {
-  //     time: '2019-03',
-  //     value: 350,
-  //     quantity: 800,
-  //     type: t('dashboard.inventoryQuantity.quantity'),
-  //     name: t('dashboard.inventoryQuantity.value'),
-  //   },
-  //   {
-  //     time: '2019-04',
-  //     value: 900,
-  //     quantity: 600,
-  //     type: t('dashboard.inventoryQuantity.quantity'),
-  //     name: t('dashboard.inventoryQuantity.value'),
-  //   },
-  //   {
-  //     time: '2019-05',
-  //     value: 300,
-  //     quantity: 400,
-  //     type: t('dashboard.inventoryQuantity.quantity'),
-  //     name: t('dashboard.inventoryQuantity.value'),
-  //   },
-  //   {
-  //     time: '2019-06',
-  //     value: 450,
-  //     quantity: 380,
-  //     type: t('dashboard.inventoryQuantity.quantity'),
-  //     name: t('dashboard.inventoryQuantity.value'),
-  //   },
-  //   {
-  //     time: '2019-07',
-  //     value: 470,
-  //     quantity: 220,
-  //     type: t('dashboard.inventoryQuantity.quantity'),
-  //     name: t('dashboard.inventoryQuantity.value'),
-  //   },
-  // ]
-
   const config = {
     data: [data, data],
     xField: 'time',
-    yField: ['value', 'quantity'],
+    yField: ['quantity', 'amount'],
     xAxis: {
       title: {
         text: t('general:currencyUnit.vnd'),
@@ -138,6 +101,21 @@ const InventoryQuantity = ({ fromDate, toDate }) => {
     ],
     legend: {
       position: 'bottom',
+    },
+    tooltip: {
+      formatter: (datum) => {
+        if (datum.type === t('dashboard.inventoryQuantity.quantity'))
+          return {
+            ...datum,
+            name: datum.type,
+            value: convertNumberWithThousandSeparator(datum.quantity, 5),
+          }
+
+        return {
+          ...datum,
+          value: convertNumberWithThousandSeparator(datum.amount, 2),
+        }
+      },
     },
   }
 

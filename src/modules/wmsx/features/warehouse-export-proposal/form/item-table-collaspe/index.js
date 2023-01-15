@@ -18,6 +18,7 @@ import Dialog from '~/components/Dialog'
 import { Field } from '~/components/Formik'
 import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
+import NumberFormatText from '~/components/NumberFormat'
 import { ACTIVE_STATUS } from '~/modules/wmsx/constants'
 import useWarehouseExportProposal from '~/modules/wmsx/redux/hooks/useWarehouseExportProposal'
 import { searchMaterialQualityApi } from '~/modules/wmsx/redux/sagas/define-material-quality/search-material-quality'
@@ -214,16 +215,28 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       field: 'quantityRequest',
       headerName: t('warehouseExportProposal.items.quantityRequest'),
       width: 100,
+      renderCell: ({ row }) => (
+        <NumberFormatText value={row?.quantityRequest} formatter="quantity" />
+      ),
     },
     {
       field: 'quantityExport',
       headerName: t('warehouseExportProposal.items.quantityExport'),
       width: 100,
+      renderCell: ({ row }) => (
+        <NumberFormatText value={row?.quantityExport} formatter="quantity" />
+      ),
     },
     {
       field: 'quantityExportActual',
       headerName: t('warehouseExportProposal.items.quantityExportActual'),
       width: 100,
+      renderCell: ({ row }) => (
+        <NumberFormatText
+          value={row?.quantityExportActual}
+          formatter="quantity"
+        />
+      ),
     },
     {
       field: 'importedQuantity',
@@ -231,14 +244,14 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       width: 200,
       renderCell: (params, index) => {
         return isView || params?.row?.importQuantity ? (
-          params?.row?.importQuantity
+          <NumberFormatText
+            value={params?.row?.importQuantity}
+            formatter="quantity"
+          />
         ) : (
           <Field.TextField
             name={`itemTableCollaspe[${index}].importedQuantity`}
-            numberProps={{
-              thousandSeparator: true,
-              decimalScale: 2,
-            }}
+            formatter="quantity"
             // validate={(val) => {
             //   if (!val) {
             //     return t('general:form.required')
@@ -614,10 +627,14 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       width: 100,
       renderCell: (params, index) => {
         return isView ? (
-          params?.row?.planExportedQuantity
+          <NumberFormatText
+            value={params?.row?.planExportedQuantity}
+            formatter="quantity"
+          />
         ) : (
           <Field.TextField
             name={`itemTableCollaspe[${parentIndex}].details[${index}].planExportedQuantity`}
+            formatter="quantity"
             disabled
           />
         )
@@ -629,14 +646,14 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       width: 100,
       renderCell: (params, index) => {
         return isView || params?.row?.exportQuantity ? (
-          params?.row?.exportQuantity
+          <NumberFormatText
+            value={params?.row?.exportQuantity}
+            formatter="quantity"
+          />
         ) : (
           <Field.TextField
             name={`itemTableCollaspe[${parentIndex}].details[${index}].quantityExport`}
-            numberProps={{
-              thousandSeparator: true,
-              decimalScale: 2,
-            }}
+            formatter="quantity"
             validate={(val) => {
               if (!val) {
                 return t('general:form.required')
@@ -660,6 +677,12 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       field: 'quantityExportActual',
       headerName: t('warehouseExportProposal.items.quantityExportActual'),
       width: 100,
+      renderCell: ({ row }) => (
+        <NumberFormatText
+          value={row?.quantityExportActual}
+          formatter="quantity"
+        />
+      ),
     },
     {
       field: 'isKeepSlot',

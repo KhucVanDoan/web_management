@@ -6,6 +6,7 @@ import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
+import NumberFormatText from '~/components/NumberFormat'
 
 const ItemSettingTable = ({ items }) => {
   const { t } = useTranslation(['wmsx'])
@@ -49,7 +50,9 @@ const ItemSettingTable = ({ items }) => {
       width: 150,
       align: 'right',
       renderCell: (params) => {
-        return Number(params.row?.quantity)
+        return (
+          <NumberFormatText value={params.row?.quantity} formatter="quantity" />
+        )
       },
     },
     {
@@ -58,7 +61,7 @@ const ItemSettingTable = ({ items }) => {
       width: 150,
       align: 'right',
       renderCell: (params) => {
-        return Number(params.row?.price)
+        return <NumberFormatText value={params.row?.price} formatter="price" />
       },
     },
     {
@@ -67,7 +70,7 @@ const ItemSettingTable = ({ items }) => {
       width: 150,
       align: 'right',
       renderCell: (params) => {
-        return Number(params.row?.amount)
+        return <NumberFormatText value={params.row?.amount} formatter="price" />
       },
     },
     {

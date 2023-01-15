@@ -5,6 +5,7 @@ import Box from '@mui/material/Box'
 import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
+import NumberFormatText from '~/components/NumberFormat'
 import { MOVEMENT_TYPE } from '~/modules/wmsx/constants'
 
 const ItemSettingTable = ({ items, movementType }) => {
@@ -110,7 +111,9 @@ const ItemSettingTable = ({ items, movementType }) => {
       headerName: t('movements.itemDetails.pickedQuantity'),
       width: 120,
       renderCell: (params) => {
-        return Number(params.row?.quantity)
+        return (
+          <NumberFormatText value={params.row?.quantity} formatter="quantity" />
+        )
       },
     },
     {
@@ -130,7 +133,12 @@ const ItemSettingTable = ({ items, movementType }) => {
       headerName: t('movements.itemDetails.unpickedQuantity'),
       width: 120,
       renderCell: (params) => {
-        return Number(params.row?.planQuantity)
+        return (
+          <NumberFormatText
+            value={params.row?.planQuantity}
+            formatter="quantity"
+          />
+        )
       },
     },
   ]

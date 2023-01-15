@@ -6,6 +6,7 @@ import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
+import NumberFormatText from '~/components/NumberFormat'
 import { MOVEMENT_TYPE } from '~/modules/wmsx/constants'
 
 const ItemSettingTable = ({ items, movementType }) => {
@@ -108,7 +109,9 @@ const ItemSettingTable = ({ items, movementType }) => {
       field: 'storedQuantity',
       headerName: t('movements.itemDetails.storedQuantity'),
       width: 120,
-      renderCell: (params) => Number(params.row?.quantity),
+      renderCell: (params) => (
+        <NumberFormatText value={params.row?.quantity} formatter="quantity" />
+      ),
     },
     {
       field: 'location',
@@ -124,7 +127,12 @@ const ItemSettingTable = ({ items, movementType }) => {
       field: 'unstoredQuantity',
       headerName: t('movements.itemDetails.unstoredQuantity'),
       width: 120,
-      renderCell: (params) => Number(params.row?.planQuantity),
+      renderCell: (params) => (
+        <NumberFormatText
+          value={params.row?.planQuantity}
+          formatter="quantity"
+        />
+      ),
     },
   ]
 

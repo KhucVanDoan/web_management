@@ -15,6 +15,7 @@ import { ASYNC_SEARCH_LIMIT, MODAL_MODE } from '~/common/constants'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import NumberFormatText from '~/components/NumberFormat'
 import {
   ACTIVE_STATUS,
   TRANSFER_STATUS,
@@ -399,10 +400,14 @@ const ItemSettingTable = (props) => {
         hide: isView,
         renderCell: (params, index) => {
           return isView ? (
-            <>{params?.row?.planExportedQuantity}</>
+            <NumberFormatText
+              value={params?.row?.planExportedQuantity}
+              formatter="quantity"
+            />
           ) : (
             <Field.TextField
               name={`items[${index}].planExportedQuantity`}
+              formatter="quantity"
               disabled
             />
           )
@@ -415,14 +420,14 @@ const ItemSettingTable = (props) => {
         renderCell: (params, index) => {
           const { itemCode } = params?.row
           return isView ? (
-            params?.row?.transferQuantity
+            <NumberFormatText
+              value={params?.row?.transferQuantity}
+              formatter="quantity"
+            />
           ) : (
             <Field.TextField
               name={`items[${index}].transferQuantity`}
-              numberProps={{
-                thousandSeparator: true,
-                decimalScale: 2,
-              }}
+              formatter="quantity"
               validate={(val) => {
                 if (+val > +params?.row?.planExportedQuantity) {
                   return t('general:form.maxNumber', {
@@ -446,7 +451,12 @@ const ItemSettingTable = (props) => {
             status !== TRANSFER_STATUS.EXPORTING &&
             status !== TRANSFER_STATUS.INCOLLECTING),
         renderCell: (params) => {
-          return params?.row?.exportedQuantity
+          return (
+            <NumberFormatText
+              value={params?.row?.exportedQuantity}
+              formatter="quantity"
+            />
+          )
         },
       },
       {
@@ -460,7 +470,12 @@ const ItemSettingTable = (props) => {
             status !== TRANSFER_STATUS.INCOLLECTING),
         width: 180,
         renderCell: (params) => {
-          return params?.row?.actualQuantity
+          return (
+            <NumberFormatText
+              value={params?.row?.actualQuantity}
+              formatter="quantity"
+            />
+          )
         },
       },
       {
@@ -495,11 +510,11 @@ const ItemSettingTable = (props) => {
             status !== TRANSFER_STATUS.INCOLLECTING),
         renderCell: (params, index) => {
           return isView ? (
-            <>{params?.row?.price}</>
+            <NumberFormatText value={params?.row?.price} formatter="price" />
           ) : (
             <Field.TextField
               name={`items[${index}].price`}
-              type="number"
+              formatter="price"
               disabled={true}
             />
           )
@@ -517,11 +532,11 @@ const ItemSettingTable = (props) => {
             status !== TRANSFER_STATUS.INCOLLECTING),
         renderCell: (params, index) => {
           return isView ? (
-            <>{params?.row?.amount}</>
+            <NumberFormatText value={params?.row?.amount} formatter="price" />
           ) : (
             <Field.TextField
               name={`items[${index}].amount`}
-              type="number"
+              formatter="price"
               disabled={true}
             />
           )
