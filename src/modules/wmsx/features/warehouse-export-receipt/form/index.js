@@ -458,12 +458,37 @@ function WarehouseExportReceiptForm() {
     setFieldValue('items', DEFAULT_ITEMS)
     setItemWarehouseExport([])
     setWarehouseList([])
+    const warehouseExportProposal =
+      values[
+        values?.businessTypeId?.bussinessTypeAttributes?.find(
+          (item) =>
+            item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
+        )?.id
+      ]?.code
+    const warehouseExportReceipt =
+      values[
+        values?.businessTypeId?.bussinessTypeAttributes?.find(
+          (item) => item?.tableName === TABLE_NAME_ENUM.SALE_ORDER_EXPORT,
+        )?.id
+      ]?.code
     const receiptDate = convertUtcDateToLocalTz(
       values?.receiptDate.toISOString(),
     )
     const explaination = `${
       receiptDate
         ? `${t('warehouseExportReceipt.warehouseExportDate')} [${receiptDate}]`
+        : ''
+    }${
+      warehouseExportProposal
+        ? ` ${t(
+            'warehouseExportReceipt.receiptBy',
+          )} [${warehouseExportProposal}]`
+        : ''
+    }${
+      warehouseExportReceipt
+        ? ` ${t(
+            'warehouseExportReceipt.receiptBy',
+          )} [${warehouseExportReceipt}]`
         : ''
     }`
     setFieldValue('explanation', explaination)
