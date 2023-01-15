@@ -10,6 +10,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import NumberFormatText from '~/components/NumberFormat'
 import { OrderTypeEnum, TABLE_NAME_ENUM } from '~/modules/wmsx/constants'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 import { getItemWarehouseStockAvailableApi } from '~/modules/wmsx/redux/sagas/warehouse-transfer/get-item-warehouse-stock-available'
@@ -333,6 +334,7 @@ const ItemSettingTable = ({
           return (
             <Field.TextField
               name={`items[${index}].itemCode.requestedQuantity`}
+              formatter="quantity"
               disabled
               required
             />
@@ -345,10 +347,14 @@ const ItemSettingTable = ({
         width: 150,
         renderCell: (params, index) => {
           return isView ? (
-            params?.row?.planExportedQuantity
+            <NumberFormatText
+              value={params?.row?.planExportedQuantity}
+              formatter="quantity"
+            />
           ) : (
             <Field.TextField
               name={`items[${index}].planExportedQuantity`}
+              formatter="quantity"
               disabled
               required
             />
@@ -361,15 +367,15 @@ const ItemSettingTable = ({
         width: 150,
         renderCell: (params, index) => {
           return isView ? (
-            params?.row?.quantityExport
+            <NumberFormatText
+              value={params?.row?.quantityExport}
+              formatter="quantity"
+            />
           ) : (
             <Field.TextField
               name={`items[${index}].quantityExport`}
               placeholder={t('warehouseExportReceipt.items.quantityExport')}
-              numberProps={{
-                thousandSeparator: true,
-                decimalScale: 2,
-              }}
+              formatter="quantity"
             />
           )
         },
@@ -383,6 +389,7 @@ const ItemSettingTable = ({
           return (
             <Field.TextField
               name={`items[${index}].unitPriceRefer`}
+              formatter="price"
               disabled
               required
             />
@@ -397,6 +404,7 @@ const ItemSettingTable = ({
           return (
             <Field.TextField
               name={`items[${index}].totalMoney`}
+              formatter="price"
               disabled
               required
             />

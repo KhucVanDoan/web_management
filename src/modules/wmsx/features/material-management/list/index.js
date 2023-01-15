@@ -48,6 +48,7 @@ import { filterSchema } from './filter-form/schema'
 import { validationSchema } from './schema'
 
 const breadcrumbs = [
+  { title: 'database' },
   {
     route: ROUTE.MATERIAL_MANAGEMENT.LIST.PATH,
     title: ROUTE.MATERIAL_MANAGEMENT.LIST.TITLE,

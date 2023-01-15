@@ -222,7 +222,6 @@ function ItemSettingTable({
             <Field.TextField
               name={`items[${index}].itemPrice`}
               numberProps={{
-                thousandSeparator: true,
                 decimalScale: 3,
               }}
               disabled

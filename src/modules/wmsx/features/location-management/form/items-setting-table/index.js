@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { MODAL_MODE } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
+import NumberFormatText from '~/components/NumberFormat'
 import { scrollToBottom } from '~/utils'
 
 const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
@@ -38,7 +39,9 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
         field: 'quantity',
         headerName: t('locationManagement.item.quantity'),
         width: 200,
-        renderCell: (params) => Number(params.row?.quantity),
+        renderCell: (params) => (
+          <NumberFormatText value={params.row?.quantity} formatter="quantity" />
+        ),
       },
       {
         field: 'lotNumber',
@@ -50,16 +53,26 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
         field: 'price',
         headerName: t('locationManagement.item.price'),
         width: 200,
-        renderCell: (params) =>
-          params.row.locations?.[0]?.lots?.[0]?.totalAmount /
-          params.row?.quantity,
+        renderCell: (params) => (
+          <NumberFormatText
+            value={
+              params.row.locations?.[0]?.lots?.[0]?.totalAmount /
+              params.row?.quantity
+            }
+            formatter="price"
+          />
+        ),
       },
       {
         field: 'intoMoney',
         headerName: t('locationManagement.item.intoMoney'),
         width: 200,
-        renderCell: (params) =>
-          params.row.locations?.[0]?.lots?.[0]?.totalAmount,
+        renderCell: (params) => (
+          <NumberFormatText
+            value={params.row.locations?.[0]?.lots?.[0]?.totalAmount}
+            formatter="price"
+          />
+        ),
       },
     ],
     [items],
