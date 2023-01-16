@@ -112,7 +112,7 @@ const InventoryAdjustForm = () => {
             {
               ...item?.locator,
               locatorId: item?.locator?.id,
-              quantityExported: item?.exportQuantity,
+              quantityExported: item?.planQuantity,
               lots: [
                 item?.lotNumber
                   ? {
@@ -127,7 +127,7 @@ const InventoryAdjustForm = () => {
         lotNumber: item?.lotNumber
           ? {
               lotNumber: item?.lotNumber,
-              quantityExported: item?.exportQuantity,
+              quantityExported: item?.planQuantity,
             }
           : null,
         itemName: item?.item?.name,

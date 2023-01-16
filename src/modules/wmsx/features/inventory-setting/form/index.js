@@ -181,13 +181,14 @@ function InventorySettingForm() {
                           limit: ASYNC_SEARCH_LIMIT,
                           filter: convertFilterParams({
                             status: ACTIVE_STATUS.ACTIVE,
+                            userWarehouse: ACTIVE_STATUS.ACTIVE,
                           }),
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
-                      isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                       getOptionLabel={(opt) => opt?.code}
                       getOptionSubLabel={(opt) => opt?.name}
+                      isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                       onChange={() => setFieldValue('item', null)}
                       required
                       disabled={isUpdate}
@@ -246,6 +247,9 @@ function InventorySettingForm() {
                       label={t('inventorySetting.inventoryLimit')}
                       placeholder={t('inventorySetting.inventoryLimit')}
                       formatter="quantity"
+                      numberProps={{
+                        decimalScale: 2,
+                      }}
                       required
                     />
                   </Grid>
@@ -255,6 +259,9 @@ function InventorySettingForm() {
                       label={t('inventorySetting.minInventoryLimit')}
                       placeholder={t('inventorySetting.minInventoryLimit')}
                       formatter="quantity"
+                      numberProps={{
+                        decimalScale: 2,
+                      }}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -263,6 +270,9 @@ function InventorySettingForm() {
                       label={t('inventorySetting.maxInventoryLimit')}
                       placeholder={t('inventorySetting.maxInventoryLimit')}
                       formatter="quantity"
+                      numberProps={{
+                        decimalScale: 2,
+                      }}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -271,6 +281,9 @@ function InventorySettingForm() {
                       label={t('inventorySetting.reorderPoint')}
                       placeholder={t('inventorySetting.reorderPoint')}
                       formatter="quantity"
+                      numberProps={{
+                        decimalScale: 2,
+                      }}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -279,6 +292,9 @@ function InventorySettingForm() {
                       label={t('inventorySetting.eoq')}
                       placeholder={t('inventorySetting.eoq')}
                       formatter="quantity"
+                      numberProps={{
+                        decimalScale: 2,
+                      }}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
