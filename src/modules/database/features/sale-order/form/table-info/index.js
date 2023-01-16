@@ -125,7 +125,12 @@ function TableInfo(props) {
       width: 120,
       align: 'right',
       renderCell: (params) => {
-        return <NumberFormatText value={params.row?.material?.price} />
+        return (
+          <NumberFormatText
+            value={params.row?.material?.price}
+            formatter="price"
+          />
+        )
       },
     },
   ]

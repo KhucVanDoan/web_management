@@ -148,14 +148,11 @@ function ItemSettingTable({
         renderCell: (params, index) => {
           const { quantity } = params.row
           return isView ? (
-            <>{+quantity}</>
+            <NumberFormatText value={quantity} formatter="quantity" />
           ) : (
             <Field.TextField
               name={`items[${index}].quantity`}
-              type="number"
-              numberProps={{
-                decimalScale: 3,
-              }}
+              formatter="quantity"
             />
           )
         },
@@ -217,13 +214,14 @@ function ItemSettingTable({
         headerAlign: 'left',
         renderCell: (params, index) => {
           return isView ? (
-            <>{<NumberFormatText value={items[index]?.price || ''} />}</>
+            <NumberFormatText
+              value={items[index]?.price || ''}
+              formatter="price"
+            />
           ) : (
             <Field.TextField
               name={`items[${index}].itemPrice`}
-              numberProps={{
-                decimalScale: 3,
-              }}
+              formatter="price"
               disabled
             />
           )
