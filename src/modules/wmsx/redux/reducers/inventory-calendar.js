@@ -45,6 +45,7 @@ const initialState = {
   checkItemNotExecuted: [],
   total: null,
   totalItem: null,
+  totalItemDetail: null,
 }
 
 /**
@@ -145,6 +146,7 @@ export default function inventoryCalendar(state = initialState, action) {
         ...state,
         itemUpdate: action?.payload?.items,
         isLoading: false,
+        totalItemDetail: action?.payload?.meta?.total,
       }
     case GET_ITEM_FAILED:
       return {

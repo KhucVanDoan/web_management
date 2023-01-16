@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 
 import { Box, Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
-import { MODAL_MODE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
 import LV from '~/components/LabelValue'
@@ -18,7 +17,7 @@ import {
   INVENTORY_TYPE,
   INVENTORY_TYPE_MAP,
 } from '~/modules/wmsx/constants'
-import ItemsSettingTable from '~/modules/wmsx/features/inventory-calendar/form/items-setting-table'
+import ItemsSettingTable from '~/modules/wmsx/features/inventory-calendar/detail/items-setting-table'
 import useInventoryCalendar from '~/modules/wmsx/redux/hooks/useInventoryCalendar'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertUtcDateToLocalTz } from '~/utils'
@@ -41,37 +40,21 @@ const InventoryCalendarDetail = () => {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
   const { id } = useParams()
-  const [listItem, setListItem] = useState([])
   const {
-    data: { inventoryCalendarDetails, isLoading, itemUpdate },
+    data: { inventoryCalendarDetails, isLoading },
     actions,
   } = useInventoryCalendar()
 
   useEffect(() => {
-    actions.getInventoryCalendarDetailsById(id, (data) => {
-      if (data?.type === INVENTORY_TYPE.UNEXPECTED) {
-        actions.getItem(data?.id)
-      }
-    })
+    actions.getInventoryCalendarDetailsById(id)
     return () => {
       actions.resetInventoryCalendarDetailsState()
     }
   }, [id])
-  useEffect(() => {
-    if (inventoryCalendarDetails?.type === INVENTORY_TYPE.UNEXPECTED) {
-      actions.getItem(id)
-    }
-  }, [inventoryCalendarDetails])
   const backToList = () => {
     history.push(ROUTE.INVENTORY_CALENDAR.LIST.PATH)
   }
-  useEffect(() => {
-    const listItem = itemUpdate?.map((i, index) => ({
-      id: index,
-      itemCode: { ...i, name: i?.item?.name, code: i?.item?.code },
-    }))
-    setListItem(listItem)
-  }, [itemUpdate])
+
   return (
     <Page
       breadcrumbs={breadcrumbs}
@@ -212,7 +195,7 @@ const InventoryCalendarDetail = () => {
       </Grid>
       {inventoryCalendarDetails?.type === INVENTORY_TYPE.UNEXPECTED && (
         <Box sx={{ mt: 3 }}>
-          <ItemsSettingTable items={listItem || []} mode={MODAL_MODE.DETAIL} />
+          <ItemsSettingTable />
         </Box>
       )}
       <ActionBar
