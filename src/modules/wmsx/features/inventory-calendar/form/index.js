@@ -403,6 +403,7 @@ const InventoryCalendarForm = () => {
                         asyncRequestHelper={(res) => res?.data?.items}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                         getOptionLabel={(opt) => opt?.name}
+                        getOptionSubLabel={(opt) => opt?.code}
                         multiple
                         required
                       />

@@ -8,7 +8,9 @@ import {
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
 import { Field } from '~/components/Formik'
+import { ACTIVE_STATUS } from '~/modules/wmsx/constants'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
+import { convertFilterParams } from '~/utils'
 
 const FilterForm = () => {
   const { t } = useTranslation('wmsx')
@@ -24,10 +26,13 @@ const FilterForm = () => {
             searchWarehouseApi({
               keyword: s,
               limit: ASYNC_SEARCH_LIMIT,
+              filter: convertFilterParams({
+                status: ACTIVE_STATUS.ACTIVE,
+                userWarehouse: ACTIVE_STATUS.ACTIVE,
+              }),
             })
           }
           asyncRequestHelper={(res) => res?.data?.items}
-          isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
           getOptionLabel={(opt) => opt?.code}
           getOptionSubLabel={(opt) => opt?.name}
         />
