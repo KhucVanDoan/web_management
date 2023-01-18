@@ -10,6 +10,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import NumberFormatText from '~/components/NumberFormat'
 import { ACTIVE_STATUS } from '~/modules/wmsx/constants'
 import useLocationManagement from '~/modules/wmsx/redux/hooks/useLocationManagement'
 import { scrollToBottom, convertFilterParams } from '~/utils'
@@ -83,7 +84,12 @@ function ItemsSettingTable(props) {
         headerName: t('warehouseImportReceipt.table.importQuantity'),
         width: 180,
         renderCell: (params) => {
-          return params?.row?.itemCode?.quantity
+          return (
+            <NumberFormatText
+              value={params?.row?.itemCode?.quantity}
+              formatter="quantity"
+            />
+          )
         },
       },
       {
@@ -94,9 +100,7 @@ function ItemsSettingTable(props) {
           return (
             <Field.TextField
               name={`items[${index}].receivedQuantity`}
-              numberProps={{
-                decimalScale: 2,
-              }}
+              formatter="quantity"
               validate={() => {
                 const totalReceivedQuantity = items
                   .filter(
