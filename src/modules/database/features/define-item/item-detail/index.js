@@ -125,7 +125,12 @@ function DefineItemDetail() {
                   <LV
                     label={t('defineItem.price')}
                     // value={itemDetails?.price}
-                    value={<NumberFormatText value={itemDetails?.price} />}
+                    value={
+                      <NumberFormatText
+                        value={itemDetails?.price}
+                        formatter="price"
+                      />
+                    }
                   />
                 </Grid>
                 <Grid item xs={12} lg={6}>

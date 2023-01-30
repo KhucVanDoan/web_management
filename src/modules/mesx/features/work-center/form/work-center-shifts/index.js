@@ -107,15 +107,15 @@ const ShiftTable = ({ mode, shifts, arrayHelpers, status }) => {
           const isView = mode === MODAL_MODE.DETAIL
           return isView ? (
             <>
-              <NumberFormatText value={shiftObject?.pricePerHour} />
+              <NumberFormatText
+                value={shiftObject?.pricePerHour}
+                formatter="price"
+              />
             </>
           ) : (
             <Field.TextField
               name={`shifts[${index}].pricePerHour`}
-              numberProps={{
-                decimalScale: 3,
-                allowNegative: false,
-              }}
+              formatter="price"
               disabled={isDisabledField}
             />
           )
