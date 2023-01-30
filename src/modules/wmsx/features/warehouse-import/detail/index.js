@@ -5,7 +5,7 @@ import { uniq, map } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
-import { MODAL_MODE } from '~/common/constants'
+import { MODAL_MODE, NOTIFICATION_TYPE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -21,7 +21,10 @@ import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseIm
 import { getWarehouseImportReceiptDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-import-receipt/get-details'
 import { getWarehouseTransferDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-transfer/get-warehouse-transfer-detail'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { api } from '~/services/api'
 import { convertUtcDateToLocalTz } from '~/utils'
+import { downloadFile } from '~/utils/file'
+import addNotification from '~/utils/toast'
 
 import ItemsSettingTable from '../../warehouse-import-receipt/form/items-setting-table'
 import ItemSettingTable from './items-setting-table'
@@ -114,6 +117,27 @@ const WarehouseImportDetail = () => {
   const receiptRequired = receiptDetail?.attributes?.find(
     (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT,
   )
+  const dowAttachment = async (params) => {
+    const uri = `/v1/files/${params?.id}`
+    const res = await api.get(
+      uri,
+      {},
+      {
+        responseType: 'blob',
+        getHeaders: true,
+      },
+    )
+    if (res.status === 500) {
+      addNotification(res?.statusText, NOTIFICATION_TYPE.ERROR)
+    } else {
+      downloadFile(
+        res?.data,
+        receiptDetail.attachment?.fileName?.split('.').shift(),
+        `${res?.data?.type}`,
+        [`${params?.fileName?.split('.').pop()}`],
+      )
+    }
+  }
   const display = () => {
     switch (movementDetail?.movementType) {
       case MOVEMENT_TYPE.PO_IMPORT_RECEIVE:
@@ -134,7 +158,9 @@ const WarehouseImportDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseImportReceipt.attachedFile')}
-                value={receiptDetail?.attachment?.name}
+                value={receiptDetail?.attachment?.fileName}
+                file={true}
+                onClick={() => dowAttachment(receiptDetail.attachment)}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -241,7 +267,9 @@ const WarehouseImportDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseImportReceipt.attachedFile')}
-                value={receiptDetail?.attachment?.name}
+                value={receiptDetail?.attachment?.fileName}
+                file={true}
+                onClick={() => dowAttachment(receiptDetail.attachment)}
               />
             </Grid>
             <Grid item lg={6} xs={12}>

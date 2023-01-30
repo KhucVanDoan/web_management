@@ -406,9 +406,7 @@ function DefineItemForm() {
                             name="price"
                             label={t('defineItem.price')}
                             placeholder={t('defineItem.price')}
-                            numberProps={{
-                              decimalScale: 3,
-                            }}
+                            formatter="price"
                           />
                         </Grid>
                         <Grid item lg={6} xs={12}>

@@ -26,24 +26,6 @@ import { convertUtcDateTimeToLocalTz, convertUtcDateToLocalTz } from '~/utils'
 
 import ItemSettingTableRecipt from './item-setting-table-recipt'
 
-const breadcrumbs = [
-  {
-    title: 'receiptCommandManagement',
-  },
-  {
-    route: ROUTE.INVENTORY_CALENDAR.LIST.PATH,
-    title: ROUTE.INVENTORY_CALENDAR.LIST.TITLE,
-  },
-  {
-    route: ROUTE.INVENTORY_CALENDAR.DETAIL.PATH,
-    title: ROUTE.INVENTORY_CALENDAR.DETAIL.TITLE,
-  },
-  {
-    route: ROUTE.INVENTORY_CALENDAR.DETAIL_RECIPT.PATH,
-    title: ROUTE.INVENTORY_CALENDAR.DETAIL_RECIPT.TITLE,
-  },
-]
-
 const ReciptDetail = () => {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
@@ -60,7 +42,23 @@ const ReciptDetail = () => {
       actions.resetInventoryCalendarDetailsState()
     }
   }, [id])
-
+  const breadcrumbs = [
+    {
+      title: 'receiptCommandManagement',
+    },
+    {
+      route: ROUTE.INVENTORY_CALENDAR.LIST.PATH,
+      title: ROUTE.INVENTORY_CALENDAR.LIST.TITLE,
+    },
+    {
+      route: ROUTE.INVENTORY_CALENDAR.DETAIL.PATH.replace(':id', id),
+      title: ROUTE.INVENTORY_CALENDAR.DETAIL.TITLE,
+    },
+    {
+      route: ROUTE.INVENTORY_CALENDAR.DETAIL_RECIPT.PATH,
+      title: ROUTE.INVENTORY_CALENDAR.DETAIL_RECIPT.TITLE,
+    },
+  ]
   const backToList = () => {
     history.push(ROUTE.INVENTORY_CALENDAR.LIST.PATH)
   }

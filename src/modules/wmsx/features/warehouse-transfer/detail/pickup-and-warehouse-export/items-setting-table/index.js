@@ -183,6 +183,7 @@ const ItemSettingTable = (props) => {
           return (
             <Field.TextField
               name={`items[${index}].transferQuantity`}
+              formatter="quantity"
               disabled
             />
           )
@@ -197,6 +198,7 @@ const ItemSettingTable = (props) => {
           return (
             <Field.TextField
               name={`items[${index}].ExportedQuantity`}
+              formatter="quantity"
               type="number"
               validate={(val) => {
                 const totalExportedQuantity = items
@@ -271,6 +273,7 @@ const ItemSettingTable = (props) => {
           return (
             <Field.TextField
               name={`items[${index}].price`}
+              formatter="price"
               type="number"
               disabled={true}
             />
@@ -285,6 +288,7 @@ const ItemSettingTable = (props) => {
           return (
             <Field.TextField
               name={`items[${index}].amount`}
+              formatter="price"
               type="number"
               disabled={true}
             />
