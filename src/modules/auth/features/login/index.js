@@ -14,7 +14,6 @@ import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import { useAuth } from '~/modules/auth/redux/hooks/useAuth'
 import { ROUTE } from '~/modules/auth/routes/config'
-import useUserInfo from '~/modules/configuration/redux/hooks/useUserInfo'
 import { useClasses } from '~/themes'
 import { isAuth } from '~/utils'
 import qs from '~/utils/qs'
@@ -31,7 +30,6 @@ const Login = () => {
   const history = useHistory()
   const location = useLocation()
   const { callbackUrl } = qs.parse(location.search)
-  const { actions: userActions } = useUserInfo()
 
   const initialValues = {
     username: '',
@@ -43,10 +41,7 @@ const Login = () => {
     const params = { ...values, rememberPassword: +values.rememberPassword }
     actions.login(
       params,
-      () => {
-        userActions.getUserInfo()
-        history.push(callbackUrl || '/')
-      },
+      () => history.push(callbackUrl || '/'),
       (e) => {
         setError(e)
       },
@@ -58,89 +53,84 @@ const Login = () => {
   }
 
   return (
-    <Box>
-      <Typography variant="h2">{t('login.pageTitle')}</Typography>
-
-      <Paper className={classes.paper}>
-        <Box className={classes.logoBox}>
-          {/* <img src={Logo} alt="logo" className={classes.logoLogin} /> */}
-        </Box>
-
-        <Formik
-          initialValues={initialValues}
-          validationSchema={loginSchema(t)}
-          onSubmit={handleSubmit}
-        >
-          {({ handleChange }) => (
-            <Form>
-              <Field.TextField
-                vertical
-                label={t('login.username')}
-                name="username"
-                onChange={(e) => {
-                  handleChange(e)
-                  setError('')
-                }}
-                inputProps={{
-                  maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_100.MAX,
-                }}
-              />
-              <Field.TextField
-                vertical
-                label={t('login.password')}
-                type={visible ? 'text' : 'password'}
-                name="password"
-                onChange={(e) => {
-                  handleChange(e)
-                  setError('')
-                }}
-                endAdornment={
-                  <IconButton
-                    onClick={() => setVisible(!visible)}
-                    size="small"
-                    sx={{ mx: 0.5 }}
-                  >
-                    {visible ? (
-                      <Icon name="visible" />
-                    ) : (
-                      <Icon name="invisible" />
-                    )}
-                  </IconButton>
-                }
-                allow={TEXTFIELD_ALLOW.EXCEPT_SPACES}
-                inputProps={{
-                  maxLength: TEXTFIELD_REQUIRED_LENGTH.PASSWORD.MAX,
-                }}
-                sx={{ mt: 4 / 3 }}
-              />
-              {!!error && (
-                <FormHelperText error sx={{ mt: 4 / 3 }}>
-                  {error}
-                </FormHelperText>
-              )}
-              <Box className={classes.extraBox}>
-                <FormControlLabel
-                  control={<Field.Checkbox name="rememberPassword" />}
-                  label={t('login.savePassword')}
-                />
-                <Link
-                  to={ROUTE.FORGOT_PASSWORD.PATH}
-                  className={classes.linkForgotPassword}
+    <Paper className={classes.paper}>
+      <Typography variant="h2" sx={{ mb: 3 }}>
+        {t('login.pageTitle')}
+      </Typography>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={loginSchema(t)}
+        onSubmit={handleSubmit}
+      >
+        {({ handleChange }) => (
+          <Form>
+            <Field.TextField
+              vertical
+              label={t('login.username')}
+              name="username"
+              onChange={(e) => {
+                handleChange(e)
+                setError('')
+              }}
+              inputProps={{
+                maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_100.MAX,
+              }}
+            />
+            <Field.TextField
+              vertical
+              label={t('login.password')}
+              type={visible ? 'text' : 'password'}
+              name="password"
+              onChange={(e) => {
+                handleChange(e)
+                setError('')
+              }}
+              endAdornment={
+                <IconButton
+                  onClick={() => setVisible(!visible)}
+                  size="small"
+                  sx={{ mx: 0.5 }}
                 >
-                  <Typography color="primary" component="span">
-                    {t('login.forgotPassword')}
-                  </Typography>
-                </Link>
-              </Box>
+                  {visible ? (
+                    <Icon name="visible" />
+                  ) : (
+                    <Icon name="invisible" />
+                  )}
+                </IconButton>
+              }
+              allow={TEXTFIELD_ALLOW.EXCEPT_SPACES}
+              inputProps={{
+                maxLength: TEXTFIELD_REQUIRED_LENGTH.PASSWORD.MAX,
+              }}
+              sx={{ mt: 4 / 3 }}
+            />
+            {!!error && (
+              <FormHelperText error sx={{ mt: 4 / 3 }}>
+                {error}
+              </FormHelperText>
+            )}
+            <Box className={classes.extraBox}>
+              <FormControlLabel
+                control={<Field.Checkbox name="rememberPassword" />}
+                label={t('login.savePassword')}
+              />
+              <Link
+                to={ROUTE.FORGOT_PASSWORD.PATH}
+                className={classes.linkForgotPassword}
+              >
+                <Typography color="primary" component="span">
+                  {t('login.forgotPassword')}
+                </Typography>
+              </Link>
+            </Box>
 
-              <Button type="submit" fullWidth loading={isLoading}>
-                {t('login.loginButton')}
-              </Button>
-            </Form>
-          )}
-        </Formik>
-      </Paper>
-    </Box>
+            <Button type="submit" fullWidth loading={isLoading}>
+              {t('login.loginButton')}
+            </Button>
+          </Form>
+        )}
+      </Formik>
+    </Paper>
   )
 }
 

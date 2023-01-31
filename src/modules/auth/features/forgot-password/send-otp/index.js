@@ -53,57 +53,50 @@ const VerifyOTP = () => {
   }
 
   return (
-    <>
+    <Paper className={classes.paper}>
       <Typography variant="h2" sx={{ mb: 2 / 3 }}>
         {t('forgotPassword.verifyOTP.title')}
       </Typography>
-      <Typography variant="body2">
+      <Typography variant="body2" sx={{ mb: 3 }}>
         {t('forgotPassword.verifyOTP.text')}
       </Typography>
 
-      <Paper className={classes.paper}>
-        <Formik
-          initialValues={{
-            code: '',
-          }}
-          validationSchema={RendOTPSchema(t)}
-          onSubmit={handleSubmitOTP}
-        >
-          {() => (
-            <Form>
-              <Field.TextField
-                vertical
-                name="code"
-                label={t('forgotPassword.verifyOTP.verifyCode')}
-                inputProps={{
-                  className: classes.inputText,
-                  maxLength: 6,
-                }}
-              />
-              <Button
-                type="submit"
-                fullWidth
-                loading={isLoading}
-                sx={{ mt: 2 }}
-              >
-                {t('forgotPassword.verifyOTP.continue')}
-              </Button>
-              <Box className={classes.resendOTP}>
-                <Typography variant="body2">
-                  {t('forgotPassword.verifyOTP.notReceived')}
+      <Formik
+        initialValues={{
+          code: '',
+        }}
+        validationSchema={RendOTPSchema(t)}
+        onSubmit={handleSubmitOTP}
+      >
+        {() => (
+          <Form>
+            <Field.TextField
+              vertical
+              name="code"
+              label={t('forgotPassword.verifyOTP.verifyCode')}
+              inputProps={{
+                className: classes.inputText,
+                maxLength: 6,
+              }}
+            />
+            <Button type="submit" fullWidth loading={isLoading} sx={{ mt: 2 }}>
+              {t('forgotPassword.verifyOTP.continue')}
+            </Button>
+            <Box className={classes.resendOTP}>
+              <Typography variant="body2">
+                {t('forgotPassword.verifyOTP.notReceived')}
+              </Typography>
+              &nbsp;
+              <Link className={classes.linkOTP} onClick={resendOTP}>
+                <Typography color="primary" component="span">
+                  {t('forgotPassword.verifyOTP.resend')}
                 </Typography>
-                &nbsp;
-                <Link className={classes.linkOTP} onClick={resendOTP}>
-                  <Typography color="primary" component="span">
-                    {t('forgotPassword.verifyOTP.resend')}
-                  </Typography>
-                </Link>
-              </Box>
-            </Form>
-          )}
-        </Formik>
-      </Paper>
-    </>
+              </Link>
+            </Box>
+          </Form>
+        )}
+      </Formik>
+    </Paper>
   )
 }
 

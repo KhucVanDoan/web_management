@@ -38,7 +38,10 @@ function* doUpdateWarehouseImportReceipt(action) {
 
       addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
     } else {
-      addNotification(response?.message, NOTIFICATION_TYPE.ERROR)
+      addNotification(
+        response?.message || response?.payload?.message,
+        NOTIFICATION_TYPE.ERROR,
+      )
       throw new Error(response?.message)
     }
   } catch (error) {

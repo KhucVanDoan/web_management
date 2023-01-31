@@ -9,7 +9,7 @@ import {
   Radio,
   Typography,
 } from '@mui/material'
-import { sub } from 'date-fns'
+import { sub, subDays, endOfDay, startOfDay, startOfToday } from 'date-fns'
 import { Formik, Form, FieldArray } from 'formik'
 import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
@@ -40,7 +40,7 @@ import useInventoryCalendar from '~/modules/wmsx/redux/hooks/useInventoryCalenda
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { useClasses } from '~/themes'
-import { convertFilterParams } from '~/utils'
+import { convertFilterParams, isSameDate } from '~/utils'
 
 import ItemsSettingTable from './items-setting-table'
 import { defineSchema } from './schema'
@@ -165,12 +165,18 @@ const InventoryCalendarForm = () => {
   }
 
   const onSubmit = (values) => {
+    let checkPointDate
+    if (!isSameDate(startOfToday(), startOfDay(values?.closingDay))) {
+      checkPointDate = endOfDay(subDays(values?.closingDay, 1))
+    } else {
+      checkPointDate = values?.closingDay
+    }
     if (mode === MODAL_MODE.CREATE) {
       const convertValues = {
         name: values?.name,
         executeFrom: values?.executionDay[0]?.toISOString(),
         executeTo: values?.executionDay[1]?.toISOString(),
-        checkPointDate: values?.closingDay?.toISOString(),
+        checkPointDate: checkPointDate?.toISOString(),
         warehouseIds: JSON.stringify(
           values?.warehouses?.map((warehouse) => warehouse?.id),
         ),
@@ -186,7 +192,7 @@ const InventoryCalendarForm = () => {
         name: values?.name,
         executeFrom: values?.executionDay[0]?.toISOString(),
         executeTo: values?.executionDay[1]?.toISOString(),
-        checkPointDate: values?.closingDay?.toISOString(),
+        checkPointDate: checkPointDate?.toISOString(),
         warehouseIds: JSON.stringify(
           values?.warehouses?.map((warehouse) => warehouse?.id),
         ),
@@ -210,7 +216,7 @@ const InventoryCalendarForm = () => {
         name: values?.name,
         executeFrom: values?.executionDay[0]?.toISOString(),
         executeTo: values?.executionDay[1]?.toISOString(),
-        checkPointDate: values?.closingDay?.toISOString(),
+        checkPointDate: checkPointDate?.toISOString(),
         warehouseIds: JSON.stringify(
           values?.warehouses?.map((warehouse) => warehouse?.id),
         ),
@@ -230,7 +236,7 @@ const InventoryCalendarForm = () => {
         name: values?.name,
         executeFrom: values?.executionDay[0]?.toISOString(),
         executeTo: values?.executionDay[1]?.toISOString(),
-        checkPointDate: values?.closingDay?.toISOString(),
+        checkPointDate: checkPointDate?.toISOString(),
         warehouseIds: JSON.stringify(
           values?.warehouses?.map((warehouse) => warehouse?.id),
         ),

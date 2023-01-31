@@ -3261,9 +3261,9 @@
     "receivedDate": "Ngày nhận",
     "action": "Hành động",
     "date": "Ngày",
-    "syncTitle": "Đồng bộ dữ liệu",
+    "syncTitle": "Gửi lại dữ liệu",
     "rejectTitle": "Từ chối đồng bộ dữ liệu",
-    "confirmSync": "Bạn có chắc chắn muốn đồng bộ không?",
+    "confirmSync": "Bạn có chắc chắn muốn gửi lại không?",
     "confirmReject": "Bạn có chắc chắn muốn từ chối không?",
     "placeholder": {
       "objectCode": "Nhập mã đối tượng",
