@@ -37,81 +37,74 @@ const ResetPassword = () => {
   }
 
   return (
-    <>
+    <Paper className={classes.paper}>
       <Typography variant="h2" sx={{ mb: 2 / 3 }}>
         {t('forgotPassword.resetPassword.title')}
       </Typography>
-      <Typography variant="body2">
+      <Typography variant="body2" sx={{ mb: 3 }}>
         {t('forgotPassword.resetPassword.text')}
       </Typography>
 
-      <Paper className={classes.paper}>
-        <Formik
-          initialValues={{
-            password: '',
-            confirmPassword: '',
-          }}
-          validationSchema={ResetPasswordSchema(t)}
-          onSubmit={handleSubmit}
-        >
-          {() => (
-            <Form>
-              <Field.TextField
-                vertical
-                label={t('forgotPassword.resetPassword.newPassword')}
-                type={showPassword ? 'text' : 'password'}
-                name="password"
-                endAdornment={
-                  <IconButton
-                    onClick={() => setShowPassword(!showPassword)}
-                    size="small"
-                    sx={{ mx: 0.5 }}
-                  >
-                    {showPassword ? (
-                      <Icon name="visible" />
-                    ) : (
-                      <Icon name="invisible" />
-                    )}
-                  </IconButton>
-                }
-                allow={TEXTFIELD_ALLOW.EXCEPT_SPACES}
-                sx={{ mt: 4 / 3 }}
-              />
-              <Field.TextField
-                vertical
-                label={t('forgotPassword.resetPassword.confirmNewPassword')}
-                type={showConfirmPassword ? 'text' : 'password'}
-                name="confirmPassword"
-                endAdornment={
-                  <IconButton
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    size="small"
-                    sx={{ mx: 0.5 }}
-                  >
-                    {showConfirmPassword ? (
-                      <Icon name="visible" />
-                    ) : (
-                      <Icon name="invisible" />
-                    )}
-                  </IconButton>
-                }
-                allow={TEXTFIELD_ALLOW.EXCEPT_SPACES}
-                sx={{ mt: 4 / 3 }}
-              />
+      <Formik
+        initialValues={{
+          password: '',
+          confirmPassword: '',
+        }}
+        validationSchema={ResetPasswordSchema(t)}
+        onSubmit={handleSubmit}
+      >
+        {() => (
+          <Form>
+            <Field.TextField
+              vertical
+              label={t('forgotPassword.resetPassword.newPassword')}
+              type={showPassword ? 'text' : 'password'}
+              name="password"
+              endAdornment={
+                <IconButton
+                  onClick={() => setShowPassword(!showPassword)}
+                  size="small"
+                  sx={{ mx: 0.5 }}
+                >
+                  {showPassword ? (
+                    <Icon name="visible" />
+                  ) : (
+                    <Icon name="invisible" />
+                  )}
+                </IconButton>
+              }
+              allow={TEXTFIELD_ALLOW.EXCEPT_SPACES}
+              sx={{ mt: 4 / 3 }}
+            />
+            <Field.TextField
+              vertical
+              label={t('forgotPassword.resetPassword.confirmNewPassword')}
+              type={showConfirmPassword ? 'text' : 'password'}
+              name="confirmPassword"
+              endAdornment={
+                <IconButton
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  size="small"
+                  sx={{ mx: 0.5 }}
+                >
+                  {showConfirmPassword ? (
+                    <Icon name="visible" />
+                  ) : (
+                    <Icon name="invisible" />
+                  )}
+                </IconButton>
+              }
+              allow={TEXTFIELD_ALLOW.EXCEPT_SPACES}
+              sx={{ mt: 4 / 3 }}
+            />
 
-              <Button
-                type="submit"
-                fullWidth
-                loading={isLoading}
-                sx={{ mt: 2 }}
-              >
-                {t('forgotPassword.resetPassword.finish')}
-              </Button>
-            </Form>
-          )}
-        </Formik>
-      </Paper>
-    </>
+            <Button type="submit" fullWidth loading={isLoading} sx={{ mt: 2 }}>
+              {t('forgotPassword.resetPassword.finish')}
+            </Button>
+          </Form>
+        )}
+      </Formik>
+    </Paper>
   )
 }
 
