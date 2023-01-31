@@ -1,5 +1,5 @@
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
-import { format } from 'date-fns'
+import { format, differenceInDays } from 'date-fns'
 import { enUS, ja, vi } from 'date-fns/locale'
 
 import {
@@ -66,4 +66,8 @@ export const addHours = (numOfHours, date) => {
   date.setTime(date.getTime() + numOfHours * 60 * 60 * 1000)
 
   return date
+}
+
+export const isSameDate = (startDate, endDate) => {
+  return differenceInDays(startDate, endDate) === 0
 }
