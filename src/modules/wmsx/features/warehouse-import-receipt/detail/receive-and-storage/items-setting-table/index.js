@@ -146,8 +146,9 @@ function ItemsSettingTable(props) {
           )
         },
       },
-      items?.length > 1 && {
+      {
         field: 'remove',
+        hide: items?.length === 1,
         headerName: '',
         width: 50,
         renderCell: (_, idx) => {
