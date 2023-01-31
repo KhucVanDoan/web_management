@@ -1,6 +1,5 @@
 const style = (theme) => ({
   paper: {
-    margin: theme.spacing(2, 0),
     padding: theme.spacing(2.5, 4, 4),
   },
 
@@ -12,6 +11,7 @@ const style = (theme) => ({
     display: 'inline-flex',
     alignItems: 'center',
     margin: 'auto',
+    marginTop: theme.spacing(2),
     fontSize: 13,
     color: theme.palette.subText.main,
     textDecoration: 'none',

@@ -28,48 +28,40 @@ const GenerateOTP = () => {
   }
 
   return (
-    <Box>
+    <Paper className={classes.paper}>
       <Typography variant="h2" sx={{ mb: 2 / 3 }}>
         {t('forgotPassword.generateOTP.title')}
       </Typography>
-      <Typography variant="body2">
+      <Typography variant="body2" sx={{ mb: 3 }}>
         {t('forgotPassword.generateOTP.text')}
       </Typography>
+      <Formik
+        initialValues={{ email: '' }}
+        validationSchema={forgotPasswordSchema(t)}
+        onSubmit={handleSubmit}
+      >
+        {() => (
+          <Form>
+            <Field.TextField
+              vertical
+              label={t('forgotPassword.generateOTP.account')}
+              placeholder={t('forgotPassword.generateOTP.placeholder')}
+              name="email"
+            />
 
-      <Paper className={classes.paper}>
-        <Formik
-          initialValues={{ email: '' }}
-          validationSchema={forgotPasswordSchema(t)}
-          onSubmit={handleSubmit}
-        >
-          {() => (
-            <Form>
-              <Field.TextField
-                vertical
-                label={t('forgotPassword.generateOTP.account')}
-                placeholder={t('forgotPassword.generateOTP.placeholder')}
-                name="email"
-              />
-
-              <Button
-                type="submit"
-                fullWidth
-                loading={isLoading}
-                sx={{ mt: 2 }}
-              >
-                {t('forgotPassword.generateOTP.continue')}
-              </Button>
-            </Form>
-          )}
-        </Formik>
-      </Paper>
+            <Button type="submit" fullWidth loading={isLoading} sx={{ mt: 2 }}>
+              {t('forgotPassword.generateOTP.continue')}
+            </Button>
+          </Form>
+        )}
+      </Formik>
       <Box className={classes.goBackBox}>
         <Link className={classes.goBack} to={ROUTE.LOGIN.PATH}>
           <Icon name="arrowLeft" size={12} sx={{ mr: '3px' }} />
           {t('forgotPassword.generateOTP.backToLogin')}
         </Link>
       </Box>
-    </Box>
+    </Paper>
   )
 }
 
