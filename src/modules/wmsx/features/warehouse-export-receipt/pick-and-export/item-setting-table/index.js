@@ -198,8 +198,9 @@ const ItemSettingTable = ({ items, itemList, lots, arrayHelpers }) => {
           )
         },
       },
-      items?.length > 1 && {
+      {
         field: 'action',
+        hide: items?.length === 1,
         width: 100,
         align: 'center',
         renderCell: (params, idx) => {
