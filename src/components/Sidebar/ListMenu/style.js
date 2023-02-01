@@ -2,31 +2,37 @@ import { List } from '@mui/material'
 import { styled } from '@mui/system'
 
 const ListMenuStyled = styled(List)((props) => {
-  const { theme, open } = props
+  const { open, theme } = props
   return {
-    marginTop: 10,
-    paddingTop: 0,
+    padding: '8px 5px',
     flex: 1,
     overflow: 'auto',
-    '.active': {
-      background: theme.palette.bgPrimaryOpacity,
-      borderRadius: '3px 0px 0px 3px',
-      position: 'relative',
-      fontWeight: 'bold',
+
+    '&::-webkit-scrollbar': {
+      width: 8,
+      height: 8,
+    },
+
+    '&::-webkit-scrollbar-track': {
+      backgroundColor: '#ccc',
+    },
+
+    '&::-webkit-scrollbar-thumb': {
+      backgroundColor: theme.palette.primary.a6,
+    },
+
+    '.MuiListItemButton-root': {
+      borderRadius: '4px',
 
       '&:hover': {
-        background: theme.palette.bgPrimaryOpacity,
+        background: 'rgba(9,123,220,0.3)',
+      },
+
+      '&.active': {
+        background: '#097BDC !important',
       },
     },
-    '.active::before': {
-      content: '""',
-      height: '100%',
-      width: '3px',
-      background: theme.palette.primary.main,
-      right: 0,
-      top: 0,
-      position: 'absolute',
-    },
+
     a: {
       textDecoration: 'none',
     },
@@ -36,8 +42,6 @@ const ListMenuStyled = styled(List)((props) => {
         marginLeft: 10,
         marginRight: 20,
       },
-
-      '&>.active:before': { display: 'none' },
     }),
   }
 })

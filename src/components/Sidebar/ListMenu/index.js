@@ -8,7 +8,6 @@ import {
   List,
   Typography,
 } from '@mui/material'
-import { useTheme } from '@mui/material/styles'
 import clsx from 'clsx'
 import { isEmpty } from 'lodash'
 import { PropTypes } from 'prop-types'
@@ -26,7 +25,6 @@ const ListMenu = ({ routes = [], currentModule }) => {
   const [open, setOpen] = useState()
   const { pathname } = useLocation()
   const { t } = useTranslation([currentModule])
-  const theme = useTheme()
   const { isMdUpMinimal, isMdDown, setIsMinimal } = useSidebar()
   const { canAccess } = useApp()
 
@@ -96,7 +94,7 @@ const ListMenu = ({ routes = [], currentModule }) => {
                   })}
               sx={{
                 mt: index === 0 ? 0 : '8px',
-                pr: '10px',
+                px: '10px',
               }}
               className={clsx({
                 active:
@@ -110,25 +108,16 @@ const ListMenu = ({ routes = [], currentModule }) => {
                   mr: '10px',
                 }}
               >
-                <Icon
-                  name={route.icon}
-                  fill={
-                    isActive(route.path) ||
-                    (isMdUpMinimal && isActiveChildren(route.subMenu))
-                      ? theme.palette.text.main
-                      : theme.palette.subText.main
-                  }
-                  size={20}
-                />
+                <Icon name={route.icon} fill="#fff" size={20} />
               </ListItemIcon>
               <ListItemText
                 primary={
                   <Typography
                     variant="h5"
-                    color="text.main"
+                    color="#fff"
                     noWrap
                     sx={{
-                      fontWeight: isActive(route.path) ? 700 : 400,
+                      fontWeight: 400,
                     }}
                   >
                     {t(`menu.${route.name}`)}
@@ -140,7 +129,7 @@ const ListMenu = ({ routes = [], currentModule }) => {
                   sx={{
                     transform: 'rotate(-90deg)',
                     fontSize: '18px',
-                    color: '#999999',
+                    color: '#ddd',
                     ...(isOpen(index, route.subMenu)
                       ? { transform: 'rotate(0)' }
                       : {}),
@@ -161,13 +150,17 @@ const ListMenu = ({ routes = [], currentModule }) => {
               hoverMenu={hoverMenu}
             >
               {!isEmpty(visibleSubMenu) ? (
-                <List component="div" disablePadding>
+                <List
+                  component="div"
+                  disablePadding
+                  sx={isMdUpMinimal ? {} : { pl: '40px' }}
+                >
                   {visibleSubMenu.map((menuItem) => (
                     <ListItemButton
                       component={Link}
                       to={menuItem?.path}
                       key={menuItem?.path}
-                      sx={{ py: '5px', pl: isMdUpMinimal ? '16px' : '46px' }}
+                      sx={{ py: '5px', px: '10px' }}
                       className={clsx({
                         active: isActive(menuItem.path),
                       })}
@@ -181,10 +174,10 @@ const ListMenu = ({ routes = [], currentModule }) => {
                         primary={
                           <Typography
                             variant="h5"
-                            color="text.main"
+                            color="#fff"
                             noWrap
                             sx={{
-                              fontWeight: isActive(menuItem.path) ? 700 : 400,
+                              fontWeight: 400,
                             }}
                           >
                             {t(`menu.${menuItem.name}`)}
