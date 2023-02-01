@@ -5,12 +5,12 @@ const style = (isEmptySubMenu) => (theme) => {
     },
     paper: {
       pointerEvents: 'auto',
-      padding: '10px 0px',
+      padding: '5px',
       marginLeft: 10,
       overflow: 'visible',
+      background: '#164285',
       ...(isEmptySubMenu
         ? {
-            background: theme.palette.text.main,
             color: '#fff',
             padding: 10,
             marginTop: 5,
@@ -37,24 +37,17 @@ const style = (isEmptySubMenu) => (theme) => {
               position: 'absolute',
             },
           }),
-      '.active': {
-        background: theme.palette.bgPrimaryOpacity,
-        borderRadius: '3px 0px 0px 3px',
-        position: 'relative',
-        fontWeight: 'bold',
+
+      '.MuiListItemButton-root': {
+        borderRadius: '4px',
 
         '&:hover': {
-          background: theme.palette.bgPrimaryOpacity,
+          background: 'rgba(9,123,220,0.3)',
         },
-      },
-      '.active::before': {
-        content: '""',
-        height: '100%',
-        width: '3px',
-        background: theme.palette.primary.main,
-        right: 0,
-        top: 0,
-        position: 'absolute',
+
+        '&.active': {
+          background: '#097BDC !important',
+        },
       },
     },
   }
