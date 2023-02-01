@@ -24,6 +24,7 @@ export const Drawer = styled(MuiDrawer, {
 
     '& .MuiDrawer-paper': {
       position: 'static',
+      backgroundColor: 'transparent',
     },
 
     ...(isMinimal
