@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 
+import CloseIcon from '@mui/icons-material/Close'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
 import { Box, FormLabel, Grid, Typography } from '@mui/material'
 import { sub } from 'date-fns'
@@ -112,7 +113,7 @@ function WarehouseImportReceiptForm() {
       explaination:
         warehouseImportReceiptDetails?.explanation ||
         `${t(
-          `warehouseImportReceipt.warehouseImputDate`,
+          `warehouseImportReceipt.warehouseInputDate`,
         )} [${convertUtcDateToLocalTz(new Date().toISOString())}]`,
       items: warehouseImportReceiptDetails?.purchasedOrderImportDetails?.map(
         (item) => ({
@@ -416,7 +417,7 @@ function WarehouseImportReceiptForm() {
     )
     const explaination = `${
       receiptDate
-        ? `${t('warehouseExportReceipt.warehouseExportDate')} [${receiptDate}]`
+        ? `${t('warehouseImportReceipt.warehouseInputDate')} [${receiptDate}]`
         : ''
     }`
     setFieldValue('explaination', explaination)
@@ -445,7 +446,7 @@ function WarehouseImportReceiptForm() {
     const receiptDate = convertUtcDateToLocalTz(val.toISOString())
     const explaination = `${
       receiptDate
-        ? `${t('warehouseImportReceipt.warehouseImputDate')} [${receiptDate}]`
+        ? `${t('warehouseImportReceipt.warehouseInputDate')} [${receiptDate}]`
         : ''
     }${
       warehouseExportProposal
@@ -552,10 +553,16 @@ function WarehouseImportReceiptForm() {
                             <label htmlFor="select-file">
                               <Typography
                                 className={classes.uploadText}
-                                sx={{ mt: 8 / 12 }}
+                                sx={{ mt: 8 / 12, display: 'flex' }}
                               >
                                 {values?.attachment?.name ||
                                   values?.attachment?.fileName}
+                                <CloseIcon
+                                  sx={{ ml: 1, color: 'gray' }}
+                                  onClick={() =>
+                                    setFieldValue('attachment', '')
+                                  }
+                                />
                               </Typography>
                             </label>
                             <input
@@ -565,7 +572,9 @@ function WarehouseImportReceiptForm() {
                               type="file"
                               accept="application/pdf"
                               onChange={(e) => {
-                                setFieldValue('attachment', e.target.files[0])
+                                if (e?.target?.files?.length > 0) {
+                                  setFieldValue('attachment', e.target.files[0])
+                                }
                               }}
                             />
                           </>
