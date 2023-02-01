@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 
+import CloseIcon from '@mui/icons-material/Close'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
 import {
   Box,
@@ -520,9 +521,15 @@ const InventoryCalendarForm = () => {
                         <label htmlFor="select-file">
                           <Typography
                             className={classes.uploadText}
-                            sx={{ mt: 8 / 12, mb: 1 }}
+                            sx={{ mt: 8 / 12, mb: 1, display: 'flex' }}
                           >
                             {values?.checkPointDataAttachment?.name}
+                            <CloseIcon
+                              sx={{ ml: 1, color: 'gray' }}
+                              onClick={() =>
+                                setFieldValue('checkPointDataAttachment', '')
+                              }
+                            />
                           </Typography>
                         </label>
                       )}
@@ -533,10 +540,12 @@ const InventoryCalendarForm = () => {
                           type="file"
                           accept={FILE_TYPE.XLSX.EXT}
                           onChange={(e) => {
-                            setFieldValue(
-                              'checkPointDataAttachment',
-                              e.target.files[0],
-                            )
+                            if (e?.target?.files?.length > 0) {
+                              setFieldValue(
+                                'checkPointDataAttachment',
+                                e.target.files[0],
+                              )
+                            }
                           }}
                         />
                         <label htmlFor="contained-button-file">
