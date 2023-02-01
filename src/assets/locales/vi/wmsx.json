@@ -2976,7 +2976,7 @@
     "organizationPayments": "Tổ chức chi",
     "Attachments": "Tệp đính kèm",
     "confirmWarehouseImport": "Xác nhận nhập kho",
-    "warehouseImputDate": "Nhập kho ngày",
+    "warehouseInputDate": "Nhập kho ngày",
     "receiptBy": "Theo phiếu",
     "table": {
       "title": "Danh sách vật tư",

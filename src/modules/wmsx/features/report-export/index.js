@@ -10,10 +10,9 @@ import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import useReportExport from '~/modules/wmsx/redux/hooks/useReportExport'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import { convertFilterParams, getLocalItem } from '~/utils'
+import { convertSortParams, getLocalItem } from '~/utils'
 
 import {
-  ACTIVE_STATUS,
   REPORT_FILE_TYPE_OPTIONS,
   REPORT_TYPE,
   REPORT_TYPE_OPTIONS,
@@ -191,8 +190,9 @@ const ReportExport = () => {
                         searchWarehouseApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
-                          filter: convertFilterParams({
-                            status: ACTIVE_STATUS.ACTIVE,
+                          sort: convertSortParams({
+                            order: 'DESC',
+                            orderBy: 'status',
                           }),
                         })
                       }

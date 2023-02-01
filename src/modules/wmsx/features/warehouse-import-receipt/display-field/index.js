@@ -89,7 +89,7 @@ const displayFollowBusinessTypeManagement = (
       )
       const explaination = `${
         receiptDate
-          ? `${t('warehouseImportReceipt.warehouseImputDate')} [${receiptDate}]`
+          ? `${t('warehouseImportReceipt.warehouseInputDate')} [${receiptDate}]`
           : ''
       }${
         warehouseExportProposal
@@ -138,7 +138,7 @@ const displayFollowBusinessTypeManagement = (
       )
       const explaination = `${
         receiptDate
-          ? `${t('warehouseImportReceipt.warehouseImputDate')} [${receiptDate}]`
+          ? `${t('warehouseImportReceipt.warehouseInputDate')} [${receiptDate}]`
           : ''
       }${
         warehouseExportProposal
@@ -170,7 +170,7 @@ const displayFollowBusinessTypeManagement = (
     )
     const explaination = `${
       receiptDate
-        ? `${t('warehouseImportReceipt.warehouseImputDate')} [${receiptDate}]`
+        ? `${t('warehouseImportReceipt.warehouseInputDate')} [${receiptDate}]`
         : ''
     }${
       warehouseExportProposal
@@ -201,7 +201,7 @@ const displayFollowBusinessTypeManagement = (
       )
       const explaination = `${
         receiptDate
-          ? `${t('warehouseImportReceipt.warehouseImputDate')} [${receiptDate}]`
+          ? `${t('warehouseImportReceipt.warehouseInputDate')} [${receiptDate}]`
           : ''
       }${
         warehouseExportProposal
@@ -235,7 +235,7 @@ const displayFollowBusinessTypeManagement = (
       )
       const explaination = `${
         receiptDate
-          ? `${t('warehouseImportReceipt.warehouseImputDate')} [${receiptDate}]`
+          ? `${t('warehouseImportReceipt.warehouseInputDate')} [${receiptDate}]`
           : ''
       }${
         warehouseExportProposal
