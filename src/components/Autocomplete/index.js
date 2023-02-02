@@ -102,7 +102,7 @@ const Autocomplete = ({
   const fetchOptionsFn = async (keyword = '', cb) => {
     setLoading(true)
     try {
-      const response = await asyncRequest(keyword)
+      const response = await asyncRequest(keyword.trim())
       let opts = response
 
       if (response && typeof asyncRequestHelper === 'function') {
