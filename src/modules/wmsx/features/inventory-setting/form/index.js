@@ -247,9 +247,6 @@ function InventorySettingForm() {
                       label={t('inventorySetting.inventoryLimit')}
                       placeholder={t('inventorySetting.inventoryLimit')}
                       formatter="quantity"
-                      numberProps={{
-                        decimalScale: 2,
-                      }}
                       required
                     />
                   </Grid>
@@ -259,9 +256,6 @@ function InventorySettingForm() {
                       label={t('inventorySetting.minInventoryLimit')}
                       placeholder={t('inventorySetting.minInventoryLimit')}
                       formatter="quantity"
-                      numberProps={{
-                        decimalScale: 2,
-                      }}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -270,9 +264,6 @@ function InventorySettingForm() {
                       label={t('inventorySetting.maxInventoryLimit')}
                       placeholder={t('inventorySetting.maxInventoryLimit')}
                       formatter="quantity"
-                      numberProps={{
-                        decimalScale: 2,
-                      }}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
