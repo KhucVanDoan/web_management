@@ -42,7 +42,7 @@ function* doUpdateWarehouseImportReceipt(action) {
         response?.message || response?.payload?.message,
         NOTIFICATION_TYPE.ERROR,
       )
-      throw new Error(response?.message)
+      throw new Error(response?.message || response?.payload?.message)
     }
   } catch (error) {
     yield put(updateWarehouseImportReceiptFailed())

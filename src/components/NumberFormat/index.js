@@ -60,7 +60,7 @@ NumberFormatInput.propTypes = {
 
 export const NumberFormatText = ({ value, numberProps, formatter }) => (
   <NumberFormat
-    value={value}
+    value={Number(value)}
     displayType="text"
     isNumericString
     {...config(formatter)}
