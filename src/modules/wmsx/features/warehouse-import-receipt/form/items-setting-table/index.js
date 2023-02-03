@@ -56,7 +56,7 @@ function ItemsSettingTable(props) {
       )
     }
     if (!isEmpty(warehouseExportProposal) && isEmpty(receiptRequired)) {
-      setFieldValue(`items[${index}].importQuantity`, val?.quantity)
+      setFieldValue(`items[${index}].importQuantity`, +val?.quantity)
     }
     setFieldValue(
       `items[${index}].unit`,
@@ -68,6 +68,7 @@ function ItemsSettingTable(props) {
     setFieldValue(`items[${index}].money`, '')
     if (!isEmpty(values[receiptRequired])) {
       setFieldValue(`items[${index}].importQuantity`, +val?.quantity)
+      setFieldValue(`items[${index}].quantity`, +val?.quantity)
       setFieldValue(`items[${index}].requestedQuantity`, +val?.quantity)
     }
   }
@@ -220,7 +221,7 @@ function ItemsSettingTable(props) {
             />
           ) : !isEmpty(values[receiptRequired]) ? (
             <Field.TextField
-              name={`items[${index}].itemCode.quantity`}
+              name={`items[${index}].quantity`}
               formatter="quantity"
               disabled
             />
@@ -240,12 +241,12 @@ function ItemsSettingTable(props) {
         renderCell: (params, index) => {
           return isView ? (
             <NumberFormatText
-              value={params?.row?.quantity}
+              value={+params?.row?.quantity}
               formatter="quantity"
             />
           ) : !isEmpty(values[receiptRequired]) ? (
             <Field.TextField
-              name={`items[${index}].itemCode.quantity`}
+              name={`items[${index}].quantity`}
               disabled
               formatter="quantity"
             />

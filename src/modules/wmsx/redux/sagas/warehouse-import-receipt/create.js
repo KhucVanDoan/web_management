@@ -33,10 +33,16 @@ function* doCreateWarehouseImportReceipt(action) {
         yield action.onSuccess()
       }
 
-      addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
+      addNotification(
+        response?.message || response?.payload?.message,
+        NOTIFICATION_TYPE.SUCCESS,
+      )
     } else {
-      addNotification(response?.message, NOTIFICATION_TYPE.ERROR)
-      throw new Error(response?.message)
+      addNotification(
+        response?.message || response?.payload?.message,
+        NOTIFICATION_TYPE.ERROR,
+      )
+      throw new Error(response?.message || response?.payload?.message)
     }
   } catch (error) {
     yield put(createWarehouseImportReceiptFailed())
