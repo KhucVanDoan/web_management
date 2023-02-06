@@ -80,6 +80,22 @@ export const formSchema = (t) =>
             },
           })
         }),
+      reorderPoint: Yup.number()
+        .nullable()
+        .max(
+          NUMBER_FIELD_REQUIRED_SIZE.INVENTORY_LIMIT.MAX,
+          t('general:form.maxNumber', {
+            max: NUMBER_FIELD_REQUIRED_SIZE.INVENTORY_LIMIT.MAX,
+          }),
+        ),
+      eoq: Yup.number()
+        .nullable()
+        .max(
+          NUMBER_FIELD_REQUIRED_SIZE.INVENTORY_LIMIT.MAX,
+          t('general:form.maxNumber', {
+            max: NUMBER_FIELD_REQUIRED_SIZE.INVENTORY_LIMIT.MAX,
+          }),
+        ),
     },
     ['minInventoryLimit', 'maxInventoryLimit'],
   )

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 
 import { Box, Grid } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
-import { uniq, map, groupBy } from 'lodash'
+import { uniq, map, groupBy, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
@@ -256,27 +256,51 @@ function WarehouseImportReceiveAndStorage() {
                     <Grid item lg={6} xs={12}>
                       <LV
                         label={t('warehouseImportReceipt.expenditureType')}
-                        value={warehouseImportReceiptDetails.businessType?.name}
+                        value={
+                          !isEmpty(warehouseImportReceiptDetails.businessType)
+                            ? `${warehouseImportReceiptDetails.businessType?.code} - ${warehouseImportReceiptDetails.businessType?.name}`
+                            : ''
+                        }
                       />
                     </Grid>
                     <Grid item lg={6} xs={12}>
                       <LV
                         label={t('warehouseImportReceipt.warehouse')}
-                        value={warehouseImportReceiptDetails.warehouse?.name}
+                        value={
+                          !isEmpty(warehouseImportReceiptDetails.warehouse)
+                            ? `${warehouseImportReceiptDetails.warehouse?.code} - ${warehouseImportReceiptDetails.warehouse?.name}`
+                            : ''
+                        }
                       />
                     </Grid>
                     <Grid item lg={6} xs={12}>
                       <LV
                         label={t('warehouseImportReceipt.reason')}
-                        value={warehouseImportReceiptDetails.reason?.name}
+                        value={
+                          !isEmpty(warehouseImportReceiptDetails.reason)
+                            ? `${warehouseImportReceiptDetails.reason?.code} - ${warehouseImportReceiptDetails.reason?.name}`
+                            : ''
+                        }
                       />
                     </Grid>
                     <Grid item lg={6} xs={12}>
                       <LV
                         label={t('warehouseImportReceipt.source')}
-                        value={warehouseImportReceiptDetails.source?.name}
+                        value={
+                          !isEmpty(warehouseImportReceiptDetails.source)
+                            ? `${warehouseImportReceiptDetails.source?.code} - ${warehouseImportReceiptDetails.source?.name}`
+                            : ''
+                        }
                       />
                     </Grid>
+                    {receiptRequired && (
+                      <Grid item lg={6} xs={12}>
+                        <LV
+                          label={t('warehouseImportReceipt.contractNumber')}
+                          value={warehouseImportReceiptDetails?.contractNumber}
+                        />
+                      </Grid>
+                    )}
                     {receiptRequired && (
                       <Grid item lg={6} xs={12}>
                         <LV
@@ -320,14 +344,30 @@ function WarehouseImportReceiveAndStorage() {
                                     item.tableName
                                   ]?.find(
                                     (itemDetail) =>
-                                      `${itemDetail.id}` === item.value,
-                                  )?.name ||
+                                      itemDetail.id + '' === item.value,
+                                  )?.code &&
                                   attributesBusinessTypeDetails[
                                     item.tableName
                                   ]?.find(
                                     (itemDetail) =>
-                                      `${itemDetail.id}` === item.value,
-                                  )?.code
+                                      itemDetail.id + '' === item.value,
+                                  )?.name
+                                    ? `${
+                                        attributesBusinessTypeDetails[
+                                          item.tableName
+                                        ]?.find(
+                                          (itemDetail) =>
+                                            itemDetail.id + '' === item.value,
+                                        )?.code
+                                      } - ${
+                                        attributesBusinessTypeDetails[
+                                          item.tableName
+                                        ]?.find(
+                                          (itemDetail) =>
+                                            itemDetail.id + '' === item.value,
+                                        )?.name
+                                      }`
+                                    : ''
                                 }
                               />
                             </Grid>
