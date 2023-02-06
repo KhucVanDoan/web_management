@@ -100,13 +100,13 @@ const WarehouseTransferForm = () => {
             ...warehouseTransferDetails?.bussinessType,
             bussinessTypeAttributes: warehouseTransferDetails?.attributes,
           }
-        : '',
+        : null,
       type: warehouseTransferDetails?.type || '',
-      reasonId: warehouseTransferDetails?.reason || '',
-      sourceId: warehouseTransferDetails?.source || '',
+      reasonId: warehouseTransferDetails?.reason || null,
+      sourceId: warehouseTransferDetails?.source || null,
       destinationWarehouseId:
-        warehouseTransferDetails?.destinationWarehouse || '',
-      sourceWarehouseId: warehouseTransferDetails?.sourceWarehouse || '',
+        warehouseTransferDetails?.destinationWarehouse || null,
+      sourceWarehouseId: warehouseTransferDetails?.sourceWarehouse || null,
       receiptDate: warehouseTransferDetails?.receiptDate
         ? new Date(warehouseTransferDetails?.receiptDate)
         : new Date(),
@@ -150,9 +150,9 @@ const WarehouseTransferForm = () => {
       initialValues[`${item.id}`] =
         attributesBusinessTypeDetails[item.tableName]?.find(
           (itemDetail) => `${itemDetail.id}` === item.value,
-        ) || ''
+        ) || null
     } else {
-      initialValues[`${item.id}`] = item.value || ''
+      initialValues[`${item.id}`] = item.value || null
     }
   })
   const onSubmit = (values) => {
@@ -287,7 +287,7 @@ const WarehouseTransferForm = () => {
 
   const handleChangeWarehouse = (val, setFieldValue) => {
     setFieldValue('items', [{ ...DEFAULT_ITEM }])
-    setFieldValue('destinationWarehouseId', '')
+    setFieldValue('destinationWarehouseId', null)
     // if (val) {
     //   actions.getListItemWarehouseStock({
     //     warehouseId: val?.id,
@@ -300,7 +300,7 @@ const WarehouseTransferForm = () => {
       if (!isEmpty(val)) {
         val?.bussinessTypeAttributes?.forEach((item) => {
           if (!isNil(item?.id)) {
-            setFieldValue(item?.id, '')
+            setFieldValue(item?.id, null)
           }
         })
       }
@@ -407,8 +407,7 @@ const WarehouseTransferForm = () => {
                           handleChangeBusinessType(val, setFieldValue)
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
-                        getOptionLabel={(opt) => opt?.code}
-                        getOptionSubLabel={(opt) => opt?.name}
+                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                         required
                       />
@@ -428,7 +427,7 @@ const WarehouseTransferForm = () => {
                             val ===
                             WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG
                           ) {
-                            setFieldValue('sourceWarehouseId', '')
+                            setFieldValue('sourceWarehouseId', null)
                           }
                         }}
                         required
@@ -449,8 +448,8 @@ const WarehouseTransferForm = () => {
                           })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
-                        getOptionLabel={(opt) => opt?.code}
-                        getOptionSubLabel={(opt) => opt?.name}
+                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+                        getOptionSubLabel={(opt) => opt?.accountIdentifier}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                       />
                     </Grid>
@@ -469,8 +468,7 @@ const WarehouseTransferForm = () => {
                           })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
-                        getOptionLabel={(opt) => opt?.code}
-                        getOptionSubLabel={(opt) => opt?.name}
+                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                         required
                       />
@@ -499,8 +497,7 @@ const WarehouseTransferForm = () => {
                           WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
-                        getOptionLabel={(opt) => opt?.code}
-                        getOptionSubLabel={(opt) => opt?.name}
+                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                         onChange={(val) =>
                           handleChangeWarehouse(val, setFieldValue)
@@ -526,8 +523,7 @@ const WarehouseTransferForm = () => {
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
                         asyncRequestDeps={values?.sourceWarehouseId}
-                        getOptionLabel={(opt) => opt?.code}
-                        getOptionSubLabel={(opt) => opt?.name}
+                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                         onChange={() =>
                           setFieldValue('items', [{ ...DEFAULT_ITEM }])

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 
 import { Box, Grid } from '@mui/material'
-import { uniq, map } from 'lodash'
+import { uniq, map, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
@@ -203,7 +203,11 @@ function WarehouseExportReceiptDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.warehouseExport')}
-                value={warehouseExportReceiptDetails?.warehouse?.name}
+                value={
+                  !isEmpty(warehouseExportReceiptDetails?.warehouse)
+                    ? `${warehouseExportReceiptDetails?.warehouse?.code} - ${warehouseExportReceiptDetails?.warehouse?.name}`
+                    : ''
+                }
               />
             </Grid>
             {/* <Grid item lg={6} xs={12}>
@@ -215,7 +219,11 @@ function WarehouseExportReceiptDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.warehouseExportReason')}
-                value={warehouseExportReceiptDetails?.reason?.name}
+                value={
+                  !isEmpty(warehouseExportReceiptDetails?.reason)
+                    ? `${warehouseExportReceiptDetails?.reason?.code} - ${warehouseExportReceiptDetails?.reason?.name}`
+                    : ''
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -257,13 +265,21 @@ function WarehouseExportReceiptDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.suorceAccountant')}
-                value={warehouseExportReceiptDetails.source?.name}
+                value={
+                  !isEmpty(warehouseExportReceiptDetails?.source)
+                    ? `${warehouseExportReceiptDetails?.source?.code} - ${warehouseExportReceiptDetails?.source?.name}`
+                    : ''
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.typeBusiness')}
-                value={warehouseExportReceiptDetails.businessType?.name}
+                value={
+                  !isEmpty(warehouseExportReceiptDetails?.businessType)
+                    ? `${warehouseExportReceiptDetails?.businessType?.code} - ${warehouseExportReceiptDetails?.businessType?.name}`
+                    : ''
+                }
               />
             </Grid>
             {warehouseExportReceiptDetails?.attributes?.map((item) => {
@@ -275,10 +291,26 @@ function WarehouseExportReceiptDetail() {
                       value={
                         attributesBusinessTypeDetails[item.tableName]?.find(
                           (itemDetail) => itemDetail.id + '' === item.value,
-                        )?.name ||
+                        )?.code &&
                         attributesBusinessTypeDetails[item.tableName]?.find(
                           (itemDetail) => itemDetail.id + '' === item.value,
-                        )?.code
+                        )?.name
+                          ? `${
+                              attributesBusinessTypeDetails[
+                                item.tableName
+                              ]?.find(
+                                (itemDetail) =>
+                                  itemDetail.id + '' === item.value,
+                              )?.code
+                            } - ${
+                              attributesBusinessTypeDetails[
+                                item.tableName
+                              ]?.find(
+                                (itemDetail) =>
+                                  itemDetail.id + '' === item.value,
+                              )?.name
+                            }`
+                          : ''
                       }
                     />
                   </Grid>

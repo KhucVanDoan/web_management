@@ -14,6 +14,7 @@ import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import { useAuth } from '~/modules/auth/redux/hooks/useAuth'
 import { ROUTE } from '~/modules/auth/routes/config'
+import useUserInfo from '~/modules/configuration/redux/hooks/useUserInfo'
 import { useClasses } from '~/themes'
 import { isAuth } from '~/utils'
 import qs from '~/utils/qs'
@@ -27,6 +28,7 @@ const Login = () => {
   const classes = useClasses(style)
   const { t } = useTranslation('auth')
   const { actions, isLoading } = useAuth()
+  const { actions: userInfoAction } = useUserInfo()
   const history = useHistory()
   const location = useLocation()
   const { callbackUrl } = qs.parse(location.search)
@@ -41,7 +43,10 @@ const Login = () => {
     const params = { ...values, rememberPassword: +values.rememberPassword }
     actions.login(
       params,
-      () => history.push(callbackUrl || '/'),
+      () => {
+        history.push(callbackUrl || '/')
+        userInfoAction.getUserInfo()
+      },
       (e) => {
         setError(e)
       },

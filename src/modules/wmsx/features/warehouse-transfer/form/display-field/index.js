@@ -88,10 +88,11 @@ const DisplayFollowBusinessTypeManagement = (
                   }
                   asyncRequestHelper={(res) => res?.data?.items}
                   asyncRequestDeps={values?.businessTypeId}
-                  getOptionLabel={(opt) => opt?.code}
-                  getOptionSubLabel={(opt) => opt?.name}
+                  getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                  onChange={() => setFieldValue(`${categoryConstructions}`, '')}
+                  onChange={() =>
+                    setFieldValue(`${categoryConstructions}`, null)
+                  }
                   validate={(val) => validate(val, item)}
                   required={Boolean(item?.required)}
                 />
@@ -117,8 +118,7 @@ const DisplayFollowBusinessTypeManagement = (
                   asyncRequestHelper={(res) => res?.data?.items}
                   asyncRequestDeps={values[constructions]}
                   disabled={!values[constructions]}
-                  getOptionLabel={(opt) => opt?.code}
-                  getOptionSubLabel={(opt) => opt?.name}
+                  getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
                   required={Boolean(item?.required)}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                   validate={(val) => validate(val, item)}
@@ -192,8 +192,7 @@ const DisplayFollowBusinessTypeManagement = (
                   }}
                   asyncRequestHelper={(res) => res?.data?.items}
                   asyncRequestDeps={values?.businessTypeId}
-                  getOptionLabel={(opt) => opt?.code}
-                  getOptionSubLabel={(opt) => opt?.name}
+                  getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                   validate={(val) => validate(val, item)}
                   required={Boolean(item?.required)}

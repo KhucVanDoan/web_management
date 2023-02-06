@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import { Box, Grid } from '@mui/material'
-import { uniq, map } from 'lodash'
+import { uniq, map, isEmpty } from 'lodash'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
@@ -152,32 +152,42 @@ const MovementImportDetail = ({ breadcrumbs, onBack }) => {
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('warehouseImportReceipt.unit')}
-                value={receiptDetail?.departmentReceipt?.name}
-              />
-            </Grid>
-            <Grid item lg={6} xs={12}>
-              <LV
                 label={t('warehouseImportReceipt.expenditureType')}
-                value={receiptDetail.businessType?.name}
+                value={
+                  !isEmpty(receiptDetail.businessType)
+                    ? `${receiptDetail.businessType?.code} - ${receiptDetail.businessType?.name}`
+                    : ''
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseImportReceipt.warehouse')}
-                value={receiptDetail.warehouse?.name}
+                value={
+                  !isEmpty(receiptDetail.warehouse)
+                    ? `${receiptDetail.warehouse?.code} - ${receiptDetail.warehouse?.name}`
+                    : ''
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseImportReceipt.reason')}
-                value={receiptDetail.reason?.name}
+                value={
+                  !isEmpty(receiptDetail.reason)
+                    ? `${receiptDetail.reason?.code} - ${receiptDetail.reason?.name}`
+                    : ''
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseImportReceipt.source')}
-                value={receiptDetail.source?.name}
+                value={
+                  !isEmpty(receiptDetail.source)
+                    ? `${receiptDetail.source?.code} - ${receiptDetail.source?.name}`
+                    : ''
+                }
               />
             </Grid>
             {receiptRequired && (
@@ -201,7 +211,7 @@ const MovementImportDetail = ({ breadcrumbs, onBack }) => {
                           )?.name ||
                           attributesBusinessTypeDetails[item.tableName]?.find(
                             (itemDetail) => `${itemDetail.id}` === item.value,
-                          )?.code ||
+                          )?.receiptNumber ||
                           receiptDetail?.receiptNumber
                         }
                       />
@@ -214,11 +224,27 @@ const MovementImportDetail = ({ breadcrumbs, onBack }) => {
                         label={`${item.fieldName}`}
                         value={
                           attributesBusinessTypeDetails[item.tableName]?.find(
-                            (itemDetail) => `${itemDetail.id}` === item.value,
-                          )?.name ||
+                            (itemDetail) => itemDetail.id + '' === item.value,
+                          )?.code &&
                           attributesBusinessTypeDetails[item.tableName]?.find(
-                            (itemDetail) => `${itemDetail.id}` === item.value,
-                          )?.code
+                            (itemDetail) => itemDetail.id + '' === item.value,
+                          )?.name
+                            ? `${
+                                attributesBusinessTypeDetails[
+                                  item.tableName
+                                ]?.find(
+                                  (itemDetail) =>
+                                    itemDetail.id + '' === item.value,
+                                )?.code
+                              } - ${
+                                attributesBusinessTypeDetails[
+                                  item.tableName
+                                ]?.find(
+                                  (itemDetail) =>
+                                    itemDetail.id + '' === item.value,
+                                )?.name
+                              }`
+                            : ''
                         }
                       />
                     </Grid>
@@ -243,21 +269,21 @@ const MovementImportDetail = ({ breadcrumbs, onBack }) => {
                 }
               }
             })}
-            <Grid item xs={12}>
-              <TextField
-                name="explain"
-                label={t('warehouseExportReceipt.explain')}
-                multiline
-                rows={3}
-                value={receiptDetail?.explanation}
-                readOnly
-                sx={{
-                  'label.MuiFormLabel-root': {
-                    color: (theme) => theme.palette.subText.main,
-                  },
-                }}
-              />
-            </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              name="explain"
+              label={t('warehouseExportReceipt.explain')}
+              multiline
+              rows={3}
+              value={receiptDetail?.explanation}
+              readOnly
+              sx={{
+                'label.MuiFormLabel-root': {
+                  color: (theme) => theme.palette.subText.main,
+                },
+              }}
+            />
           </Grid>
         </Grid>
       </Grid>

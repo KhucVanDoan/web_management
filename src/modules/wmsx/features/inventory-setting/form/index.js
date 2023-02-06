@@ -5,7 +5,11 @@ import { Formik, Form } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
-import { ASYNC_SEARCH_LIMIT, MODAL_MODE } from '~/common/constants'
+import {
+  ASYNC_SEARCH_LIMIT,
+  MODAL_MODE,
+  TEXTFIELD_ALLOW,
+} from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
@@ -294,6 +298,7 @@ function InventorySettingForm() {
                       label={t('inventorySetting.leadtime')}
                       placeholder={t('inventorySetting.leadtime')}
                       type="number"
+                      allow={TEXTFIELD_ALLOW.NUMERIC}
                       numberProps={{
                         decimalScale: 2,
                       }}
