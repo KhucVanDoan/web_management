@@ -267,7 +267,6 @@ function InventoryStatistics() {
           onPageChange={setPage}
           onPageSizeChange={setPageSize}
           onSortChange={setSort}
-          enableResizable={false}
           onSettingChange={setColumnsSettings}
           //onSelectionChange={setSelectedRows}
           selected={selectedRows}
