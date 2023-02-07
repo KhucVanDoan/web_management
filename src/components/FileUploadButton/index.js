@@ -15,9 +15,7 @@ const FileUploadButton = ({
   readOnly,
 }) => {
   const theme = useTheme()
-
-  const multiple = maxNumberOfFiles > 1
-
+  const multiple = maxNumberOfFiles >= 1
   const onFilesPicked = (event) => {
     const pickedFiles = Array.from(event.target.files)
     const newFiles = (value || [])
@@ -28,6 +26,8 @@ const FileUploadButton = ({
     } else {
       onChange(pickedFiles[0])
     }
+    // eslint-disable-next-line no-param-reassign
+    event.target.value = null
   }
 
   const handleDelete = (index) => {

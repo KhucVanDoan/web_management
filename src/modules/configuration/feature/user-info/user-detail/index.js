@@ -20,13 +20,11 @@ function UserInfoDetail() {
   const {
     data: { isLoading, userInfo },
   } = useUserInfo()
-
   const breadcrumbs = [
     {
       title: 'userInfo',
     },
   ]
-
   const renderHeaderRight = () => {
     return (
       <Button

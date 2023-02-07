@@ -16,12 +16,12 @@ export const formSchema = (t) =>
             min: NUMBER_FIELD_REQUIRED_SIZE.INVENTORY_LIMIT.MIN,
           }),
         )
-        .max(
-          NUMBER_FIELD_REQUIRED_SIZE.INVENTORY_LIMIT.MAX,
-          t('general:form.maxNumber', {
-            max: NUMBER_FIELD_REQUIRED_SIZE.INVENTORY_LIMIT.MAX,
-          }),
-        )
+        // .max(
+        //   NUMBER_FIELD_REQUIRED_SIZE.INVENTORY_LIMIT.MAX,
+        //   t('general:form.maxNumber', {
+        //     max: NUMBER_FIELD_REQUIRED_SIZE.INVENTORY_LIMIT.MAX,
+        //   }),
+        // )
         .when(['maxInventoryLimit'], (_, schema, context) => {
           return schema.test({
             message: t('inventorySetting.messageWarningMin'),
@@ -52,12 +52,12 @@ export const formSchema = (t) =>
             min: NUMBER_FIELD_REQUIRED_SIZE.INVENTORY_LIMIT.MIN,
           }),
         )
-        .max(
-          NUMBER_FIELD_REQUIRED_SIZE.INVENTORY_LIMIT.MAX,
-          t('general:form.maxNumber', {
-            max: NUMBER_FIELD_REQUIRED_SIZE.INVENTORY_LIMIT.MAX,
-          }),
-        )
+        // .max(
+        //   NUMBER_FIELD_REQUIRED_SIZE.INVENTORY_LIMIT.MAX,
+        //   t('general:form.maxNumber', {
+        //     max: NUMBER_FIELD_REQUIRED_SIZE.INVENTORY_LIMIT.MAX,
+        //   }),
+        // )
         .when(['minInventoryLimit'], (_, schema, context) => {
           return schema.test({
             message: t('inventorySetting.messageWarningMax'),

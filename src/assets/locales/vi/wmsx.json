@@ -433,7 +433,7 @@
       "ebsExport": "Xuất kho EBS"
     },
     "stockItemReport": {
-      "title": "Hàng tồn kho",
+      "title": "Hàng tồn kho hiện tại",
       "warehouseTransfer": "Lệnh chuyển kho"
     },
     "exportProposal": {
@@ -2815,6 +2815,8 @@
   "setStoragePeriod": {
     "list": "Danh sách thiết lập thời hạn lưu kho",
     "searchPlaceholder": "Tìm kiếm thời hạn lưu kho theo mã hoặc tên kho",
+    "itemCode": "Mã vật tư",
+    "itemName": "Tên vật tư",
     "warehouseCode": "Mã kho",
     "warehouseName": "Tên kho",
     "storageLimit": "Thời hạn lưu kho (ngày)",

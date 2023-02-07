@@ -11,8 +11,13 @@ import addNotification from '~/utils/toast'
 
 const createWarehouseImportReceiptApi = (params) => {
   let form_data = new FormData()
-  for (let key in params) {
-    form_data.append(key, params[key])
+  const data = { ...params }
+  for (let key in data?.attachment) {
+    form_data.append('attachment', data?.attachment[key])
+  }
+  delete data['attachment']
+  for (let key in data) {
+    form_data.append(key, data[key])
   }
   const uri = `/v1/sales/purchased-order-imports/create`
   return api.post(uri, form_data)
