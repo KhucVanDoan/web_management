@@ -14,10 +14,13 @@ const updateWarehouseImportReceiptApi = (params) => {
   const data = { ...params }
   delete data['id']
   let form_data = new FormData()
+  for (let key in data?.attachment) {
+    form_data.append('attachment', data?.attachment[key])
+  }
+  delete data['attachment']
   for (let key in data) {
     form_data.append(key, data[key])
   }
-
   return api.put(uri, form_data)
 }
 

@@ -1,8 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 
-import CloseIcon from '@mui/icons-material/Close'
-import FileUploadIcon from '@mui/icons-material/FileUpload'
-import { Box, FormLabel, Grid, Typography } from '@mui/material'
+import { Box, Grid, Typography } from '@mui/material'
 import { sub } from 'date-fns'
 import { Formik, Form, FieldArray } from 'formik'
 import { uniq, map, isEmpty, isNil, keyBy } from 'lodash'
@@ -16,7 +14,7 @@ import {
   NOTIFICATION_TYPE,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
-import Button from '~/components/Button'
+import FileUploadButton from '~/components/FileUploadButton'
 import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -40,14 +38,12 @@ import { searchSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-man
 import { getWarehouseExportProposalDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-export-proposal/get-details'
 import { getWarehouseExportReceiptDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/get-details'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import { useClasses } from '~/themes'
 import { convertFilterParams, convertUtcDateToLocalTz } from '~/utils'
 import addNotification from '~/utils/toast'
 
 import displayFollowBusinessTypeManagement from '../display-field'
 import ItemsSettingTable from './items-setting-table'
 import { formSchema } from './schema'
-import style from './style'
 
 const DEFAULT_ITEMS = {
   id: 1,
@@ -65,7 +61,6 @@ function WarehouseImportReceiptForm() {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
   const { id } = useParams()
-  const classes = useClasses(style)
   const routeMatch = useRouteMatch()
   const [itemReceipt, setItemReceipt] = useState([])
   const [itemWarehouseExportProposal, setItemWarehouseExportProposal] =
@@ -104,7 +99,14 @@ function WarehouseImportReceiptForm() {
           }
         : null,
       contractNumber: warehouseImportReceiptDetails?.contractNumber || '',
-      attachment: warehouseImportReceiptDetails?.attachment || '',
+      attachment: !isEmpty(warehouseImportReceiptDetails?.attachment)
+        ? [
+            {
+              id: warehouseImportReceiptDetails?.attachment?.id,
+              name: warehouseImportReceiptDetails?.attachment?.fileName,
+            },
+          ]
+        : [],
       departmentReceiptId:
         warehouseImportReceiptDetails?.departmentReceipt || '',
       warehouse: warehouseImportReceiptDetails?.warehouse || null,
@@ -126,6 +128,7 @@ function WarehouseImportReceiptForm() {
           debitAcc: item?.debitAccount,
           creditAcc: item?.creditAccount.replace(/^(\d*?[1-9])0+$/, '$1'),
           importQuantity: item?.quantity,
+          quantity: item?.quantity,
           itemCode: {
             itemId: item?.itemId,
             id: item?.itemId,
@@ -323,7 +326,6 @@ function WarehouseImportReceiptForm() {
         return
       }
     }
-
     const params = {
       deliver: values?.deliver,
       businessTypeId: values?.businessTypeId?.id,
@@ -334,10 +336,10 @@ function WarehouseImportReceiptForm() {
       sourceId: values?.sourceId?.id,
       warehouseId: values?.warehouse?.id,
       contractNumber: values?.contractNumber,
-      attachment:
-        !values?.attachment?.name || values?.attachment?.id
-          ? ''
-          : values?.attachment,
+      attachment: values?.attachment[0]?.id ? null : values?.attachment,
+      files: values?.attachment[0]?.id
+        ? JSON.stringify([{ id: values?.attachment[0]?.id }])
+        : [],
       items: JSON.stringify(
         values?.items?.map((item) => ({
           id:
@@ -355,6 +357,7 @@ function WarehouseImportReceiptForm() {
         })),
       ),
     }
+
     values?.businessTypeId?.bussinessTypeAttributes?.forEach((att, index) => {
       // if (values[att.tableName]) {
       //   params[`attributes[${index}].id`] = att.id
@@ -538,65 +541,18 @@ function WarehouseImportReceiptForm() {
                     <Grid item lg={6} xs={12}>
                       <LV
                         label={
-                          <Box sx={{ mt: 8 / 12 }}>
-                            <FormLabel>
-                              <Typography color={'text.main'} component="span">
-                                {t('warehouseImportReceipt.Attachments')}
-                              </Typography>
-                            </FormLabel>
-                          </Box>
+                          <Typography mt={1}>
+                            {t('warehouseImportReceipt.Attachments')}
+                          </Typography>
                         }
-                      >
-                        {values?.attachment?.name ||
-                        !isEmpty(values?.attachment) ? (
-                          <>
-                            <label htmlFor="select-file">
-                              <Typography
-                                className={classes.uploadText}
-                                sx={{ mt: 8 / 12, display: 'flex' }}
-                              >
-                                {values?.attachment?.name ||
-                                  values?.attachment?.fileName}
-                                <CloseIcon
-                                  sx={{ ml: 1, color: 'gray' }}
-                                  onClick={() =>
-                                    setFieldValue('attachment', '')
-                                  }
-                                />
-                              </Typography>
-                            </label>
-                            <input
-                              hidden
-                              id="select-file"
-                              multiple
-                              type="file"
-                              accept="application/pdf"
-                              onChange={(e) => {
-                                if (e?.target?.files?.length > 0) {
-                                  setFieldValue('attachment', e.target.files[0])
-                                }
-                              }}
-                            />
-                          </>
-                        ) : (
-                          <Button
-                            component="label"
-                            sx={{ background: '#ffff' }}
-                          >
-                            <FileUploadIcon color="primary" />
-                            <input
-                              hidden
-                              accept="application/pdf"
-                              id="select-file"
-                              multiple
-                              type="file"
-                              onChange={(e) => {
-                                setFieldValue('attachment', e.target.files[0])
-                              }}
-                            />
-                          </Button>
-                        )}
-                      </LV>
+                        value={
+                          <FileUploadButton
+                            maxNumberOfFiles={1}
+                            onChange={(val) => setFieldValue('attachment', val)}
+                            value={values.attachment}
+                          />
+                        }
+                      />
                     </Grid>
                     <Grid item lg={6} xs={12}>
                       <Field.TextField

@@ -11,9 +11,12 @@ import {
   getDashboardItems,
   getDashboardWarehouses,
 } from '~/modules/wmsx/redux/sagas/dashboard'
-import { convertNumberWithThousandSeparator } from '~/utils'
+import {
+  convertFilterParams,
+  convertNumberWithThousandSeparator,
+} from '~/utils'
 
-const StockItemReport = ({ fromDate, toDate }) => {
+const StockItemReport = () => {
   const { t } = useTranslation(['wmsx'])
   const [itemId, setItemId] = useState('')
   const [warehouseId, setWarehouseId] = useState('')
@@ -33,16 +36,17 @@ const StockItemReport = ({ fromDate, toDate }) => {
     actions.getItemGroupStockSummary({
       itemId: itemId,
       warehouseId: warehouseId,
-      from: fromDate?.toISOString(),
-      to: toDate?.toISOString(),
     })
-  }, [itemId, warehouseId, fromDate, toDate])
+  }, [itemId, warehouseId])
 
   const data = [
-    { type: 'SL giữ', value: Number(itemGroupStockSummary?.totalItemPlanning) },
     {
-      type: 'SL có thể xuất ',
+      type: 'Giá trị VT bị giữ (VNĐ)',
       value: Number(itemGroupStockSummary?.totalItemStockAvaiable),
+    },
+    {
+      type: 'Giá trị VT có thể xuất (VNĐ)) ',
+      value: Number(itemGroupStockSummary?.totalItemPlanning),
     },
   ]
 
@@ -73,8 +77,23 @@ const StockItemReport = ({ fromDate, toDate }) => {
       formatter: (datum) => {
         return {
           ...datum,
-          name: datum.type,
-          value: convertNumberWithThousandSeparator(datum.value, 5),
+          name: datum.type?.slice(8, datum?.type?.length),
+          value:
+            datum.type === data[0]?.type
+              ? `${convertNumberWithThousandSeparator(
+                  datum.value,
+                  2,
+                )} VNĐ | ${convertNumberWithThousandSeparator(
+                  itemGroupStockSummary?.totalItemStockAmount,
+                  2,
+                )}`
+              : `${convertNumberWithThousandSeparator(
+                  datum.value,
+                  2,
+                )} VNĐ | ${convertNumberWithThousandSeparator(
+                  itemGroupStockSummary?.totalItemPlanningAmount,
+                  2,
+                )}`,
         }
       },
     },
@@ -151,8 +170,12 @@ const StockItemReport = ({ fromDate, toDate }) => {
               getDashboardItems({
                 keyword: s,
                 limit: ASYNC_SEARCH_LIMIT,
+                filter: convertFilterParams({
+                  warehouseId: warehouseId,
+                }),
               })
             }
+            asyncRequestDeps={warehouseId}
             asyncRequestHelper={(res) => res?.data?.items}
             getOptionLabel={(opt) => opt?.name}
             getOptionSubLabel={(opt) => opt?.code}

@@ -9,6 +9,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import NumberFormatText from '~/components/NumberFormat'
 import { OrderTypeEnum, TABLE_NAME_ENUM } from '~/modules/wmsx/constants'
 import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
@@ -124,9 +125,16 @@ const ItemSettingTable = ({ items, itemList, lots, arrayHelpers }) => {
                 item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL &&
                 item?.value,
             ),
+          ) ? (
+            <NumberFormatText
+              value={
+                params?.row?.item?.requestedQuantityWarehouseExportProposal
+              }
+              formatter="quantity"
+            />
+          ) : (
+            ''
           )
-            ? params?.row?.item?.requestedQuantityWarehouseExportProposal
-            : ''
         },
       },
       {
@@ -134,7 +142,14 @@ const ItemSettingTable = ({ items, itemList, lots, arrayHelpers }) => {
         headerName: t('warehouseExportReceipt.items.quantityExport'),
         width: 150,
         renderCell: (params) => {
-          return params?.row?.lotNumber?.quantity || params?.row?.item?.quantity
+          return (
+            <NumberFormatText
+              value={
+                params?.row?.lotNumber?.quantity || +params?.row?.item?.quantity
+              }
+              formatter="quantity"
+            />
+          )
         },
       },
       {
@@ -145,6 +160,7 @@ const ItemSettingTable = ({ items, itemList, lots, arrayHelpers }) => {
           return (
             <Field.TextField
               name={`items[${index}].exportedQuantity`}
+              formatter="quantity"
               validate={(val) => {
                 const exportPlanQuantity =
                   params?.row?.lotNumber?.quantity ||
