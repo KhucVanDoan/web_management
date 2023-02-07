@@ -29,6 +29,20 @@ const FilterForm = () => {
           getOptionSubLabel={(opt) => opt?.name}
         />
       </Grid>
+      <Grid item xs={12}>
+        <Field.TextField
+          name="itemCode"
+          label={t('setStoragePeriod.itemCode')}
+          placeholder={t('setStoragePeriod.itemCode')}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <Field.TextField
+          name="itemName"
+          label={t('setStoragePeriod.itemName')}
+          placeholder={t('setStoragePeriod.itemName')}
+        />
+      </Grid>
     </Grid>
   )
 }
