@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 
 import { Box, Grid } from '@mui/material'
-import { uniq, map } from 'lodash'
+import { uniq, map, isEmpty } from 'lodash'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
@@ -11,6 +11,7 @@ import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TextField from '~/components/TextField'
+import { DATA_TYPE } from '~/modules/wmsx/constants'
 import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -144,20 +145,28 @@ const MovementWarehouseExportDetail = () => {
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('warehouseExportReceipt.typeBusiness')}
-                value={warehouseExportReceiptDetails?.businessType?.name}
+                label={t('warehouseExportReceipt.warehouseExport')}
+                value={
+                  !isEmpty(warehouseExportReceiptDetails?.warehouse)
+                    ? `${warehouseExportReceiptDetails?.warehouse?.code} - ${warehouseExportReceiptDetails?.warehouse?.name}`
+                    : ''
+                }
               />
             </Grid>
-            <Grid item lg={6} xs={12}>
+            {/* <Grid item lg={6} xs={12}>
               <LV
-                label={t('warehouseExportReceipt.exportInWarehouse')}
-                value={warehouseExportReceiptDetails?.warehouse?.name}
+                label={t('warehouseExportReceipt.accountingAccountCode')}
+                value={warehouseExportReceiptDetails?.source?.code}
               />
-            </Grid>
+            </Grid> */}
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.warehouseExportReason')}
-                value={warehouseExportReceiptDetails?.reason?.name}
+                value={
+                  !isEmpty(warehouseExportReceiptDetails?.reason)
+                    ? `${warehouseExportReceiptDetails?.reason?.code} - ${warehouseExportReceiptDetails?.reason?.name}`
+                    : ''
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -199,7 +208,21 @@ const MovementWarehouseExportDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.suorceAccountant')}
-                value={warehouseExportReceiptDetails?.source?.name}
+                value={
+                  !isEmpty(warehouseExportReceiptDetails?.source)
+                    ? `${warehouseExportReceiptDetails?.source?.code} - ${warehouseExportReceiptDetails?.source?.name}`
+                    : ''
+                }
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseExportReceipt.typeBusiness')}
+                value={
+                  !isEmpty(warehouseExportReceiptDetails?.businessType)
+                    ? `${warehouseExportReceiptDetails?.businessType?.code} - ${warehouseExportReceiptDetails?.businessType?.name}`
+                    : ''
+                }
               />
             </Grid>
             {warehouseExportReceiptDetails?.attributes?.map((item) => {
@@ -211,20 +234,47 @@ const MovementWarehouseExportDetail = () => {
                       value={
                         attributesBusinessTypeDetails[item.tableName]?.find(
                           (itemDetail) => itemDetail.id + '' === item.value,
-                        )?.name ||
+                        )?.code &&
                         attributesBusinessTypeDetails[item.tableName]?.find(
                           (itemDetail) => itemDetail.id + '' === item.value,
-                        )?.code
+                        )?.name
+                          ? `${
+                              attributesBusinessTypeDetails[
+                                item.tableName
+                              ]?.find(
+                                (itemDetail) =>
+                                  itemDetail.id + '' === item.value,
+                              )?.code
+                            } - ${
+                              attributesBusinessTypeDetails[
+                                item.tableName
+                              ]?.find(
+                                (itemDetail) =>
+                                  itemDetail.id + '' === item.value,
+                              )?.name
+                            }`
+                          : ''
                       }
                     />
                   </Grid>
                 )
               } else {
-                return (
-                  <Grid item lg={6} xs={12}>
-                    <LV label={`${item.fieldName}`} value={item.value} />
-                  </Grid>
-                )
+                if (item?.type === DATA_TYPE.DATE) {
+                  return (
+                    <Grid item lg={6} xs={12}>
+                      <LV
+                        label={`${item.fieldName}`}
+                        value={convertUtcDateToLocalTz(item.value)}
+                      />
+                    </Grid>
+                  )
+                } else {
+                  return (
+                    <Grid item lg={6} xs={12}>
+                      <LV label={`${item.fieldName}`} value={item.value} />
+                    </Grid>
+                  )
+                }
               }
             })}
             <Grid item xs={12}>

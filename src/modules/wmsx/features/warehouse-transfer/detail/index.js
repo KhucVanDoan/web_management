@@ -219,7 +219,11 @@ const WarehouseTransferDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseTransfer.businessType')}
-                value={warehouseTransferDetails?.bussinessType?.name}
+                value={
+                  !isEmpty(warehouseTransferDetails?.bussinessType)
+                    ? `${warehouseTransferDetails?.bussinessType?.code} - ${warehouseTransferDetails?.bussinessType?.name}`
+                    : ''
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -243,19 +247,31 @@ const WarehouseTransferDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseTransfer.reason')}
-                value={`${warehouseTransferDetails?.reason?.code} - ${warehouseTransferDetails?.reason?.name}`}
+                value={
+                  !isEmpty(warehouseTransferDetails?.reason)
+                    ? `${warehouseTransferDetails?.reason?.code} - ${warehouseTransferDetails?.reason?.name}`
+                    : ''
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseTransfer.warehouseImport')}
-                value={warehouseTransferDetails?.destinationWarehouse?.name}
+                value={
+                  !isEmpty(warehouseTransferDetails?.destinationWarehouse)
+                    ? `${warehouseTransferDetails?.destinationWarehouse?.code} - ${warehouseTransferDetails?.destinationWarehouse?.name}`
+                    : ''
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseTransfer.warehouseExport')}
-                value={warehouseTransferDetails?.sourceWarehouse?.name}
+                value={
+                  !isEmpty(warehouseTransferDetails?.sourceWarehouse)
+                    ? `${warehouseTransferDetails?.sourceWarehouse?.code} - ${warehouseTransferDetails?.sourceWarehouse?.name}`
+                    : ''
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -286,11 +302,27 @@ const WarehouseTransferDetail = () => {
                       label={`${item.fieldName}`}
                       value={
                         attributesBusinessTypeDetails[item.tableName]?.find(
-                          (itemDetail) => `${itemDetail.id}` === item.value,
-                        )?.name ||
+                          (itemDetail) => itemDetail.id + '' === item.value,
+                        )?.code &&
                         attributesBusinessTypeDetails[item.tableName]?.find(
-                          (itemDetail) => `${itemDetail.id}` === item.value,
-                        )?.code
+                          (itemDetail) => itemDetail.id + '' === item.value,
+                        )?.name
+                          ? `${
+                              attributesBusinessTypeDetails[
+                                item.tableName
+                              ]?.find(
+                                (itemDetail) =>
+                                  itemDetail.id + '' === item.value,
+                              )?.code
+                            } - ${
+                              attributesBusinessTypeDetails[
+                                item.tableName
+                              ]?.find(
+                                (itemDetail) =>
+                                  itemDetail.id + '' === item.value,
+                              )?.name
+                            }`
+                          : ''
                       }
                     />
                   </Grid>

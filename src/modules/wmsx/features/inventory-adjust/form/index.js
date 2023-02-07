@@ -94,14 +94,14 @@ const InventoryAdjustForm = () => {
       name: inventoryAdjustDetails?.name || '',
       type: isUpdate ? inventoryAdjustDetails?.type : '',
       departmentReceiptId: inventoryAdjustDetails?.departmentReceipt || '',
-      warehouse: inventoryAdjustDetails?.warehouse || '',
+      warehouse: inventoryAdjustDetails?.warehouse || null,
       inventoryCalendar: inventoryAdjustDetails?.inventory || '',
       receiptDate: inventoryAdjustDetails?.receiptDate
         ? new Date(inventoryAdjustDetails?.receiptDate)
         : '',
       receiptNumber: inventoryAdjustDetails?.receiptNumber || '',
-      reasonId: inventoryAdjustDetails?.reason || '',
-      sourceId: inventoryAdjustDetails?.source || '',
+      reasonId: inventoryAdjustDetails?.reason || null,
+      sourceId: inventoryAdjustDetails?.source || null,
       explanation: inventoryAdjustDetails?.explanation || '',
       attachment: inventoryAdjustDetails?.attachment || '',
       items: inventoryAdjustDetails?.items?.map((item) => ({
@@ -371,8 +371,7 @@ const InventoryAdjustForm = () => {
                           })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
-                        getOptionLabel={(opt) => opt?.code}
-                        getOptionSubLabel={(opt) => opt?.name}
+                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
                         onChange={() =>
                           setFieldValue('items', [{ ...DEFAULT_ITEM }])
                         }
@@ -456,8 +455,8 @@ const InventoryAdjustForm = () => {
                         }
                         onChange={(val) => handleChangeSource(val)}
                         asyncRequestHelper={(res) => res?.data?.items}
-                        getOptionLabel={(opt) => opt?.code}
-                        getOptionSubLabel={(opt) => opt?.name}
+                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+                        getOptionSubLabel={(opt) => opt?.accountIdentifier}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                         required
                       />
@@ -477,8 +476,7 @@ const InventoryAdjustForm = () => {
                           })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
-                        getOptionLabel={(opt) => opt?.code}
-                        getOptionSubLabel={(opt) => opt?.name}
+                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                         required
                       />

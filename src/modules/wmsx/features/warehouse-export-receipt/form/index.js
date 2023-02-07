@@ -102,10 +102,10 @@ function WarehouseExportReceiptForm() {
           }
         : null,
       departmentReceiptId:
-        warehouseExportReceiptDetails?.departmentReceipt || '',
-      warehouseId: warehouseExportReceiptDetails?.warehouse || '',
-      reasonId: warehouseExportReceiptDetails?.reason || '',
-      sourceId: warehouseExportReceiptDetails?.source || '',
+        warehouseExportReceiptDetails?.departmentReceipt || null,
+      warehouseId: warehouseExportReceiptDetails?.warehouse || null,
+      reasonId: warehouseExportReceiptDetails?.reason || null,
+      sourceId: warehouseExportReceiptDetails?.source || null,
       explanation:
         warehouseExportReceiptDetails?.explaination ||
         `${t(
@@ -166,7 +166,7 @@ function WarehouseExportReceiptForm() {
         item.tableName
       ]?.find((itemDetail) => itemDetail.id + '' === item.value)
     } else {
-      initialValues[`${item.id}`] = item.value || ''
+      initialValues[`${item.id}`] = item.value || null
     }
   })
 
@@ -471,7 +471,7 @@ function WarehouseExportReceiptForm() {
     if (!isEmpty(val)) {
       val?.bussinessTypeAttributes?.forEach((item) => {
         if (!isNil(item?.id)) {
-          setFieldValue(item?.id, '')
+          setFieldValue(item?.id, null)
         }
       })
     }
@@ -650,8 +650,7 @@ function WarehouseExportReceiptForm() {
                           handleChangeBusinessType(val, setFieldValue, values)
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
-                        getOptionLabel={(opt) => opt?.code}
-                        getOptionSubLabel={(opt) => opt?.name}
+                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                         required
                       />
@@ -673,8 +672,8 @@ function WarehouseExportReceiptForm() {
                           })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
-                        getOptionLabel={(opt) => opt?.code}
-                        getOptionSubLabel={(opt) => opt?.name}
+                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+                        getOptionSubLabel={(opt) => opt?.accountIdentifier}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                         onChange={(val) => handleChangeSource(val)}
                         required
@@ -689,7 +688,10 @@ function WarehouseExportReceiptForm() {
                             'warehouseExportReceipt.warehouseExport',
                           )}
                           options={warehouseList}
-                          getOptionLabel={(opt) => opt?.name}
+                          g
+                          getOptionLabel={(opt) =>
+                            `${opt?.code} - ${opt?.name}`
+                          }
                           onChange={(val) =>
                             handleChangeWarehouse(val, setFieldValue, values)
                           }
@@ -716,9 +718,10 @@ function WarehouseExportReceiptForm() {
                             })
                           }
                           asyncRequestHelper={(res) => res?.data?.items}
-                          getOptionLabel={(opt) => opt?.code}
                           disabled={values[warehouseImportReceipt]}
-                          getOptionSubLabel={(opt) => opt?.name}
+                          getOptionLabel={(opt) =>
+                            `${opt?.code} - ${opt?.name}`
+                          }
                           isOptionEqualToValue={(opt, val) =>
                             opt?.id === val?.id
                           }
@@ -748,8 +751,7 @@ function WarehouseExportReceiptForm() {
                           })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
-                        getOptionLabel={(opt) => opt?.code}
-                        getOptionSubLabel={(opt) => opt?.name}
+                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                         required
                       />

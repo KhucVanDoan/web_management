@@ -107,9 +107,9 @@ function WarehouseImportReceiptForm() {
       attachment: warehouseImportReceiptDetails?.attachment || '',
       departmentReceiptId:
         warehouseImportReceiptDetails?.departmentReceipt || '',
-      warehouse: warehouseImportReceiptDetails?.warehouse || '',
-      reasonId: warehouseImportReceiptDetails?.reason || '',
-      sourceId: warehouseImportReceiptDetails?.source || '',
+      warehouse: warehouseImportReceiptDetails?.warehouse || null,
+      reasonId: warehouseImportReceiptDetails?.reason || null,
+      sourceId: warehouseImportReceiptDetails?.source || null,
       explaination:
         warehouseImportReceiptDetails?.explanation ||
         `${t(
@@ -153,9 +153,9 @@ function WarehouseImportReceiptForm() {
         ? attributesBusinessTypeDetails[item.tableName]?.find(
             (itemDetail) => `${itemDetail.id}` === item.value,
           )
-        : ''
+        : null
     } else {
-      initialValues[`${item?.id}`] = item.value ? item.value : ''
+      initialValues[`${item?.id}`] = item.value ? item.value : null
     }
   })
   const getBreadcrumb = () => {
@@ -424,7 +424,7 @@ function WarehouseImportReceiptForm() {
     if (!isEmpty(val)) {
       val?.bussinessTypeAttributes?.forEach((item) => {
         if (!isNil(item?.id)) {
-          setFieldValue(item?.id, '')
+          setFieldValue(item?.id, null)
         }
       })
     }
@@ -648,8 +648,7 @@ function WarehouseImportReceiptForm() {
                           })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
-                        getOptionLabel={(opt) => opt?.code}
-                        getOptionSubLabel={(opt) => opt?.name}
+                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
                         onChange={(val) =>
                           handleChangeBusinessType(val, setFieldValue, values)
                         }
@@ -673,9 +672,8 @@ function WarehouseImportReceiptForm() {
                           })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
-                        getOptionLabel={(opt) => opt?.code}
+                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
                         disabled={values[receiptRequired]}
-                        getOptionSubLabel={(opt) => opt?.name}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                         onChange={() =>
                           setFieldValue('items', [{ ...DEFAULT_ITEMS }])
@@ -698,8 +696,7 @@ function WarehouseImportReceiptForm() {
                           })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
-                        getOptionLabel={(opt) => opt?.code}
-                        getOptionSubLabel={(opt) => opt?.name}
+                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                         required
                       />
@@ -719,8 +716,8 @@ function WarehouseImportReceiptForm() {
                           })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
-                        getOptionLabel={(opt) => opt?.code}
-                        getOptionSubLabel={(opt) => opt?.name}
+                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+                        getOptionSubLabel={(opt) => opt?.accountIdentifier}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                         onChange={(val) => handleChangeSource(val)}
                         required

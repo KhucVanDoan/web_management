@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import { Box, Grid } from '@mui/material'
-import { uniq, map } from 'lodash'
+import { uniq, map, isEmpty } from 'lodash'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
@@ -128,20 +128,23 @@ const MovementExportDetail = ({ breadcrumbs, onBack }) => {
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('warehouseExportReceipt.typeBusiness')}
-                value={receiptDetail.businessType?.name}
+                label={t('warehouseExportReceipt.warehouseExport')}
+                value={
+                  !isEmpty(receiptDetail?.warehouse)
+                    ? `${receiptDetail?.warehouse?.code} - ${receiptDetail?.warehouse?.name}`
+                    : ''
+                }
               />
             </Grid>
-            <Grid item lg={6} xs={12}>
-              <LV
-                label={t('warehouseExportReceipt.exportInWarehouse')}
-                value={receiptDetail.warehouse?.name}
-              />
-            </Grid>
+
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.warehouseExportReason')}
-                value={receiptDetail.reason?.name}
+                value={
+                  !isEmpty(receiptDetail?.reason)
+                    ? `${receiptDetail?.reason?.code} - ${receiptDetail?.reason?.name}`
+                    : ''
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -183,7 +186,21 @@ const MovementExportDetail = ({ breadcrumbs, onBack }) => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.suorceAccountant')}
-                value={receiptDetail.source?.name}
+                value={
+                  !isEmpty(receiptDetail?.source)
+                    ? `${receiptDetail?.source?.code} - ${receiptDetail?.source?.name}`
+                    : ''
+                }
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseExportReceipt.typeBusiness')}
+                value={
+                  !isEmpty(receiptDetail?.businessType)
+                    ? `${receiptDetail?.businessType?.code} - ${receiptDetail?.businessType?.name}`
+                    : ''
+                }
               />
             </Grid>
             {receiptDetail?.attributes?.map((item) => {
@@ -194,11 +211,27 @@ const MovementExportDetail = ({ breadcrumbs, onBack }) => {
                       label={`${item.fieldName}`}
                       value={
                         attributesBusinessTypeDetails[item.tableName]?.find(
-                          (itemDetail) => `${itemDetail.id}` === item.value,
-                        )?.name ||
+                          (itemDetail) => itemDetail.id + '' === item.value,
+                        )?.code &&
                         attributesBusinessTypeDetails[item.tableName]?.find(
-                          (itemDetail) => `${itemDetail.id}` === item.value,
-                        )?.code
+                          (itemDetail) => itemDetail.id + '' === item.value,
+                        )?.name
+                          ? `${
+                              attributesBusinessTypeDetails[
+                                item.tableName
+                              ]?.find(
+                                (itemDetail) =>
+                                  itemDetail.id + '' === item.value,
+                              )?.code
+                            } - ${
+                              attributesBusinessTypeDetails[
+                                item.tableName
+                              ]?.find(
+                                (itemDetail) =>
+                                  itemDetail.id + '' === item.value,
+                              )?.name
+                            }`
+                          : ''
                       }
                     />
                   </Grid>
