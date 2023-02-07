@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import { Box, Grid } from '@mui/material'
-import { uniq, map } from 'lodash'
+import { uniq, map, isEmpty } from 'lodash'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
@@ -129,7 +129,11 @@ const MovementTransferDetail = ({ breadcrumbs, onBack }) => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseTransfer.businessType')}
-                value={receiptDetail?.bussinessType?.name}
+                value={
+                  !isEmpty(receiptDetail?.bussinessType)
+                    ? `${receiptDetail?.bussinessType?.code} - ${receiptDetail?.bussinessType?.name}`
+                    : ''
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -141,31 +145,47 @@ const MovementTransferDetail = ({ breadcrumbs, onBack }) => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseTransfer.source')}
-                value={receiptDetail?.source?.name}
+                value={
+                  !isEmpty(receiptDetail?.source)
+                    ? `${receiptDetail?.source?.code} - ${receiptDetail?.source?.name}`
+                    : ''
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseTransfer.reason')}
-                value={receiptDetail?.reason?.name}
+                value={
+                  !isEmpty(receiptDetail?.reason)
+                    ? `${receiptDetail?.reason?.code} - ${receiptDetail?.reason?.name}`
+                    : ''
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseTransfer.warehouseImport')}
-                value={receiptDetail?.destinationWarehouse?.name}
+                value={
+                  !isEmpty(receiptDetail?.destinationWarehouse)
+                    ? `${receiptDetail?.destinationWarehouse?.code} - ${receiptDetail?.destinationWarehouse?.name}`
+                    : ''
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseTransfer.warehouseExport')}
-                value={receiptDetail?.sourceWarehouse?.name}
+                value={
+                  !isEmpty(receiptDetail?.sourceWarehouse)
+                    ? `${receiptDetail?.sourceWarehouse?.code} - ${receiptDetail?.sourceWarehouse?.name}`
+                    : ''
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseTransfer.createdAt')}
-                value={convertUtcDateToLocalTz(receiptDetail?.createdAt)}
+                value={convertUtcDateToLocalTz(receiptDetail?.receiptDate)}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -188,11 +208,27 @@ const MovementTransferDetail = ({ breadcrumbs, onBack }) => {
                       label={`${item.fieldName}`}
                       value={
                         attributesBusinessTypeDetails[item.tableName]?.find(
-                          (itemDetail) => `${itemDetail.id}` === item.value,
-                        )?.name ||
+                          (itemDetail) => itemDetail.id + '' === item.value,
+                        )?.code &&
                         attributesBusinessTypeDetails[item.tableName]?.find(
-                          (itemDetail) => `${itemDetail.id}` === item.value,
-                        )?.code
+                          (itemDetail) => itemDetail.id + '' === item.value,
+                        )?.name
+                          ? `${
+                              attributesBusinessTypeDetails[
+                                item.tableName
+                              ]?.find(
+                                (itemDetail) =>
+                                  itemDetail.id + '' === item.value,
+                              )?.code
+                            } - ${
+                              attributesBusinessTypeDetails[
+                                item.tableName
+                              ]?.find(
+                                (itemDetail) =>
+                                  itemDetail.id + '' === item.value,
+                              )?.name
+                            }`
+                          : ''
                       }
                     />
                   </Grid>

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 
 import { Box, Grid } from '@mui/material'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
@@ -137,7 +138,11 @@ const InventoryAdjustDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('inventoryAdjust.warehouse')}
-                value={inventoryAdjustDetails?.warehouse?.name}
+                value={
+                  !isEmpty(inventoryAdjustDetails?.warehouse)
+                    ? `${inventoryAdjustDetails?.warehouse?.code} - ${inventoryAdjustDetails?.warehouse?.name}`
+                    : ''
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -169,13 +174,21 @@ const InventoryAdjustDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('inventoryAdjust.source')}
-                value={inventoryAdjustDetails?.source?.name}
+                value={
+                  !isEmpty(inventoryAdjustDetails?.source)
+                    ? `${inventoryAdjustDetails?.source?.code} - ${inventoryAdjustDetails?.source?.name}`
+                    : ''
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('inventoryAdjust.reason')}
-                value={inventoryAdjustDetails?.reason?.name}
+                value={
+                  !isEmpty(inventoryAdjustDetails?.reason)
+                    ? `${inventoryAdjustDetails?.reason?.code} - ${inventoryAdjustDetails?.reason?.name}`
+                    : ''
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>

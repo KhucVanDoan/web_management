@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import { Box, Grid } from '@mui/material'
-import { uniq, map } from 'lodash'
+import { uniq, map, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
@@ -10,6 +10,7 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TextField from '~/components/TextField'
 import {
+  DATA_TYPE,
   MOVEMENT_TYPE,
   MOVEMENT_TYPE_MAP,
   WAREHOUSE_TRANSFER_MAP,
@@ -144,8 +145,26 @@ const WarehouseExportDetail = () => {
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
+                label={t('warehouseExportReceipt.warehouseExport')}
+                value={
+                  !isEmpty(
+                    receiptDetail?.warehouse ||
+                      receiptDetail?.destinationWarehouse?.name,
+                  )
+                    ? `${receiptDetail?.warehouse?.code} - ${receiptDetail?.warehouse?.name}` ||
+                      `${receiptDetail?.destinationWarehouse?.code} - ${receiptDetail?.destinationWarehouse?.name}`
+                    : ''
+                }
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
                 label={t('warehouseExportReceipt.warehouseExportReason')}
-                value={receiptDetail?.reason?.name}
+                value={
+                  !isEmpty(receiptDetail?.reason)
+                    ? `${receiptDetail?.reason?.code} - ${receiptDetail?.reason?.name}`
+                    : ''
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -187,7 +206,21 @@ const WarehouseExportDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.suorceAccountant')}
-                value={receiptDetail.source?.name}
+                value={
+                  !isEmpty(receiptDetail?.source)
+                    ? `${receiptDetail?.source?.code} - ${receiptDetail?.source?.name}`
+                    : ''
+                }
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseExportReceipt.typeBusiness')}
+                value={
+                  !isEmpty(receiptDetail?.businessType)
+                    ? `${receiptDetail?.businessType?.code} - ${receiptDetail?.businessType?.name}`
+                    : ''
+                }
               />
             </Grid>
             {receiptDetail?.attributes?.map((item) => {
@@ -198,21 +231,48 @@ const WarehouseExportDetail = () => {
                       label={`${item.fieldName}`}
                       value={
                         attributesBusinessTypeDetails[item.tableName]?.find(
-                          (itemDetail) => itemDetail?.id + '' === item?.value,
-                        )?.name ||
+                          (itemDetail) => itemDetail.id + '' === item.value,
+                        )?.code &&
                         attributesBusinessTypeDetails[item.tableName]?.find(
-                          (itemDetail) => itemDetail?.id + '' === item?.value,
-                        )?.code
+                          (itemDetail) => itemDetail.id + '' === item.value,
+                        )?.name
+                          ? `${
+                              attributesBusinessTypeDetails[
+                                item.tableName
+                              ]?.find(
+                                (itemDetail) =>
+                                  itemDetail.id + '' === item.value,
+                              )?.code
+                            } - ${
+                              attributesBusinessTypeDetails[
+                                item.tableName
+                              ]?.find(
+                                (itemDetail) =>
+                                  itemDetail.id + '' === item.value,
+                              )?.name
+                            }`
+                          : ''
                       }
                     />
                   </Grid>
                 )
               } else {
-                return (
-                  <Grid item lg={6} xs={12}>
-                    <LV label={`${item.fieldName}`} value={item.value} />
-                  </Grid>
-                )
+                if (item?.type === DATA_TYPE.DATE) {
+                  return (
+                    <Grid item lg={6} xs={12}>
+                      <LV
+                        label={`${item.fieldName}`}
+                        value={convertUtcDateToLocalTz(item.value)}
+                      />
+                    </Grid>
+                  )
+                } else {
+                  return (
+                    <Grid item lg={6} xs={12}>
+                      <LV label={`${item.fieldName}`} value={item.value} />
+                    </Grid>
+                  )
+                }
               }
             })}
             <Grid item xs={12}>
@@ -250,7 +310,11 @@ const WarehouseExportDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseTransfer.businessType')}
-                value={receiptDetail?.bussinessType?.name}
+                value={
+                  !isEmpty(receiptDetail?.bussinessType)
+                    ? `${receiptDetail?.bussinessType?.code} - ${receiptDetail?.bussinessType?.name}`
+                    : ''
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -262,25 +326,41 @@ const WarehouseExportDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseTransfer.source')}
-                value={`${receiptDetail?.source?.code} - ${receiptDetail?.source?.name}`}
+                value={
+                  !isEmpty(receiptDetail?.source)
+                    ? `${receiptDetail?.source?.code} - ${receiptDetail?.source?.name}`
+                    : ''
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseTransfer.reason')}
-                value={`${receiptDetail?.reason?.code} - ${receiptDetail?.reason?.name}`}
+                value={
+                  !isEmpty(receiptDetail?.reason)
+                    ? `${receiptDetail?.reason?.code} - ${receiptDetail?.reason?.name}`
+                    : ''
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseTransfer.warehouseImport')}
-                value={receiptDetail?.destinationWarehouse?.name}
+                value={
+                  !isEmpty(receiptDetail?.destinationWarehouse)
+                    ? `${receiptDetail?.destinationWarehouse?.code} - ${receiptDetail?.destinationWarehouse?.name}`
+                    : ''
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseTransfer.warehouseExport')}
-                value={receiptDetail?.sourceWarehouse?.name}
+                value={
+                  !isEmpty(receiptDetail?.sourceWarehouse)
+                    ? `${receiptDetail?.sourceWarehouse?.code} - ${receiptDetail?.sourceWarehouse?.name}`
+                    : ''
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -308,22 +388,49 @@ const WarehouseExportDetail = () => {
                     <LV
                       label={`${item.fieldName}`}
                       value={
-                        attributesBusinessTypeDetails[item?.tableName]?.find(
-                          (itemDetail) => itemDetail?.id + '' === item?.value,
-                        )?.name ||
-                        attributesBusinessTypeDetails[item?.tableName]?.find(
-                          (itemDetail) => itemDetail?.id + '' === item?.value,
-                        )?.code
+                        attributesBusinessTypeDetails[item.tableName]?.find(
+                          (itemDetail) => itemDetail.id + '' === item.value,
+                        )?.code &&
+                        attributesBusinessTypeDetails[item.tableName]?.find(
+                          (itemDetail) => itemDetail.id + '' === item.value,
+                        )?.name
+                          ? `${
+                              attributesBusinessTypeDetails[
+                                item.tableName
+                              ]?.find(
+                                (itemDetail) =>
+                                  itemDetail.id + '' === item.value,
+                              )?.code
+                            } - ${
+                              attributesBusinessTypeDetails[
+                                item.tableName
+                              ]?.find(
+                                (itemDetail) =>
+                                  itemDetail.id + '' === item.value,
+                              )?.name
+                            }`
+                          : ''
                       }
                     />
                   </Grid>
                 )
               } else {
-                return (
-                  <Grid item lg={6} xs={12}>
-                    <LV label={`${item.fieldName}`} value={item.value} />
-                  </Grid>
-                )
+                if (item?.type === DATA_TYPE.DATE) {
+                  return (
+                    <Grid item lg={6} xs={12}>
+                      <LV
+                        label={`${item.fieldName}`}
+                        value={convertUtcDateToLocalTz(item.value)}
+                      />
+                    </Grid>
+                  )
+                } else {
+                  return (
+                    <Grid item lg={6} xs={12}>
+                      <LV label={`${item.fieldName}`} value={item.value} />
+                    </Grid>
+                  )
+                }
               }
             })}
             <Grid item xs={12}>

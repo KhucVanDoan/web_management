@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 
 import { Box, Grid } from '@mui/material'
-import { uniq, map } from 'lodash'
+import { uniq, map, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
@@ -228,25 +228,41 @@ function WarehouseImportReceiptDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseImportReceipt.expenditureType')}
-                value={warehouseImportReceiptDetails.businessType?.name}
+                value={
+                  !isEmpty(warehouseImportReceiptDetails.businessType)
+                    ? `${warehouseImportReceiptDetails.businessType?.code} - ${warehouseImportReceiptDetails.businessType?.name}`
+                    : ''
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseImportReceipt.warehouse')}
-                value={warehouseImportReceiptDetails.warehouse?.name}
+                value={
+                  !isEmpty(warehouseImportReceiptDetails.warehouse)
+                    ? `${warehouseImportReceiptDetails.warehouse?.code} - ${warehouseImportReceiptDetails.warehouse?.name}`
+                    : ''
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseImportReceipt.reason')}
-                value={warehouseImportReceiptDetails.reason?.name}
+                value={
+                  !isEmpty(warehouseImportReceiptDetails.reason)
+                    ? `${warehouseImportReceiptDetails.reason?.code} - ${warehouseImportReceiptDetails.reason?.name}`
+                    : ''
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseImportReceipt.source')}
-                value={warehouseImportReceiptDetails.source?.name}
+                value={
+                  !isEmpty(warehouseImportReceiptDetails.source)
+                    ? `${warehouseImportReceiptDetails.source?.code} - ${warehouseImportReceiptDetails.source?.name}`
+                    : ''
+                }
               />
             </Grid>
             {receiptRequired && (
@@ -283,11 +299,27 @@ function WarehouseImportReceiptDetail() {
                         label={`${item.fieldName}`}
                         value={
                           attributesBusinessTypeDetails[item.tableName]?.find(
-                            (itemDetail) => `${itemDetail.id}` === item.value,
-                          )?.name ||
+                            (itemDetail) => itemDetail.id + '' === item.value,
+                          )?.code &&
                           attributesBusinessTypeDetails[item.tableName]?.find(
-                            (itemDetail) => `${itemDetail.id}` === item.value,
-                          )?.code
+                            (itemDetail) => itemDetail.id + '' === item.value,
+                          )?.name
+                            ? `${
+                                attributesBusinessTypeDetails[
+                                  item.tableName
+                                ]?.find(
+                                  (itemDetail) =>
+                                    itemDetail.id + '' === item.value,
+                                )?.code
+                              } - ${
+                                attributesBusinessTypeDetails[
+                                  item.tableName
+                                ]?.find(
+                                  (itemDetail) =>
+                                    itemDetail.id + '' === item.value,
+                                )?.name
+                              }`
+                            : ''
                         }
                       />
                     </Grid>
