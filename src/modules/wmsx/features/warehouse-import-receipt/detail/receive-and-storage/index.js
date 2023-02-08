@@ -334,6 +334,25 @@ function WarehouseImportReceiveAndStorage() {
                               />
                             </Grid>
                           )
+                        } else if (
+                          item?.tableName ===
+                          TABLE_NAME_ENUM.ORGANIZATION_PAYMENT
+                        ) {
+                          return (
+                            <Grid item lg={6} xs={12}>
+                              <LV
+                                label={`${item.fieldName}`}
+                                value={
+                                  attributesBusinessTypeDetails[
+                                    item.tableName
+                                  ]?.find(
+                                    (itemDetail) =>
+                                      `${itemDetail.id}` === item.value,
+                                  )?.name
+                                }
+                              />
+                            </Grid>
+                          )
                         } else {
                           return (
                             <Grid item lg={6} xs={12}>

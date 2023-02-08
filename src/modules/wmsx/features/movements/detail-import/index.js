@@ -152,6 +152,16 @@ const MovementImportDetail = ({ breadcrumbs, onBack }) => {
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
+                label={t('warehouseImportReceipt.departmentReceipt')}
+                value={
+                  !isEmpty(receiptDetail?.departmentReceipt)
+                    ? `${receiptDetail?.departmentReceipt?.code} - ${receiptDetail?.departmentReceipt?.name}`
+                    : ''
+                }
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
                 label={t('warehouseImportReceipt.expenditureType')}
                 value={
                   !isEmpty(receiptDetail.businessType)
@@ -213,6 +223,21 @@ const MovementImportDetail = ({ breadcrumbs, onBack }) => {
                             (itemDetail) => `${itemDetail.id}` === item.value,
                           )?.receiptNumber ||
                           receiptDetail?.receiptNumber
+                        }
+                      />
+                    </Grid>
+                  )
+                } else if (
+                  item?.tableName === TABLE_NAME_ENUM.ORGANIZATION_PAYMENT
+                ) {
+                  return (
+                    <Grid item lg={6} xs={12}>
+                      <LV
+                        label={`${item.fieldName}`}
+                        value={
+                          attributesBusinessTypeDetails[item.tableName]?.find(
+                            (itemDetail) => `${itemDetail.id}` === item.value,
+                          )?.name
                         }
                       />
                     </Grid>

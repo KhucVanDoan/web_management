@@ -222,7 +222,11 @@ function WarehouseImportReceiptDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseImportReceipt.departmentReceipt')}
-                value={warehouseImportReceiptDetails?.departmentReceipt?.name}
+                value={
+                  !isEmpty(warehouseImportReceiptDetails?.departmentReceipt)
+                    ? `${warehouseImportReceiptDetails?.departmentReceipt?.code} - ${warehouseImportReceiptDetails?.departmentReceipt?.name}`
+                    : ''
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -288,6 +292,21 @@ function WarehouseImportReceiptDetail() {
                             (itemDetail) => `${itemDetail.id}` === item.value,
                           )?.receiptNumber ||
                           warehouseImportReceiptDetails?.receiptNumber
+                        }
+                      />
+                    </Grid>
+                  )
+                } else if (
+                  item?.tableName === TABLE_NAME_ENUM.ORGANIZATION_PAYMENT
+                ) {
+                  return (
+                    <Grid item lg={6} xs={12}>
+                      <LV
+                        label={`${item.fieldName}`}
+                        value={
+                          attributesBusinessTypeDetails[item.tableName]?.find(
+                            (itemDetail) => `${itemDetail.id}` === item.value,
+                          )?.name
                         }
                       />
                     </Grid>

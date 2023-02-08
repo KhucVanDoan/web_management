@@ -17,6 +17,7 @@ import Status from '~/components/Status'
 import TextField from '~/components/TextField'
 import {
   DATA_TYPE,
+  TABLE_NAME_ENUM,
   TRANSFER_STATUS,
   TRANSFER_STATUS_OPTIONS,
   WAREHOUSE_TRANSFER_MAP,
@@ -296,37 +297,52 @@ const WarehouseTransferDetail = () => {
             </Grid>
             {warehouseTransferDetails?.attributes?.map((item) => {
               if (item.tableName) {
-                return (
-                  <Grid item lg={6} xs={12}>
-                    <LV
-                      label={`${item.fieldName}`}
-                      value={
-                        attributesBusinessTypeDetails[item.tableName]?.find(
-                          (itemDetail) => itemDetail.id + '' === item.value,
-                        )?.code &&
-                        attributesBusinessTypeDetails[item.tableName]?.find(
-                          (itemDetail) => itemDetail.id + '' === item.value,
-                        )?.name
-                          ? `${
-                              attributesBusinessTypeDetails[
-                                item.tableName
-                              ]?.find(
-                                (itemDetail) =>
-                                  itemDetail.id + '' === item.value,
-                              )?.code
-                            } - ${
-                              attributesBusinessTypeDetails[
-                                item.tableName
-                              ]?.find(
-                                (itemDetail) =>
-                                  itemDetail.id + '' === item.value,
-                              )?.name
-                            }`
-                          : ''
-                      }
-                    />
-                  </Grid>
-                )
+                if (item?.tableName === TABLE_NAME_ENUM.ORGANIZATION_PAYMENT) {
+                  return (
+                    <Grid item lg={6} xs={12}>
+                      <LV
+                        label={`${item.fieldName}`}
+                        value={
+                          attributesBusinessTypeDetails[item.tableName]?.find(
+                            (itemDetail) => `${itemDetail.id}` === item.value,
+                          )?.name
+                        }
+                      />
+                    </Grid>
+                  )
+                } else {
+                  return (
+                    <Grid item lg={6} xs={12}>
+                      <LV
+                        label={`${item.fieldName}`}
+                        value={
+                          attributesBusinessTypeDetails[item.tableName]?.find(
+                            (itemDetail) => itemDetail.id + '' === item.value,
+                          )?.code &&
+                          attributesBusinessTypeDetails[item.tableName]?.find(
+                            (itemDetail) => itemDetail.id + '' === item.value,
+                          )?.name
+                            ? `${
+                                attributesBusinessTypeDetails[
+                                  item.tableName
+                                ]?.find(
+                                  (itemDetail) =>
+                                    itemDetail.id + '' === item.value,
+                                )?.code
+                              } - ${
+                                attributesBusinessTypeDetails[
+                                  item.tableName
+                                ]?.find(
+                                  (itemDetail) =>
+                                    itemDetail.id + '' === item.value,
+                                )?.name
+                              }`
+                            : ''
+                        }
+                      />
+                    </Grid>
+                  )
+                }
               } else {
                 if (item?.type === DATA_TYPE.DATE) {
                   return (
