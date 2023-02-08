@@ -16,6 +16,7 @@ import {
   ORDER_STATUS_OPTIONS,
   MOVEMENT_TYPE,
   DATA_TYPE,
+  TABLE_NAME_ENUM,
 } from '~/modules/wmsx/constants'
 import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
@@ -189,7 +190,11 @@ function WarehouseExportReceiptPickAndExport() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.departmentReception')}
-                value={warehouseExportReceiptDetails?.departmentReceipt?.name}
+                value={
+                  !isEmpty(warehouseExportReceiptDetails?.departmentReceipt)
+                    ? `${warehouseExportReceiptDetails?.departmentReceipt?.code} - ${warehouseExportReceiptDetails?.departmentReceipt?.name}`
+                    : ''
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -276,37 +281,52 @@ function WarehouseExportReceiptPickAndExport() {
             </Grid>
             {warehouseExportReceiptDetails?.attributes?.map((item) => {
               if (item.tableName) {
-                return (
-                  <Grid item lg={6} xs={12}>
-                    <LV
-                      label={`${item.fieldName}`}
-                      value={
-                        attributesBusinessTypeDetails[item.tableName]?.find(
-                          (itemDetail) => itemDetail.id + '' === item.value,
-                        )?.code &&
-                        attributesBusinessTypeDetails[item.tableName]?.find(
-                          (itemDetail) => itemDetail.id + '' === item.value,
-                        )?.name
-                          ? `${
-                              attributesBusinessTypeDetails[
-                                item.tableName
-                              ]?.find(
-                                (itemDetail) =>
-                                  itemDetail.id + '' === item.value,
-                              )?.code
-                            } - ${
-                              attributesBusinessTypeDetails[
-                                item.tableName
-                              ]?.find(
-                                (itemDetail) =>
-                                  itemDetail.id + '' === item.value,
-                              )?.name
-                            }`
-                          : ''
-                      }
-                    />
-                  </Grid>
-                )
+                if (item?.tableName === TABLE_NAME_ENUM.ORGANIZATION_PAYMENT) {
+                  return (
+                    <Grid item lg={6} xs={12}>
+                      <LV
+                        label={`${item.fieldName}`}
+                        value={
+                          attributesBusinessTypeDetails[item.tableName]?.find(
+                            (itemDetail) => `${itemDetail.id}` === item.value,
+                          )?.name
+                        }
+                      />
+                    </Grid>
+                  )
+                } else {
+                  return (
+                    <Grid item lg={6} xs={12}>
+                      <LV
+                        label={`${item.fieldName}`}
+                        value={
+                          attributesBusinessTypeDetails[item.tableName]?.find(
+                            (itemDetail) => itemDetail.id + '' === item.value,
+                          )?.code &&
+                          attributesBusinessTypeDetails[item.tableName]?.find(
+                            (itemDetail) => itemDetail.id + '' === item.value,
+                          )?.name
+                            ? `${
+                                attributesBusinessTypeDetails[
+                                  item.tableName
+                                ]?.find(
+                                  (itemDetail) =>
+                                    itemDetail.id + '' === item.value,
+                                )?.code
+                              } - ${
+                                attributesBusinessTypeDetails[
+                                  item.tableName
+                                ]?.find(
+                                  (itemDetail) =>
+                                    itemDetail.id + '' === item.value,
+                                )?.name
+                              }`
+                            : ''
+                        }
+                      />
+                    </Grid>
+                  )
+                }
               } else {
                 if (item?.type === DATA_TYPE.DATE) {
                   return (
