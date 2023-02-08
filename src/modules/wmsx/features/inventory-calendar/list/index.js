@@ -29,6 +29,7 @@ import {
   convertFilterParams,
   convertSortParams,
   convertUtcDateToLocalTz,
+  getLocalItem,
 } from '~/utils'
 
 import FilterForm from './filter-form'
@@ -49,7 +50,7 @@ function InventoryCalendar() {
     data: { inventoryCalendarList, total, isLoading },
     actions,
   } = useInventoryCalendar()
-
+  const loggedInUserInfo = getLocalItem('userInfo')
   const [tempItem, setTempItem] = useState(null)
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
@@ -225,7 +226,6 @@ function InventoryCalendar() {
       },
     },
   ]
-
   const refreshData = () => {
     const params = {
       keyword: keyword.trim(),
@@ -239,7 +239,9 @@ function InventoryCalendar() {
         columns,
       ),
       sort: convertSortParams(sort),
+      excuteByUserId: loggedInUserInfo.id,
     }
+
     actions.searchInventoryCalendars(params)
   }
 
