@@ -2282,10 +2282,12 @@ export const TYPE_TRANSACTION_DATA_SYNC = {
   PO_IMPORT: 'Phiếu nhập kho',
   SO_EXPORT: 'Phiếu xuất kho',
   TRANSACTION: 'Giao dịch',
-  LOCATION: 'Vị trí',
-  LOCATION_ITEM: 'Vị trí-Vật tư',
 }
 export const TYPE_TRANSACTION_DATA_SYNC_OPTION = [
+  {
+    value: TYPE_TRANSACTION_DATA_SYNC.PO_IMPORT,
+    text: 'dataSyncManagement.warehouseImportReceipt',
+  },
   {
     value: TYPE_TRANSACTION_DATA_SYNC.SO_EXPORT,
     text: 'dataSyncManagement.warehouseExportReceipt',

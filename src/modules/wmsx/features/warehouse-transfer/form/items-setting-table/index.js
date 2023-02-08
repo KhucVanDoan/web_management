@@ -136,7 +136,8 @@ const ItemSettingTable = (props) => {
         (item) =>
           item?.itemId ===
             (payload?.row?.itemCode?.id || payload?.row?.itemCode?.itemId) &&
-          item?.lotNumber === val,
+          new Date(item?.storageDate)?.toISOString() ===
+            new Date(val)?.toISOString(),
       )
       setFieldValue(
         `items[${index}].planExportedQuantity`,
@@ -189,6 +190,32 @@ const ItemSettingTable = (props) => {
               (payload?.row?.itemCode?.id || payload?.row?.itemCode?.itemId) &&
             e?.locatorId === val?.locatorId,
         )
+      setFieldValue(
+        `items[${index}].planExportedQuantity`,
+        planExportedQuantity?.quantity,
+      )
+    }
+  }
+  const handleChangeStorageDate = async (val, index, payload) => {
+    setFieldValue('planExportedQuantity', '')
+    const params = {
+      items: [
+        {
+          itemId: payload?.row?.itemCode?.id || payload?.row?.itemCode?.itemId,
+          warehouseId: values?.sourceWarehouseId?.id,
+          lotNumber: payload?.row?.lotNumber || null,
+          locatorId: val?.id || null,
+          storageDate: val,
+        },
+      ],
+    }
+    if (val) {
+      const res = await getItemWarehouseStockAvailableApi(params)
+      const planExportedQuantity = res?.data?.find(
+        (item) =>
+          item?.itemId ===
+          (payload?.row?.itemCode?.id || payload?.row?.itemCode?.itemId),
+      )
       setFieldValue(
         `items[${index}].planExportedQuantity`,
         planExportedQuantity?.quantity,
@@ -379,6 +406,7 @@ const ItemSettingTable = (props) => {
               isOptionEqualToValue={(opt, val) => opt?.storageDate === val}
               getOptionValue={(option) => option?.storageDate}
               disabled={isEmpty(params?.row?.locator)}
+              onChange={(val) => handleChangeStorageDate(val, index, params)}
               validate={(val) => {
                 if (
                   values?.type ===

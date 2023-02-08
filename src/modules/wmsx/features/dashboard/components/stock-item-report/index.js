@@ -42,11 +42,11 @@ const StockItemReport = () => {
   const data = [
     {
       type: 'Giá trị VT bị giữ (VNĐ)',
-      value: Number(itemGroupStockSummary?.totalItemStockAvaiable),
+      value: Number(itemGroupStockSummary?.totalItemPlanningAmount),
     },
     {
       type: 'Giá trị VT có thể xuất (VNĐ)) ',
-      value: Number(itemGroupStockSummary?.totalItemPlanning),
+      value: Number(itemGroupStockSummary?.totalItemStockAmount),
     },
   ]
 
@@ -84,14 +84,14 @@ const StockItemReport = () => {
                   datum.value,
                   2,
                 )} VNĐ | ${convertNumberWithThousandSeparator(
-                  itemGroupStockSummary?.totalItemStockAmount,
+                  itemGroupStockSummary?.totalItemPlanning,
                   2,
                 )}`
               : `${convertNumberWithThousandSeparator(
                   datum.value,
                   2,
                 )} VNĐ | ${convertNumberWithThousandSeparator(
-                  itemGroupStockSummary?.totalItemPlanningAmount,
+                  itemGroupStockSummary?.totalItemStockAvaiable,
                   2,
                 )}`,
         }
