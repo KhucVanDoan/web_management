@@ -75,7 +75,7 @@ const InventoryCalendarForm = () => {
   }, [id, mode])
   useEffect(() => {
     if (isUpdate && !isEmpty(inventoryCalendarDetails)) {
-      actions.getItem(inventoryCalendarDetails?.id)
+      actions.getItem({ id: inventoryCalendarDetails?.id })
     }
   }, [inventoryCalendarDetails])
   const initialValues = useMemo(

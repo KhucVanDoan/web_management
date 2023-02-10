@@ -168,7 +168,7 @@ function WarehouseExportProposalDetail() {
         getHeaders: true,
       },
     )
-    if (res.status === 200) {
+    if (!isEmpty(res)) {
       downloadFile(
         res?.data,
         warehouseExportProposalDetails.attachment?.fileName?.split('.').shift(),

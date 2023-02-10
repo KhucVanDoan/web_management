@@ -127,7 +127,7 @@ const ItemSettingTable = (props) => {
               payload?.row?.itemCode?.id || payload?.row?.itemCode?.itemId,
             warehouseId: values?.sourceWarehouseId?.id,
             lotNumber: val,
-            locatorId: payload?.row?.loactor?.id || null,
+            locatorId: payload?.row?.loactor?.locatorId || null,
           },
         ],
       }
@@ -204,7 +204,7 @@ const ItemSettingTable = (props) => {
           itemId: payload?.row?.itemCode?.id || payload?.row?.itemCode?.itemId,
           warehouseId: values?.sourceWarehouseId?.id,
           lotNumber: payload?.row?.lotNumber || null,
-          locatorId: val?.id || null,
+          locatorId: payload?.row?.locator?.locatorId || null,
           storageDate: val,
         },
       ],
