@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-import FileUploadIcon from '@mui/icons-material/FileUpload'
-import { Box, FormLabel, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
@@ -14,6 +13,7 @@ import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
+import FileUploadButton from '~/components/FileUploadButton'
 import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
@@ -95,7 +95,7 @@ function WarehouseExportProposal() {
 
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
-  const [attachedFile, setAttachedFile] = useState({})
+  const [attachedFile, setAttachedFile] = useState([])
   const columns = [
     {
       field: 'paperNumber',
@@ -476,43 +476,20 @@ function WarehouseExportProposal() {
         noBorderBottom
       >
         {t('warehouseExportProposal.Confirm')}
-
         <LabelValue
           label={
-            <Box sx={{ mt: 8 / 12 }}>
-              <FormLabel>
-                <Typography color={'text.main'} component="span">
-                  {t('warehouseExportProposal.attachment')}
-                </Typography>
-              </FormLabel>
-            </Box>
+            <Typography mt={1}>
+              {t('warehouseExportProposal.attachment')}
+            </Typography>
           }
-        >
-          {attachedFile && (
-            <label htmlFor="select-file">
-              <Typography sx={{ mt: 8 / 12 }} color="primary">
-                {attachedFile?.name}
-              </Typography>
-            </label>
-          )}
-          <Button
-            variant="contained"
-            component="label"
-            sx={{ backgroundColor: '#fff' }}
-          >
-            <FileUploadIcon color="primary" />
-            <input
-              hidden
-              id="select-file"
-              multiple
-              type="file"
-              accept="image/gif, image/jpeg, image/png, application/pdf"
-              onChange={(e) => {
-                setAttachedFile(e.target.files[0])
-              }}
+          value={
+            <FileUploadButton
+              maxNumberOfFiles={1}
+              onChange={(val) => setAttachedFile(val)}
+              value={attachedFile || []}
             />
-          </Button>
-        </LabelValue>
+          }
+        />
       </Dialog>
       <Dialog
         open={modal.isOpenRejectModal}

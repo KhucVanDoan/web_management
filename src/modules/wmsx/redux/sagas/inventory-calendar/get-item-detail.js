@@ -13,8 +13,10 @@ import { api } from '~/services/api'
  * @returns {Promise}
  */
 export const getItemDetailsApi = (params) => {
-  const uri = `/v1/warehouses/inventories/${params?.id}/items?page=${params?.page}&limit=${params?.limit}`
-  return api.get(uri)
+  const uri = `/v1/warehouses/inventories/${params?.id}/items`
+  const data = { ...params }
+  delete data['id']
+  return api.get(uri, data)
 }
 
 /**
