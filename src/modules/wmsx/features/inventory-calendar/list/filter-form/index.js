@@ -41,7 +41,7 @@ const FilterForm = () => {
       </Grid>
       <Grid item xs={12}>
         <Field.Autocomplete
-          name="warehouseName"
+          name="warehouseId"
           label={t('inventoryCalendar.warehouses')}
           placeholder={t('inventoryCalendar.warehouses')}
           asyncRequest={(s) =>
@@ -50,6 +50,7 @@ const FilterForm = () => {
               limit: ASYNC_SEARCH_LIMIT,
             })
           }
+          multiple
           asyncRequestHelper={(res) => res?.data?.items}
           getOptionLabel={(opt) => opt?.name}
           getOptionSubLabel={(opt) => opt?.code}

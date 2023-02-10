@@ -9,7 +9,7 @@ import { MODAL_MODE } from '~/common/constants'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import { OrderTypeEnum } from '~/modules/wmsx/constants'
+import { LENGTH_DEBITACCOUNT, OrderTypeEnum } from '~/modules/wmsx/constants'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 
 const ItemSettingTable = (props) => {
@@ -303,6 +303,14 @@ const ItemSettingTable = (props) => {
           return (
             <Field.TextField
               name={`items[${index}].debitAcc`}
+              value={
+                params?.row?.debitAcc?.length === LENGTH_DEBITACCOUNT
+                  ? params?.row?.debitAcc
+                      .toString()
+                      .slice(18, 29)
+                      .replace(/^(\d*?[1-9])0+$/, '$1')
+                  : params?.row?.debitAcc
+              }
               type="number"
               disabled={true}
             />
@@ -317,6 +325,14 @@ const ItemSettingTable = (props) => {
           return (
             <Field.TextField
               name={`items[${index}].creditAcc`}
+              value={
+                params?.row?.creditAcc?.length === LENGTH_DEBITACCOUNT
+                  ? params?.row?.creditAcc
+                      .toString()
+                      .slice(18, 29)
+                      .replace(/^(\d*?[1-9])0+$/, '$1')
+                  : params?.row?.creditAcc
+              }
               disabled={true}
             />
           )

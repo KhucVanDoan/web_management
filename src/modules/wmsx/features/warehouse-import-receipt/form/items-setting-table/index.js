@@ -12,7 +12,11 @@ import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import NumberFormatText from '~/components/NumberFormat'
-import { ACTIVE_STATUS, TABLE_NAME_ENUM } from '~/modules/wmsx/constants'
+import {
+  ACTIVE_STATUS,
+  LENGTH_DEBITACCOUNT,
+  TABLE_NAME_ENUM,
+} from '~/modules/wmsx/constants'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
 import { convertFilterParams, scrollToBottom } from '~/utils'
@@ -50,9 +54,9 @@ function ItemsSettingTable(props) {
     if (val?.itemWarehouseSources?.length > 0) {
       setFieldValue(
         `items[${index}].debitAcc`,
-        val?.itemWarehouseSources?.find(
-          (item) => item?.warehouseId === values?.warehouse?.id,
-        )?.accounting,
+        val?.itemWarehouseSources
+          ?.find((item) => item?.warehouseId === values?.warehouse?.id)
+          ?.accounting.replace(/^(\d*?[1-9])0+$/, '$1'),
       )
     }
     if (!isEmpty(warehouseExportProposal) && isEmpty(receiptRequired)) {
@@ -302,7 +306,13 @@ function ItemsSettingTable(props) {
         width: 180,
         renderCell: (params, index) => {
           return isView ? (
-            <>{params?.row?.debitAccount}</>
+            params?.row?.debitAccount?.length === LENGTH_DEBITACCOUNT ? (
+              params?.row?.debitAccount
+                .slice(18, 29)
+                .replace(/^(\d*?[1-9])0+$/, '$1')
+            ) : (
+              params?.row?.debitAccount
+            )
           ) : (
             <Field.TextField name={`items[${index}].debitAcc`} disabled />
           )
@@ -314,7 +324,13 @@ function ItemsSettingTable(props) {
         width: 250,
         renderCell: (params, index) => {
           return isView ? (
-            <>{params?.row?.creditAccount}</>
+            params?.row?.creditAccount?.length === LENGTH_DEBITACCOUNT ? (
+              params?.row?.creditAccount
+                .slice(18, 29)
+                .replace(/^(\d*?[1-9])0+$/, '$1')
+            ) : (
+              params?.row?.creditAccount
+            )
           ) : (
             <Field.TextField
               name={`items[${index}].creditAcc`}
