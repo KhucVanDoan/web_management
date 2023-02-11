@@ -8,6 +8,7 @@ import {
   Typography,
 } from '@mui/material'
 import { Box } from '@mui/system'
+import { add } from 'date-fns'
 import { flatMap, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
@@ -18,6 +19,7 @@ import Icon from '~/components/Icon'
 import NumberFormatText from '~/components/NumberFormat'
 import {
   ACTIVE_STATUS,
+  LENGTH_DEBITACCOUNT,
   TRANSFER_STATUS,
   WAREHOUSE_TRANSFER_TYPE,
 } from '~/modules/wmsx/constants'
@@ -205,7 +207,17 @@ const ItemSettingTable = (props) => {
           warehouseId: values?.sourceWarehouseId?.id,
           lotNumber: payload?.row?.lotNumber || null,
           locatorId: payload?.row?.locator?.locatorId || null,
-          storageDate: val,
+          storageDate: new Date(
+            add(new Date(val), {
+              years: 0,
+              months: 0,
+              weeks: 0,
+              days: 0,
+              hours: 7,
+              minutes: 0,
+              seconds: 0,
+            }),
+          ),
         },
       ],
     }
@@ -261,7 +273,9 @@ const ItemSettingTable = (props) => {
               getOptionSubLabel={(opt) => opt?.name}
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
               required
-              disabled={!values?.sourceWarehouseId}
+              disabled={
+                !values?.sourceWarehouseId || !values?.destinationWarehouseId
+              }
               onChange={(val) => handleChangeItem(val, index)}
               getOptionDisabled={(opt) => {
                 if (values?.sourceWarehouseId?.manageByLot === 0) {
@@ -576,7 +590,14 @@ const ItemSettingTable = (props) => {
         width: 180,
         renderCell: (params, index) => {
           return isView ? (
-            params?.row?.debitAcc
+            params?.row?.debitAcc?.length === LENGTH_DEBITACCOUNT ? (
+              params?.row?.debitAcc
+                .toString()
+                .slice(18, 29)
+                .replace(/^(\d*?[1-9])0+$/, '$1')
+            ) : (
+              params?.row?.debitAcc
+            )
           ) : (
             <Field.TextField
               name={`items[${index}].debitAcc`}
@@ -592,7 +613,14 @@ const ItemSettingTable = (props) => {
         width: 180,
         renderCell: (params, index) => {
           return isView ? (
-            <>{params?.row?.creditAcc}</>
+            params?.row?.creditAcc?.length === LENGTH_DEBITACCOUNT ? (
+              params?.row?.creditAcc
+                .toString()
+                .slice(18, 29)
+                .replace(/^(\d*?[1-9])0+$/, '$1')
+            ) : (
+              params?.row?.creditAcc
+            )
           ) : (
             <Field.TextField
               name={`items[${index}].creditAcc`}

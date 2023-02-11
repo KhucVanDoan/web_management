@@ -9,8 +9,8 @@ import IconButton from '@mui/material/IconButton'
 import { useTheme } from '@mui/material/styles'
 import { Link, useLocation } from 'react-router-dom'
 
+import LogoSrc from '~/assets/images/logo-horizontal.png'
 import LogoMiniSrc from '~/assets/images/logo-mini.png'
-import LogoSrc from '~/assets/images/logo.png'
 import { useApp } from '~/common/hooks/useApp'
 import Icon from '~/components/Icon'
 import { appRoutesObj } from '~/routes'
@@ -42,23 +42,29 @@ export default function Sidebar() {
           <DrawerHeader>
             <Box
               sx={{
-                display: 'inline-flex',
+                display: 'flex',
                 justifyContent: 'center',
                 flex: 1,
                 px: isMinimal ? 0.2 : 1,
                 overflow: 'hidden',
                 img: {
-                  maxHeight: theme.spacing(6),
                   maxWidth: '100%',
-                  filter: 'drop-shadow(2px 2px 4px rgba(255,255,255,0.2))',
                 },
               }}
             >
-              <Link to="/">
+              <Link
+                to="/"
+                style={{
+                  display: 'inline-flex',
+                  background: '#fff',
+                  borderRadius: '4px',
+                  padding: isMinimal ? '4px' : '4px 12px',
+                }}
+              >
                 {isMinimal ? (
-                  <img src={LogoMiniSrc} alt="" style={{ width: 45 }} />
+                  <img src={LogoMiniSrc} alt="" style={{ maxHeight: 37 }} />
                 ) : (
-                  <img src={LogoSrc} alt="" />
+                  <img src={LogoSrc} alt="" style={{ maxHeight: 51 }} />
                 )}
               </Link>
             </Box>

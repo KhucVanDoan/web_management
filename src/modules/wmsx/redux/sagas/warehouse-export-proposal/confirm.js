@@ -10,9 +10,10 @@ import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 const confirmWarehouseExportProposalApi = (params) => {
+  const data = { ...params }
   let form_data = new FormData()
-  for (let key in params) {
-    form_data.append(key, params[key])
+  for (let key in data?.attachment) {
+    form_data.append('attachment', data?.attachment[key])
   }
   const uri = `/v1/warehouses/warehouse-export-proposals/${params?.id}/confirm`
   return api.put(uri, form_data)
