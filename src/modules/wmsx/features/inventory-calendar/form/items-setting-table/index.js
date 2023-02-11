@@ -1,21 +1,39 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { useTranslation } from 'react-i18next'
+import { useParams } from 'react-router-dom'
 
 import { ASYNC_SEARCH_LIMIT, MODAL_MODE } from '~/common/constants'
+import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import { ACTIVE_STATUS } from '~/modules/wmsx/constants'
+import useInventoryCalendar from '~/modules/wmsx/redux/hooks/useInventoryCalendar'
 import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
 import { convertFilterParams } from '~/utils'
 function ItemSettingTable({ items, mode, arrayHelpers, values }) {
   const { t } = useTranslation(['wmsx'])
+  const { id } = useParams()
   const isView = mode === MODAL_MODE.DETAIL
+  const { actions } = useInventoryCalendar()
+
+  const { page, pageSize } = useQueryState()
+  useEffect(() => {
+    refreshData()
+  }, [page, pageSize])
+  const refreshData = () => {
+    const params = {
+      id: id,
+      page: page,
+      limit: pageSize,
+    }
+    actions.getItem(params)
+  }
   const getColumns = () => {
     return [
       {
