@@ -341,7 +341,7 @@ function WarehouseExportProposal() {
       attachment: attachedFile,
     }
     actions.confirmWarehouseExportProposalById(
-      attachedFile?.name ? params : { id: modal.tempItem?.id },
+      attachedFile[0]?.name ? params : { id: modal.tempItem?.id },
       () => {
         refreshData()
       },

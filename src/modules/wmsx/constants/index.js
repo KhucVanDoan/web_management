@@ -358,7 +358,6 @@ export const ORDER_STATUS_MAP = {
   [ORDER_STATUS.RETURNED]: 'orderStatus.returned',
   [ORDER_STATUS.STORED]: 'orderStatus.stored',
 }
-
 export const ORDER_STATUS_OPTIONS = [
   {
     id: 0,
@@ -2317,3 +2316,4 @@ export const TYPE_TRANSACTION_DATA_SYNC_OPTION = [
   //   text: 'dataSyncManagement.warehouseExportReceipt',
   // },
 ]
+export const LENGTH_DEBITACCOUNT = 60

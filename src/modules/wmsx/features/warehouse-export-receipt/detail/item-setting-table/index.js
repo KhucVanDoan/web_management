@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
 import NumberFormatText from '~/components/NumberFormat'
+import { LENGTH_DEBITACCOUNT } from '~/modules/wmsx/constants'
 
 const ItemSettingTableDetail = ({ items }) => {
   const { t } = useTranslation(['wmsx'])
@@ -107,7 +108,12 @@ const ItemSettingTableDetail = ({ items }) => {
         headerName: t('warehouseExportReceipt.items.debitAccount'),
         width: 250,
         renderCell: (params) => {
-          return params?.row?.debitAccount
+          return params?.row?.debitAccount?.length === LENGTH_DEBITACCOUNT
+            ? params?.row?.debitAccount
+                .toString()
+                .slice(18, 29)
+                .replace(/^(\d*?[1-9])0+$/, '$1')
+            : params?.row?.debitAccount
         },
       },
       {
@@ -115,7 +121,12 @@ const ItemSettingTableDetail = ({ items }) => {
         headerName: t('warehouseExportReceipt.items.creditAccount'),
         width: 250,
         renderCell: (params) => {
-          return params?.row?.creditAccount
+          return params?.row?.creditAccount?.length === LENGTH_DEBITACCOUNT
+            ? params?.row?.creditAccount
+                .toString()
+                .slice(18, 29)
+                .replace(/^(\d*?[1-9])0+$/, '$1')
+            : params?.row?.creditAccount
         },
       },
     ],

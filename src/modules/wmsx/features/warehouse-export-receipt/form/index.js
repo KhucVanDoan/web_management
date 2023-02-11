@@ -364,7 +364,7 @@ function WarehouseExportReceiptForm() {
           lotNumber: item?.lotNumber || null,
           quantity: +item?.quantityExport,
           price: item?.price,
-          debitAccount: debitAccount || null,
+          debitAccount: debitAccount.replace(/^(\d*?[1-9])0+$/, '$1') || null,
           creditAccount: item?.creditAccount,
           warehouseId: values?.warehouseId?.id,
         })),
