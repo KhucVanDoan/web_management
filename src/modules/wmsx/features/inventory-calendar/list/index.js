@@ -234,7 +234,7 @@ function InventoryCalendar() {
       filter: convertFilterParams(
         {
           ...filters,
-          warehouseName: filters?.warehouseName?.name,
+          warehouseId: filters?.warehouseId?.map((w) => w?.id).join(','),
         },
         columns,
       ),

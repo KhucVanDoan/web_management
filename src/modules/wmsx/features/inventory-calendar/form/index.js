@@ -23,6 +23,7 @@ import {
   TEXTFIELD_ALLOW,
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
+import { useQueryState } from '~/common/hooks'
 import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
@@ -61,6 +62,7 @@ const InventoryCalendarForm = () => {
   const mode = MODE_MAP[routeMatch.path]
   const isUpdate = mode === MODAL_MODE.UPDATE
 
+  const { page, pageSize } = useQueryState()
   const {
     data: { isLoading, inventoryCalendarDetails, itemUpdate },
     actions,
@@ -75,7 +77,11 @@ const InventoryCalendarForm = () => {
   }, [id, mode])
   useEffect(() => {
     if (isUpdate && !isEmpty(inventoryCalendarDetails)) {
-      actions.getItem({ id: inventoryCalendarDetails?.id })
+      actions.getItem({
+        id: inventoryCalendarDetails?.id,
+        page: page,
+        limit: pageSize,
+      })
     }
   }, [inventoryCalendarDetails])
   const initialValues = useMemo(
