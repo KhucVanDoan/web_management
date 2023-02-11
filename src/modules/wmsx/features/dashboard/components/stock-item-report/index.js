@@ -45,7 +45,7 @@ const StockItemReport = () => {
       value: Number(itemGroupStockSummary?.totalItemPlanningAmount),
     },
     {
-      type: 'Giá trị VT có thể xuất (VNĐ)) ',
+      type: 'Giá trị VT có thể xuất (VNĐ) ',
       value: Number(itemGroupStockSummary?.totalItemStockAmount),
     },
   ]
