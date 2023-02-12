@@ -20,6 +20,12 @@ export const NumberFormatInput = React.forwardRef(function NumberFormatInput(
   ref,
 ) {
   const { onChange, numberProps, formatter, ...other } = props
+
+  const validMaxLength = (val) => {
+    if (!val) return true
+    return val.toString().length <= 18
+  }
+
   return (
     <NumberFormat
       {...other}
@@ -36,11 +42,10 @@ export const NumberFormatInput = React.forwardRef(function NumberFormatInput(
       {...config(formatter)}
       {...numberProps}
       isAllowed={(val) => {
-        if (val?.floatValue === undefined) return true
         if (typeof numberProps?.isAllowed === 'function') {
-          return val?.floatValue < 1e18 && numberProps?.isAllowed(val)
+          return validMaxLength(val.value) && numberProps?.isAllowed(val)
         }
-        return val?.floatValue < 1e18
+        return validMaxLength(val.value)
       }}
     />
   )
