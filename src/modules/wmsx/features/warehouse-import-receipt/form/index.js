@@ -351,8 +351,9 @@ function WarehouseImportReceiptForm() {
           quantity: +item?.importQuantity,
           price: item?.price,
           amount: item?.money,
-          debitAccount: item?.debitAcc.replace(/^(\d*?[1-9])0+$/, '$1') || null,
-          creditAccount: creditAccount.replace(/^(\d*?[1-9])0+$/, '$1'),
+          debitAccount:
+            item?.debitAcc?.replace(/^(\d*?[1-9])0+$/, '$1') || null,
+          creditAccount: creditAccount?.replace(/^(\d*?[1-9])0+$/, '$1'),
           warehouseId: values?.warehouse?.id,
         })),
       ),
