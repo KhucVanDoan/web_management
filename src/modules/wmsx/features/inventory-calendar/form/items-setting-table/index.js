@@ -24,7 +24,9 @@ function ItemSettingTable({ items, mode, arrayHelpers, values }) {
 
   const { page, pageSize } = useQueryState()
   useEffect(() => {
-    refreshData()
+    if (isView) {
+      refreshData()
+    }
   }, [page, pageSize])
   const refreshData = () => {
     const params = {
