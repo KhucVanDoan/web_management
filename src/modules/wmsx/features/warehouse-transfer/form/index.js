@@ -177,7 +177,7 @@ const WarehouseTransferForm = () => {
           storageDate: item?.warehouseImportDate,
           isExistInDestinationWarehouse: item?.itemCodeWarehouseImp ? 1 : 0,
           debitAccount: '1519',
-          creditAccount: item?.creditAcc,
+          creditAccount: item?.creditAcc?.replace(/^(\d*?[1-9])0+$/, '$1'),
         })),
       ),
     }

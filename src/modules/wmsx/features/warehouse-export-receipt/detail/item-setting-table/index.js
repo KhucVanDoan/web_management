@@ -109,10 +109,7 @@ const ItemSettingTableDetail = ({ items }) => {
         width: 250,
         renderCell: (params) => {
           return params?.row?.debitAccount?.length === LENGTH_DEBITACCOUNT
-            ? params?.row?.debitAccount
-                .toString()
-                .slice(18, 29)
-                .replace(/^(\d*?[1-9])0+$/, '$1')
+            ? params?.row?.debitAccount.toString()?.slice(18, 43)
             : params?.row?.debitAccount
         },
       },
@@ -125,7 +122,7 @@ const ItemSettingTableDetail = ({ items }) => {
             ? params?.row?.creditAccount
                 .toString()
                 .slice(18, 29)
-                .replace(/^(\d*?[1-9])0+$/, '$1')
+                ?.replace(/^(\d*?[1-9])0+$/, '$1')
             : params?.row?.creditAccount
         },
       },
