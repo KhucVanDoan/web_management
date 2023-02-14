@@ -34,7 +34,7 @@ import {
   convertFilterParams,
   convertUtcDateToLocalTz,
 } from '~/utils'
-import { getFileNameFromHeader } from '~/utils/api'
+import { downloadFile } from '~/utils/file'
 import addNotification from '~/utils/toast'
 
 import ItemSettingTable from './item-setting-table'
@@ -313,7 +313,7 @@ function WarehouseExportReceiptForm() {
     }
   }
   const dowAttachment = async (params) => {
-    const uri = `/v1/files/${params}`
+    const uri = `/v1/files/${params?.id}`
     const res = await api.get(
       uri,
       {},
@@ -322,19 +322,15 @@ function WarehouseExportReceiptForm() {
         getHeaders: true,
       },
     )
-    if (res.status === 500) {
-      addNotification(res?.statusText, NOTIFICATION_TYPE.ERROR)
+    if (!isEmpty(res)) {
+      downloadFile(
+        res?.data,
+        warehouseExportProposalDetails.attachment?.fileName?.split('.').shift(),
+        `${res?.data?.type}`,
+        [`${params?.fileName?.split('.').pop()}`],
+      )
     } else {
-      const filename = getFileNameFromHeader(res)
-      const blob = new Blob([res?.data])
-      const url = URL.createObjectURL(blob)
-      const link = document.createElement('a')
-      link.href = url
-      const nameFile = decodeURI(filename)
-      link.setAttribute('download', nameFile)
-      document.body.appendChild(link)
-      link.click()
-      URL.revokeObjectURL(url)
+      addNotification(res?.statusText, NOTIFICATION_TYPE.ERROR)
     }
   }
   return (
@@ -792,7 +788,7 @@ function WarehouseExportReceiptForm() {
                               file={true}
                               onClick={() =>
                                 dowAttachment(
-                                  warehouseExportProposalDetails.attachment?.id,
+                                  warehouseExportProposalDetails.attachment,
                                 )
                               }
                             />
