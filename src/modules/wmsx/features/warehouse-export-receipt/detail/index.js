@@ -17,8 +17,8 @@ import TextField from '~/components/TextField'
 import { ORDER_STATUS } from '~/modules/mesx/constants'
 import {
   DATA_TYPE,
-  ORDER_STATUS_OPTIONS,
   TABLE_NAME_ENUM,
+  WAREHOUSE_EXPORT_RECEIPT_STATUS_OPTIONS,
 } from '~/modules/wmsx/constants'
 import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
@@ -166,7 +166,7 @@ function WarehouseExportReceiptDetail() {
                 label={t('warehouseExportReceipt.status')}
                 value={
                   <Status
-                    options={ORDER_STATUS_OPTIONS}
+                    options={WAREHOUSE_EXPORT_RECEIPT_STATUS_OPTIONS}
                     value={warehouseExportReceiptDetails?.status}
                   />
                 }
@@ -301,6 +301,21 @@ function WarehouseExportReceiptDetail() {
                           attributesBusinessTypeDetails[item.tableName]?.find(
                             (itemDetail) => `${itemDetail.id}` === item.value,
                           )?.name
+                        }
+                      />
+                    </Grid>
+                  )
+                } else if (
+                  item?.tableName === TABLE_NAME_ENUM.PURCHASED_ODER_IMPORT
+                ) {
+                  return (
+                    <Grid item lg={6} xs={12}>
+                      <LV
+                        label={`${item.fieldName}`}
+                        value={
+                          attributesBusinessTypeDetails[item.tableName]?.find(
+                            (itemDetail) => `${itemDetail.id}` === item.value,
+                          )?.code
                         }
                       />
                     </Grid>

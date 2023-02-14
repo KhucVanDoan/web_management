@@ -20,9 +20,9 @@ import Status from '~/components/Status'
 import { exportCompanyApi } from '~/modules/database/redux/sagas/define-company/import-export-company'
 import { TYPE_ENUM_EXPORT } from '~/modules/mesx/constants'
 import {
-  ORDER_STATUS,
-  ORDER_STATUS_OPTIONS,
   STATUS_SYNC_ORDER_TO_EBS,
+  WAREHOUSE_IMPORT_RECEIPT_OPTIONS,
+  WAREHOUSE_IMPORT_RECEIPT_STATUS,
 } from '~/modules/wmsx/constants'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -139,7 +139,7 @@ function WarehouseImportReceipt() {
         const status = Number(params?.row.status)
         return (
           <Status
-            options={ORDER_STATUS_OPTIONS}
+            options={WAREHOUSE_IMPORT_RECEIPT_OPTIONS}
             value={status}
             variant="text"
           />
@@ -162,9 +162,9 @@ function WarehouseImportReceipt() {
       renderCell: (params) => {
         const { status, syncStatus } = params?.row
         const isConfirmWarehouseImport =
-          status === ORDER_STATUS.IN_PROGRESS ||
-          status === ORDER_STATUS.COMPLETED ||
-          status === ORDER_STATUS.RECEIVED
+          status === WAREHOUSE_IMPORT_RECEIPT_STATUS.IN_PROGRESS ||
+          status === WAREHOUSE_IMPORT_RECEIPT_STATUS.COMPLETED ||
+          status === WAREHOUSE_IMPORT_RECEIPT_STATUS.RECEIVED
         const isSync =
           syncStatus === STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC ||
           syncStatus === STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR
@@ -193,14 +193,16 @@ function WarehouseImportReceipt() {
       renderCell: (params) => {
         const { id, status } = params?.row
         const isEdit =
-          status === ORDER_STATUS.PENDING || status === ORDER_STATUS.REJECTED
+          status === WAREHOUSE_IMPORT_RECEIPT_STATUS.PENDING ||
+          status === WAREHOUSE_IMPORT_RECEIPT_STATUS.REJECTED
         const isDelete =
-          status === ORDER_STATUS.PENDING || status === ORDER_STATUS.REJECTED
-        const isConfirmed = status === ORDER_STATUS.PENDING
-        const isRejected = status === ORDER_STATUS.PENDING
+          status === WAREHOUSE_IMPORT_RECEIPT_STATUS.PENDING ||
+          status === WAREHOUSE_IMPORT_RECEIPT_STATUS.REJECTED
+        const isConfirmed = status === WAREHOUSE_IMPORT_RECEIPT_STATUS.PENDING
+        const isRejected = status === WAREHOUSE_IMPORT_RECEIPT_STATUS.PENDING
         const hasTransaction =
-          status === ORDER_STATUS.IN_PROGRESS ||
-          status === ORDER_STATUS.COMPLETED
+          status === WAREHOUSE_IMPORT_RECEIPT_STATUS.IN_PROGRESS ||
+          status === WAREHOUSE_IMPORT_RECEIPT_STATUS.COMPLETED
         return (
           <div>
             <Guard code={FUNCTION_CODE.SALE_DETAIL_PURCHASED_ORDER_IMPORT}>

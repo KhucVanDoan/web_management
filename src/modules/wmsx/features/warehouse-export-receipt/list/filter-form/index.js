@@ -9,8 +9,8 @@ import {
 } from '~/common/constants'
 import { Field } from '~/components/Formik'
 import {
-  ORDER_STATUS_OPTIONS,
   PARENT_BUSINESS_TYPE,
+  WAREHOUSE_EXPORT_RECEIPT_STATUS_OPTIONS,
 } from '~/modules/wmsx/constants'
 import { searchBusinessTypesApi } from '~/modules/wmsx/redux/sagas/business-type-management/search-business-types'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
@@ -118,7 +118,7 @@ const FilterForm = () => {
           name="status"
           label={t('general.status')}
           placeholder={t('general.status')}
-          options={ORDER_STATUS_OPTIONS}
+          options={WAREHOUSE_EXPORT_RECEIPT_STATUS_OPTIONS}
           getOptionLabel={(opt) => t(opt?.text)}
           getOptionValue={(opt) => opt?.id?.toString()}
         />
