@@ -2317,3 +2317,111 @@ export const TYPE_TRANSACTION_DATA_SYNC_OPTION = [
   // },
 ]
 export const LENGTH_DEBITACCOUNT = 60
+
+export const WAREHOUSE_IMPORT_RECEIPT_STATUS = {
+  PENDING: 0, //chờ xác nhận
+  CONFIRMED: 1, //xác nhận
+  IN_PROGRESS: 2, //đang cất hàng
+  COMPLETED: 4, //hoan thành
+  REJECTED: 5, //từ chối
+  RECEIVED: 7, //đã nhập kho
+}
+
+export const WAREHOUSE_IMPORT_RECEIPT_STATUS_MAP = {
+  [WAREHOUSE_IMPORT_RECEIPT_STATUS.PENDING]: 'warehouseImportReceipt.pending',
+  [WAREHOUSE_IMPORT_RECEIPT_STATUS.CONFIRMED]:
+    'warehouseImportReceipt.confirmed',
+  [WAREHOUSE_IMPORT_RECEIPT_STATUS.IN_PROGRESS]:
+    'warehouseImportReceipt.inProgress',
+  [WAREHOUSE_IMPORT_RECEIPT_STATUS.COMPLETED]:
+    'warehouseImportReceipt.completed',
+  [WAREHOUSE_IMPORT_RECEIPT_STATUS.REJECTED]: 'warehouseImportReceipt.rejected',
+  [WAREHOUSE_IMPORT_RECEIPT_STATUS.RECEIVED]: 'warehouseImportReceipt.received',
+}
+export const WAREHOUSE_IMPORT_RECEIPT_OPTIONS = [
+  {
+    id: 0,
+    text: 'warehouseImportReceipt.pending',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'warehouseImportReceipt.confirmed',
+    color: 'confirmed',
+  },
+  {
+    id: 2,
+    text: 'warehouseImportReceipt.inProgress',
+    color: 'inProgress',
+  },
+  {
+    id: 4,
+    text: 'warehouseImportReceipt.completed',
+    color: 'completed',
+  },
+  {
+    id: 5,
+    text: 'warehouseImportReceipt.rejected',
+    color: 'rejected',
+  },
+
+  {
+    id: 7,
+    text: 'warehouseImportReceipt.received',
+    color: 'received',
+  },
+]
+export const WAREHOUSE_EXPORT_RECEIPT_STATUS = {
+  PENDING: 0, //chờ xác nhận
+  CONFIRMED: 1, //xác nhận
+  IN_COLLECTING: 9, //đang lấy hàng
+  COMPLETED: 4, //hoan thành
+  REJECTED: 5, //từ chối
+  COLLECTED: 10, //chờ xuất kho
+}
+
+export const WAREHOUSE_EXPORT_RECEIPT_STATUS_MAP = {
+  [WAREHOUSE_EXPORT_RECEIPT_STATUS.PENDING]: 'warehouseExportReceipt.pending',
+  [WAREHOUSE_EXPORT_RECEIPT_STATUS.CONFIRMED]:
+    'warehouseExportReceipt.confirmed',
+  [WAREHOUSE_EXPORT_RECEIPT_STATUS.IN_COLLECTING]:
+    'warehouseExportReceipt.inCollecting',
+  [WAREHOUSE_EXPORT_RECEIPT_STATUS.COMPLETED]:
+    'warehouseExportReceipt.completed',
+  [WAREHOUSE_EXPORT_RECEIPT_STATUS.REJECTED]: 'warehouseExportReceipt.rejected',
+  [WAREHOUSE_EXPORT_RECEIPT_STATUS.COLLECTED]:
+    'warehouseExportReceipt.collected',
+}
+export const WAREHOUSE_EXPORT_RECEIPT_STATUS_OPTIONS = [
+  {
+    id: 0,
+    text: 'warehouseExportReceipt.pending',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'warehouseExportReceipt.confirmed',
+    color: 'confirmed',
+  },
+  {
+    id: 4,
+    text: 'warehouseExportReceipt.completed',
+    color: 'completed',
+  },
+  {
+    id: 5,
+    text: 'warehouseExportReceipt.rejected',
+    color: 'rejected',
+  },
+
+  {
+    id: 9,
+    text: 'warehouseExportReceipt.inCollecting',
+    color: 'inProgress',
+  },
+  {
+    id: 10,
+    text: 'warehouseExportReceipt.collected',
+    color: 'inProgress',
+  },
+]

@@ -143,8 +143,16 @@ function InventorySettingDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('inventorySetting.leadtime')}
-                value={inventorySettingDetail?.leadtime}
+                value={
+                  <NumberFormatText
+                    value={inventorySettingDetail?.leadtime}
+                    formatter="quantity"
+                  />
+                }
               />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV label={t('inventorySetting.reorderpoint')} value={''} />
             </Grid>
           </Grid>
           <ActionBar onBack={backToList} />

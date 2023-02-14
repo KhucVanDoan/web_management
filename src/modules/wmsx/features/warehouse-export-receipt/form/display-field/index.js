@@ -477,8 +477,7 @@ const displayFollowBusinessTypeManagement = (
                   }}
                   asyncRequestHelper={(res) => res?.data?.items}
                   asyncRequestDeps={values?.businessTypeId}
-                  getOptionLabel={(opt) => opt?.code}
-                  getOptionSubLabel={(opt) => opt?.name}
+                  getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                   required={Boolean(item?.required)}
                   validate={(val) => validate(val, item)}
