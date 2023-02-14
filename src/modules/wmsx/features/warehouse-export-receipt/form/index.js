@@ -22,9 +22,9 @@ import Status from '~/components/Status'
 import {
   ACTIVE_STATUS,
   CODE_TYPE_DATA_FATHER_JOB,
-  ORDER_STATUS_OPTIONS,
   PARENT_BUSINESS_TYPE,
   TABLE_NAME_ENUM,
+  WAREHOUSE_EXPORT_RECEIPT_STATUS_OPTIONS,
 } from '~/modules/wmsx/constants'
 import useSourceManagement from '~/modules/wmsx/redux/hooks/useSourceManagement'
 import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
@@ -554,7 +554,7 @@ function WarehouseExportReceiptForm() {
                           }
                           value={
                             <Status
-                              options={ORDER_STATUS_OPTIONS}
+                              options={WAREHOUSE_EXPORT_RECEIPT_STATUS_OPTIONS}
                               value={warehouseExportReceiptDetails?.status}
                             />
                           }
@@ -625,8 +625,7 @@ function WarehouseExportReceiptForm() {
                           })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
-                        getOptionLabel={(opt) => opt?.code}
-                        getOptionSubLabel={(opt) => opt?.name}
+                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                         required
                       />

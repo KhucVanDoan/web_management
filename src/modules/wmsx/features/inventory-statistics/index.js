@@ -133,7 +133,7 @@ function InventoryStatistics() {
       headerName: t('inventoryStatistics.price'),
       width: 150,
       renderCell: (params) => (
-        <NumberFormatText value={params.row?.price} formatter="price" />
+        <NumberFormatText value={params.row?.amount} formatter="price" />
       ),
     },
     {
@@ -141,7 +141,7 @@ function InventoryStatistics() {
       headerName: t('inventoryStatistics.intoMoney'),
       width: 150,
       renderCell: (params) => (
-        <NumberFormatText value={params.row?.amount} formatter="price" />
+        <NumberFormatText value={params.row?.totalAmount} formatter="price" />
       ),
     },
     {

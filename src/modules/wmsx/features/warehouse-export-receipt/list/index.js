@@ -18,9 +18,9 @@ import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
-  ORDER_STATUS,
-  ORDER_STATUS_OPTIONS,
   STATUS_SYNC_ORDER_TO_EBS,
+  WAREHOUSE_EXPORT_RECEIPT_STATUS,
+  WAREHOUSE_EXPORT_RECEIPT_STATUS_OPTIONS,
 } from '~/modules/wmsx/constants'
 import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
 import {
@@ -144,7 +144,7 @@ function WarehouseExportReceipt() {
         const status = Number(params?.row.status)
         return (
           <Status
-            options={ORDER_STATUS_OPTIONS}
+            options={WAREHOUSE_EXPORT_RECEIPT_STATUS_OPTIONS}
             value={status}
             variant="text"
           />
@@ -165,7 +165,8 @@ function WarehouseExportReceipt() {
       width: 150,
       renderCell: (params) => {
         const { status, syncStatus } = params?.row
-        const isConfirmWarehouseExport = status === ORDER_STATUS.COMPLETED
+        const isConfirmWarehouseExport =
+          status === WAREHOUSE_EXPORT_RECEIPT_STATUS.COMPLETED
         const isSync =
           syncStatus === STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC ||
           syncStatus === STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR
@@ -194,15 +195,17 @@ function WarehouseExportReceipt() {
       renderCell: (params) => {
         const { id, status, warehouseId } = params?.row
         const isEdit =
-          status === ORDER_STATUS.PENDING || status === ORDER_STATUS.REJECTED
+          status === WAREHOUSE_EXPORT_RECEIPT_STATUS.PENDING ||
+          status === WAREHOUSE_EXPORT_RECEIPT_STATUS.REJECTED
         const isDelete =
-          status === ORDER_STATUS.PENDING || status === ORDER_STATUS.REJECTED
-        const isConfirmed = status === ORDER_STATUS.PENDING
-        const isRejected = status === ORDER_STATUS.PENDING
+          status === WAREHOUSE_EXPORT_RECEIPT_STATUS.PENDING ||
+          status === WAREHOUSE_EXPORT_RECEIPT_STATUS.REJECTED
+        const isConfirmed = status === WAREHOUSE_EXPORT_RECEIPT_STATUS.PENDING
+        const isRejected = status === WAREHOUSE_EXPORT_RECEIPT_STATUS.PENDING
         const hasTransaction =
-          status === ORDER_STATUS.IN_COLLECTING ||
-          status === ORDER_STATUS.COLLECTED ||
-          status === ORDER_STATUS.COMPLETED
+          status === WAREHOUSE_EXPORT_RECEIPT_STATUS.IN_COLLECTING ||
+          status === WAREHOUSE_EXPORT_RECEIPT_STATUS.COLLECTED ||
+          status === WAREHOUSE_EXPORT_RECEIPT_STATUS.COMPLETED
         return (
           <div>
             <Guard code={FUNCTION_CODE.SALE_DETAIL_SALE_ORDER_EXPORT}>

@@ -56,7 +56,7 @@ function ItemsSettingTable(props) {
         `items[${index}].debitAcc`,
         val?.itemWarehouseSources
           ?.find((item) => item?.warehouseId === values?.warehouse?.id)
-          ?.accounting.replace(/^(\d*?[1-9])0+$/, '$1'),
+          ?.accounting?.replace(/^(\d*?[1-9])0+$/, '$1'),
       )
     }
     if (!isEmpty(warehouseExportProposal) && isEmpty(receiptRequired)) {
