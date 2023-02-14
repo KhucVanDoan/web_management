@@ -10,6 +10,7 @@ import { ReactComponent as Assign } from '~/assets/images/icons/assign.svg'
 import { ReactComponent as Back } from '~/assets/images/icons/back.svg'
 import { ReactComponent as Bag } from '~/assets/images/icons/bag.svg'
 import { ReactComponent as Calendar } from '~/assets/images/icons/calendar.svg'
+import { ReactComponent as CancelSync } from '~/assets/images/icons/cancel-sync.svg'
 import { ReactComponent as Cart } from '~/assets/images/icons/cart.svg'
 import { ReactComponent as Check } from '~/assets/images/icons/check.svg'
 import { ReactComponent as Clone } from '~/assets/images/icons/clone.svg'
@@ -110,6 +111,7 @@ const icons = {
   confirm: <Confirm />,
   sync: <Sync />,
   print: <Print />,
+  cancelSync: <CancelSync />,
   // menu
   drawer: <Drawer />,
   home: <Home />,

@@ -47,6 +47,13 @@ export const CONFIRM_WAREHOUSE_EXPORT_EBS_SUCCESS =
 export const CONFIRM_WAREHOUSE_EXPORT_EBS_FAILED =
   'WMSX_CONFIRM_WAREHOUSE_EXPORT_EBS_FAILED'
 
+export const CANCEL_WAREHOUSE_EXPORT_EBS_START =
+  'WMSX_CANCEL_WAREHOUSE_EXPORT_EBS_START'
+export const CANCEL_WAREHOUSE_EXPORT_EBS_SUCCESS =
+  'WMSX_CANCEL_WAREHOUSE_EXPORT_EBS_SUCCESS'
+export const CANCEL_WAREHOUSE_EXPORT_EBS_FAILED =
+  'WMSX_CANCEL_WAREHOUSE_EXPORT_EBS_FAILED'
+
 export const REJECT_WAREHOUSE_EXPORT_RECEIPT_START =
   'WMSX_REJECT_WAREHOUSE_EXPORT_RECEIPT_START'
 export const REJECT_WAREHOUSE_EXPORT_RECEIPT_SUCCESS =
@@ -224,6 +231,28 @@ export function confirmWarehouseExportEBSByIdFailed() {
     type: CONFIRM_WAREHOUSE_EXPORT_EBS_FAILED,
   }
 }
+
+export function cancelWarehouseExportEBSById(Id, onSuccess, onError) {
+  return {
+    type: CANCEL_WAREHOUSE_EXPORT_EBS_START,
+    payload: Id,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+export function cancelWarehouseExportEBStByIdSuccess(payload) {
+  return {
+    type: CANCEL_WAREHOUSE_EXPORT_EBS_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function cancelWarehouseExportEBSByIdFailed() {
+  return {
+    type: CANCEL_WAREHOUSE_EXPORT_EBS_FAILED,
+  }
+}
+
 export function rejectWarehouseExportReceiptById(Id, onSuccess, onError) {
   return {
     type: REJECT_WAREHOUSE_EXPORT_RECEIPT_START,
@@ -327,4 +356,7 @@ export default {
   confirmWarehouseExportEBSById,
   confirmWarehouseExportEBStByIdSuccess,
   confirmWarehouseExportEBSByIdFailed,
+  cancelWarehouseExportEBSById,
+  cancelWarehouseExportEBStByIdSuccess,
+  cancelWarehouseExportEBSByIdFailed,
 }

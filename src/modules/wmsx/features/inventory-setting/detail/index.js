@@ -82,7 +82,7 @@ function InventorySettingDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('inventorySetting.unit')}
-                value={inventorySettingDetail?.itemUnit?.name}
+                value={inventorySettingDetail?.item?.itemUnit?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>

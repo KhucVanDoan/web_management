@@ -293,7 +293,7 @@ function ItemsSettingTable(props) {
           ) : (
             <Field.TextField
               name={`items[${index}].price`}
-              value={params?.row?.money / params?.row?.importQuantity}
+              value={Number(params?.row?.money / params?.row?.importQuantity)}
               formatter="price"
               disabled
             />

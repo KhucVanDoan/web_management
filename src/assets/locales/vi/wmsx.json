@@ -2905,6 +2905,8 @@
     "completed": "Hoàn thành",
     "rejected": "Từ chối",
     "collected": "Chờ xuất kho",
+    "cancelSyncTitlePopupEBS": "Xác nhận hủy đồng bộ",
+    "cancelEBS": "Bạn có chắc chắn muốn hủy đồng bộ không?",
     "items": {
       "STT": "STT",
       "suppliesCode": "Mã vật tư",
@@ -3011,7 +3013,14 @@
     },
     "receiveAndStorageBtn": "Nhập kho & Cất hàng",
     "importedItemIsNotEnough": "Chưa nhập đủ vật tư",
-    "missedItemBasedOnReceipt": "Chưa chọn đủ vật tư trong phiếu receipt"
+    "missedItemBasedOnReceipt": "Chưa chọn đủ vật tư trong phiếu receipt",
+    "statusSync": {
+      "pending": "chờ BOT xử lý",
+      "error": "Lỗi xuất kho EBS",
+      "success": "Thành công",
+      "completed": "Hoàn thành",
+      "cancel": "Huỷ đồng bộ"
+    }
   },
   "warehouseExportProposal": {
     "list": "Danh sách giấy đề nghị xuất vật tư",

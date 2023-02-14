@@ -21,6 +21,7 @@ import {
   STATUS_SYNC_ORDER_TO_EBS,
   WAREHOUSE_EXPORT_RECEIPT_STATUS,
   WAREHOUSE_EXPORT_RECEIPT_STATUS_OPTIONS,
+  STATUS_SYNC_ORDER_TO_EBS_OPTIONS,
 } from '~/modules/wmsx/constants'
 import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
 import {
@@ -83,6 +84,7 @@ function WarehouseExportReceipt() {
     isOpenConfirmModal: false,
     isOpenConfirmEBSModal: false,
     isOpenRejectedModal: false,
+    isOpenCancelSyncEMSModal: false,
   })
 
   const [columnsSettings, setColumnsSettings] = useState([])
@@ -167,13 +169,9 @@ function WarehouseExportReceipt() {
         const { status, syncStatus } = params?.row
         const isConfirmWarehouseExport =
           status === WAREHOUSE_EXPORT_RECEIPT_STATUS.COMPLETED
-        const isSync =
-          syncStatus === STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC ||
-          syncStatus === STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR
         return (
           isConfirmWarehouseExport &&
-          isSync &&
-          !params?.row?.ebsId && (
+          (syncStatus === STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC ? (
             <Button
               variant="text"
               size="small"
@@ -182,7 +180,14 @@ function WarehouseExportReceipt() {
             >
               {t('warehouseExportReceipt.confirmWarehouseExport')}
             </Button>
-          )
+          ) : (
+            <Status
+              options={STATUS_SYNC_ORDER_TO_EBS_OPTIONS}
+              value={syncStatus}
+              variant="text"
+              sx={{ ml: 1 }}
+            />
+          ))
         )
       },
     },
@@ -193,7 +198,7 @@ function WarehouseExportReceipt() {
       align: 'center',
       fixed: true,
       renderCell: (params) => {
-        const { id, status, warehouseId } = params?.row
+        const { id, status, warehouseId, syncStatus } = params?.row
         const isEdit =
           status === WAREHOUSE_EXPORT_RECEIPT_STATUS.PENDING ||
           status === WAREHOUSE_EXPORT_RECEIPT_STATUS.REJECTED
@@ -206,6 +211,8 @@ function WarehouseExportReceipt() {
           status === WAREHOUSE_EXPORT_RECEIPT_STATUS.IN_COLLECTING ||
           status === WAREHOUSE_EXPORT_RECEIPT_STATUS.COLLECTED ||
           status === WAREHOUSE_EXPORT_RECEIPT_STATUS.COMPLETED
+        const isCancelSync =
+          syncStatus === STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR
         return (
           <div>
             <Guard code={FUNCTION_CODE.SALE_DETAIL_SALE_ORDER_EXPORT}>
@@ -222,6 +229,11 @@ function WarehouseExportReceipt() {
                 <Icon name="show" />
               </IconButton>
             </Guard>
+            {isCancelSync && (
+              <IconButton onClick={() => onClickCancelSyncEBS(params?.row)}>
+                <Icon name="cancelSync" />
+              </IconButton>
+            )}
             {isEdit && (
               <Guard code={FUNCTION_CODE.SALE_UPDATE_SALE_ORDER_EXPORT}>
                 <IconButton
@@ -350,6 +362,15 @@ function WarehouseExportReceipt() {
     setModal({ isOpenDeleteModal: false, tempItem: null })
   }
 
+  const onClickCancelSyncEBS = (tempItem) => {
+    setModal({ tempItem, isOpenCancelSyncEMSModal: true })
+  }
+  const onSubmitCancelEBS = () => {
+    actions.cancelWarehouseExportEBSById(modal.tempItem?.id, () => {
+      refreshData()
+    })
+    setModal({ isOpenCancelSyncEMSModal: false, tempItem: null })
+  }
   const renderHeaderRight = () => {
     return (
       <>
@@ -483,6 +504,17 @@ function WarehouseExportReceipt() {
       >
         <div>{t('warehouseExportReceipt.ConfirmEBS')}</div>
         {t('warehouseExportReceipt.Confirm')}
+      </Dialog>
+      <Dialog
+        open={modal.isOpenCancelSyncEMSModal}
+        title={t('warehouseExportReceipt.cancelSyncTitlePopupEBS')}
+        onCancel={onCloseDeleteModal}
+        cancelLabel={t('general:common.no')}
+        onSubmit={onSubmitCancelEBS}
+        submitLabel={t('general:common.yes')}
+        noBorderBottom
+      >
+        {t('warehouseExportReceipt.cancelEBS')}
       </Dialog>
       <Dialog
         open={modal.isOpenRejectedModal}
