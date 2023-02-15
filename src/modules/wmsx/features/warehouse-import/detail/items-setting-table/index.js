@@ -16,10 +16,6 @@ const ItemSettingTable = ({ items, movementType }) => {
     let rowSpanMatrix = []
     items?.forEach((item, index) => {
       const totalLotsInItem = item?.lots?.length
-      const totalQuantityTaken = item?.lots?.reduce(
-        (acc, curr) => acc + Number(curr?.quantity),
-        0,
-      )
       if (item?.lots.length > 0) {
         item?.lots?.forEach((lot, lotIndex) => {
           let obj = {
@@ -31,10 +27,7 @@ const ItemSettingTable = ({ items, movementType }) => {
             lotNumber: lot?.lotNumber,
             locationCode: lot?.locationCode,
             locationName: lot?.locationName,
-            planQuantity:
-              item?.planQuantity > 0
-                ? (item?.planQuantity - totalQuantityTaken).toFixed(2)
-                : item?.planQuantity,
+            planQuantity: item?.planQuantity,
           }
           if (totalLotsInItem === 1) {
             rowSpanMatrix.push([1])

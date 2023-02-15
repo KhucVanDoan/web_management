@@ -13,12 +13,22 @@ import Icon from '~/components/Icon'
 import NumberFormatText from '~/components/NumberFormat'
 import { ACTIVE_STATUS } from '~/modules/wmsx/constants'
 import useLocationManagement from '~/modules/wmsx/redux/hooks/useLocationManagement'
+import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import { scrollToBottom, convertFilterParams } from '~/utils'
 
 function ItemsSettingTable(props) {
   const { t } = useTranslation(['wmsx'])
-  const { items, arrayHelpers, itemList, warehouseId } = props
-
+  const { items, arrayHelpers, warehouseId } = props
+  const {
+    data: { warehouseImportReceiptDetails },
+  } = useWarehouseImportReceipt()
+  const itemList =
+    warehouseImportReceiptDetails?.purchasedOrderImportDetails?.map((item) => ({
+      ...item?.item,
+      quantity: item?.quantity,
+      receivedQuantity: item?.quantity,
+      itemId: item?.itemId,
+    }))
   const {
     actions,
     data: { locationList },
@@ -36,7 +46,6 @@ function ItemsSettingTable(props) {
       })
     }
   }, [warehouseId])
-
   const getColumns = () => {
     return [
       {
@@ -56,8 +65,8 @@ function ItemsSettingTable(props) {
             <Field.Autocomplete
               name={`items[${index}].itemCode`}
               options={itemList}
-              getOptionLabel={(opt) => opt?.item?.code || ''}
-              getOptionSubLabel={(opt) => opt?.item?.name || ''}
+              getOptionLabel={(opt) => opt?.code || ''}
+              getOptionSubLabel={(opt) => opt?.name || ''}
               isOptionEqualToValue={(opt, val) => opt?.itemId === val?.itemId}
             />
           )
@@ -68,7 +77,7 @@ function ItemsSettingTable(props) {
         headerName: t('warehouseImportReceipt.table.itemName'),
         width: 180,
         renderCell: (params) => {
-          return params?.row?.itemCode?.item?.name
+          return params?.row?.itemCode?.name
         },
       },
       {
@@ -76,7 +85,7 @@ function ItemsSettingTable(props) {
         headerName: t('warehouseImportReceipt.table.unit'),
         width: 180,
         renderCell: (params) => {
-          return params?.row?.itemCode?.item?.itemUnit
+          return params?.row?.itemCode?.itemUnit
         },
       },
       {

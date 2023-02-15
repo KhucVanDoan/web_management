@@ -108,7 +108,7 @@ function WarehouseImportReceiptForm() {
           ]
         : [],
       departmentReceiptId:
-        warehouseImportReceiptDetails?.departmentReceipt || '',
+        warehouseImportReceiptDetails?.departmentReceipt || null,
       warehouse: warehouseImportReceiptDetails?.warehouse || null,
       reasonId: warehouseImportReceiptDetails?.reason || null,
       sourceId: warehouseImportReceiptDetails?.source || null,
