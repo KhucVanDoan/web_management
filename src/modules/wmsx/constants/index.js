@@ -2276,6 +2276,46 @@ export const STATUS_SYNC_ORDER_TO_EBS = {
   COMPLETED: 3,
   CANCEL: 4,
 }
+export const STATUS_SYNC_ORDER_TO_EBS_MAP = {
+  [STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC]:
+    'warehouseImportReceipt.confirmWarehouseExport',
+  [STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR]:
+    'warehouseImportReceipt.statusSync.error',
+  [STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_SUCCESS]:
+    'warehouseImportReceipt.statusSync.pending',
+  [STATUS_SYNC_ORDER_TO_EBS.COMPLETED]:
+    'warehouseImportReceipt.statusSync.completed',
+  [STATUS_SYNC_ORDER_TO_EBS.CANCEL]: 'warehouseImportReceipt.statusSync.cancel',
+}
+
+export const STATUS_SYNC_ORDER_TO_EBS_OPTIONS = [
+  {
+    id: 0,
+    text: 'warehouseImportReceipt.confirmWarehouseExport',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'warehouseImportReceipt.statusSync.error',
+    color: 'rejected',
+  },
+  {
+    id: 2,
+    text: 'warehouseImportReceipt.statusSync.pending',
+    color: 'pending',
+  },
+  {
+    id: 3,
+    text: 'warehouseImportReceipt.statusSync.completed',
+    color: 'completed',
+  },
+  {
+    id: 4,
+    text: 'warehouseImportReceipt.statusSync.cancel',
+    color: 'rejected',
+  },
+]
+
 export const TYPE_TRANSACTION_DATA_SYNC = {
   WAREHOUSE_TRANSFER: 'Chuyển kho',
   PO_IMPORT: 'Phiếu nhập kho',
