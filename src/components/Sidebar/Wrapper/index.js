@@ -34,6 +34,7 @@ export default function Sidebar() {
         boxShadow: '0px 8px 8px rgba(102, 102, 102, 0.05)',
         position: 'relative',
         backgroundColor: '#164285',
+        zIndex: 1000,
       }}
     >
       {currentModule && (
