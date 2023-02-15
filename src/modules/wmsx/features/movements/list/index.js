@@ -51,6 +51,9 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
   }
   useEffect(() => {
     exportAction.getWarehouseExportReceiptDetailsById(parentId)
+    return () => {
+      exportAction.resetWarehouseExportReceiptState()
+    }
   }, [])
   const {
     page,
