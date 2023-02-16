@@ -63,7 +63,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
               getOptionSubLabel={(opt) => opt?.code}
               freeSolo
               onInputChange={(e) => {
-                const newVal = e.target.value || null
+                const newVal = e?.target?.value || null
                 if (newVal) {
                   setFieldValue(`items[${index}].suppliesName`, {
                     code: '',
