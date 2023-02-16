@@ -249,6 +249,7 @@ import watchSearchWarehouseExportReceipt from './warehouse-export-receipt/search
 import watchUpdateWarehouseExportReceipt from './warehouse-export-receipt/update'
 import watchGetWarehouseExportDetails from './warehouse-export/get-warehouse-export-details'
 import watchSearchWarehouseExport from './warehouse-export/search-warehouse-export'
+import watchCancelWarehouseImportEBS from './warehouse-import-receipt/cancelEBS'
 import watchConfirmWarehouseImportReceipt from './warehouse-import-receipt/confirm'
 import watchConfirmWarehouseImportEBS from './warehouse-import-receipt/confirmEBS'
 import watchCreateWarehouseImportReceipt from './warehouse-import-receipt/create'
@@ -587,6 +588,7 @@ export default function* sagas() {
     watchGetAttribuiteBusinessTypeDetails(),
     watchImportWarehouse(),
     watchConfirmWarehouseImportEBS(),
+    watchCancelWarehouseImportEBS(),
     // warehouse transfer
     watchConfirmWarehouseTransfer(),
     watchCreateWarehouseTransfer(),
