@@ -144,6 +144,13 @@ const DatePicker = ({
                               borderColor: `${theme.palette.borderField} !important`,
                             },
                           })),
+                    ...(!error && !disabled
+                      ? {
+                          'input:focus ~ fieldset': {
+                            borderColor: `${theme.palette.primary.main} !important`,
+                          },
+                        }
+                      : {}),
                   }}
                 />
               </Box>
