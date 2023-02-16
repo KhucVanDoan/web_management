@@ -21,6 +21,7 @@ import { exportCompanyApi } from '~/modules/database/redux/sagas/define-company/
 import { TYPE_ENUM_EXPORT } from '~/modules/mesx/constants'
 import {
   STATUS_SYNC_ORDER_TO_EBS,
+  STATUS_SYNC_ORDER_TO_EBS_OPTIONS,
   WAREHOUSE_IMPORT_RECEIPT_OPTIONS,
   WAREHOUSE_IMPORT_RECEIPT_STATUS,
 } from '~/modules/wmsx/constants'
@@ -80,6 +81,7 @@ function WarehouseImportReceipt() {
     isOpenConfirmModal: false,
     isOpenRejectedModal: false,
     isOpenConfirmEBSModal: false,
+    isOpenCancelSyncEMSModal: false,
   })
 
   const [columnsSettings, setColumnsSettings] = useState([])
@@ -165,22 +167,39 @@ function WarehouseImportReceipt() {
           status === WAREHOUSE_IMPORT_RECEIPT_STATUS.IN_PROGRESS ||
           status === WAREHOUSE_IMPORT_RECEIPT_STATUS.COMPLETED ||
           status === WAREHOUSE_IMPORT_RECEIPT_STATUS.RECEIVED
-        const isSync =
-          syncStatus === STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC ||
-          syncStatus === STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR
+        // return (
+        //   isConfirmWarehouseImport &&
+        //   isSync &&
+        //   !params?.row?.ebsId && (
+        //     <Button
+        //       variant="text"
+        //       size="small"
+        //       bold={false}
+        //       onClick={() => onClickConfirmEBS(params?.row)}
+        //     >
+        //       {t('warehouseImportReceipt.confirmWarehouseImport')}
+        //     </Button>
+        //   )
+        // )
         return (
           isConfirmWarehouseImport &&
-          isSync &&
-          !params?.row?.ebsId && (
+          (syncStatus === STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC ? (
             <Button
               variant="text"
               size="small"
               bold={false}
               onClick={() => onClickConfirmEBS(params?.row)}
             >
-              {t('warehouseImportReceipt.confirmWarehouseImport')}
+              {t('warehouseExportReceipt.confirmWarehouseExport')}
             </Button>
-          )
+          ) : (
+            <Status
+              options={STATUS_SYNC_ORDER_TO_EBS_OPTIONS}
+              value={syncStatus}
+              variant="text"
+              sx={{ ml: 1 }}
+            />
+          ))
         )
       },
     },
@@ -191,7 +210,7 @@ function WarehouseImportReceipt() {
       align: 'center',
       fixed: true,
       renderCell: (params) => {
-        const { id, status } = params?.row
+        const { id, status, syncStatus } = params?.row
         const isEdit =
           status === WAREHOUSE_IMPORT_RECEIPT_STATUS.PENDING ||
           status === WAREHOUSE_IMPORT_RECEIPT_STATUS.REJECTED
@@ -203,6 +222,8 @@ function WarehouseImportReceipt() {
         const hasTransaction =
           status === WAREHOUSE_IMPORT_RECEIPT_STATUS.IN_PROGRESS ||
           status === WAREHOUSE_IMPORT_RECEIPT_STATUS.COMPLETED
+        const isCancelSync =
+          syncStatus === STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR
         return (
           <div>
             <Guard code={FUNCTION_CODE.SALE_DETAIL_PURCHASED_ORDER_IMPORT}>
@@ -219,6 +240,11 @@ function WarehouseImportReceipt() {
                 <Icon name="show" />
               </IconButton>
             </Guard>
+            {isCancelSync && (
+              <IconButton onClick={() => onClickCancelSyncEBS(params?.row)}>
+                <Icon name="cancelSync" />
+              </IconButton>
+            )}
             {isEdit && (
               <Guard code={FUNCTION_CODE.SALE_UPDATE_PURCHASED_ORDER_IMPORT}>
                 <IconButton
@@ -351,7 +377,15 @@ function WarehouseImportReceipt() {
       isOpenConfirmEBSModal: false,
     })
   }
-
+  const onClickCancelSyncEBS = (tempItem) => {
+    setModal({ tempItem, isOpenCancelSyncEMSModal: true })
+  }
+  const onSubmitCancelEBS = () => {
+    actions.cancelWarehouseImportEBSById(modal.tempItem?.id, () => {
+      refreshData()
+    })
+    setModal({ isOpenCancelSyncEMSModal: false, tempItem: null })
+  }
   const renderHeaderRight = () => {
     return (
       <>
@@ -463,6 +497,17 @@ function WarehouseImportReceipt() {
         noBorderBottom
       >
         {t('warehouseImportReceipt.Confirm')}
+      </Dialog>
+      <Dialog
+        open={modal.isOpenCancelSyncEMSModal}
+        title={t('warehouseExportReceipt.cancelSyncTitlePopupEBS')}
+        onCancel={onCloseDeleteModal}
+        cancelLabel={t('general:common.no')}
+        onSubmit={onSubmitCancelEBS}
+        submitLabel={t('general:common.yes')}
+        noBorderBottom
+      >
+        {t('warehouseExportReceipt.cancelEBS')}
       </Dialog>
       <Dialog
         open={modal.isOpenConfirmEBSModal}

@@ -102,7 +102,7 @@ function InventoryCalendar() {
       renderCell: (params) => {
         const warehousesName = params.row.warehouses
           ?.map((warehouse) => warehouse?.name)
-          ?.join(',')
+          ?.join(', ')
         return warehousesName
       },
     },
