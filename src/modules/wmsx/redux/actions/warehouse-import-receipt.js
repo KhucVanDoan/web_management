@@ -47,6 +47,13 @@ export const CONFIRM_WAREHOUSE_IMPORT_EBS_SUCCESS =
 export const CONFIRM_WAREHOUSE_IMPORT_EBS_FAILED =
   'WMSX_CONFIRM_WAREHOUSE_IMPORT_EBS_FAILED'
 
+export const CANCEL_WAREHOUSE_IMPORT_EBS_START =
+  'WMSX_CANCEL_WAREHOUSE_IMPORT_EBS_START'
+export const CANCEL_WAREHOUSE_IMPORT_EBS_SUCCESS =
+  'WMSX_CANCEL_WAREHOUSE_IMPORT_EBS_SUCCESS'
+export const CANCEL_WAREHOUSE_IMPORT_EBS_FAILED =
+  'WMSX_CANCEL_WAREHOUSE_IMPORT_EBS_FAILED'
+
 export const REJECT_WAREHOUSE_IMPORT_RECEIPT_START =
   'WMSX_REJECT_WAREHOUSE_IMPORT_RECEIPT_START'
 export const REJECT_WAREHOUSE_IMPORT_RECEIPT_SUCCESS =
@@ -225,6 +232,27 @@ export function confirmWarehouseImportEBSByIdFailed() {
   }
 }
 
+export function cancelWarehouseImportEBSById(Id, onSuccess, onError) {
+  return {
+    type: CANCEL_WAREHOUSE_IMPORT_EBS_START,
+    payload: Id,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+export function cancelWarehouseImportEBStByIdSuccess(payload) {
+  return {
+    type: CANCEL_WAREHOUSE_IMPORT_EBS_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function cancelWarehouseImportEBSByIdFailed() {
+  return {
+    type: CANCEL_WAREHOUSE_IMPORT_EBS_FAILED,
+  }
+}
+
 export function rejectWarehouseImportReceiptById(Id, onSuccess, onError) {
   return {
     type: REJECT_WAREHOUSE_IMPORT_RECEIPT_START,
@@ -340,4 +368,7 @@ export default {
   confirmWarehouseImportEBSById,
   confirmWarehouseImportEBStByIdSuccess,
   confirmWarehouseImportEBSByIdFailed,
+  cancelWarehouseImportEBSById,
+  cancelWarehouseImportEBStByIdSuccess,
+  cancelWarehouseImportEBSByIdFailed,
 }
