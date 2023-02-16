@@ -125,7 +125,9 @@ const NotificationItem = ({ data, onClose }) => {
         <Box
           className={classes.listItemButton}
           onClick={() => {
-            actions.seenOneNotification(data._id)
+            if (!data.readAt) {
+              actions.seenOneNotification(data._id)
+            }
             goToDetail()
           }}
         >

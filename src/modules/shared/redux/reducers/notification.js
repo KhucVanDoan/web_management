@@ -50,19 +50,13 @@ export default function notification(state = initialState, action) {
         isLoading: false,
       }
     case SEEN_ONE_NOTIFICATION_SUCCESS:
-      let newItems = [...state.items]
+      const newItems = (state.items || []).map((item) => {
+        if (item?._id === action.payload?._id)
+          return { ...item, ...action.payload }
 
-      const index = state.items.findIndex(
-        (item) => item?._id === action.payload?._id,
-      )
+        return item
+      })
 
-      if (index !== -1) {
-        newItems = [
-          ...newItems.slice(0, index - 1),
-          action.payload,
-          ...newItems.slice(index + 1),
-        ]
-      }
       return {
         ...state,
         items: newItems,
