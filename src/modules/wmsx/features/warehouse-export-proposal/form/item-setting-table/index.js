@@ -61,19 +61,9 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
               asyncRequestHelper={(res) => res?.data?.items}
               getOptionLabel={(opt) => opt?.name}
               getOptionSubLabel={(opt) => opt?.code}
-              // renderInput={(params) => (
-              //   <TextField
-              //     {...params}
-              //     inputProps={{
-              //       ...params.inputProps,
-              //       maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-              //     }}
-              //     allow={TEXTFIELD_ALLOW.EXCEPT_SPECIALS}
-              //   />
-              // )}
               freeSolo
-              onBlur={(e) => {
-                const newVal = e.target.value
+              onInputChange={(e) => {
+                const newVal = e.target.value || null
                 if (newVal) {
                   setFieldValue(`items[${index}].suppliesName`, {
                     code: '',
@@ -156,6 +146,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
                   return t('general:form.required')
                 }
               }}
+              isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
               asyncRequestHelper={(res) => res?.data?.items}
               getOptionLabel={(opt) => opt?.name}
               getOptionSubLabel={(opt) => opt?.code}
