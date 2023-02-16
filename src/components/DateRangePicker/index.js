@@ -66,7 +66,30 @@ const DateRangePicker = ({
           {label}
         </FormLabel>
       )}
-      <Box sx={{ flex: 1, minWidth: 0 }}>
+      <Box
+        sx={(theme) => ({
+          flex: 1,
+          minWidth: 0,
+          '.hiddenInput:focus + div .fakeInput': {
+            borderColor: theme.palette.primary.main,
+          },
+        })}
+      >
+        <input
+          className="hiddenInput"
+          style={{
+            opacity: 0,
+            width: 0,
+            height: 0,
+            margin: 0,
+            padding: 0,
+            overflow: 'hidden',
+            position: 'absolute',
+            pointerEvents: 'none',
+          }}
+          onBlur={() => onTouch(true)}
+        />
+
         <MuiDateRangePicker
           open={open}
           onClose={() => setOpen(false)}
@@ -86,6 +109,7 @@ const DateRangePicker = ({
                   [classes.disabled]: disabled,
                   [classes.error]: error,
                   [classes.focus]: open && !error,
+                  fakeInput: !disabled && !error,
                 })}
                 sx={{ ...(disabled ? { pointerEvents: 'none' } : {}) }}
                 onClick={() => {
