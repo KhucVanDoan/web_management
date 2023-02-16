@@ -4,7 +4,7 @@ export const formSchema = (t) =>
   Yup.object().shape({
     items: Yup.array().of(
       Yup.object().shape({
-        item: Yup.object().nullable().required(t('general:form.required')),
+        itemCode: Yup.object().nullable().required(t('general:form.required')),
         exportedQuantity: Yup.number()
           .nullable()
           .required(t('general:form.required')),

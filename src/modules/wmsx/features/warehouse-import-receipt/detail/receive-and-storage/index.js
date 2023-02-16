@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 
 import { Box, Grid } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
@@ -156,18 +156,25 @@ function WarehouseImportReceiveAndStorage() {
     }
   }
 
-  const initialValues = {
-    items: [
-      {
-        itemCode: '',
-        locator: '',
-        itemName: '',
-        itemUnit: '',
-        quantity: '',
-        receivedQuantity: '',
-      },
-    ],
-  }
+  const initialValues = useMemo(
+    () => ({
+      items: warehouseImportReceiptDetails?.purchasedOrderImportDetails?.map(
+        (item, index) => ({
+          id: `${item?.itemId}-${index}`,
+          itemCode:
+            {
+              itemId: item?.itemId,
+              id: item?.itemId,
+              quantity: item?.quantity,
+              ...item?.item,
+            } || null,
+          receivedQuantity: item?.quantity,
+          locator: '',
+        }),
+      ),
+    }),
+    [warehouseImportReceiptDetails],
+  )
   const receiptRequired = warehouseImportReceiptDetails?.attributes?.find(
     (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT,
   )
@@ -184,7 +191,7 @@ function WarehouseImportReceiveAndStorage() {
         validationSchema={formSchema(t)}
         onSubmit={onSubmit}
       >
-        {({ values }) => {
+        {({ values, setFieldValue }) => {
           return (
             <Form>
               <Grid container justifyContent="center">
@@ -354,7 +361,10 @@ function WarehouseImportReceiveAndStorage() {
                             </Grid>
                           )
                         } else if (
-                          item?.tableName === TABLE_NAME_ENUM.SALE_ORDER_EXPORT
+                          item?.tableName ===
+                            TABLE_NAME_ENUM.SALE_ORDER_EXPORT ||
+                          item?.tableName ===
+                            TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL
                         ) {
                           return (
                             <Grid item lg={6} xs={12}>
@@ -445,10 +455,7 @@ function WarehouseImportReceiveAndStorage() {
                       render={(arrayHelpers) => (
                         <ItemsSettingTable
                           items={values?.items}
-                          itemList={
-                            warehouseImportReceiptDetails?.purchasedOrderImportDetails ||
-                            []
-                          }
+                          setFieldValue={setFieldValue}
                           arrayHelpers={arrayHelpers}
                           warehouseId={
                             warehouseImportReceiptDetails?.warehouse?.id
