@@ -14,7 +14,7 @@ import { OrderTypeEnum, TABLE_NAME_ENUM } from '~/modules/wmsx/constants'
 import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 
-const ItemSettingTable = ({ items, itemList, lots, arrayHelpers }) => {
+const ItemSettingTable = ({ items, lots, arrayHelpers }) => {
   const { t } = useTranslation(['wmsx'])
   const {
     data: { warehouseExportReceiptDetails },
@@ -23,6 +23,14 @@ const ItemSettingTable = ({ items, itemList, lots, arrayHelpers }) => {
     data: { itemStockAvailabe },
     actions,
   } = useWarehouseTransfer()
+  const itemList = warehouseExportReceiptDetails?.itemsSync?.map((item) => ({
+    ...item?.item,
+    quantity: item?.quantity,
+    exportedQuantity: item?.quantity,
+    requestedQuantityWarehouseExportProposal:
+      item?.requestedQuantityWarehouseExportProposal,
+    id: item?.id,
+  }))
   useEffect(() => {
     if (!isEmpty(lots)) {
       const params = {
@@ -39,7 +47,6 @@ const ItemSettingTable = ({ items, itemList, lots, arrayHelpers }) => {
       actions.getItemWarehouseStockAvailable(params)
     }
   }, [lots])
-
   const columns = useMemo(
     () => [
       {
@@ -57,11 +64,11 @@ const ItemSettingTable = ({ items, itemList, lots, arrayHelpers }) => {
         renderCell: (params, index) => {
           return (
             <Field.Autocomplete
-              name={`items[${index}].item`}
+              name={`items[${index}].itemCode`}
               placeholder={t('warehouseExportReceipt.items.suppliesCode')}
               options={itemList}
-              getOptionLabel={(opt) => opt?.item?.code || ''}
-              getOptionSubLabel={(opt) => opt?.item?.name || ''}
+              getOptionLabel={(opt) => opt?.code || ''}
+              getOptionSubLabel={(opt) => opt?.name || ''}
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
               required
             />
@@ -73,7 +80,7 @@ const ItemSettingTable = ({ items, itemList, lots, arrayHelpers }) => {
         headerName: t('warehouseExportReceipt.items.suppliesName'),
         width: 250,
         renderCell: (params) => {
-          return params?.row?.item?.item?.name
+          return params?.row?.itemCode?.name
         },
       },
       {
@@ -81,7 +88,7 @@ const ItemSettingTable = ({ items, itemList, lots, arrayHelpers }) => {
         headerName: t('warehouseExportReceipt.unit'),
         width: 150,
         renderCell: (params) => {
-          return params?.row?.item?.item?.itemUnit
+          return params?.row?.itemCode?.itemUnit
         },
       },
       {
@@ -90,7 +97,7 @@ const ItemSettingTable = ({ items, itemList, lots, arrayHelpers }) => {
         width: 250,
         renderCell: (params, index) => {
           const lotNumbersOfItem = lots?.filter(
-            (lot) => lot.itemId === params?.row?.item?.id,
+            (lot) => lot.itemId === params?.row?.itemCode?.id,
           )
           return (
             <Field.Autocomplete
@@ -128,7 +135,8 @@ const ItemSettingTable = ({ items, itemList, lots, arrayHelpers }) => {
           ) ? (
             <NumberFormatText
               value={
-                params?.row?.item?.requestedQuantityWarehouseExportProposal
+                params?.row?.requestedQuantityWarehouseExportProposal ||
+                params?.row?.itemCode?.requestedQuantityWarehouseExportProposal
               }
               formatter="quantity"
             />
@@ -144,9 +152,7 @@ const ItemSettingTable = ({ items, itemList, lots, arrayHelpers }) => {
         renderCell: (params) => {
           return (
             <NumberFormatText
-              value={
-                params?.row?.lotNumber?.quantity || +params?.row?.item?.quantity
-              }
+              value={+params?.row?.quantity || params?.row?.itemCode?.quantity}
               formatter="quantity"
             />
           )
@@ -192,7 +198,7 @@ const ItemSettingTable = ({ items, itemList, lots, arrayHelpers }) => {
             itemStockAvailabe
               ?.find(
                 (item) =>
-                  item?.itemId === params?.row?.item?.id &&
+                  item?.itemId === params?.row?.itemCode?.id &&
                   item?.itemAvailables?.length > 0,
               )
               ?.itemAvailables?.map((item) => ({
@@ -252,7 +258,7 @@ const ItemSettingTable = ({ items, itemList, lots, arrayHelpers }) => {
           onClick={() => {
             arrayHelpers.push({
               id: new Date().getTime(),
-              item: '',
+              itemCode: '',
               unit: '',
               quantityRequest: '',
               exportedQuantity: '',

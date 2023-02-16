@@ -66,13 +66,20 @@ function WarehouseExportReceiptPickAndExport() {
 
   const initialValues = useMemo(
     () => ({
-      items: [
-        {
-          itemCode: '',
-          exportedQuantity: '',
-          locator: '',
-        },
-      ],
+      items: warehouseExportReceiptDetails?.itemsSync?.map((item, index) => ({
+        id: `${item?.id}-${index}`,
+        quantity: item?.quantity,
+        requestedQuantityWarehouseExportProposal:
+          item?.requestedQuantityWarehouseExportProposal,
+        exportedQuantity: item?.quantity,
+        itemCode:
+          {
+            id: item?.id,
+            ...item?.item,
+          } || null,
+        receivedQuantity: '',
+        locator: '',
+      })),
     }),
     [warehouseExportReceiptDetails],
   )
@@ -295,7 +302,8 @@ function WarehouseExportReceiptPickAndExport() {
                     </Grid>
                   )
                 } else if (
-                  item?.tableName === TABLE_NAME_ENUM.PURCHASED_ODER_IMPORT
+                  item?.tableName === TABLE_NAME_ENUM.PURCHASED_ODER_IMPORT ||
+                  item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL
                 ) {
                   return (
                     <Grid item lg={6} xs={12}>
@@ -392,7 +400,6 @@ function WarehouseExportReceiptPickAndExport() {
                       render={(arrayHelpers) => (
                         <ItemSettingTable
                           items={values?.items || []}
-                          itemList={warehouseExportReceiptDetails?.itemsSync}
                           lots={
                             warehouseExportReceiptDetails?.saleOrderExportWarehouseLots ||
                             []
