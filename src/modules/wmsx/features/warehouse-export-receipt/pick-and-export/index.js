@@ -125,13 +125,13 @@ function WarehouseExportReceiptPickAndExport() {
     try {
       const userInfo = getLocalItem('userInfo')
       const payload = {
-        userId: userInfo.id,
+        userId: +userInfo.id,
         movementType: MOVEMENT_TYPE.SO_EXPORT,
         orderId: Number(id),
-        warehouseId: warehouseExportReceiptDetails?.warehouse?.id,
+        warehouseId: +warehouseExportReceiptDetails?.warehouse?.id,
         items: values.items?.map((item) => ({
-          id: item?.item?.itemId || item?.item?.id,
-          locatorId: item.locator?.locatorId,
+          id: +item?.itemCode?.itemId || +item?.itemCode?.id,
+          locatorId: +item.locator?.locatorId,
           lotNumber: item.lotNumber?.lotNumber,
           quantity: Number(item.exportedQuantity),
         })),
