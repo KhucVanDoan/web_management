@@ -6,6 +6,7 @@ import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
+import NumberFormatText from '~/components/NumberFormat'
 import { MOVEMENT_TYPE } from '~/modules/wmsx/constants'
 
 const ItemSettingTable = ({ items, movementType }) => {
@@ -106,7 +107,9 @@ const ItemSettingTable = ({ items, movementType }) => {
         movementType === MOVEMENT_TYPE.TRANSFER_IMPORT ||
         movementType === MOVEMENT_TYPE.PO_IMPORT,
       width: 120,
-      renderCell: (params) => Number(params.row?.quantity),
+      renderCell: (params) => (
+        <NumberFormatText value={+params?.row?.quantity} formatter="quantity" />
+      ),
     },
     {
       field: 'location',
@@ -130,7 +133,9 @@ const ItemSettingTable = ({ items, movementType }) => {
         movementType === MOVEMENT_TYPE.SO_EXPORT ||
         movementType === MOVEMENT_TYPE.TRANSFER_EXPORT,
       width: 120,
-      renderCell: (params) => Number(params.row?.quantity),
+      renderCell: (params) => (
+        <NumberFormatText value={+params?.row?.quantity} formatter="quantity" />
+      ),
     },
     {
       field: 'unpickedQuantity',
@@ -140,7 +145,12 @@ const ItemSettingTable = ({ items, movementType }) => {
         movementType === MOVEMENT_TYPE.TRANSFER_IMPORT ||
         movementType === MOVEMENT_TYPE.PO_IMPORT,
       width: 120,
-      renderCell: (params) => Number(params.row?.planQuantity),
+      renderCell: (params) => (
+        <NumberFormatText
+          value={+params?.row?.planQuantity}
+          formatter="quantity"
+        />
+      ),
     },
     {
       field: 'location',
