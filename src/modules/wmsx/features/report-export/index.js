@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo, useState } from 'react'
 
 import { Box, Grid } from '@mui/material'
 import { Form, Formik } from 'formik'
@@ -8,9 +8,10 @@ import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
-import useReportExport from '~/modules/wmsx/redux/hooks/useReportExport'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { reportApi } from '~/services/api'
 import { convertSortParams, getLocalItem } from '~/utils'
+import { getFileNameFromHeader } from '~/utils/api'
 
 import {
   REPORT_FILE_TYPE_OPTIONS,
@@ -20,7 +21,6 @@ import {
 import { searchConstructionsApi } from '../../redux/sagas/construction-management/search-constructions'
 import { searchWarehouseApi } from '../../redux/sagas/define-warehouse/search-warehouse'
 import { searchReceiptDepartmentApi } from '../../redux/sagas/receipt-department-management/search-receipt-department'
-import { exportReportApi } from '../../redux/sagas/report-export/export-report'
 import { formSchema } from './schema'
 
 const breadcrumbs = [
@@ -35,21 +35,26 @@ const breadcrumbs = [
 
 const ReportExport = () => {
   const { t } = useTranslation(['wmsx'])
+  const [isLoading, setIsLoading] = useState(false)
+  // const {
+  //   data: { isLoading },
+  //   actions,
+  // } = useReportExport()
 
-  const {
-    data: { isLoading },
-  } = useReportExport()
-
-  const initialValues = {
-    type: '',
-    company: null,
-    time: [new Date(), new Date()],
-    fileFormat: '',
-  }
+  const initialValues = useMemo(
+    () => ({
+      type: '',
+      company: null,
+      time: [new Date(), new Date()],
+      fileFormat: '',
+    }),
+    [],
+  )
 
   const userInfo = getLocalItem('userInfo')
 
-  const onSubmit = (values) => {
+  const onSubmit = async (values) => {
+    setIsLoading(true)
     const convertValues = {
       reportType: values?.type,
       exportType: values?.fileFormat,
@@ -60,7 +65,24 @@ const ReportExport = () => {
       dateFrom: values?.time?.[0]?.toISOString(),
       dateTo: values?.time?.[1]?.toISOString(),
     }
-    exportReportApi(convertValues)
+    const uri = `/v1/reports/export`
+    const res = await reportApi.get(uri, convertValues, {
+      responseType: 'blob',
+      getHeaders: true,
+    })
+    if (res) {
+      setIsLoading(false)
+      const filename = getFileNameFromHeader(res)
+      const blob = new Blob([res?.data])
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      const nameFile = decodeURI(filename)
+      link.setAttribute('download', nameFile)
+      document.body.appendChild(link)
+      link.click()
+      URL.revokeObjectURL(url)
+    }
   }
 
   const isConstructionEnabled = (type) =>

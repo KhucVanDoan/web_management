@@ -380,37 +380,38 @@ const ItemSettingTable = ({
           )
         },
       },
-
-      {
-        field: 'unitPriceRefer',
-        headerName: t('warehouseExportReceipt.items.unitPriceRefer'),
-        width: 150,
-        renderCell: (params, index) => {
-          return (
-            <Field.TextField
-              name={`items[${index}].unitPriceRefer`}
-              formatter="price"
-              disabled
-              required
-            />
-          )
-        },
-      },
-      {
-        field: 'totalMoney',
-        headerName: t('warehouseExportReceipt.items.totalMoney'),
-        width: 150,
-        renderCell: (params, index) => {
-          return (
-            <Field.TextField
-              name={`items[${index}].totalMoney`}
-              formatter="price"
-              disabled
-              required
-            />
-          )
-        },
-      },
+      // {
+      //   field: 'unitPriceRefer',
+      //   headerName: t('warehouseExportReceipt.items.unitPriceRefer'),
+      //   hide: !isView,
+      //   width: 150,
+      //   renderCell: (params, index) => {
+      //     return (
+      //       <Field.TextField
+      //         name={`items[${index}].unitPriceRefer`}
+      //         formatter="price"
+      //         disabled
+      //         required
+      //       />
+      //     )
+      //   },
+      // },
+      // {
+      //   field: 'totalMoney',
+      //   headerName: t('warehouseExportReceipt.items.totalMoney'),
+      //   width: 150,
+      //   hide: !isView,
+      //   renderCell: (params, index) => {
+      //     return (
+      //       <Field.TextField
+      //         name={`items[${index}].totalMoney`}
+      //         formatter="price"
+      //         disabled
+      //         required
+      //       />
+      //     )
+      //   },
+      // },
       {
         field: 'debitAccount',
         headerName: t('warehouseExportReceipt.items.debitAccount'),
