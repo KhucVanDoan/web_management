@@ -175,7 +175,7 @@ const ItemSettingTable = (props) => {
               payload?.row?.itemCode?.id || payload?.row?.itemCode?.itemId,
             warehouseId: values?.sourceWarehouseId?.id,
             lotNumber: payload?.row?.lotNumber || null,
-            locatorId: val?.id || null,
+            locatorId: val?.locatorId || null,
           },
         ],
       }
@@ -199,7 +199,7 @@ const ItemSettingTable = (props) => {
     }
   }
   const handleChangeStorageDate = async (val, index, payload) => {
-    setFieldValue('planExportedQuantity', '')
+    setFieldValue(`items[${index}].planExportedQuantity`, '')
     const params = {
       items: [
         {
@@ -271,7 +271,9 @@ const ItemSettingTable = (props) => {
               asyncRequestHelper={(res) => res?.data?.items}
               getOptionLabel={(opt) => opt?.code}
               getOptionSubLabel={(opt) => opt?.name}
-              isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+              isOptionEqualToValue={(opt, val) => {
+                return opt?.id === val?.id
+              }}
               required
               disabled={
                 !values?.sourceWarehouseId || !values?.destinationWarehouseId
