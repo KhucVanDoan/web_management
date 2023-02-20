@@ -6,11 +6,16 @@ import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
 import NumberFormatText from '~/components/NumberFormat'
-import { LENGTH_DEBITACCOUNT } from '~/modules/wmsx/constants'
-
+import {
+  LENGTH_DEBITACCOUNT,
+  WAREHOUSE_EXPORT_RECEIPT_STATUS,
+} from '~/modules/wmsx/constants'
+import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
 const ItemSettingTableDetail = ({ items }) => {
   const { t } = useTranslation(['wmsx'])
-
+  const {
+    data: { warehouseExportReceiptDetails },
+  } = useWarehouseExportReceipt()
   const columns = useMemo(
     () => [
       {
@@ -90,6 +95,9 @@ const ItemSettingTableDetail = ({ items }) => {
       {
         field: 'unitPriceRefer',
         headerName: t('warehouseExportReceipt.items.unitPriceRefer'),
+        hide:
+          warehouseExportReceiptDetails?.status !==
+          WAREHOUSE_EXPORT_RECEIPT_STATUS.COMPLETED,
         width: 150,
         renderCell: (params) => (
           <NumberFormatText value={params?.row?.price} formatter="price" />
@@ -99,6 +107,9 @@ const ItemSettingTableDetail = ({ items }) => {
         field: 'totalMoney',
         headerName: t('warehouseExportReceipt.items.totalMoney'),
         width: 150,
+        hide:
+          warehouseExportReceiptDetails?.status !==
+          WAREHOUSE_EXPORT_RECEIPT_STATUS.COMPLETED,
         renderCell: (params) => (
           <NumberFormatText value={params?.row?.amount} formatter="price" />
         ),

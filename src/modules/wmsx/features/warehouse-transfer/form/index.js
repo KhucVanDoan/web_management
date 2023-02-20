@@ -41,7 +41,7 @@ import warehouseTranferSchema from './schema'
 
 const DEFAULT_ITEM = {
   ids: new Date().getTime(),
-  itemName: '',
+  itemCode: null,
   itemType: '',
   lotNumber: '',
   transferQuantity: '',
@@ -145,6 +145,7 @@ const WarehouseTransferForm = () => {
     }),
     [warehouseTransferDetails, attributesBusinessTypeDetails],
   )
+
   warehouseTransferDetails?.attributes?.forEach((item) => {
     if (item.tableName) {
       initialValues[`${item.id}`] =
