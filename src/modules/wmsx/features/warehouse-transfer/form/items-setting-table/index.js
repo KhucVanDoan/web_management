@@ -159,6 +159,7 @@ const ItemSettingTable = (props) => {
           const findStorage = storageDates?.find(
             (date) =>
               date?.itemId === item?.itemId &&
+              date?.locatorId === item?.locatorId &&
               new Date(date?.storageDate)?.toISOString() ===
                 new Date(item?.storageDate)?.toISOString(),
           )
