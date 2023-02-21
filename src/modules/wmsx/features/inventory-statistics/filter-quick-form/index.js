@@ -68,9 +68,6 @@ const InventoryStatisticFilter = ({
                         searchMaterialsApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
-                          filter: convertFilterParams({
-                            warehouseId: values?.warehouseId?.id,
-                          }),
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
