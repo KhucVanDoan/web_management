@@ -72,7 +72,7 @@ const ItemSettingTable = (props) => {
         )
         setFieldValue(
           `items[${index}].planExportedQuantity`,
-          planExportedQuantity?.quantity,
+          planExportedQuantity?.quantity || 0,
         )
       }
       setFieldValue(`items[${index}].transferQuantity`, '')
@@ -149,7 +149,7 @@ const ItemSettingTable = (props) => {
         )
       setFieldValue(
         `items[${index}].planExportedQuantity`,
-        planExportedQuantity?.quantity,
+        planExportedQuantity?.quantity || 0,
       )
     }
   }
@@ -201,7 +201,7 @@ const ItemSettingTable = (props) => {
         )
       setFieldValue(
         `items[${index}].planExportedQuantity`,
-        planExportedQuantity?.quantity,
+        planExportedQuantity?.quantity || 0,
       )
     }
   }
@@ -244,7 +244,7 @@ const ItemSettingTable = (props) => {
         )
       setFieldValue(
         `items[${index}].planExportedQuantity`,
-        planExportedQuantity?.quantity,
+        planExportedQuantity?.quantity || 0,
       )
     }
   }
