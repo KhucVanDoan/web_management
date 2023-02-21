@@ -134,13 +134,19 @@ const ItemSettingTable = (props) => {
         ],
       }
       const res = await getItemWarehouseStockAvailableApi(params)
-      const planExportedQuantity = res?.data?.find(
-        (item) =>
-          item?.itemId ===
-            (payload?.row?.itemCode?.id || payload?.row?.itemCode?.itemId) &&
-          new Date(item?.storageDate)?.toISOString() ===
-            new Date(val)?.toISOString(),
-      )
+      const planExportedQuantity = res?.data
+        ?.find(
+          (item) =>
+            item?.itemId ===
+              (payload?.row?.itemCode?.id || payload?.row?.itemCode?.itemId) &&
+            item?.lotNumber === val,
+        )
+        ?.itemAvailables?.find(
+          (e) =>
+            e?.itemId ===
+              (payload?.row?.itemCode?.id || payload?.row?.itemCode?.itemId) &&
+            e?.lotNumber === val,
+        )
       setFieldValue(
         `items[${index}].planExportedQuantity`,
         planExportedQuantity?.quantity,
@@ -224,11 +230,18 @@ const ItemSettingTable = (props) => {
     }
     if (val) {
       const res = await getItemWarehouseStockAvailableApi(params)
-      const planExportedQuantity = res?.data?.find(
-        (item) =>
-          item?.itemId ===
-          (payload?.row?.itemCode?.id || payload?.row?.itemCode?.itemId),
-      )
+      const planExportedQuantity = res?.data
+        ?.find(
+          (item) =>
+            item?.itemId ===
+            (payload?.row?.itemCode?.id || payload?.row?.itemCode?.itemId),
+        )
+        ?.itemAvailables?.find(
+          (e) =>
+            e?.itemId ===
+              (payload?.row?.itemCode?.id || payload?.row?.itemCode?.itemId) &&
+            e?.locatorId === payload?.row?.locator?.locatorId,
+        )
       setFieldValue(
         `items[${index}].planExportedQuantity`,
         planExportedQuantity?.quantity,

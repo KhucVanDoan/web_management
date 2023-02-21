@@ -416,15 +416,17 @@ function WarehouseImportReceiptForm() {
     setItemReceipt([])
     setItemWarehouseExportProposal([])
     setItemWarehouseExportReceipt([])
-    const receiptDate = convertUtcDateToLocalTz(
-      values?.receiptDate.toISOString(),
-    )
-    const explaination = `${
-      receiptDate
-        ? `${t('warehouseImportReceipt.warehouseInputDate')} [${receiptDate}]`
-        : ''
-    }`
-    setFieldValue('explaination', explaination)
+    if (values?.receiptDate) {
+      const receiptDate = convertUtcDateToLocalTz(
+        values?.receiptDate?.toISOString(),
+      )
+      const explaination = `${
+        receiptDate
+          ? `${t('warehouseImportReceipt.warehouseInputDate')} [${receiptDate}]`
+          : ''
+      }`
+      setFieldValue('explaination', explaination)
+    }
     if (!isEmpty(val)) {
       val?.bussinessTypeAttributes?.forEach((item) => {
         if (!isNil(item?.id)) {
@@ -447,7 +449,7 @@ function WarehouseImportReceiptForm() {
           (item) => item?.tableName === TABLE_NAME_ENUM.SALE_ORDER_EXPORT,
         )?.id
       ]?.code
-    const receiptDate = convertUtcDateToLocalTz(val.toISOString())
+    const receiptDate = convertUtcDateToLocalTz(val?.toISOString())
     const explaination = `${
       receiptDate
         ? `${t('warehouseImportReceipt.warehouseInputDate')} [${receiptDate}]`
