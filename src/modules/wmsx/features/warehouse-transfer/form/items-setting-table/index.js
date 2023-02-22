@@ -54,6 +54,7 @@ const ItemSettingTable = (props) => {
     setStorageDates([...storageDates])
   }, [items])
   const handleChangeItem = async (val, index) => {
+    setFieldValue(`items[${index}].locator`, null)
     if (val) {
       const params = {
         items: [
@@ -358,6 +359,9 @@ const ItemSettingTable = (props) => {
               name={`items[${index}].locator`}
               options={locationList}
               disabled={isEmpty(itemCode)}
+              isOptionEqualToValue={(opt, val) =>
+                opt?.locatorId === val?.locatorId
+              }
               onChange={(val) => handleChangeLocator(val, index, params)}
               getOptionLabel={(opt) => opt?.code}
               validate={(val) => {
