@@ -26,20 +26,6 @@ import { getWarehouseExportReceiptDetailsApi } from '~/modules/wmsx/redux/sagas/
 import { searchWarehouseExportReceiptApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/search'
 import { convertFilterParams, convertUtcDateToLocalTz } from '~/utils'
 
-const DEFAULT_ITEMS = [
-  {
-    id: 1,
-    itemCode: '',
-    itemName: '',
-    unit: '',
-    lotNumber: '',
-    money: '',
-    importQuantity: '',
-    price: '',
-    debitAcc: '',
-    creditAcc: '',
-  },
-]
 const displayFollowBusinessTypeManagement = (
   type,
   t,
@@ -48,6 +34,7 @@ const displayFollowBusinessTypeManagement = (
   setItemWarehouseExportProposal,
   setItemReceipt,
   setFieldValue,
+  setLoadingReceipt,
 ) => {
   const { actions } = useReceiptManagement()
   const constructions = type?.find(
@@ -63,13 +50,27 @@ const displayFollowBusinessTypeManagement = (
       setItemReceipt([])
       setFieldValue('contractNumber', '')
     }
-    setFieldValue('items', DEFAULT_ITEMS)
     if (!isEmpty(val)) {
+      setLoadingReceipt(true)
       actions.getReceiptDetailsById(val?.id, (data) => {
         setItemReceipt(data?.items)
         setFieldValue('warehouse', data?.warehouse)
-
         setFieldValue('contractNumber', val?.contractNumber)
+
+        const items = data?.items?.map((item) => ({
+          itemCode: { ...item?.item, itemId: item?.itemId },
+          itemName: item?.item?.name,
+          unit: item?.item?.itemUnit,
+          importQuantity: item?.quantity,
+          money: item?.amount,
+          price: item?.price,
+          debitAcc: item?.debitAccount,
+          creditAcc: item?.creditAccount,
+        }))
+        if (items?.length > 0) {
+          setFieldValue('items', items)
+        }
+        setLoadingReceipt(false)
       })
     }
   }
@@ -85,7 +86,7 @@ const displayFollowBusinessTypeManagement = (
           )?.id
         ]?.code
       const receiptDate = convertUtcDateToLocalTz(
-        values?.receiptDate.toISOString(),
+        values?.receiptDate?.toISOString(),
       )
       const explaination = `${
         receiptDate

@@ -69,6 +69,7 @@ function WarehouseImportReceiptForm() {
   const [itemWarehouseExportReceipt, setItemWarehouseExportReceipt] = useState(
     [],
   )
+  const [loadingReceipt, setLoadingReceipt] = useState(false)
   const {
     data: {
       warehouseImportReceiptDetails,
@@ -471,13 +472,12 @@ function WarehouseImportReceiptForm() {
     }`
     setFieldValue('explaination', explaination)
   }
-
   return (
     <Page
       breadcrumbs={getBreadcrumb()}
       title={t('menu.' + getTitle())}
       onBack={backToList}
-      loading={isLoading}
+      loading={isLoading || loadingReceipt}
     >
       <Grid container justifyContent="center">
         <Grid item xl={11} xs={12}>
@@ -691,6 +691,7 @@ function WarehouseImportReceiptForm() {
                       setItemWarehouseExportProposal,
                       setItemReceipt,
                       setFieldValue,
+                      setLoadingReceipt,
                     )}
                     {receiptRequired && (
                       <Grid item lg={6} xs={12}>
