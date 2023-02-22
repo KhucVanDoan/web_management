@@ -225,7 +225,8 @@ function ItemsSettingTable(props) {
             />
           ) : !isEmpty(values[receiptRequired]) ? (
             <Field.TextField
-              name={`items[${index}].quantity`}
+              name={`items[${index}].importQuantity`}
+              value={+params?.row?.quantity}
               formatter="quantity"
               disabled
             />
@@ -250,7 +251,8 @@ function ItemsSettingTable(props) {
             />
           ) : !isEmpty(values[receiptRequired]) ? (
             <Field.TextField
-              name={`items[${index}].quantity`}
+              name={`items[${index}].importQuantity`}
+              value={+params?.row?.quantity}
               disabled
               formatter="quantity"
             />
@@ -278,6 +280,12 @@ function ItemsSettingTable(props) {
         renderCell: (params, index) => {
           return isView ? (
             <NumberFormatText value={params?.row?.amount} formatter="price" />
+          ) : !isEmpty(values[receiptRequired]) ? (
+            <Field.TextField
+              name={`items[${index}].money`}
+              value={params?.row?.money}
+              formatter="price"
+            />
           ) : (
             <Field.TextField name={`items[${index}].money`} formatter="price" />
           )
@@ -290,6 +298,13 @@ function ItemsSettingTable(props) {
         renderCell: (params, index) => {
           return isView ? (
             <NumberFormatText value={params?.row?.price} formatter="price" />
+          ) : !isEmpty(values[receiptRequired]) ? (
+            <Field.TextField
+              name={`items[${index}].price`}
+              value={Number(params?.row?.price)}
+              formatter="price"
+              disabled
+            />
           ) : (
             <Field.TextField
               name={`items[${index}].price`}
@@ -331,6 +346,12 @@ function ItemsSettingTable(props) {
             ) : (
               params?.row?.creditAccount
             )
+          ) : !isEmpty(values[receiptRequired]) ? (
+            <Field.TextField
+              name={`items[${index}].creditAcc`}
+              value={params?.row?.creditAcc.replace(/^(\d*?[1-9])0+$/, '$1')}
+              disabled
+            />
           ) : (
             <Field.TextField
               name={`items[${index}].creditAcc`}
