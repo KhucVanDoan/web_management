@@ -413,6 +413,8 @@ function WarehouseImportReceiptForm() {
   }
   const handleChangeBusinessType = (val, setFieldValue, values) => {
     setFieldValue('items', [{ ...DEFAULT_ITEMS }])
+    setFieldValue('contractNumber', '')
+    setFieldValue('warehouse', null)
     setItemReceipt([])
     setItemWarehouseExportProposal([])
     setItemWarehouseExportReceipt([])
