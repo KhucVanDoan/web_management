@@ -62,8 +62,8 @@ const displayFollowBusinessTypeManagement = (
           itemName: item?.item?.name,
           unit: item?.item?.itemUnit,
           importQuantity: item?.quantity,
+          quantity: item?.quantity,
           money: item?.amount,
-          price: item?.price,
           debitAcc: item?.debitAccount,
           creditAcc: item?.creditAccount,
         }))
