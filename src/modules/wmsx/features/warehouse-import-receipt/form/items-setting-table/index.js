@@ -122,7 +122,22 @@ function ItemsSettingTable(props) {
                     items[index]?.itemCode?.id)
               }
             />
-          ) : !isEmpty(values[warehouseExportProposal]) &&
+          ) : // : itemList?.length > 0 && !isEmpty(values[receiptRequired]) ? (
+          //   <Field.Autocomplete
+          //     name={`items[${index}].itemCode`}
+          //     options={itemList}
+          //     getOptionLabel={(opt) => opt?.item?.code || opt?.itemCode?.code}
+          //     getOptionSubLabel={(opt) =>
+          //       opt?.item?.name || opt?.itemCode?.name
+          //     }
+          //     onChange={(val) => handleChangeItem(val, index)}
+          //     isOptionEqualToValue={(opt, val) =>
+          //       (opt?.itemId || opt?.itemCode?.itemId) ===
+          //       (val?.itemId || val?.itemCode?.itemId)
+          //     }
+          //   />
+          // )
+          !isEmpty(values[warehouseExportProposal]) &&
             isEmpty(values[receiptRequired]) ? (
             <Field.Autocomplete
               name={`items[${index}].itemCode`}
@@ -246,14 +261,13 @@ function ItemsSettingTable(props) {
         renderCell: (params, index) => {
           return isView ? (
             <NumberFormatText
-              value={+params?.row?.quantity}
+              value={+params?.row?.importQuantity}
               formatter="quantity"
             />
           ) : !isEmpty(values[receiptRequired]) ? (
             <Field.TextField
               name={`items[${index}].importQuantity`}
-              value={+params?.row?.quantity}
-              disabled
+              value={+params?.row?.importQuantity}
               formatter="quantity"
             />
           ) : (
@@ -283,7 +297,7 @@ function ItemsSettingTable(props) {
           ) : !isEmpty(values[receiptRequired]) ? (
             <Field.TextField
               name={`items[${index}].money`}
-              value={params?.row?.money}
+              value={+params?.row?.money}
               formatter="price"
             />
           ) : (
@@ -301,14 +315,14 @@ function ItemsSettingTable(props) {
           ) : !isEmpty(values[receiptRequired]) ? (
             <Field.TextField
               name={`items[${index}].price`}
-              value={Number(params?.row?.price)}
+              value={params?.row?.money / params?.row?.importQuantity}
               formatter="price"
               disabled
             />
           ) : (
             <Field.TextField
               name={`items[${index}].price`}
-              value={Number(params?.row?.money / params?.row?.importQuantity)}
+              value={params?.row?.money / params?.row?.importQuantity}
               formatter="price"
               disabled
             />

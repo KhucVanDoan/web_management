@@ -160,6 +160,7 @@ const ItemSettingTable = (props) => {
       const storageDate = await getListStorageDateApi({
         id: payload?.row?.itemCode?.id || payload?.row?.itemCode?.itemId,
         locatorId: val?.locatorId,
+        warehouseId: values?.sourceWarehouseId?.id,
       })
       if (storageDate?.statusCode === 200) {
         storageDate?.data?.storageDates?.forEach((item) => {
