@@ -70,6 +70,7 @@ function WarehouseImportReceiptForm() {
     [],
   )
   const [loadingReceipt, setLoadingReceipt] = useState(false)
+  const [valueReceipt, setValueReceipt] = useState({})
   const {
     data: {
       warehouseImportReceiptDetails,
@@ -231,6 +232,7 @@ function WarehouseImportReceiptForm() {
             )?.value,
           ),
         )
+        setValueReceipt(res?.data)
         setItemReceipt(res?.data?.items)
       }
       if (
@@ -349,12 +351,13 @@ function WarehouseImportReceiptForm() {
             +item?.itemCode?.itemCode?.itemId,
           requestedItemIdImportActual: item?.itemCode?.item?.code,
           lotNumber: '',
-          quantity: +item?.importQuantity,
-          price: item?.price,
+          quantity: +item?.importQuantity || item?.quantity,
+          price: item?.price || (item?.money / item?.quantity).toFixed(2),
           amount: item?.money,
           debitAccount:
             item?.debitAcc?.replace(/^(\d*?[1-9])0+$/, '$1') || null,
-          creditAccount: creditAccount?.replace(/^(\d*?[1-9])0+$/, '$1'),
+          creditAccount:
+            item?.creditAcc || creditAccount?.replace(/^(\d*?[1-9])0+$/, '$1'),
           warehouseId: values?.warehouse?.id,
         })),
       ),
@@ -405,10 +408,23 @@ function WarehouseImportReceiptForm() {
         break
     }
   }
-  const handleChangeSource = (val) => {
+  const handleChangeSource = (val, values, setFieldValue) => {
     if (val) {
       sourceAction.getDetailSourceManagementById(val?.id, (data) => {
         setCreditAccount(data?.accountant.replace(/^(\d*?[1-9])0+$/, '$1'))
+        const receipt =
+          values[
+            values?.businessTypeId?.bussinessTypeAttributes?.find(
+              (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT,
+            )?.id
+          ]?.receiptNumber
+        if (!isEmpty(receipt)) {
+          const itemReceiptList = values?.items?.map((item) => ({
+            ...item,
+            creditAcc: data?.accountant.replace(/^(\d*?[1-9])0+$/, '$1'),
+          }))
+          setFieldValue('items', itemReceiptList)
+        }
       })
     }
   }
@@ -417,6 +433,7 @@ function WarehouseImportReceiptForm() {
     setFieldValue('contractNumber', '')
     setFieldValue('warehouse', null)
     setItemReceipt([])
+    setValueReceipt({})
     setItemWarehouseExportProposal([])
     setItemWarehouseExportReceipt([])
     if (values?.receiptDate) {
@@ -483,7 +500,7 @@ function WarehouseImportReceiptForm() {
         <Grid item xl={11} xs={12}>
           <Formik
             initialValues={initialValues}
-            validationSchema={formSchema(t)}
+            validationSchema={formSchema(t, valueReceipt)}
             onSubmit={onSubmit}
             enableReinitialize
           >
@@ -679,7 +696,9 @@ function WarehouseImportReceiptForm() {
                         getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
                         getOptionSubLabel={(opt) => opt?.accountIdentifier}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                        onChange={(val) => handleChangeSource(val)}
+                        onChange={(val) =>
+                          handleChangeSource(val, values, setFieldValue)
+                        }
                         required
                       />
                     </Grid>
@@ -692,6 +711,8 @@ function WarehouseImportReceiptForm() {
                       setItemReceipt,
                       setFieldValue,
                       setLoadingReceipt,
+                      creditAccount,
+                      setValueReceipt,
                     )}
                     {receiptRequired && (
                       <Grid item lg={6} xs={12}>
@@ -736,9 +757,7 @@ function WarehouseImportReceiptForm() {
                           setFieldValue={setFieldValue}
                           creditAccount={creditAccount}
                           itemList={
-                            itemReceipt?.length > 0
-                              ? itemReceipt
-                              : itemWarehouseExportReceipt?.length > 0
+                            itemWarehouseExportReceipt?.length > 0
                               ? itemWarehouseExportReceipt
                               : itemWarehouseExportProposal
                           }

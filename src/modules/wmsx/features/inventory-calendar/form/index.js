@@ -563,7 +563,12 @@ const InventoryCalendarForm = () => {
                             <FileUploadIcon color="primary" /> Nhập dữ liệu
                           </Button>
                         </label>
-                        {!values?.checkPointDataAttachment && (
+                        {!values?.checkPointDataAttachment && !isUpdate && (
+                          <FormHelperText error>
+                            {t('general:form.required')}
+                          </FormHelperText>
+                        )}
+                        {isUpdate && !inventoryCalendarDetails?.isSnapShot && (
                           <FormHelperText error>
                             {t('general:form.required')}
                           </FormHelperText>
