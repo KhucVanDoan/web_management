@@ -11,10 +11,7 @@ import {
   getDashboardItems,
   getDashboardWarehouses,
 } from '~/modules/wmsx/redux/sagas/dashboard'
-import {
-  convertFilterParams,
-  convertNumberWithThousandSeparator,
-} from '~/utils'
+import { convertNumberWithThousandSeparator } from '~/utils'
 
 const StockItemReport = () => {
   const { t } = useTranslation(['wmsx'])
@@ -170,9 +167,6 @@ const StockItemReport = () => {
               getDashboardItems({
                 keyword: s,
                 limit: ASYNC_SEARCH_LIMIT,
-                filter: convertFilterParams({
-                  warehouseId: warehouseId,
-                }),
               })
             }
             asyncRequestDeps={warehouseId}

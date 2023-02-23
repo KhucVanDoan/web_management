@@ -35,6 +35,8 @@ const displayFollowBusinessTypeManagement = (
   setItemReceipt,
   setFieldValue,
   setLoadingReceipt,
+  creditAccount,
+  setValueReceipt,
 ) => {
   const { actions } = useReceiptManagement()
   const constructions = type?.find(
@@ -45,6 +47,7 @@ const displayFollowBusinessTypeManagement = (
   )?.id
   const handleChangeReceipt = (val) => {
     setItemReceipt([])
+    setValueReceipt({})
     setFieldValue('receiptDate', '')
     if (isEmpty(val)) {
       setItemReceipt([])
@@ -56,19 +59,39 @@ const displayFollowBusinessTypeManagement = (
         setItemReceipt(data?.items)
         setFieldValue('warehouse', data?.warehouse)
         setFieldValue('contractNumber', val?.contractNumber)
-
-        const items = data?.items?.map((item) => ({
-          itemCode: { ...item?.item, itemId: item?.itemId },
-          itemName: item?.item?.name,
-          unit: item?.item?.itemUnit,
-          importQuantity: item?.quantity,
-          quantity: item?.quantity,
-          money: item?.amount,
-          debitAcc: item?.debitAccount,
-          creditAcc: item?.creditAccount,
-        }))
-        if (items?.length > 0) {
-          setFieldValue('items', items)
+        setValueReceipt(data)
+        if (isEmpty(values?.sourceId)) {
+          const items = data?.items?.map((item) => ({
+            itemCode: { ...item?.item, itemId: item?.itemId },
+            itemName: item?.item?.name,
+            unit: item?.item?.itemUnit,
+            importQuantity: item?.quantity,
+            quantity: item?.quantity,
+            money: item?.amount,
+            debitAcc: item?.item?.itemWarehouseSources?.find(
+              (e) => e?.warehouseId === data?.warehouse?.id,
+            )?.accounting,
+            // creditAcc: item?.creditAccount,
+          }))
+          if (items?.length > 0) {
+            setFieldValue('items', items)
+          }
+        } else {
+          const items = data?.items?.map((item) => ({
+            itemCode: { ...item?.item, itemId: item?.itemId },
+            itemName: item?.item?.name,
+            unit: item?.item?.itemUnit,
+            importQuantity: item?.quantity,
+            quantity: item?.quantity,
+            money: item?.amount,
+            debitAcc: item?.item?.itemWarehouseSources?.find(
+              (e) => e?.warehouseId === data?.warehouse?.id,
+            )?.accounting,
+            creditAcc: creditAccount,
+          }))
+          if (items?.length > 0) {
+            setFieldValue('items', items)
+          }
         }
         setLoadingReceipt(false)
       })

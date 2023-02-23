@@ -209,7 +209,7 @@ function DefineWarehouseForm() {
                       label={t('defineWarehouse.name')}
                       placeholder={t('defineWarehouse.name')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                       }}
                       required
                     />
