@@ -33,8 +33,9 @@ function ItemsSettingTable(props) {
     creditAccount,
   } = props
   const {
-    data: { warehouseImportReceiptDetails },
+    data: { warehouseImportReceiptDetails, attributesBusinessTypeDetails },
   } = useWarehouseImportReceipt()
+
   const isView = mode === MODAL_MODE.DETAIL
   const receiptRequired = values?.businessTypeId?.bussinessTypeAttributes?.find(
     (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT,
@@ -99,7 +100,7 @@ function ItemsSettingTable(props) {
           )
           return isView ? (
             params?.row?.item?.code
-          ) : itemList?.length > 0 ? (
+          ) : itemList?.length > 0 && isEmpty(values[receiptRequired]) ? (
             <Field.Autocomplete
               name={`items[${index}].itemCode`}
               options={itemList}
@@ -122,6 +123,8 @@ function ItemsSettingTable(props) {
                     items[index]?.itemCode?.id)
               }
             />
+          ) : !isEmpty(values[receiptRequired]) ? (
+            params?.row?.itemCode?.code
           ) : !isEmpty(values[warehouseExportProposal]) &&
             isEmpty(values[receiptRequired]) ? (
             <Field.Autocomplete
@@ -175,6 +178,8 @@ function ItemsSettingTable(props) {
         renderCell: (params, index) => {
           return isView ? (
             params?.row?.item?.name
+          ) : !isEmpty(values[receiptRequired]) ? (
+            params?.row?.itemCode?.name
           ) : (
             <Field.TextField name={`items[${index}].itemName`} disabled />
           )
@@ -187,6 +192,8 @@ function ItemsSettingTable(props) {
         renderCell: (params, index) => {
           return isView ? (
             params?.row?.item?.itemUnit
+          ) : !isEmpty(values[receiptRequired]) ? (
+            params?.row?.itemCode?.itemUnit || params?.row?.unit
           ) : (
             <Field.TextField name={`items[${index}].unit`} disabled />
           )
@@ -224,11 +231,9 @@ function ItemsSettingTable(props) {
               disabled
             />
           ) : !isEmpty(values[receiptRequired]) ? (
-            <Field.TextField
-              name={`items[${index}].importQuantity`}
-              value={+params?.row?.quantity}
+            <NumberFormatText
+              value={params?.row?.quantity}
               formatter="quantity"
-              disabled
             />
           ) : (
             <Field.TextField
@@ -246,14 +251,12 @@ function ItemsSettingTable(props) {
         renderCell: (params, index) => {
           return isView ? (
             <NumberFormatText
-              value={+params?.row?.quantity}
+              value={+params?.row?.importQuantity || params?.row?.quantity}
               formatter="quantity"
             />
           ) : !isEmpty(values[receiptRequired]) ? (
-            <Field.TextField
-              name={`items[${index}].importQuantity`}
-              value={+params?.row?.quantity}
-              disabled
+            <NumberFormatText
+              value={params?.row?.importQuantity}
               formatter="quantity"
             />
           ) : (
@@ -281,11 +284,7 @@ function ItemsSettingTable(props) {
           return isView ? (
             <NumberFormatText value={params?.row?.amount} formatter="price" />
           ) : !isEmpty(values[receiptRequired]) ? (
-            <Field.TextField
-              name={`items[${index}].money`}
-              value={params?.row?.money}
-              formatter="price"
-            />
+            <NumberFormatText value={params?.row?.money} formatter="price" />
           ) : (
             <Field.TextField name={`items[${index}].money`} formatter="price" />
           )
@@ -299,16 +298,14 @@ function ItemsSettingTable(props) {
           return isView ? (
             <NumberFormatText value={params?.row?.price} formatter="price" />
           ) : !isEmpty(values[receiptRequired]) ? (
-            <Field.TextField
-              name={`items[${index}].price`}
-              value={Number(params?.row?.price)}
+            <NumberFormatText
+              value={Number(params?.row?.money / params?.row?.importQuantity)}
               formatter="price"
-              disabled
             />
           ) : (
             <Field.TextField
               name={`items[${index}].price`}
-              value={Number(params?.row?.money / params?.row?.importQuantity)}
+              value={params?.row?.money / params?.row?.importQuantity}
               formatter="price"
               disabled
             />
@@ -328,6 +325,8 @@ function ItemsSettingTable(props) {
             ) : (
               params?.row?.debitAccount
             )
+          ) : !isEmpty(values[receiptRequired]) ? (
+            params?.row?.debitAcc
           ) : (
             <Field.TextField name={`items[${index}].debitAcc`} disabled />
           )
@@ -347,11 +346,7 @@ function ItemsSettingTable(props) {
               params?.row?.creditAccount
             )
           ) : !isEmpty(values[receiptRequired]) ? (
-            <Field.TextField
-              name={`items[${index}].creditAcc`}
-              value={params?.row?.creditAcc.replace(/^(\d*?[1-9])0+$/, '$1')}
-              disabled
-            />
+            params?.row?.creditAcc
           ) : (
             <Field.TextField
               name={`items[${index}].creditAcc`}
@@ -365,7 +360,10 @@ function ItemsSettingTable(props) {
         field: 'remove',
         headerName: '',
         width: 50,
-        hide: (items || []).length <= 1 || isView,
+        hide:
+          (items || []).length <= 1 ||
+          isView ||
+          !isEmpty(values[receiptRequired]),
         renderCell: (params, idx) => {
           return isView ? null : (
             <IconButton onClick={() => arrayHelpers.remove(idx)} size="large">
@@ -398,7 +396,8 @@ function ItemsSettingTable(props) {
         <Typography variant="h4">
           {t('warehouseImportReceipt.table.title')}
         </Typography>
-        {!isView && (
+        {(!isView ||
+          isEmpty(attributesBusinessTypeDetails[TABLE_NAME_ENUM.RECEIPT])) && (
           <Box>
             <Button
               variant="outlined"

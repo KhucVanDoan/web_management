@@ -197,7 +197,7 @@ const ItemSettingTable = ({
             (item) => ({
               code: item?.locator?.code || item?.code,
               name: item?.locator?.name || item?.name,
-              quantityExported: item?.quantity,
+              quantityExported: item?.planQuantity,
               locatorId: item?.locator?.locatorId || item?.locatorId,
             }),
           )
