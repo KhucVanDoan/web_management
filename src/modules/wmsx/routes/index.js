@@ -157,6 +157,36 @@ const routes = [
     isInSidebar: true,
     subMenu: [
       {
+        name: ROUTE.DEFINE_WAREHOUSE_GROUP.LIST.TITLE,
+        path: ROUTE.DEFINE_WAREHOUSE_GROUP.LIST.PATH,
+        component: DefineWarehouseGroup,
+        code: FUNCTION_CODE.WAREHOUSE_LIST_WAREHOUSE_TYPE_SETTING,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_WAREHOUSE_GROUP.CREATE.TITLE,
+            path: ROUTE.DEFINE_WAREHOUSE_GROUP.CREATE.PATH,
+            component: DefineWarehouseGroupForm,
+            code: FUNCTION_CODE.WAREHOUSE_CREATE_WAREHOUSE_TYPE_SETTING,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_WAREHOUSE_GROUP.EDIT.TITLE,
+            path: ROUTE.DEFINE_WAREHOUSE_GROUP.EDIT.PATH,
+            component: DefineWarehouseGroupForm,
+            code: FUNCTION_CODE.WAREHOUSE_UPDATE_WAREHOUSE_TYPE_SETTING,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.DEFINE_WAREHOUSE_GROUP.DETAIL.TITLE,
+            path: ROUTE.DEFINE_WAREHOUSE_GROUP.DETAIL.PATH,
+            component: DefineWarehouseGroupDetail,
+            code: FUNCTION_CODE.WAREHOUSE_DETAIL_WAREHOUSE_TYPE_SETTING,
+            isInSidebar: true,
+          },
+        ],
+      },
+      {
         name: ROUTE.DEFINE_WAREHOUSE.LIST.TITLE,
         path: ROUTE.DEFINE_WAREHOUSE.LIST.PATH,
         component: DefineWarehouse,
@@ -212,36 +242,6 @@ const routes = [
             path: ROUTE.LOCATION_MANAGEMENT.DETAIL.PATH,
             component: LocationManagementDetail,
             code: FUNCTION_CODE.WAREHOUSE_DETAIL_LOCATOR,
-            isInSidebar: true,
-          },
-        ],
-      },
-      {
-        name: ROUTE.DEFINE_WAREHOUSE_GROUP.LIST.TITLE,
-        path: ROUTE.DEFINE_WAREHOUSE_GROUP.LIST.PATH,
-        component: DefineWarehouseGroup,
-        code: FUNCTION_CODE.WAREHOUSE_LIST_WAREHOUSE_TYPE_SETTING,
-        isInSidebar: true,
-        subMenu: [
-          {
-            name: ROUTE.DEFINE_WAREHOUSE_GROUP.CREATE.TITLE,
-            path: ROUTE.DEFINE_WAREHOUSE_GROUP.CREATE.PATH,
-            component: DefineWarehouseGroupForm,
-            code: FUNCTION_CODE.WAREHOUSE_CREATE_WAREHOUSE_TYPE_SETTING,
-            isInSidebar: false,
-          },
-          {
-            name: ROUTE.DEFINE_WAREHOUSE_GROUP.EDIT.TITLE,
-            path: ROUTE.DEFINE_WAREHOUSE_GROUP.EDIT.PATH,
-            component: DefineWarehouseGroupForm,
-            code: FUNCTION_CODE.WAREHOUSE_UPDATE_WAREHOUSE_TYPE_SETTING,
-            isInSidebar: true,
-          },
-          {
-            name: ROUTE.DEFINE_WAREHOUSE_GROUP.DETAIL.TITLE,
-            path: ROUTE.DEFINE_WAREHOUSE_GROUP.DETAIL.PATH,
-            component: DefineWarehouseGroupDetail,
-            code: FUNCTION_CODE.WAREHOUSE_DETAIL_WAREHOUSE_TYPE_SETTING,
             isInSidebar: true,
           },
         ],
