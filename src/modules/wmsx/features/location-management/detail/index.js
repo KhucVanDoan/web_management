@@ -154,7 +154,7 @@ function LocationManagementDetail() {
                 }
               />
             </Grid>
-            {/* <Grid item lg={6} xs={12}>
+            <Grid item lg={6} xs={12}>
               <LV
                 label={t('locationManagement.binCode')}
                 value={
@@ -163,7 +163,7 @@ function LocationManagementDetail() {
                   )?.code
                 }
               />
-            </Grid> */}
+            </Grid>
           </Grid>
         </Grid>
       </Grid>

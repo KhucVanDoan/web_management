@@ -24,9 +24,9 @@ import DataSyncManagement from '../features/data-sync-management'
 import DefineAssemblyDetail from '../features/define-assembly/detail'
 import DefineAssemblyForm from '../features/define-assembly/form'
 import DefineAssembly from '../features/define-assembly/list'
-// import DefineBinDetail from '../features/define-bin/detail'
-// import DefineBinForm from '../features/define-bin/form'
-// import DefineBin from '../features/define-bin/list'
+import DefineBinDetail from '../features/define-bin/detail'
+import DefineBinForm from '../features/define-bin/form'
+import DefineBin from '../features/define-bin/list'
 import DefineDrawerDetail from '../features/define-drawer/detail'
 import DefineDrawerForm from '../features/define-drawer/form'
 import DefineDrawer from '../features/define-drawer/list'
@@ -157,6 +157,36 @@ const routes = [
     isInSidebar: true,
     subMenu: [
       {
+        name: ROUTE.DEFINE_WAREHOUSE_GROUP.LIST.TITLE,
+        path: ROUTE.DEFINE_WAREHOUSE_GROUP.LIST.PATH,
+        component: DefineWarehouseGroup,
+        code: FUNCTION_CODE.WAREHOUSE_LIST_WAREHOUSE_TYPE_SETTING,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_WAREHOUSE_GROUP.CREATE.TITLE,
+            path: ROUTE.DEFINE_WAREHOUSE_GROUP.CREATE.PATH,
+            component: DefineWarehouseGroupForm,
+            code: FUNCTION_CODE.WAREHOUSE_CREATE_WAREHOUSE_TYPE_SETTING,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_WAREHOUSE_GROUP.EDIT.TITLE,
+            path: ROUTE.DEFINE_WAREHOUSE_GROUP.EDIT.PATH,
+            component: DefineWarehouseGroupForm,
+            code: FUNCTION_CODE.WAREHOUSE_UPDATE_WAREHOUSE_TYPE_SETTING,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.DEFINE_WAREHOUSE_GROUP.DETAIL.TITLE,
+            path: ROUTE.DEFINE_WAREHOUSE_GROUP.DETAIL.PATH,
+            component: DefineWarehouseGroupDetail,
+            code: FUNCTION_CODE.WAREHOUSE_DETAIL_WAREHOUSE_TYPE_SETTING,
+            isInSidebar: true,
+          },
+        ],
+      },
+      {
         name: ROUTE.DEFINE_WAREHOUSE.LIST.TITLE,
         path: ROUTE.DEFINE_WAREHOUSE.LIST.PATH,
         component: DefineWarehouse,
@@ -212,36 +242,6 @@ const routes = [
             path: ROUTE.LOCATION_MANAGEMENT.DETAIL.PATH,
             component: LocationManagementDetail,
             code: FUNCTION_CODE.WAREHOUSE_DETAIL_LOCATOR,
-            isInSidebar: true,
-          },
-        ],
-      },
-      {
-        name: ROUTE.DEFINE_WAREHOUSE_GROUP.LIST.TITLE,
-        path: ROUTE.DEFINE_WAREHOUSE_GROUP.LIST.PATH,
-        component: DefineWarehouseGroup,
-        code: FUNCTION_CODE.WAREHOUSE_LIST_WAREHOUSE_TYPE_SETTING,
-        isInSidebar: true,
-        subMenu: [
-          {
-            name: ROUTE.DEFINE_WAREHOUSE_GROUP.CREATE.TITLE,
-            path: ROUTE.DEFINE_WAREHOUSE_GROUP.CREATE.PATH,
-            component: DefineWarehouseGroupForm,
-            code: FUNCTION_CODE.WAREHOUSE_CREATE_WAREHOUSE_TYPE_SETTING,
-            isInSidebar: false,
-          },
-          {
-            name: ROUTE.DEFINE_WAREHOUSE_GROUP.EDIT.TITLE,
-            path: ROUTE.DEFINE_WAREHOUSE_GROUP.EDIT.PATH,
-            component: DefineWarehouseGroupForm,
-            code: FUNCTION_CODE.WAREHOUSE_UPDATE_WAREHOUSE_TYPE_SETTING,
-            isInSidebar: true,
-          },
-          {
-            name: ROUTE.DEFINE_WAREHOUSE_GROUP.DETAIL.TITLE,
-            path: ROUTE.DEFINE_WAREHOUSE_GROUP.DETAIL.PATH,
-            component: DefineWarehouseGroupDetail,
-            code: FUNCTION_CODE.WAREHOUSE_DETAIL_WAREHOUSE_TYPE_SETTING,
             isInSidebar: true,
           },
         ],
@@ -336,32 +336,32 @@ const routes = [
           },
         ],
       },
-      // {
-      //   name: ROUTE.DEFINE_BIN.LIST.TITLE,
-      //   path: ROUTE.DEFINE_BIN.LIST.PATH,
-      //   component: DefineBin,
-      //   isInSidebar: true,
-      //   subMenu: [
-      //     {
-      //       name: ROUTE.DEFINE_BIN.CREATE.TITLE,
-      //       path: ROUTE.DEFINE_BIN.CREATE.PATH,
-      //       component: DefineBinForm,
-      //       isInSidebar: false,
-      //     },
-      //     {
-      //       name: ROUTE.DEFINE_BIN.EDIT.TITLE,
-      //       path: ROUTE.DEFINE_BIN.EDIT.PATH,
-      //       component: DefineBinForm,
-      //       isInSidebar: true,
-      //     },
-      //     {
-      //       name: ROUTE.DEFINE_BIN.DETAIL.TITLE,
-      //       path: ROUTE.DEFINE_BIN.DETAIL.PATH,
-      //       component: DefineBinDetail,
-      //       isInSidebar: true,
-      //     },
-      //   ],
-      // },
+      {
+        name: ROUTE.DEFINE_BIN.LIST.TITLE,
+        path: ROUTE.DEFINE_BIN.LIST.PATH,
+        component: DefineBin,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_BIN.CREATE.TITLE,
+            path: ROUTE.DEFINE_BIN.CREATE.PATH,
+            component: DefineBinForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_BIN.EDIT.TITLE,
+            path: ROUTE.DEFINE_BIN.EDIT.PATH,
+            component: DefineBinForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.DEFINE_BIN.DETAIL.TITLE,
+            path: ROUTE.DEFINE_BIN.DETAIL.PATH,
+            component: DefineBinDetail,
+            isInSidebar: true,
+          },
+        ],
+      },
       {
         name: ROUTE.SET_STORAGE_PERIOD.LIST.TITLE,
         path: ROUTE.SET_STORAGE_PERIOD.LIST.PATH,
