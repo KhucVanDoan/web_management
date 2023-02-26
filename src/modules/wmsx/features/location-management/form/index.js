@@ -2,6 +2,7 @@ import React, { useEffect, useMemo } from 'react'
 
 import { Grid, Typography } from '@mui/material'
 import { Formik, Form } from 'formik'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
@@ -192,8 +193,8 @@ function LocationManagementForm() {
     const shelfCode = values?.shelf?.code || ''
     const binCode = values?.bin?.code || ''
 
-    return `${assemblyCode}${shelfCode ? `.${shelfCode}` : ''}${
-      drawerCode ? `.${drawerCode}` : ''
+    return `${assemblyCode}${drawerCode ? `.${drawerCode}` : ''}${
+      shelfCode ? `.${shelfCode}` : ''
     }${binCode ? `.${binCode}` : ''}`
   }
 
@@ -339,7 +340,10 @@ function LocationManagementForm() {
                       getOptionLabel={(opt) => opt?.code}
                       getOptionSubLabel={(opt) => opt?.name}
                       onChange={(val) => {
-                        !val && setFieldValue('bin', null)
+                        if (isEmpty(val)) {
+                          setFieldValue('shelf', null)
+                          setFieldValue('bin', null)
+                        }
                       }}
                     />
                   </Grid>
@@ -366,8 +370,7 @@ function LocationManagementForm() {
                       getOptionLabel={(opt) => opt?.code}
                       getOptionSubLabel={(opt) => opt?.name}
                       onChange={(val) => {
-                        if (!val) {
-                          setFieldValue('drawer', null)
+                        if (isEmpty(val)) {
                           setFieldValue('bin', null)
                         }
                       }}

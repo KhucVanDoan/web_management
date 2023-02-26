@@ -107,7 +107,6 @@ const ItemSettingTable = ({
   const filterOptions = createFilterOptions({
     stringify: ({ code, name }) => `${code} ${name}`,
   })
-
   const columns = useMemo(
     () => [
       {
@@ -164,8 +163,10 @@ const ItemSettingTable = ({
               getOptionSubLabel={(opt) => opt?.item?.name}
               onChange={(val) => handleChangeItem(val, index)}
               filterOptions={filterOptions}
-              filterSelectedOptions
-              isOptionEqualToValue={(opt, val) => opt?.itemId === val?.itemId}
+              // filterSelectedOptions
+              isOptionEqualToValue={(opt, val) =>
+                opt?.itemId === (val?.itemId || val?.id)
+              }
               getOptionDisabled={(opt) =>
                 itemIdCodeList.some(
                   (id) => id === (opt?.itemId || opt?.itemCode?.itemId),
@@ -185,9 +186,9 @@ const ItemSettingTable = ({
               getOptionLabel={(opt) => opt?.code}
               getOptionSubLabel={(opt) => opt?.name}
               filterOptions={filterOptions}
-              filterSelectedOptions
+              // filterSelectedOptions
               onChange={(val) => handleChangeItem(val, index)}
-              isOptionEqualToValue={(opt, val) => opt?.id === val?.itemId}
+              isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
               getOptionDisabled={(opt) =>
                 itemIdCodeList.some((id) => id === (opt?.id || opt?.itemId)) &&
                 (opt?.id || opt?.itemId) !==
