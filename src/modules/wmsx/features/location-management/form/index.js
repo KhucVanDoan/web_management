@@ -22,7 +22,7 @@ import {
 } from '~/modules/wmsx/constants'
 import useLocationManagement from '~/modules/wmsx/redux/hooks/useLocationManagement'
 import { searchAssemblyApi } from '~/modules/wmsx/redux/sagas/define-assembly/search-assembly'
-// import { searchBinApi } from '~/modules/wmsx/redux/sagas/define-bin/search-bin'
+import { searchBinApi } from '~/modules/wmsx/redux/sagas/define-bin/search-bin'
 import { searchDrawerApi } from '~/modules/wmsx/redux/sagas/define-drawer/search-drawer'
 import { searchShelfApi } from '~/modules/wmsx/redux/sagas/define-shelf/search-shelf'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
@@ -145,11 +145,11 @@ function LocationManagementForm() {
         level: 2,
         locationId: values?.drawer?.id || values?.drawer?._id,
       })
-    // if (values?.bin)
-    //   locations.push({
-    //     level: 3,
-    //     locationId: values?.bin?.id || values?.bin?._id,
-    //   })
+    if (values?.bin)
+      locations.push({
+        level: 3,
+        locationId: values?.bin?.id || values?.bin?._id,
+      })
     const convertValues = {
       warehouseId: values?.warehouse?.id,
       description: values?.description,
@@ -237,16 +237,6 @@ function LocationManagementForm() {
                     </Grid>
                   )}
                   <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      name="code"
-                      label={t('locationManagement.code')}
-                      placeholder={t('locationManagement.code')}
-                      value={getCodeValue(values)}
-                      disabled
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
                       name="warehouse"
                       label={t('locationManagement.warehouseCode')}
@@ -267,16 +257,14 @@ function LocationManagementForm() {
                       required
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item lg={6} xs={12}>
                     <Field.TextField
-                      name="description"
-                      label={t('locationManagement.description')}
-                      placeholder={t('locationManagement.description')}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-                      }}
-                      multiline
-                      rows={3}
+                      name="code"
+                      label={t('locationManagement.code')}
+                      placeholder={t('locationManagement.code')}
+                      value={getCodeValue(values)}
+                      disabled
+                      required
                     />
                   </Grid>
                 </Grid>
@@ -328,6 +316,7 @@ function LocationManagementForm() {
                       required
                     />
                   </Grid>
+                  <Grid item lg={6} xs={12}></Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
                       name="drawer"
@@ -352,9 +341,9 @@ function LocationManagementForm() {
                       onChange={(val) => {
                         !val && setFieldValue('bin', null)
                       }}
-                      disabled={!values?.shelf}
                     />
                   </Grid>
+                  <Grid item lg={6} xs={12}></Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
                       name="shelf"
@@ -382,9 +371,11 @@ function LocationManagementForm() {
                           setFieldValue('bin', null)
                         }
                       }}
+                      disabled={!values?.drawer}
                     />
                   </Grid>
-                  {/* <Grid item lg={6} xs={12}>
+                  <Grid item lg={6} xs={12}></Grid>
+                  <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
                       name="bin"
                       label={t('locationManagement.binCode')}
@@ -405,9 +396,21 @@ function LocationManagementForm() {
                       }
                       getOptionLabel={(opt) => opt?.code}
                       getOptionSubLabel={(opt) => opt?.name}
-                      disabled={!values?.drawer}
+                      disabled={!values?.shelf}
                     />
-                  </Grid> */}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Field.TextField
+                      name="description"
+                      label={t('locationManagement.description')}
+                      placeholder={t('locationManagement.description')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
+                      multiline
+                      rows={3}
+                    />
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>

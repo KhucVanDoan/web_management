@@ -67,7 +67,7 @@ const StockItemReport = () => {
       type: 'outer',
       style: { fontSize: 14, textOverflow: 'unset' },
       formatter: (datum) => {
-        return convertNumberWithThousandSeparator(datum.value, 5)
+        return convertNumberWithThousandSeparator(datum.value, 0)
       },
     },
     tooltip: {
@@ -79,17 +79,17 @@ const StockItemReport = () => {
             datum.type === data[0]?.type
               ? `${convertNumberWithThousandSeparator(
                   datum.value,
-                  2,
+                  0,
                 )} VNĐ | ${convertNumberWithThousandSeparator(
                   itemGroupStockSummary?.totalItemPlanning,
-                  2,
+                  0,
                 )}`
               : `${convertNumberWithThousandSeparator(
                   datum.value,
-                  2,
+                  0,
                 )} VNĐ | ${convertNumberWithThousandSeparator(
                   itemGroupStockSummary?.totalItemStockAvaiable,
-                  2,
+                  0,
                 )}`,
         }
       },
@@ -116,7 +116,7 @@ const StockItemReport = () => {
           const total = items.reduce((acc, cur) => {
             return acc + (cur?.value || 0)
           }, 0)
-          return convertNumberWithThousandSeparator(total, 5)
+          return convertNumberWithThousandSeparator(total, 0)
         },
       },
     },

@@ -24,9 +24,9 @@ import DataSyncManagement from '../features/data-sync-management'
 import DefineAssemblyDetail from '../features/define-assembly/detail'
 import DefineAssemblyForm from '../features/define-assembly/form'
 import DefineAssembly from '../features/define-assembly/list'
-// import DefineBinDetail from '../features/define-bin/detail'
-// import DefineBinForm from '../features/define-bin/form'
-// import DefineBin from '../features/define-bin/list'
+import DefineBinDetail from '../features/define-bin/detail'
+import DefineBinForm from '../features/define-bin/form'
+import DefineBin from '../features/define-bin/list'
 import DefineDrawerDetail from '../features/define-drawer/detail'
 import DefineDrawerForm from '../features/define-drawer/form'
 import DefineDrawer from '../features/define-drawer/list'
@@ -336,32 +336,32 @@ const routes = [
           },
         ],
       },
-      // {
-      //   name: ROUTE.DEFINE_BIN.LIST.TITLE,
-      //   path: ROUTE.DEFINE_BIN.LIST.PATH,
-      //   component: DefineBin,
-      //   isInSidebar: true,
-      //   subMenu: [
-      //     {
-      //       name: ROUTE.DEFINE_BIN.CREATE.TITLE,
-      //       path: ROUTE.DEFINE_BIN.CREATE.PATH,
-      //       component: DefineBinForm,
-      //       isInSidebar: false,
-      //     },
-      //     {
-      //       name: ROUTE.DEFINE_BIN.EDIT.TITLE,
-      //       path: ROUTE.DEFINE_BIN.EDIT.PATH,
-      //       component: DefineBinForm,
-      //       isInSidebar: true,
-      //     },
-      //     {
-      //       name: ROUTE.DEFINE_BIN.DETAIL.TITLE,
-      //       path: ROUTE.DEFINE_BIN.DETAIL.PATH,
-      //       component: DefineBinDetail,
-      //       isInSidebar: true,
-      //     },
-      //   ],
-      // },
+      {
+        name: ROUTE.DEFINE_BIN.LIST.TITLE,
+        path: ROUTE.DEFINE_BIN.LIST.PATH,
+        component: DefineBin,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_BIN.CREATE.TITLE,
+            path: ROUTE.DEFINE_BIN.CREATE.PATH,
+            component: DefineBinForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_BIN.EDIT.TITLE,
+            path: ROUTE.DEFINE_BIN.EDIT.PATH,
+            component: DefineBinForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.DEFINE_BIN.DETAIL.TITLE,
+            path: ROUTE.DEFINE_BIN.DETAIL.PATH,
+            component: DefineBinDetail,
+            isInSidebar: true,
+          },
+        ],
+      },
       {
         name: ROUTE.SET_STORAGE_PERIOD.LIST.TITLE,
         path: ROUTE.SET_STORAGE_PERIOD.LIST.PATH,
