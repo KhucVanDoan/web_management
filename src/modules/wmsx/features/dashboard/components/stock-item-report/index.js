@@ -82,14 +82,14 @@ const StockItemReport = () => {
                   0,
                 )} VNĐ | ${convertNumberWithThousandSeparator(
                   itemGroupStockSummary?.totalItemPlanning,
-                  0,
+                  2,
                 )}`
               : `${convertNumberWithThousandSeparator(
                   datum.value,
                   0,
                 )} VNĐ | ${convertNumberWithThousandSeparator(
                   itemGroupStockSummary?.totalItemStockAvaiable,
-                  0,
+                  2,
                 )}`,
         }
       },
