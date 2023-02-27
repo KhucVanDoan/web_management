@@ -320,11 +320,11 @@ function LocationManagementForm() {
                   <Grid item lg={6} xs={12}></Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
-                      name="drawer"
-                      label={t('locationManagement.drawerCode')}
-                      placeholder={t('locationManagement.drawerCode')}
+                      name="shelf"
+                      label={t('locationManagement.shelfCode')}
+                      placeholder={t('locationManagement.shelfCode')}
                       asyncRequest={(s) =>
-                        searchDrawerApi({
+                        searchShelfApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
                           filter: convertFilterParams({
@@ -341,7 +341,6 @@ function LocationManagementForm() {
                       getOptionSubLabel={(opt) => opt?.name}
                       onChange={(val) => {
                         if (isEmpty(val)) {
-                          setFieldValue('shelf', null)
                           setFieldValue('bin', null)
                         }
                       }}
@@ -350,11 +349,11 @@ function LocationManagementForm() {
                   <Grid item lg={6} xs={12}></Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
-                      name="shelf"
-                      label={t('locationManagement.shelfCode')}
-                      placeholder={t('locationManagement.shelfCode')}
+                      name="drawer"
+                      label={t('locationManagement.drawerCode')}
+                      placeholder={t('locationManagement.drawerCode')}
                       asyncRequest={(s) =>
-                        searchShelfApi({
+                        searchDrawerApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
                           filter: convertFilterParams({
@@ -371,10 +370,11 @@ function LocationManagementForm() {
                       getOptionSubLabel={(opt) => opt?.name}
                       onChange={(val) => {
                         if (isEmpty(val)) {
+                          setFieldValue('shelf', null)
                           setFieldValue('bin', null)
                         }
                       }}
-                      disabled={!values?.drawer}
+                      disabled={!values?.shelf}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}></Grid>
