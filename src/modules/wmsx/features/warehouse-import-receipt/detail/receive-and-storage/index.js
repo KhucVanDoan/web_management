@@ -308,14 +308,6 @@ function WarehouseImportReceiveAndStorage() {
                         />
                       </Grid>
                     )}
-                    {receiptRequired && (
-                      <Grid item lg={6} xs={12}>
-                        <LV
-                          label={t('warehouseImportReceipt.contractNumber')}
-                          value={warehouseImportReceiptDetails?.contractNumber}
-                        />
-                      </Grid>
-                    )}
                     {warehouseImportReceiptDetails?.attributes?.map((item) => {
                       if (item.tableName) {
                         if (item?.tableName === TABLE_NAME_ENUM.RECEIPT) {
@@ -335,7 +327,7 @@ function WarehouseImportReceiveAndStorage() {
                                   ]?.find(
                                     (itemDetail) =>
                                       `${itemDetail.id}` === item.value,
-                                  )?.code ||
+                                  )?.receiptNumber ||
                                   warehouseImportReceiptDetails?.receiptNumber
                                 }
                               />
