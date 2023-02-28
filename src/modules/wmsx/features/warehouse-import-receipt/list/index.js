@@ -190,7 +190,7 @@ function WarehouseImportReceipt() {
               bold={false}
               onClick={() => onClickConfirmEBS(params?.row)}
             >
-              {t('warehouseExportReceipt.confirmWarehouseExport')}
+              {t('warehouseImportReceipt.confirmWarehouseImport')}
             </Button>
           ) : (
             <Status

@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 
 import { IconButton, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
-import { flatMap, isEmpty } from 'lodash'
+import { first, flatMap, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import {
@@ -18,6 +18,7 @@ import NumberFormatText from '~/components/NumberFormat'
 import { ACTIVE_STATUS, INVENTORY_ADJUST_TYPE } from '~/modules/wmsx/constants'
 import { searchLocationsApi } from '~/modules/wmsx/redux/sagas/location-management/search-locations'
 import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
+import { getItemWarehouseStockAvailableApi } from '~/modules/wmsx/redux/sagas/warehouse-transfer/get-item-warehouse-stock-available'
 import { getListItemWarehouseStockApi } from '~/modules/wmsx/redux/sagas/warehouse-transfer/get-list-item'
 import { convertFilterParams } from '~/utils'
 
@@ -31,7 +32,10 @@ const ItemSettingTable = ({
 }) => {
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
-  const handleChangeItem = (val, index) => {
+  const handleChangeItem = async (val, index) => {
+    setFieldValue(`items[${index}].locator`, '')
+    setFieldValue(`items[${index}].lotNumber`, '')
+    setFieldValue(`items[${index}].quantity`, '')
     if (values?.type === INVENTORY_ADJUST_TYPE.WAREHOUSE_IMPORT) {
       setFieldValue(
         `items[${index}].debitAccount`,
@@ -46,6 +50,76 @@ const ItemSettingTable = ({
         val?.itemWarehouseSources?.find(
           (item) => item?.warehouseId === values?.warehouse?.id,
         )?.accounting,
+      )
+      if (!isEmpty(val)) {
+        const params = {
+          items: [
+            {
+              itemId: val?.itemId || val?.id,
+              warehouseId: values?.warehouse?.id,
+              lotNumber: null,
+              locatorId: null,
+            },
+          ],
+        }
+        const res = await getItemWarehouseStockAvailableApi(params)
+        const planExportedQuantity = res?.data?.find(
+          (item) => item?.itemId === val?.itemId || val?.id,
+        )
+        setFieldValue(
+          `items[${index}].quantityExported`,
+          planExportedQuantity?.quantity,
+        )
+      }
+    }
+  }
+  const handleChangeLotNumber = async (val, index, payload) => {
+    if (val) {
+      const params = {
+        items: [
+          {
+            itemId:
+              payload?.row?.itemCode?.itemId || payload?.row?.itemCode?.id,
+            warehouseId: values?.warehouse?.id,
+            lotNumber: val?.lotNumber,
+            locatorId: payload?.row?.lotNumber || null,
+          },
+        ],
+      }
+      const res = await getItemWarehouseStockAvailableApi(params)
+      const planExportedQuantity = res?.data?.find(
+        (item) =>
+          item?.itemId === payload?.row?.itemCode?.itemId ||
+          payload?.row?.itemCode?.id,
+      )
+      setFieldValue(
+        `items[${index}].quantityExported`,
+        planExportedQuantity?.quantity,
+      )
+    }
+  }
+  const handleChangeLocator = async (val, index, payload) => {
+    if (val) {
+      const params = {
+        items: [
+          {
+            itemId:
+              payload?.row?.itemCode?.itemId || payload?.row?.itemCode?.id,
+            warehouseId: values?.warehouse?.id,
+            lotNumber: payload?.row?.lotNumber || null,
+            locatorId: val,
+          },
+        ],
+      }
+      const res = await getItemWarehouseStockAvailableApi(params)
+      const planExportedQuantity = res?.data?.find(
+        (item) =>
+          item?.itemId === payload?.row?.itemCode?.itemId ||
+          payload?.row?.itemCode?.id,
+      )
+      setFieldValue(
+        `items[${index}].quantityExported`,
+        planExportedQuantity?.quantity,
       )
     }
   }
@@ -85,6 +159,7 @@ const ItemSettingTable = ({
               getOptionLabel={(opt) => opt?.code}
               getOptionSubLabel={(opt) => opt?.name}
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+              disabled={!values?.warehouse}
             />
           ) : (
             <Field.Autocomplete
@@ -106,6 +181,7 @@ const ItemSettingTable = ({
               getOptionLabel={(opt) => opt?.code}
               getOptionSubLabel={(opt) => opt?.name}
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+              disabled={!values?.warehouse}
             />
           )
         },
@@ -161,6 +237,7 @@ const ItemSettingTable = ({
               isOptionEqualToValue={(opt, val) =>
                 opt?.lotNumber === val?.lotNumber
               }
+              onChange={(val) => handleChangeLotNumber(val, index, params)}
               validate={(val) => {
                 if (values?.warehouse?.manageByLot) {
                   if (!val) {
@@ -193,14 +270,15 @@ const ItemSettingTable = ({
         headerName: t('inventoryAdjust.items.locator'),
         width: 200,
         renderCell: (params, index) => {
-          const locationList = params?.row?.itemCode?.locations?.map(
-            (item) => ({
+          const locationList = params?.row?.itemCode?.locations?.map((item) => {
+            if (isEmpty(item?.locator)) return []
+            return {
               code: item?.locator?.code || item?.code,
               name: item?.locator?.name || item?.name,
               quantityExported: item?.planQuantity,
               locatorId: item?.locator?.locatorId || item?.locatorId,
-            }),
-          )
+            }
+          })
           return isView ? (
             params?.row?.locator?.code
           ) : values?.type === INVENTORY_ADJUST_TYPE.WAREHOUSE_IMPORT ? (
@@ -228,10 +306,11 @@ const ItemSettingTable = ({
           ) : (
             <Field.Autocomplete
               name={`items[${index}].locator`}
-              options={locationList}
+              options={first(locationList)}
               isOptionEqualToValue={(opt, val) =>
                 opt?.locatorId === val?.locatorId
               }
+              onChange={(val) => handleChangeLocator(val, index, params)}
               getOptionLabel={(opt) => opt.code}
             />
           )
@@ -292,11 +371,7 @@ const ItemSettingTable = ({
             />
           ) : (
             <Field.TextField
-              name={
-                !isEmpty(params?.row?.lotNumber)
-                  ? `items[${index}].lotNumber.quantityExported`
-                  : `items[${index}].locator.quantityExported`
-              }
+              name={`items[${index}].quantityExported`}
               placeholder={t('inventoryAdjust.items.quantityExported')}
               formatter="quantity"
               disabled
@@ -333,6 +408,14 @@ const ItemSettingTable = ({
         renderCell: (params, index) => {
           return isView ? (
             <NumberFormatText value={params?.row?.price} formatter="price" />
+          ) : values?.type === INVENTORY_ADJUST_TYPE.WAREHOUSE_IMPORT ? (
+            <Field.TextField
+              name={`items[${index}].price`}
+              formatter="price"
+              value={params?.row?.amount / params?.row?.quantity}
+              disabled
+              required
+            />
           ) : (
             <Field.TextField
               name={`items[${index}].price`}
@@ -453,7 +536,7 @@ const ItemSettingTable = ({
             onClick={() => {
               arrayHelpers.push({
                 id: new Date().getTime(),
-                itemCode: '',
+                itemCode: null,
                 itemName: '',
                 unit: '',
                 lotNumber: '',

@@ -39,10 +39,12 @@ const StockItemReport = () => {
   const data = [
     {
       type: 'Giá trị VT bị giữ (VNĐ)',
+      data: 1,
       value: Number(itemGroupStockSummary?.totalItemPlanningAmount),
     },
     {
       type: 'Giá trị VT có thể xuất (VNĐ) ',
+      data: 2,
       value: Number(itemGroupStockSummary?.totalItemStockAmount),
     },
   ]
@@ -73,24 +75,27 @@ const StockItemReport = () => {
     tooltip: {
       formatter: (datum) => {
         return {
-          ...datum,
           name: datum.type?.slice(8, datum?.type?.length),
           value:
             datum.type === data[0]?.type
               ? `${convertNumberWithThousandSeparator(
                   datum.value,
                   0,
-                )} VNĐ | ${convertNumberWithThousandSeparator(
-                  itemGroupStockSummary?.totalItemPlanning,
-                  0,
-                )}`
+                )} VNĐ | ${Number(itemGroupStockSummary?.totalItemPlanning)
+                  .toFixed(2)
+                  .toString()
+                  .replace(/\d(?=(\d{3})+(?!\d))/g, '$& ')
+                  .replace('.', ',')}
+                `
               : `${convertNumberWithThousandSeparator(
                   datum.value,
                   0,
-                )} VNĐ | ${convertNumberWithThousandSeparator(
-                  itemGroupStockSummary?.totalItemStockAvaiable,
-                  0,
-                )}`,
+                )} VNĐ | ${Number(itemGroupStockSummary?.totalItemStockAvaiable)
+                  .toFixed(2)
+                  .toString()
+                  .replace(/\d(?=(\d{3})+(?!\d))/g, '$& ')
+                  .replace('.', ',')}
+                `,
         }
       },
     },

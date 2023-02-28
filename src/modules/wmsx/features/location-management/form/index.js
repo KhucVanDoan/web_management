@@ -328,7 +328,7 @@ function LocationManagementForm() {
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
                           filter: convertFilterParams({
-                            level: WAREHOUSE_LAYOUTS.DRAWER,
+                            level: WAREHOUSE_LAYOUTS.SHELF,
                             status: ACTIVE_STATUS.ACTIVE,
                           }),
                         })
@@ -353,11 +353,11 @@ function LocationManagementForm() {
                       label={t('locationManagement.drawerCode')}
                       placeholder={t('locationManagement.drawerCode')}
                       asyncRequest={(s) =>
-                        searchDrawerApi({
+                        searchShelfApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
                           filter: convertFilterParams({
-                            level: WAREHOUSE_LAYOUTS.SHELF,
+                            level: WAREHOUSE_LAYOUTS.DRAWER,
                             status: ACTIVE_STATUS.ACTIVE,
                           }),
                         })
@@ -370,7 +370,6 @@ function LocationManagementForm() {
                       getOptionSubLabel={(opt) => opt?.name}
                       onChange={(val) => {
                         if (isEmpty(val)) {
-                          setFieldValue('shelf', null)
                           setFieldValue('bin', null)
                         }
                       }}
