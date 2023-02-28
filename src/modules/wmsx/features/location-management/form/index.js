@@ -328,7 +328,7 @@ function LocationManagementForm() {
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
                           filter: convertFilterParams({
-                            level: WAREHOUSE_LAYOUTS.DRAWER,
+                            level: WAREHOUSE_LAYOUTS.SHELF,
                             status: ACTIVE_STATUS.ACTIVE,
                           }),
                         })
@@ -357,7 +357,7 @@ function LocationManagementForm() {
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
                           filter: convertFilterParams({
-                            level: WAREHOUSE_LAYOUTS.SHELF,
+                            level: WAREHOUSE_LAYOUTS.DRAWER,
                             status: ACTIVE_STATUS.ACTIVE,
                           }),
                         })
