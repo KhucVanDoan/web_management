@@ -279,6 +279,8 @@ function ItemsSettingTable(props) {
         field: 'money',
         headerName: t('warehouseImportReceipt.table.money'),
         width: 180,
+        headerAlign: 'left',
+        align: 'right',
         renderCell: (params, index) => {
           return isView ? (
             <NumberFormatText value={params?.row?.amount} formatter="price" />
@@ -293,6 +295,8 @@ function ItemsSettingTable(props) {
         field: 'price',
         headerName: t('warehouseImportReceipt.table.price'),
         width: 180,
+        align: 'right',
+        headerAlign: 'left',
         renderCell: (params, index) => {
           return isView ? (
             <NumberFormatText value={params?.row?.price} formatter="price" />

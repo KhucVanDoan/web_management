@@ -21,7 +21,7 @@ import { exportCompanyApi } from '~/modules/database/redux/sagas/define-company/
 import { TYPE_ENUM_EXPORT } from '~/modules/mesx/constants'
 import {
   STATUS_SYNC_ORDER_TO_EBS,
-  STATUS_SYNC_ORDER_TO_EBS_OPTIONS,
+  STATUS_SYNC_WAREHOUSE_IMPORT_TO_EBS_OPTIONS,
   WAREHOUSE_IMPORT_RECEIPT_OPTIONS,
   WAREHOUSE_IMPORT_RECEIPT_STATUS,
 } from '~/modules/wmsx/constants'
@@ -194,7 +194,7 @@ function WarehouseImportReceipt() {
             </Button>
           ) : (
             <Status
-              options={STATUS_SYNC_ORDER_TO_EBS_OPTIONS}
+              options={STATUS_SYNC_WAREHOUSE_IMPORT_TO_EBS_OPTIONS}
               value={syncStatus}
               variant="text"
               sx={{ ml: 1 }}

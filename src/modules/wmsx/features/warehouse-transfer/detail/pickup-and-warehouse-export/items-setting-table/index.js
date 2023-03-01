@@ -269,6 +269,8 @@ const ItemSettingTable = (props) => {
         field: 'price',
         headerName: t('warehouseTransfer.table.price'),
         width: 180,
+        align: 'right',
+        headerAlign: 'left',
         renderCell: (params, index) => {
           return (
             <Field.TextField
@@ -284,6 +286,8 @@ const ItemSettingTable = (props) => {
         field: 'amount',
         headerName: t('warehouseTransfer.table.amount'),
         width: 180,
+        align: 'right',
+        headerAlign: 'left',
         renderCell: (params, index) => {
           return (
             <Field.TextField

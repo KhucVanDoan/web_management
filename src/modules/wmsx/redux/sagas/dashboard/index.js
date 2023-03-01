@@ -23,6 +23,8 @@ import {
   setTotalItemSummaryReport,
   setItemStockHistories,
   WMSX_GET_ITEM_STOCK_HISTORIES,
+  setItemStockConstructionScl,
+  WMSX_GET_ITEM_CONSTRUCTION_SCL,
 } from '~/modules/wmsx/redux/actions/dashboard'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
@@ -88,6 +90,10 @@ export const getDashboardWarehouses = (params) => {
 }
 export const getDashboardItemStockHistories = (params) => {
   const uri = `/v1/reports/dashboard/item-stock-histories`
+  return api.get(uri, params)
+}
+export const getDashboardItemStockConstructionScl = (params) => {
+  const uri = '/v1/items/dashboard/item-stocks-construction-scl'
   return api.get(uri, params)
 }
 /**
@@ -382,7 +388,34 @@ function* doGetItemStockHistories(action) {
     }
   }
 }
+function* doGetItemStockConstrucitonScl(action) {
+  try {
+    const response = yield call(
+      getDashboardItemStockConstructionScl,
+      action?.payload,
+    )
+    if (response?.statusCode === 200) {
+      yield put(setItemStockConstructionScl(response.data))
 
+      // Call callback action if provided
+      if (action.onSuccess) {
+        yield action.onSuccess()
+      }
+    } else {
+      addNotification(
+        response?.message || response?.statusText,
+        NOTIFICATION_TYPE.ERROR,
+      )
+
+      throw new Error(response?.message)
+    }
+  } catch (error) {
+    // Call callback action if provided
+    if (action.onError) {
+      yield action.onError()
+    }
+  }
+}
 export default function* watchDashboard() {
   yield takeLatest(WMSX_GET_TRANSFER_REPORT, doGetTransferReport)
   yield takeLatest(WMSX_GET_ITEM_STOCK_REPORT, doGetItemStockReport)
@@ -401,4 +434,8 @@ export default function* watchDashboard() {
   yield takeLatest(WMSX_GET_PURCHASED_ORDER_IMPORTS, doGetPurchasedOrderImports)
   yield takeLatest(WMSX_GET_SALE_ORDER_EXPORTS, doGetSaleOrderExports)
   yield takeLatest(WMSX_GET_ITEM_STOCK_HISTORIES, doGetItemStockHistories)
+  yield takeLatest(
+    WMSX_GET_ITEM_CONSTRUCTION_SCL,
+    doGetItemStockConstrucitonScl,
+  )
 }
