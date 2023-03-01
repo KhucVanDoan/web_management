@@ -13,7 +13,10 @@ const requestItemCodeApi = (params) => {
   const uri = `/v1/warehouses/warehouse-export-proposals/${params?.id}/request-item`
   return api.put(uri, params)
 }
-
+export const getAllItemStockAvailable = (params) => {
+  const uri = `/v1/items/item-warehouses/all-stock-available`
+  return api.post(uri, params)
+}
 function* doRequestItemCode(action) {
   try {
     const response = yield call(requestItemCodeApi, action?.payload)

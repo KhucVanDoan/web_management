@@ -47,6 +47,13 @@ export const CONFIRM_WAREHOUSE_TRANSFER_EBS_SUCCESS =
 export const CONFIRM_WAREHOUSE_TRANSFER_EBS_FAILED =
   'WMSX_CONFIRM_WAREHOUSE_TRANSFER_EBS_FAILED'
 
+export const CANCEL_WAREHOUSE_TRANSFER_EBS_START =
+  'WMSX_CANCEL_WAREHOUSE_TRANSFER_EBS_START'
+export const CANCEL_WAREHOUSE_TRANSFER_EBS_SUCCESS =
+  'WMSX_CANCEL_WAREHOUSE_TRANSFER_EBS_SUCCESS'
+export const CANCEL_WAREHOUSE_TRANSFER_EBS_FAILED =
+  'WMSX_CANCEL_WAREHOUSE_TRANSFER_EBS_FAILED'
+
 export const REJECT_WAREHOUSE_TRANSFER_START =
   'WMSX_REJECT_WAREHOUSE_TRANSFER_START'
 export const REJECT_WAREHOUSE_TRANSFER_SUCCESS =
@@ -354,6 +361,36 @@ export function confirmWarehouseTransferEBSFailed() {
   }
 }
 
+export function cancelWarehouseTransferEBS(Id, onSuccess, onError) {
+  return {
+    type: CANCEL_WAREHOUSE_TRANSFER_EBS_START,
+    payload: Id,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+/**
+ * Get cancel warehouse transfer by id success action
+ * @param {*} payload
+ * @returns {object}
+ */
+export function cancelWarehouseTransferEBSSuccess(payload) {
+  return {
+    type: CANCEL_WAREHOUSE_TRANSFER_EBS_SUCCESS,
+    payload: payload,
+  }
+}
+
+/**
+ * Get cancel warehouse transfer by id failed action
+ * @returns {object}
+ */
+export function cancelWarehouseTransferEBSFailed() {
+  return {
+    type: CANCEL_WAREHOUSE_TRANSFER_EBS_FAILED,
+  }
+}
 /**
  * Get reject warehouse transfer
  * @param {int} Id
@@ -644,4 +681,7 @@ export default {
   confirmWarehouseTransferEBS,
   confirmWarehouseTransferEBSSuccess,
   confirmWarehouseTransferEBSFailed,
+  cancelWarehouseTransferEBS,
+  cancelWarehouseTransferEBSSuccess,
+  cancelWarehouseTransferEBSFailed,
 }

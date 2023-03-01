@@ -36,6 +36,7 @@ const ItemSettingTable = ({
     setFieldValue(`items[${index}].locator`, '')
     setFieldValue(`items[${index}].lotNumber`, '')
     setFieldValue(`items[${index}].quantity`, '')
+    setFieldValue(`items[${index}].amount`, '')
     if (values?.type === INVENTORY_ADJUST_TYPE.WAREHOUSE_IMPORT) {
       setFieldValue(
         `items[${index}].debitAccount`,

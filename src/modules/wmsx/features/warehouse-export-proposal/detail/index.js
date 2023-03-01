@@ -119,6 +119,7 @@ function WarehouseExportProposalDetail() {
       itemUnit: item?.itemResponse?.itemUnit?.name || item?.itemUnit?.name,
       details: item?.itemDetail,
       quantityRequest: item?.requestedQuantity,
+      planExportedQuantity: item?.exportAbleQuantity,
       note: item?.note,
       itemCode: item?.itemCode || item?.itemResponse?.code,
       itemName: item?.itemName || item?.itemResponse?.name,
