@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 
 import { IconButton, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
-import { first, flatMap, isEmpty } from 'lodash'
+import { flatMap, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import {
@@ -307,7 +307,7 @@ const ItemSettingTable = ({
           ) : (
             <Field.Autocomplete
               name={`items[${index}].locator`}
-              options={first(locationList)}
+              options={locationList}
               isOptionEqualToValue={(opt, val) =>
                 opt?.locatorId === val?.locatorId
               }

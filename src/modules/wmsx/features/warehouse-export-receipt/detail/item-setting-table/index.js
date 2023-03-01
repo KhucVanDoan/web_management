@@ -95,6 +95,8 @@ const ItemSettingTableDetail = ({ items }) => {
       {
         field: 'unitPriceRefer',
         headerName: t('warehouseExportReceipt.items.unitPriceRefer'),
+        align: 'right',
+        headerAlign: 'left',
         hide:
           warehouseExportReceiptDetails?.status !==
           WAREHOUSE_EXPORT_RECEIPT_STATUS.COMPLETED,
@@ -107,6 +109,8 @@ const ItemSettingTableDetail = ({ items }) => {
         field: 'totalMoney',
         headerName: t('warehouseExportReceipt.items.totalMoney'),
         width: 150,
+        align: 'right',
+        headerAlign: 'left',
         hide:
           warehouseExportReceiptDetails?.status !==
           WAREHOUSE_EXPORT_RECEIPT_STATUS.COMPLETED,

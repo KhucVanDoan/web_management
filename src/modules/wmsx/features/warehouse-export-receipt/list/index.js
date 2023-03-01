@@ -21,7 +21,7 @@ import {
   STATUS_SYNC_ORDER_TO_EBS,
   WAREHOUSE_EXPORT_RECEIPT_STATUS,
   WAREHOUSE_EXPORT_RECEIPT_STATUS_OPTIONS,
-  STATUS_SYNC_ORDER_TO_EBS_OPTIONS,
+  STATUS_SYNC_WAREHOUSE_EXPORT_TO_EBS_OPTIONS,
 } from '~/modules/wmsx/constants'
 import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
 import {
@@ -182,7 +182,7 @@ function WarehouseExportReceipt() {
             </Button>
           ) : (
             <Status
-              options={STATUS_SYNC_ORDER_TO_EBS_OPTIONS}
+              options={STATUS_SYNC_WAREHOUSE_EXPORT_TO_EBS_OPTIONS}
               value={syncStatus}
               variant="text"
               sx={{ ml: 1 }}

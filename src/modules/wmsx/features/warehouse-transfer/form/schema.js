@@ -5,7 +5,7 @@ import { NUMBER_FIELD_REQUIRED_SIZE } from '~/common/constants'
 import { WAREHOUSE_TRANSFER_TYPE } from '~/modules/wmsx/constants'
 const warehouseTranferSchema = (t, type) => {
   return Yup.object().shape({
-    name: Yup.string().nullable().required(t('general:form.required')),
+    // name: Yup.string().nullable().required(t('general:form.required')),
     receiptDate: Yup.date().nullable().required(t('general:form.required')),
     businessTypeId: Yup.object()
       .nullable()

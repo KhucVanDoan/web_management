@@ -37,6 +37,9 @@ export const WMSX_GET_ITEM_STOCK_HISTORIES = 'WMSX_GET_ITEM_STOCK_HISTORIES'
 export const WMSX_GET_ITEM_STOCK_HISTORIES_SUCCESS =
   'WMSX_GET_ITEM_STOCK_HISTORIES_SUCCESS'
 
+export const WMSX_GET_ITEM_CONSTRUCTION_SCL = 'WMSX_GET_ITEM_CONSTRUCTION_SCL'
+export const WMSX_GET_ITEM_CONSTRUCTION_SCL_SUCCESS =
+  'WMSX_GET_ITEM_CONSTRUCTION_SCL_SUCCESS'
 export function getPurchasedOrderImports(payload) {
   return {
     type: WMSX_GET_PURCHASED_ORDER_IMPORTS,
@@ -186,6 +189,17 @@ export const setItemStockHistories = (payload) => ({
   type: WMSX_GET_ITEM_STOCK_HISTORIES_SUCCESS,
   payload,
 })
+export const getItemStockConstructionScl = (payload, onSuccess, onError) => ({
+  type: WMSX_GET_ITEM_CONSTRUCTION_SCL,
+  payload,
+  onError,
+  onSuccess,
+})
+
+export const setItemStockConstructionScl = (payload) => ({
+  type: WMSX_GET_ITEM_CONSTRUCTION_SCL_SUCCESS,
+  payload,
+})
 export default {
   getItemGroupStockSummary,
   setItemGroupStockSummary,
@@ -209,4 +223,6 @@ export default {
   setSaleOrderExports,
   getItemStockHistories,
   setItemStockHistories,
+  getItemStockConstructionScl,
+  setItemStockConstructionScl,
 }

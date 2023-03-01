@@ -23,6 +23,7 @@ import {
   TRANSFER_STATUS,
   WAREHOUSE_TRANSFER_TYPE,
 } from '~/modules/wmsx/constants'
+import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 import { getItemWarehouseStockAvailableApi } from '~/modules/wmsx/redux/sagas/warehouse-transfer/get-item-warehouse-stock-available'
 import {
   checkItemWarehouseImport,
@@ -37,6 +38,9 @@ const ItemSettingTable = (props) => {
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
   const [storageDates, setStorageDates] = useState([])
+  const {
+    data: { warehouseTransferDetails },
+  } = useWarehouseTransfer()
   useEffect(() => {
     items?.forEach((item) => {
       item?.storageDates?.forEach((d) => {
@@ -343,6 +347,8 @@ const ItemSettingTable = (props) => {
         width: 150,
         hide:
           values?.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_SHORT ||
+          warehouseTransferDetails?.type ===
+            WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_SHORT ||
           values?.type === '',
         renderCell: (params, index) => {
           const { itemCode } = params?.row
@@ -565,6 +571,8 @@ const ItemSettingTable = (props) => {
         field: 'price',
         headerName: t('warehouseTransfer.table.price'),
         width: 180,
+        align: 'right',
+        headerAlign: 'left',
         hide:
           !isView ||
           (status !== TRANSFER_STATUS.COMPLETED &&
@@ -587,6 +595,8 @@ const ItemSettingTable = (props) => {
         field: 'amount',
         headerName: t('warehouseTransfer.table.amount'),
         width: 180,
+        align: 'right',
+        headerAlign: 'left',
         hide:
           !isView ||
           (status !== TRANSFER_STATUS.COMPLETED &&

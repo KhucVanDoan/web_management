@@ -2288,7 +2288,7 @@ export const STATUS_SYNC_ORDER_TO_EBS_MAP = {
   [STATUS_SYNC_ORDER_TO_EBS.CANCEL]: 'warehouseImportReceipt.statusSync.cancel',
 }
 
-export const STATUS_SYNC_ORDER_TO_EBS_OPTIONS = [
+export const STATUS_SYNC_WAREHOUSE_IMPORT_TO_EBS_OPTIONS = [
   {
     id: 0,
     text: 'warehouseImportReceipt.confirmWarehouseExport',
@@ -2315,25 +2315,52 @@ export const STATUS_SYNC_ORDER_TO_EBS_OPTIONS = [
     color: 'rejected',
   },
 ]
-export const STATUS_SYNC_WAREHOUSE_TRANSFER_TO_EBS_OPTIONS = [
+export const STATUS_SYNC_WAREHOUSE_EXPORT_TO_EBS_OPTIONS = [
+  {
+    id: 0,
+    text: 'warehouseExportReceipt.confirmWarehouseExport',
+    color: 'pending',
+  },
   {
     id: 1,
-    text: 'warehouseImportReceipt.statusSync.error',
+    text: 'warehouseExportReceipt.statusSync.error',
     color: 'rejected',
   },
   {
     id: 2,
-    text: 'warehouseImportReceipt.statusSync.pending',
+    text: 'warehouseExportReceipt.statusSync.pending',
     color: 'pending',
   },
   {
     id: 3,
-    text: 'warehouseImportReceipt.statusSync.completed',
+    text: 'warehouseExportReceipt.statusSync.completed',
     color: 'completed',
   },
   {
     id: 4,
-    text: 'warehouseImportReceipt.statusSync.cancel',
+    text: 'warehouseExportReceipt.statusSync.cancel',
+    color: 'rejected',
+  },
+]
+export const STATUS_SYNC_WAREHOUSE_TRANSFER_TO_EBS_OPTIONS = [
+  {
+    id: 1,
+    text: 'warehouseTransfer.statusSync.error',
+    color: 'rejected',
+  },
+  {
+    id: 2,
+    text: 'warehouseTransfer.statusSync.pending',
+    color: 'pending',
+  },
+  {
+    id: 3,
+    text: 'warehouseTransfer.statusSync.completed',
+    color: 'completed',
+  },
+  {
+    id: 4,
+    text: 'warehouseTransfer.statusSync.cancel',
     color: 'rejected',
   },
 ]

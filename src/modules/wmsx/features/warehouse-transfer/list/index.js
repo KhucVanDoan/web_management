@@ -185,6 +185,7 @@ const WarehouseTransfer = () => {
             status === TRANSFER_STATUS.EXPORTING ||
             status === TRANSFER_STATUS.INCOLLECTING
           const isCancelSync =
+            status === TRANSFER_STATUS.COMPLETED &&
             syncStatus === STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR
           return (
             <div>

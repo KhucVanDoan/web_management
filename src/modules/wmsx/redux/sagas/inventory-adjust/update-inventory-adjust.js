@@ -19,6 +19,10 @@ const updateInventoryAdjustApi = (params) => {
   const data = { ...params }
   delete data['id']
   let form_data = new FormData()
+  for (let key in data?.attachments) {
+    form_data.append('attachments', data?.attachments[key])
+  }
+  delete data['attachments']
   for (let key in data) {
     form_data.append(key, data[key])
   }

@@ -2907,6 +2907,13 @@
     "collected": "Chờ xuất kho",
     "cancelSyncTitlePopupEBS": "Xác nhận hủy đồng bộ",
     "cancelEBS": "Bạn có chắc chắn muốn hủy đồng bộ không?",
+    "statusSync": {
+      "pending": "chờ BOT xử lý",
+      "error": "Lỗi nhập kho EBS",
+      "success": "Thành công",
+      "completed": "Hoàn thành",
+      "cancel": "Huỷ đồng bộ"
+    },
     "items": {
       "STT": "STT",
       "suppliesCode": "Mã vật tư",
@@ -3016,7 +3023,7 @@
     "missedItemBasedOnReceipt": "Chưa chọn đủ vật tư trong phiếu receipt",
     "statusSync": {
       "pending": "chờ BOT xử lý",
-      "error": "Lỗi xuất kho EBS",
+      "error": "Lỗi nhập kho EBS",
       "success": "Thành công",
       "completed": "Hoàn thành",
       "cancel": "Huỷ đồng bộ"
@@ -3229,6 +3236,13 @@
     "Confirm": "Bạn có chắc chắn muốn xác nhận không?",
     "ConfirmEBS": "Xác nhận chuyển kho đồng nghĩa với việc bạn sẽ đồng bộ dữ liệu này sang hệ thống EBS.",
     "cancelSyncTitlePopupEBS": "Xác nhận hủy đồng bộ",
+    "statusSync": {
+      "pending": "chờ BOT xử lý",
+      "error": "Lỗi chuyển kho EBS",
+      "success": "Thành công",
+      "completed": "Hoàn thành",
+      "cancel": "Huỷ đồng bộ"
+    },
     "transferStatus": {
       "pending": "Chờ xác nhận",
       "completed": "Hoàn thành",

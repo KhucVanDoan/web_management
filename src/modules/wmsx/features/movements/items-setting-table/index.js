@@ -172,7 +172,12 @@ const ItemSettingTable = ({ items, movementType }) => {
         movementType === MOVEMENT_TYPE.SO_EXPORT ||
         movementType === MOVEMENT_TYPE.TRANSFER_EXPORT,
       width: 120,
-      renderCell: (params) => Number(params.row?.planQuantity),
+      renderCell: (params) => (
+        <NumberFormatText
+          value={+params.row?.planQuantity}
+          formatter="quantity"
+        />
+      ),
     },
   ]
 
