@@ -143,6 +143,7 @@ function WarehouseExportReceiptForm() {
           },
           details: item?.itemDetail,
           quantityRequest: item?.requestedQuantity,
+          planExportedQuantity: item?.exportAbleQuantity,
           note: item?.note,
           unit: item?.itemUnit,
           itemCode: item?.itemCode,

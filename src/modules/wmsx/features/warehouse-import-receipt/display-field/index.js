@@ -57,7 +57,10 @@ const displayFollowBusinessTypeManagement = (
       setLoadingReceipt(true)
       actions.getReceiptDetailsById(val?.id, (data) => {
         setItemReceipt(data?.items)
-        setFieldValue('warehouse', data?.warehouse)
+        setFieldValue(
+          'warehouse',
+          !isEmpty(data?.warehouse) ? data?.warehouse : null,
+        )
         setFieldValue('contractNumber', val?.contractNumber)
         setValueReceipt(data)
         if (isEmpty(values?.sourceId)) {

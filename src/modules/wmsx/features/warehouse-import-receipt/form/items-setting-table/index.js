@@ -33,9 +33,8 @@ function ItemsSettingTable(props) {
     creditAccount,
   } = props
   const {
-    data: { warehouseImportReceiptDetails, attributesBusinessTypeDetails },
+    data: { warehouseImportReceiptDetails },
   } = useWarehouseImportReceipt()
-
   const isView = mode === MODAL_MODE.DETAIL
   const receiptRequired = values?.businessTypeId?.bussinessTypeAttributes?.find(
     (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT,
@@ -382,7 +381,6 @@ function ItemsSettingTable(props) {
       isView,
     ],
   )
-
   return (
     <>
       <Box
@@ -396,8 +394,7 @@ function ItemsSettingTable(props) {
         <Typography variant="h4">
           {t('warehouseImportReceipt.table.title')}
         </Typography>
-        {(!isView ||
-          isEmpty(attributesBusinessTypeDetails[TABLE_NAME_ENUM.RECEIPT])) && (
+        {!isView && (
           <Box>
             <Button
               variant="outlined"
@@ -417,7 +414,9 @@ function ItemsSettingTable(props) {
                 })
                 scrollToBottom()
               }}
-              disabled={items?.length === 10}
+              disabled={
+                !isEmpty(values[receiptRequired]) || items?.length === 10
+              }
             >
               {t('warehouseImportReceipt.table.addButton')}
             </Button>
