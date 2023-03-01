@@ -203,3 +203,18 @@ export const useDashboardItemStockHistory = () => {
     data,
   }
 }
+export const useDashboardItemStockConstructionScl = () => {
+  const data = useSelector((state) =>
+    get(state, 'wmsx.dashboard.itemStockConstructionScl'),
+  )
+
+  const dispatch = useDispatch()
+  const actions = useMemo(
+    () => bindActionCreators(dashboardActions, dispatch),
+    [dispatch],
+  )
+  return {
+    actions,
+    data,
+  }
+}

@@ -102,8 +102,11 @@ const InventoryAdjustForm = () => {
       reasonId: inventoryAdjustDetails?.reason || null,
       sourceId: inventoryAdjustDetails?.source || null,
       explanation: inventoryAdjustDetails?.explanation || '',
-      attachment: !isEmpty(inventoryAdjustDetails?.attachment)
-        ? inventoryAdjustDetails?.attachment
+      attachments: !isEmpty(inventoryAdjustDetails?.attachments)
+        ? inventoryAdjustDetails?.attachments?.map((item) => ({
+            ...item,
+            name: item?.fileName,
+          }))
         : [],
       items: inventoryAdjustDetails?.items?.map((item) => ({
         itemCode: {
@@ -162,9 +165,10 @@ const InventoryAdjustForm = () => {
       sourceId: values?.sourceId?.id,
       reasonId: values?.reasonId?.id,
       type: +values?.type,
-      attachment: JSON.stringify(
-        (values?.attachment || [])?.map((item) => item),
-      ),
+      attachments: values?.attachments?.filter((item) => isEmpty(item?.id)),
+      files: !isEmpty(values?.attachments?.filter((item) => item?.id))
+        ? JSON.stringify(values?.attachments?.map((item) => ({ id: item?.id })))
+        : [],
       explanation: values?.explanation || null,
       items: JSON.stringify(
         values?.items?.map((item) => ({
@@ -490,8 +494,10 @@ const InventoryAdjustForm = () => {
                         value={
                           <FileUploadButton
                             maxNumberOfFiles={10}
-                            onChange={(val) => setFieldValue('attachment', val)}
-                            value={values.attachment}
+                            onChange={(val) =>
+                              setFieldValue('attachments', val)
+                            }
+                            value={values.attachments}
                           />
                         }
                       />

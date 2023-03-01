@@ -386,7 +386,6 @@ const WarehouseTransferForm = () => {
                         label={t('warehouseTransfer.name')}
                         name="name"
                         placeholder={t('warehouseTransfer.name')}
-                        required
                       />
                     </Grid>
                     <Grid item lg={6} xs={12}>

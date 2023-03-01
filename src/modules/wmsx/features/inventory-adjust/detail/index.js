@@ -7,6 +7,7 @@ import { useParams, useHistory } from 'react-router-dom'
 
 import { MODAL_MODE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
+import FileUploadButton from '~/components/FileUploadButton'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -194,7 +195,15 @@ const InventoryAdjustDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('inventoryAdjust.attachment')}
-                value={inventoryAdjustDetails?.attachment}
+                value={
+                  <FileUploadButton
+                    value={inventoryAdjustDetails?.attachments?.map((item) => ({
+                      ...item,
+                      fileNameRaw: item?.fileName,
+                    }))}
+                    readOnly
+                  />
+                }
               />
             </Grid>
             <Grid item xs={12}>

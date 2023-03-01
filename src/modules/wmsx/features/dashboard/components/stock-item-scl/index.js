@@ -1,46 +1,36 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { Column } from '@ant-design/plots/es'
 import { Box, Card, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 import Autocomplete from '~/components/Autocomplete'
+import { useDashboardItemStockConstructionScl } from '~/modules/wmsx/redux/hooks/useDashboard'
 
 const StockItemBySCLReport = () => {
   const { t } = useTranslation(['wmsx'])
 
-  const data = [
-    {
-      time: '2019-03',
-      value: 350,
-      name: t('dashboard.inventoryQuantity.value'),
-    },
-    {
-      time: '2019-04',
-      value: 900,
-      name: t('dashboard.inventoryQuantity.value'),
-    },
-    {
-      time: '2019-05',
-      value: 300,
-      name: t('dashboard.inventoryQuantity.value'),
-    },
-    {
-      time: '2019-06',
-      value: 450,
-      name: t('dashboard.inventoryQuantity.value'),
-    },
-    {
-      time: '2019-07',
-      value: 470,
-      name: t('dashboard.inventoryQuantity.value'),
-    },
-  ]
+  const { data: itemStockConstructionScl, actions } =
+    useDashboardItemStockConstructionScl()
 
+  useEffect(() => {
+    actions.getItemStockConstructionScl()
+  }, [])
+  const data = itemStockConstructionScl.map((item, index) => ({
+    index: index,
+    type: item?.type,
+    totalItemStockAmount:
+      item.totalItemStockAmount < 0 ? 0 : item.totalItemStockAmount,
+    name: t('dashboard.inventoryQuantity.value'),
+  }))
+
+  const handleChange = (val) => {
+    actions.getItemStockConstructionScl({ type: val?.type })
+  }
   const config = {
     data,
-    xField: 'time',
-    yField: 'value',
+    xField: 'type',
+    yField: 'totalItemStockAmount',
     seriesField: 'name',
     slider: {
       height: 30,
@@ -49,6 +39,10 @@ const StockItemBySCLReport = () => {
         width: 4,
         fill: '#8884d8',
         highLightFill: '#8884d8',
+        maginTop: '40px',
+      },
+      formatter: (_, value) => {
+        return value?.index
       },
       trendCfg: {
         data: [],
@@ -79,7 +73,14 @@ const StockItemBySCLReport = () => {
             flexDirection: 'column',
           }}
         >
-          <Autocomplete disableClearable />
+          <Autocomplete
+            sx={{}}
+            options={data}
+            name="type"
+            // placeholder={t('dashboard.itemName')}
+            getOptionLabel={(opt) => opt?.type}
+            onChange={(val) => handleChange(val)}
+          />
         </Box>
       </Box>
       <Box
