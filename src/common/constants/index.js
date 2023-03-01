@@ -205,7 +205,7 @@ export const TEXTFIELD_ALLOW = {
     /[^0-9a-zA-Z-._!"`'#%&,:;<>=@{}~\$\(\)\*\+\/\\\?\[\]\^\|]/g,
   EXCEPT_SPECIALS: /[._!"`'#%&,:;<>=@{}~\$\(\)\*\+\/\\\?\[\]\^\|]/g,
   EXCEPT_SPACES: /[\s]/g,
-  POSITIVE_DECIMAL_UNDERSCORE: /[^0-9._]/g,
+  ALPHANUMERIC_DOT_UNDERSCORE: /[^0-9a-zA-Z._]/g,
 }
 
 export const TEXTFIELD_PREVENT = {

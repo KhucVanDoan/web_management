@@ -103,7 +103,7 @@ const InventoryAdjustForm = () => {
       sourceId: inventoryAdjustDetails?.source || null,
       explanation: inventoryAdjustDetails?.explanation || '',
       attachment: !isEmpty(inventoryAdjustDetails?.attachment)
-        ? [inventoryAdjustDetails?.attachment]
+        ? inventoryAdjustDetails?.attachment
         : [],
       items: inventoryAdjustDetails?.items?.map((item) => ({
         itemCode: {
@@ -255,21 +255,8 @@ const InventoryAdjustForm = () => {
   const backToList = () => {
     history.push(ROUTE.INVENTORY_ADJUST.LIST.PATH)
   }
-  // const handleChangeWarehouse = (val, values) => {
-
-  //   if (values?.type === INVENTORY_ADJUST_TYPE.WAREHOUSE_EXPORT) {
-  //     if (!isEmpty(val)) {
-  //       warehouseTransferAction.getListItemWarehouseStock(val?.id)
-  //     }
-  //   }
-  // }
   const handleChangeType = (val, values, setFieldValue) => {
     setFieldValue('items', [{ ...DEFAULT_ITEM }])
-    // if (val === INVENTORY_ADJUST_TYPE.WAREHOUSE_EXPORT) {
-    //   if (!isEmpty(values?.warehouse)) {
-    //     warehouseTransferAction.getListItemWarehouseStock(values?.warehouse?.id)
-    //   }
-    // }
   }
   const handleChangeSource = async (val) => {
     if (val) {
@@ -331,7 +318,7 @@ const InventoryAdjustForm = () => {
                         label={t('inventoryAdjust.code')}
                         name="code"
                         placeholder={t('inventoryAdjust.code')}
-                        allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL_UNDERSCORE}
+                        allow={TEXTFIELD_ALLOW.ALPHANUMERIC_DOT_UNDERSCORE}
                         inputProps={{
                           maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
                         }}
@@ -345,6 +332,9 @@ const InventoryAdjustForm = () => {
                         label={t('inventoryAdjust.name')}
                         name="name"
                         placeholder={t('inventoryAdjust.name')}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
+                        }}
                         required
                       />
                     </Grid>
@@ -373,6 +363,7 @@ const InventoryAdjustForm = () => {
                             limit: ASYNC_SEARCH_LIMIT,
                             filter: convertFilterParams({
                               status: ACTIVE_STATUS.ACTIVE,
+                              userWarehouse: ACTIVE_STATUS.ACTIVE,
                             }),
                           })
                         }
@@ -498,77 +489,13 @@ const InventoryAdjustForm = () => {
                         }
                         value={
                           <FileUploadButton
-                            maxNumberOfFiles={1}
+                            maxNumberOfFiles={10}
                             onChange={(val) => setFieldValue('attachment', val)}
                             value={values.attachment}
                           />
                         }
                       />
                     </Grid>
-                    {/* <Grid item lg={6} xs={12}>
-                      <LV
-                        label={
-                          <Box sx={{ mt: 8 / 12 }}>
-                            <FormLabel>
-                              <Typography color={'text.main'} component="span">
-                                {t('inventoryAdjust.attachment')}
-                              </Typography>
-                            </FormLabel>
-                          </Box>
-                        }
-                      >
-                        {(values?.attachment ||
-                          inventoryAdjustDetails?.attachment) && (
-                          <label htmlFor="select-file">
-                            <Typography
-                              className={classes.uploadText}
-                              sx={{ mt: 8 / 12, mb: 1 }}
-                            >
-                              {isUpdate &&
-                                inventoryAdjustDetails?.attachment?.map((i) => {
-                                  return (
-                                    <>
-                                      <a
-                                        key={i?.id}
-                                        href={i?.fileUrl}
-                                        target="_blank"
-                                        rel="noreferrer"
-                                      >
-                                        {i?.fileNameRaw}
-                                      </a>
-                                      <br />
-                                    </>
-                                  )
-                                })}
-                              {(values?.attachment || [])
-                                ?.map((i) => i?.name)
-                                ?.join('\r\n')}
-                            </Typography>
-                          </label>
-                        )}
-                        <Button
-                          variant="contained"
-                          component="label"
-                          sx={{ backgroundColor: '#fff' }}
-                        >
-                          <FileUploadIcon color="primary" />
-                          <input
-                            hidden
-                            id="select-file"
-                            multiple
-                            type="file"
-                            accept="image/gif, image/jpeg, image/png, application/pdf, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                            onChange={(e) => {
-                              setFieldValue(
-                                'attachment',
-                                Object.values(e.target.files),
-                              )
-                            }}
-                          />
-                        </Button>
-                      </LV>
-                    </Grid> */}
-
                     <Grid item xs={12}>
                       <Field.TextField
                         name="explanation"

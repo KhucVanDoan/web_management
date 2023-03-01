@@ -3228,6 +3228,7 @@
     "confirmTitlePopupEBS": "Xác nhận hoàn thành chuyển kho",
     "Confirm": "Bạn có chắc chắn muốn xác nhận không?",
     "ConfirmEBS": "Xác nhận chuyển kho đồng nghĩa với việc bạn sẽ đồng bộ dữ liệu này sang hệ thống EBS.",
+    "cancelSyncTitlePopupEBS": "Xác nhận hủy đồng bộ",
     "transferStatus": {
       "pending": "Chờ xác nhận",
       "completed": "Hoàn thành",
