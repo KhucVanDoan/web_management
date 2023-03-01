@@ -2315,7 +2315,28 @@ export const STATUS_SYNC_ORDER_TO_EBS_OPTIONS = [
     color: 'rejected',
   },
 ]
-
+export const STATUS_SYNC_WAREHOUSE_TRANSFER_TO_EBS_OPTIONS = [
+  {
+    id: 1,
+    text: 'warehouseImportReceipt.statusSync.error',
+    color: 'rejected',
+  },
+  {
+    id: 2,
+    text: 'warehouseImportReceipt.statusSync.pending',
+    color: 'pending',
+  },
+  {
+    id: 3,
+    text: 'warehouseImportReceipt.statusSync.completed',
+    color: 'completed',
+  },
+  {
+    id: 4,
+    text: 'warehouseImportReceipt.statusSync.cancel',
+    color: 'rejected',
+  },
+]
 export const TYPE_TRANSACTION_DATA_SYNC = {
   WAREHOUSE_TRANSFER: 'Chuyển kho',
   PO_IMPORT: 'Phiếu nhập kho',

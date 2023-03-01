@@ -42,6 +42,9 @@ import {
   CONFIRM_WAREHOUSE_IMPORT_START,
   CONFIRM_WAREHOUSE_IMPORT_SUCCESS,
   CONFIRM_WAREHOUSE_IMPORT_FAILED,
+  CANCEL_WAREHOUSE_TRANSFER_EBS_START,
+  CANCEL_WAREHOUSE_TRANSFER_EBS_SUCCESS,
+  CANCEL_WAREHOUSE_TRANSFER_EBS_FAILED,
 } from '../actions/warehouse-transfer'
 
 const initialState = {
@@ -77,6 +80,7 @@ export default function warehouseTransfer(state = initialState, action) {
     case CONFIRM_WAREHOUSE_EXPORT_START:
     case ITEM_WAREHOUSE_STOCK_AVAILABLE_START:
     case CONFIRM_WAREHOUSE_IMPORT_START:
+    case CANCEL_WAREHOUSE_TRANSFER_EBS_START:
       return {
         ...state,
         isLoading: true,
@@ -111,6 +115,8 @@ export default function warehouseTransfer(state = initialState, action) {
     case CONFIRM_WAREHOUSE_EXPORT_FAILED:
     case CONFIRM_WAREHOUSE_IMPORT_SUCCESS:
     case CONFIRM_WAREHOUSE_IMPORT_FAILED:
+    case CANCEL_WAREHOUSE_TRANSFER_EBS_SUCCESS:
+    case CANCEL_WAREHOUSE_TRANSFER_EBS_FAILED:
       return {
         ...state,
         isLoading: false,

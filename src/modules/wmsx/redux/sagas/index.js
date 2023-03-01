@@ -261,6 +261,7 @@ import watchRejectWarehouseImportReceipt from './warehouse-import-receipt/reject
 import watchSearchWarehouseImportReceipt from './warehouse-import-receipt/search'
 import watchUpdateWarehouseImportReceipt from './warehouse-import-receipt/update'
 import watchWarehouseImportData from './warehouse-import/get-warehouse-import-list'
+import watchCancelWarehouseTransferEBS from './warehouse-transfer/cancel-warehouse-transfer-ebs'
 import watchConfirmWarehouseExport from './warehouse-transfer/confirm-warehouse-export'
 import watchConfirmWarehouseImport from './warehouse-transfer/confirm-warehouse-import'
 import watchConfirmWarehouseTransfer from './warehouse-transfer/confirm-warehouse-transfer'
@@ -602,6 +603,7 @@ export default function* sagas() {
     watchConfirmWarehouseImport(),
     watchGetItemWarehouseStockAvailable(),
     watchConfirmWarehouseTransferEBS(),
+    watchCancelWarehouseTransferEBS(),
 
     // data sync management
     watchSearchDataSyncManagement(),

@@ -18,11 +18,28 @@ import NumberFormatText from '~/components/NumberFormat'
 import { ACTIVE_STATUS } from '~/modules/wmsx/constants'
 import { searchUomsApi } from '~/modules/wmsx/redux/sagas/define-uom/search-uom'
 import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
+import { getAllItemStockAvailable } from '~/modules/wmsx/redux/sagas/warehouse-export-proposal/request-item-code'
 import { convertFilterParams } from '~/utils'
 
 const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
+  const handleChangeItem = async (val, index) => {
+    if (val) {
+      const params = {
+        items: [
+          {
+            itemId: val?.id,
+          },
+        ],
+      }
+      const res = await getAllItemStockAvailable(params)
+      setFieldValue(
+        `items[${index}].planExportedQuantity`,
+        res?.data?.find((item) => item?.itemId === val?.id)?.quantity,
+      )
+    }
+  }
   const columns = useMemo(
     () => [
       {
@@ -53,10 +70,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
                   }),
                 })
               }
-              onChange={() => {
-                setFieldValue('suppliesCode', '')
-                setFieldValue('unit', '')
-              }}
+              onChange={(val) => handleChangeItem(val, index, params)}
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
               asyncRequestHelper={(res) => res?.data?.items}
               getOptionLabel={(opt) => opt?.name}
@@ -173,23 +187,23 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
           )
         },
       },
-      // {
-      //   field: 'planExportedQuantity',
-      //   headerName: t('warehouseExportProposal.items.planExportedQuantity'),
-      //   width: 100,
-      //   hide: isView,
-      //   renderCell: (params, index) => {
-      //     return isView ? (
-      //       params?.row?.importedQuantity
-      //     ) : (
-      //       <Field.TextField
-      //         name={`items[${index}].items.planExportedQuantity`}
-      //         disabled
-      //         required
-      //       />
-      //     )
-      //   },
-      // },
+      {
+        field: 'planExportedQuantity',
+        headerName: t('warehouseExportProposal.items.planExportedQuantity'),
+        width: 100,
+        renderCell: (params, index) => {
+          return isView ? (
+            params?.row?.planExportedQuantity
+          ) : (
+            <Field.TextField
+              name={`items[${index}].planExportedQuantity`}
+              disabled
+              formatter="quantity"
+              required
+            />
+          )
+        },
+      },
       {
         field: 'note',
         headerName: t('warehouseExportProposal.items.note'),
