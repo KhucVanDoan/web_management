@@ -76,7 +76,11 @@ function MaterialManagementDetail() {
   }, [])
 
   useEffect(() => {
-    actions.getMaterialDetailsById(id)
+    const params = {
+      id: id,
+      isGetAllWarehouse: 1,
+    }
+    actions.getMaterialDetailsById(params)
     return () => {
       actions.resetMaterialDetailsState()
     }

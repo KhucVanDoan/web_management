@@ -8,8 +8,10 @@ import {
 import { api } from '~/services/api'
 
 export const getMaterialDetailsApi = (params) => {
-  const uri = `/v1/items/${params}`
-  return api.get(uri)
+  const uri = `/v1/items/${params?.id}`
+  const data = { ...params }
+  delete data?.id
+  return api.get(uri, data)
 }
 
 export const getqrCodeApi = (params) => {
