@@ -47,7 +47,7 @@ const WarehouseTransfer = () => {
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
   const [isOpenRejectModal, setIsOpenRejectModal] = useState(false)
   const [isOpenConfirmEBSModal, setIsOpenConfirmEBSModal] = useState(false)
-  const [isOpenCancelEBSModal, setIsOpenCancelEBSModal] = useState(false)
+  // const [isOpenCancelEBSModal, setIsOpenCancelEBSModal] = useState(false)
   const [selectedRows, setSelectedRows] = useState([])
   const { canAccess } = useApp()
   const {
@@ -171,7 +171,7 @@ const WarehouseTransfer = () => {
         align: 'center',
         fixed: true,
         renderCell: (params) => {
-          const { id, status, syncStatus } = params?.row
+          const { id, status } = params?.row
           const isEdit = status === TRANSFER_STATUS.PENDING
           const isConfirmed = status === TRANSFER_STATUS.PENDING
           const isRejected = status === TRANSFER_STATUS.REJECTED
@@ -184,9 +184,9 @@ const WarehouseTransfer = () => {
             status === TRANSFER_STATUS.EXPORTED ||
             status === TRANSFER_STATUS.EXPORTING ||
             status === TRANSFER_STATUS.INCOLLECTING
-          const isCancelSync =
-            status === TRANSFER_STATUS.COMPLETED &&
-            syncStatus === STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR
+          // const isCancelSync =
+          //   status === TRANSFER_STATUS.COMPLETED &&
+          //   syncStatus === STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR
           return (
             <div>
               <Guard code={FUNCTION_CODE.WAREHOUSE_DETAIL_WAREHOUSE_TRANSFER}>
@@ -203,11 +203,11 @@ const WarehouseTransfer = () => {
                   <Icon name="show" />
                 </IconButton>
               </Guard>
-              {isCancelSync && (
+              {/* {isCancelSync && (
                 <IconButton onClick={() => onClickCancelSyncEBS(params?.row)}>
                   <Icon name="cancelSync" />
                 </IconButton>
-              )}
+              )} */}
               {(isEdit || isRejected) && (
                 <Guard code={FUNCTION_CODE.WAREHOUSE_UPDATE_WAREHOUSE_TRANSFER}>
                   <IconButton
@@ -349,17 +349,17 @@ const WarehouseTransfer = () => {
     setTempItem(null)
     setIsOpenRejectModal(false)
   }
-  const onClickCancelSyncEBS = (tempItem) => {
-    setIsOpenCancelEBSModal(true)
-    setTempItem(tempItem)
-  }
-  const onSubmitCancelEBS = () => {
-    actions.cancelWarehouseTransferEBS(tempItem?.id, () => {
-      refreshData()
-    })
-    setIsOpenCancelEBSModal(false)
-    setTempItem(null)
-  }
+  // const onClickCancelSyncEBS = (tempItem) => {
+  //   setIsOpenCancelEBSModal(true)
+  //   setTempItem(tempItem)
+  // }
+  // const onSubmitCancelEBS = () => {
+  //   actions.cancelWarehouseTransferEBS(tempItem?.id, () => {
+  //     refreshData()
+  //   })
+  //   setIsOpenCancelEBSModal(false)
+  //   setTempItem(null)
+  // }
   const renderHeaderRight = () => {
     return (
       <>
@@ -515,7 +515,7 @@ const WarehouseTransfer = () => {
           sx={{ mt: 4 / 3 }}
         />
       </Dialog>
-      <Dialog
+      {/* <Dialog
         open={isOpenCancelEBSModal}
         title={t('warehouseTransfer.cancelSyncTitlePopupEBS')}
         onCancel={() => setIsOpenCancelEBSModal(false)}
@@ -525,7 +525,7 @@ const WarehouseTransfer = () => {
         noBorderBottom
       >
         {t('warehouseExportReceipt.cancelEBS')}
-      </Dialog>
+      </Dialog> */}
     </Page>
   )
 }
