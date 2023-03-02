@@ -22,7 +22,7 @@ import ItemSummary from './components/item-summary'
 import MovementQuantityReport from './components/movement-quantity-report'
 import MovementReport from './components/movement-report'
 import StockItemReport from './components/stock-item-report'
-import StockItemBySCLReport from './components/stock-item-scl'
+// import StockItemBySCLReport from './components/stock-item-scl'
 // import StockItemBySCLReport from './components/stock-item-scl'
 
 const breadcrumbs = [
@@ -102,9 +102,9 @@ function Dashboard() {
         {/* <Grid item xs={12} lg={6} md={12}>
           <MaterialUsedReport fromDate={fromDate} toDate={toDate} />
         </Grid>*/}
-        <Grid item xs={12} lg={6} md={12}>
+        {/* <Grid item xs={12} lg={6} md={12}>
           <StockItemBySCLReport fromDate={fromDate} toDate={toDate} />
-        </Grid>
+        </Grid> */}
       </Grid>
     </Page>
   )
