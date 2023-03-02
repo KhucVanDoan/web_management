@@ -63,9 +63,9 @@ import DefineWarehouseGroup from '../features/define-warehouse-group/list'
 import DefineWarehouseDetail from '../features/define-warehouse/detail'
 import DefineWarehouseForm from '../features/define-warehouse/form'
 import DefineWarehouse from '../features/define-warehouse/list'
-import InventoryAdjustDetail from '../features/inventory-adjust/detail'
-import InventoryAdjustForm from '../features/inventory-adjust/form'
-import InventoryAdjust from '../features/inventory-adjust/list'
+// import InventoryAdjustDetail from '../features/inventory-adjust/detail'
+// import InventoryAdjustForm from '../features/inventory-adjust/form'
+// import InventoryAdjust from '../features/inventory-adjust/list'
 import InventoryCalenderDetail from '../features/inventory-calendar/detail'
 import InventoryCalenderForm from '../features/inventory-calendar/form'
 import InventoryCalender from '../features/inventory-calendar/list'
@@ -746,36 +746,36 @@ const routes = [
       //   code: FUNCTION_CODE.WAREHOUSE_STATISTICAL_OF_OVERDUE_STORAGE_INVENTORY_MANAGEMENT,
       //   isInSidebar: true,
       // },
-      {
-        name: ROUTE.INVENTORY_ADJUST.LIST.TITLE,
-        path: ROUTE.INVENTORY_ADJUST.LIST.PATH,
-        component: InventoryAdjust,
-        code: FUNCTION_CODE.WAREHOUSE_LIST_INVENTORY_ADJUSTMENT,
-        isInSidebar: true,
-        subMenu: [
-          {
-            name: ROUTE.INVENTORY_ADJUST.CREATE.TITLE,
-            path: ROUTE.INVENTORY_ADJUST.CREATE.PATH,
-            component: InventoryAdjustForm,
-            code: FUNCTION_CODE.WAREHOUSE_CREATE_INVENTORY_ADJUSTMENT,
-            isInSidebar: false,
-          },
-          {
-            name: ROUTE.INVENTORY_ADJUST.DETAIL.TITLE,
-            path: ROUTE.INVENTORY_ADJUST.DETAIL.PATH,
-            component: InventoryAdjustDetail,
-            code: FUNCTION_CODE.WAREHOUSE_DETAIL_INVENTORY_ADJUSTMENT,
-            isInSidebar: false,
-          },
-          {
-            name: ROUTE.INVENTORY_ADJUST.EDIT.TITLE,
-            path: ROUTE.INVENTORY_ADJUST.EDIT.PATH,
-            component: InventoryAdjustForm,
-            code: FUNCTION_CODE.WAREHOUSE_UPDATE_INVENTORY_ADJUSTMENT,
-            isInSidebar: false,
-          },
-        ],
-      },
+      // {
+      //   name: ROUTE.INVENTORY_ADJUST.LIST.TITLE,
+      //   path: ROUTE.INVENTORY_ADJUST.LIST.PATH,
+      //   component: InventoryAdjust,
+      //   code: FUNCTION_CODE.WAREHOUSE_LIST_INVENTORY_ADJUSTMENT,
+      //   isInSidebar: true,
+      //   subMenu: [
+      //     {
+      //       name: ROUTE.INVENTORY_ADJUST.CREATE.TITLE,
+      //       path: ROUTE.INVENTORY_ADJUST.CREATE.PATH,
+      //       component: InventoryAdjustForm,
+      //       code: FUNCTION_CODE.WAREHOUSE_CREATE_INVENTORY_ADJUSTMENT,
+      //       isInSidebar: false,
+      //     },
+      //     {
+      //       name: ROUTE.INVENTORY_ADJUST.DETAIL.TITLE,
+      //       path: ROUTE.INVENTORY_ADJUST.DETAIL.PATH,
+      //       component: InventoryAdjustDetail,
+      //       code: FUNCTION_CODE.WAREHOUSE_DETAIL_INVENTORY_ADJUSTMENT,
+      //       isInSidebar: false,
+      //     },
+      //     {
+      //       name: ROUTE.INVENTORY_ADJUST.EDIT.TITLE,
+      //       path: ROUTE.INVENTORY_ADJUST.EDIT.PATH,
+      //       component: InventoryAdjustForm,
+      //       code: FUNCTION_CODE.WAREHOUSE_UPDATE_INVENTORY_ADJUSTMENT,
+      //       isInSidebar: false,
+      //     },
+      //   ],
+      // },
     ],
   },
   {

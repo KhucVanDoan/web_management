@@ -93,7 +93,7 @@ export const getDashboardItemStockHistories = (params) => {
   return api.get(uri, params)
 }
 export const getDashboardItemStockConstructionScl = (params) => {
-  const uri = '/v1/items/dashboard/item-stocks-construction-scl'
+  const uri = '/v1/items/dashboard/item-stock-construction-scl'
   return api.get(uri, params)
 }
 /**
