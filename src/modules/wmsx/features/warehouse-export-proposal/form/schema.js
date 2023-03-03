@@ -30,7 +30,7 @@ export const defineSchema = (t) =>
             if (value > context?.parent?.planExportedQuantity) {
               return context.createError({
                 message: t('general:form.maxNumber', {
-                  max: context?.parent?.quantityRequest,
+                  max: context?.parent?.planExportedQuantity,
                 }),
               })
             }
