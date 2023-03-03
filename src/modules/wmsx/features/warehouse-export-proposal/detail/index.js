@@ -150,15 +150,6 @@ function WarehouseExportProposalDetail() {
       URL.revokeObjectURL(url)
     }
   }
-  const renderHeaderRight = () => {
-    return (
-      <>
-        <Button sx={{ ml: 4 / 3 }} color="grayF4" onClick={() => dowFile(id)}>
-          {t('warehouseExportProposal.dowload')}
-        </Button>
-      </>
-    )
-  }
   const dowAttachment = async (params) => {
     const uri = `/v1/files/${params?.id}`
     const res = await api.get(
@@ -186,7 +177,6 @@ function WarehouseExportProposalDetail() {
       title={t('menu.warehouseExportProposalDetail')}
       onBack={backToList}
       loading={isLoading}
-      renderHeaderRight={renderHeaderRight}
     >
       <Grid container justifyContent="center">
         <Grid item xl={11} xs={12}>
@@ -318,7 +308,18 @@ function WarehouseExportProposalDetail() {
               <ItemSettingTable items={itemSettingTable || []} mode={mode} />
             )}
           </Box>
-          <ActionBar onBack={backToList} />
+          <ActionBar
+            onBack={backToList}
+            elBefore={
+              <Button
+                sx={{ ml: 4 / 3 }}
+                color="grayF4"
+                onClick={() => dowFile(id)}
+              >
+                {t('warehouseExportProposal.dowload')}
+              </Button>
+            }
+          />
         </Grid>
       </Grid>
     </Page>
