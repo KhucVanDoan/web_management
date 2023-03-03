@@ -2907,6 +2907,7 @@
     "collected": "Chờ xuất kho",
     "cancelSyncTitlePopupEBS": "Xác nhận hủy đồng bộ",
     "cancelEBS": "Bạn có chắc chắn muốn hủy đồng bộ không?",
+    "dowloadWarehouseExportReceipt": "Tải phiếu xuât kho",
     "statusSync": {
       "pending": "chờ BOT xử lý",
       "error": "Lỗi nhập kho EBS",

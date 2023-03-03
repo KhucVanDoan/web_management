@@ -333,6 +333,7 @@ const MovementImportDetail = ({ breadcrumbs, onBack }) => {
           <ItemsSettingTable
             items={receiptDetail?.purchasedOrderImportDetails || []}
             mode={MODAL_MODE.DETAIL}
+            receiptDetail={receiptDetail}
           />
         </Box>
       )}
