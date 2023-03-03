@@ -24,7 +24,6 @@ import useWarehouseExportProposal from '~/modules/wmsx/redux/hooks/useWarehouseE
 import { searchMaterialQualityApi } from '~/modules/wmsx/redux/sagas/define-material-quality/search-material-quality'
 import { searchProducingCountryApi } from '~/modules/wmsx/redux/sagas/define-producing-country/search-producing-country'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
-import { getMaterialDetailsApi } from '~/modules/wmsx/redux/sagas/material-management/get-material-details'
 import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
 import { getLotNumberItem } from '~/modules/wmsx/redux/sagas/warehouse-export-proposal/get-details'
 import { getItemWarehouseStockAvailableApi } from '~/modules/wmsx/redux/sagas/warehouse-transfer/get-item-warehouse-stock-available'
@@ -39,7 +38,6 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
   const { actions } = useWarehouseExportProposal()
   const { id } = useParams()
   const [lotNumberlist, setLotNumberList] = useState([])
-  const [warehouseList, setWarehouseList] = useState([])
   const handleAddRow = (parentData, parentIndex) => {
     const newObj = {
       exportSuppliesCode: '',
@@ -66,6 +64,10 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
     setFieldValue('itemTableCollaspe', itemTableCollaspe)
   }
   const handleChangeItem = async (val, params, parentIndex, index) => {
+    setFieldValue(
+      `itemTableCollaspe[${parentIndex}].details[${index}].warehouseExport`,
+      {},
+    )
     if (val) {
       const res = await getLotNumberItem(val?.id)
       if (res?.statusCode === 200) {
@@ -104,23 +106,6 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
           `itemTableCollaspe[${parentIndex}].details[${index}].planExportedQuantity`,
           res?.data[0]?.quantity,
         )
-      }
-      const detailItem = await getMaterialDetailsApi(val?.id)
-      if (detailItem?.data?.itemWarehouseSources?.length > 0) {
-        detailItem?.data?.itemWarehouseSources?.forEach((item) => {
-          const findWarehouse = warehouseList?.find(
-            (w) =>
-              w?.warehouse?.id === item?.warehouse?.id &&
-              w?.itemId === detailItem?.data?.id,
-          )
-          if (isEmpty(findWarehouse)) {
-            warehouseList.push({
-              itemId: detailItem?.data?.id,
-              warehouse: { ...item.warehouse },
-            })
-            setWarehouseList([...warehouseList])
-          }
-        })
       }
     }
   }
@@ -537,21 +522,8 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       headerName: t('warehouseExportProposal.warehouseExport'),
       width: 150,
       renderCell: (params, index) => {
-        const litWarehouse = warehouseList.filter(
-          (item) => item?.itemId === params?.row?.exportSuppliesCode?.id,
-        )
         return isView || params?.row?.warehouse ? (
           params?.row?.warehouse?.name
-        ) : litWarehouse?.length > 0 ? (
-          <Field.Autocomplete
-            name={`itemTableCollaspe[${parentIndex}].details[${index}].warehouseExport`}
-            options={litWarehouse}
-            getOptionLabel={(opt) => opt?.warehouse?.code}
-            getOptionSubLabel={(opt) => opt?.warehouse?.name}
-            onChange={(val) =>
-              handleChangeWarehouse(val, params, parentIndex, index)
-            }
-          />
         ) : (
           <Field.Autocomplete
             name={`itemTableCollaspe[${parentIndex}].details[${index}].warehouseExport`}
@@ -561,6 +533,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
                 limit: ASYNC_SEARCH_LIMIT,
                 filter: convertFilterParams({
                   status: ACTIVE_STATUS.ACTIVE,
+                  itemId: params?.row?.exportSuppliesCode?.id,
                 }),
               })
             }
@@ -569,6 +542,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
                 return t('general:form.required')
               }
             }}
+            asyncRequestDeps={params?.row?.exportSuppliesCode}
             isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
             asyncRequestHelper={(res) => res?.data?.items}
             getOptionLabel={(opt) => opt?.name}

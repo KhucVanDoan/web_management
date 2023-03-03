@@ -31,6 +31,7 @@ function ItemsSettingTable(props) {
     setFieldValue,
     values,
     creditAccount,
+    receiptDetail,
   } = props
   const {
     data: { warehouseImportReceiptDetails },
@@ -40,6 +41,9 @@ function ItemsSettingTable(props) {
     (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT,
   )?.id
   const valuesReceiptRequired = warehouseImportReceiptDetails?.attributes?.find(
+    (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT && item?.value,
+  )
+  const valuesReceiptRequiredtransaction = receiptDetail?.attributes?.find(
     (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT && item?.value,
   )
   const warehouseExportProposal =
@@ -215,7 +219,7 @@ function ItemsSettingTable(props) {
           return isView ? (
             <NumberFormatText
               value={
-                valuesReceiptRequired
+                valuesReceiptRequired || valuesReceiptRequiredtransaction
                   ? params?.row?.quantity
                   : params?.row?.requestedQuantityWarehouseExportProposal
               }
