@@ -24,7 +24,6 @@ import {
 import useLocationManagement from '~/modules/wmsx/redux/hooks/useLocationManagement'
 import { searchAssemblyApi } from '~/modules/wmsx/redux/sagas/define-assembly/search-assembly'
 import { searchBinApi } from '~/modules/wmsx/redux/sagas/define-bin/search-bin'
-import { searchDrawerApi } from '~/modules/wmsx/redux/sagas/define-drawer/search-drawer'
 import { searchShelfApi } from '~/modules/wmsx/redux/sagas/define-shelf/search-shelf'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -353,7 +352,7 @@ function LocationManagementForm() {
                       label={t('locationManagement.drawerCode')}
                       placeholder={t('locationManagement.drawerCode')}
                       asyncRequest={(s) =>
-                        searchDrawerApi({
+                        searchShelfApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
                           filter: convertFilterParams({
@@ -370,7 +369,6 @@ function LocationManagementForm() {
                       getOptionSubLabel={(opt) => opt?.name}
                       onChange={(val) => {
                         if (isEmpty(val)) {
-                          setFieldValue('shelf', null)
                           setFieldValue('bin', null)
                         }
                       }}
