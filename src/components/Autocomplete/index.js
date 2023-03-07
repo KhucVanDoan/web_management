@@ -432,6 +432,7 @@ const Autocomplete = ({
                 }
               : {
                   // async single
+                  key: JSON.stringify(value),
                   onChange: (_, newVal, reason) => {
                     onChange(newVal)
 

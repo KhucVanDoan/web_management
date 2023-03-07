@@ -18,7 +18,6 @@ import { ORDER_STATUS } from '~/modules/mesx/constants'
 import {
   DATA_TYPE,
   TABLE_NAME_ENUM,
-  TYPE_DOWLOAD_WAREHOUSE_EXPORT_RECEIPT,
   WAREHOUSE_EXPORT_RECEIPT_STATUS_OPTIONS,
 } from '~/modules/wmsx/constants'
 import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
@@ -98,7 +97,7 @@ function WarehouseExportReceiptDetail() {
     }
   }
   const dowWarehouseExportReceipt = async (params) => {
-    const uri = `/v1/sales/sale-order-exports/export-delivery-ticket/${params}?exportType=${TYPE_DOWLOAD_WAREHOUSE_EXPORT_RECEIPT.WAREHOUSE_EXPORT_RECEIPT}`
+    const uri = `/v1/sales/sale-order-exports/export-soexport-ticket/${params}`
     const res = await api.get(
       uri,
       {},
