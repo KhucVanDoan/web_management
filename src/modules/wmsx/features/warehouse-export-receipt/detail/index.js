@@ -18,7 +18,6 @@ import { ORDER_STATUS } from '~/modules/mesx/constants'
 import {
   DATA_TYPE,
   TABLE_NAME_ENUM,
-  // TYPE_DOWLOAD_WAREHOUSE_EXPORT_RECEIPT,
   WAREHOUSE_EXPORT_RECEIPT_STATUS_OPTIONS,
 } from '~/modules/wmsx/constants'
 import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
@@ -97,31 +96,31 @@ function WarehouseExportReceiptDetail() {
       URL.revokeObjectURL(url)
     }
   }
-  // const dowWarehouseExportReceipt = async (params) => {
-  //   const uri = `/v1/sales/sale-order-exports/export-delivery-ticket/${params}?exportType=${TYPE_DOWLOAD_WAREHOUSE_EXPORT_RECEIPT.WAREHOUSE_EXPORT_RECEIPT}`
-  //   const res = await api.get(
-  //     uri,
-  //     {},
-  //     {
-  //       responseType: 'blob',
-  //       getHeaders: true,
-  //     },
-  //   )
-  //   if (res.status === 500) {
-  //     addNotification(res?.statusText, NOTIFICATION_TYPE.ERROR)
-  //   } else {
-  //     const filename = getFileNameFromHeader(res)
-  //     const blob = new Blob([res?.data])
-  //     const url = URL.createObjectURL(blob)
-  //     const link = document.createElement('a')
-  //     link.href = url
-  //     const nameFile = decodeURI(filename)
-  //     link.setAttribute('download', nameFile)
-  //     document.body.appendChild(link)
-  //     link.click()
-  //     URL.revokeObjectURL(url)
-  //   }
-  // }
+  const dowWarehouseExportReceipt = async (params) => {
+    const uri = `/v1/sales/sale-order-exports/export-soexport-ticket/${params}`
+    const res = await api.get(
+      uri,
+      {},
+      {
+        responseType: 'blob',
+        getHeaders: true,
+      },
+    )
+    if (res.status === 500) {
+      addNotification(res?.statusText, NOTIFICATION_TYPE.ERROR)
+    } else {
+      const filename = getFileNameFromHeader(res)
+      const blob = new Blob([res?.data])
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      const nameFile = decodeURI(filename)
+      link.setAttribute('download', nameFile)
+      document.body.appendChild(link)
+      link.click()
+      URL.revokeObjectURL(url)
+    }
+  }
   useEffect(() => {
     actions.getWarehouseExportReceiptDetailsById(id, (data) => {
       const attributes = data?.attributes?.filter(
@@ -426,12 +425,12 @@ function WarehouseExportReceiptDetail() {
                   <Button color="grayF4" onClick={() => dowFile(id)}>
                     {t(`warehouseExportReceipt.dowload`)}
                   </Button>
-                  {/* <Button
+                  <Button
                     color="grayF4"
                     onClick={() => dowWarehouseExportReceipt(id)}
                   >
                     {t(`warehouseExportReceipt.dowloadWarehouseExportReceipt`)}
-                  </Button> */}
+                  </Button>
                 </Box>
               </>
             }
