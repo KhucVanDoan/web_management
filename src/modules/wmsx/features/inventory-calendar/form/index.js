@@ -532,9 +532,9 @@ const InventoryCalendarForm = () => {
                             {values?.checkPointDataAttachment?.name}
                             <CloseIcon
                               sx={{ ml: 1, color: 'gray' }}
-                              onClick={() =>
+                              onClick={() => {
                                 setFieldValue('checkPointDataAttachment', '')
-                              }
+                              }}
                             />
                           </Typography>
                         </label>
@@ -552,6 +552,8 @@ const InventoryCalendarForm = () => {
                                 e.target.files[0],
                               )
                             }
+                            // eslint-disable-next-line no-param-reassign
+                            e.target.value = null
                           }}
                         />
                         <label htmlFor="contained-button-file">
