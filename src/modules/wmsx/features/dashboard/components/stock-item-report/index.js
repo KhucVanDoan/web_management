@@ -84,8 +84,9 @@ const StockItemReport = () => {
                 )} VNĐ | ${Number(itemGroupStockSummary?.totalItemPlanning)
                   .toFixed(2)
                   .toString()
-                  .replace(/\d(?=(\d{3})+(?!\d))/g, '$& ')
-                  .replace('.', ',')}
+                  .replace(/(\.\d*?)0+\b/, '$1')
+                  .replace('.', ',')
+                  .replace(/,$/, '')}
                 `
               : `${convertNumberWithThousandSeparator(
                   datum.value,
@@ -93,8 +94,9 @@ const StockItemReport = () => {
                 )} VNĐ | ${Number(itemGroupStockSummary?.totalItemStockAvaiable)
                   .toFixed(2)
                   .toString()
-                  .replace(/\d(?=(\d{3})+(?!\d))/g, '$& ')
-                  .replace('.', ',')}
+                  .replace(/(\.\d*?)0+\b/, '$1')
+                  .replace('.', ',')
+                  .replace(/,$/, '')}
                 `,
         }
       },
