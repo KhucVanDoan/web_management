@@ -40,10 +40,10 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
   const [lotNumberlist, setLotNumberList] = useState([])
   const handleAddRow = (parentData, parentIndex) => {
     const newObj = {
-      exportSuppliesCode: '',
-      exportSuppliesName: '',
+      exportSuppliesCode: null,
+      exportSuppliesName: null,
       unit: '',
-      warehouseExport: '',
+      warehouseExport: null,
       lotNumber: '',
       planExportedQuantity: '',
       quantityExport: 0,
@@ -66,7 +66,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
   const handleChangeItem = async (val, params, parentIndex, index) => {
     setFieldValue(
       `itemTableCollaspe[${parentIndex}].details[${index}].warehouseExport`,
-      {},
+      null,
     )
     if (val) {
       const res = await getLotNumberItem(val?.id)
@@ -534,6 +534,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
                 filter: convertFilterParams({
                   status: ACTIVE_STATUS.ACTIVE,
                   itemId: params?.row?.exportSuppliesCode?.id,
+                  userWarehouse: ACTIVE_STATUS.ACTIVE,
                 }),
               })
             }
