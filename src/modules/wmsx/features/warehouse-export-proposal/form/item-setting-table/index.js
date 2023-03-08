@@ -38,6 +38,8 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
         `items[${index}].planExportedQuantity`,
         res?.data?.find((item) => item?.itemId === val?.id)?.quantity,
       )
+    } else {
+      setFieldValue(`items[${index}].planExportedQuantity`, '')
     }
   }
   const columns = useMemo(
@@ -76,8 +78,8 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
               getOptionLabel={(opt) => opt?.name}
               getOptionSubLabel={(opt) => opt?.code}
               freeSolo
-              onInputChange={(e) => {
-                const newVal = e?.target?.value || null
+              onBlur={(e) => {
+                const newVal = e?.target?.value
                 if (newVal) {
                   setFieldValue(`items[${index}].suppliesName`, {
                     code: '',
