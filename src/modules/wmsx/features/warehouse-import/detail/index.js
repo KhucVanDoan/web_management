@@ -465,7 +465,8 @@ const WarehouseImportDetail = () => {
                     </Grid>
                   )
                 } else if (
-                  item?.tableName === TABLE_NAME_ENUM.SALE_ORDER_EXPORT
+                  item?.tableName === TABLE_NAME_ENUM.SALE_ORDER_EXPORT ||
+                  item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL
                 ) {
                   return (
                     <Grid item lg={6} xs={12}>
@@ -781,6 +782,7 @@ const WarehouseImportDetail = () => {
           <ItemsSettingTable
             items={receiptDetail?.purchasedOrderImportDetails || []}
             mode={MODAL_MODE.DETAIL}
+            receiptDetail={receiptDetail}
           />
         </Box>
       )}
