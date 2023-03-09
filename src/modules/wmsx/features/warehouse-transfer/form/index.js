@@ -428,6 +428,7 @@ const WarehouseTransferForm = () => {
                             WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG
                           ) {
                             setFieldValue('sourceWarehouseId', null)
+                            setFieldValue('destinationWarehouseId', null)
                             setFieldValue('items', [{ ...DEFAULT_ITEM }])
                           }
                         }}
