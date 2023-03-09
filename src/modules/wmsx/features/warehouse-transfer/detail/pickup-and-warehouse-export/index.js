@@ -111,9 +111,9 @@ const PickupAndWarehouseExport = () => {
         itemName: item?.item?.name || '',
         itemType: item?.item?.itemType?.name || '',
         transferQuantity: +item?.planQuantity || 0,
-        ExportedQuantity: item?.quantity || 0,
-        amount: item?.amount || '',
-        price: item?.price || '',
+        ExportedQuantity: +item?.planQuantity || 0,
+        amount: +item?.amount || 0,
+        price: +item?.price || 0,
       }),
     ),
   }

@@ -312,7 +312,7 @@ function WarehouseExportProposalDetail() {
             onBack={backToList}
             elBefore={
               <Button
-                sx={{ ml: 4 / 3 }}
+                sx={{ mr: 'auto' }}
                 color="grayF4"
                 onClick={() => dowFile(id)}
               >

@@ -146,14 +146,20 @@ const WarehouseTransfer = () => {
         renderCell: (params) => {
           const { syncStatus } = params?.row
           return syncStatus === STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR ? (
-            <Button
-              variant="text"
-              size="small"
-              bold={false}
-              onClick={() => onClickConfirmEBS(params?.row)}
+            <Guard
+              code={
+                FUNCTION_CODE.WAREHOUSE_CONFIRM_SYNC_WAREHOUSE_TRANSFER_TO_EBS
+              }
             >
-              {t('warehouseTransfer.confirmWarehouseTransferEBS')}
-            </Button>
+              <Button
+                variant="text"
+                size="small"
+                bold={false}
+                onClick={() => onClickConfirmEBS(params?.row)}
+              >
+                {t('warehouseTransfer.confirmWarehouseTransferEBS')}
+              </Button>
+            </Guard>
           ) : (
             <Status
               options={STATUS_SYNC_WAREHOUSE_TRANSFER_TO_EBS_OPTIONS}
@@ -204,9 +210,15 @@ const WarehouseTransfer = () => {
                 </IconButton>
               </Guard>
               {/* {isCancelSync && (
+                <Guard
+              code={
+                FUNCTION_CODE.WAREHOUSE_CANCEL_SYNC_WAREHOUSE_TRANSFER
+              }
+            >
                 <IconButton onClick={() => onClickCancelSyncEBS(params?.row)}>
                   <Icon name="cancelSync" />
                 </IconButton>
+                 </Guard>
               )} */}
               {(isEdit || isRejected) && (
                 <Guard code={FUNCTION_CODE.WAREHOUSE_UPDATE_WAREHOUSE_TRANSFER}>
