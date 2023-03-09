@@ -411,7 +411,7 @@ function WarehouseImportReceiptDetail() {
                 color="grayF4"
                 onClick={() => dowFile([{ id: id }])}
               >
-                {t(`warehouseExportReceipt.dowload`)}
+                {t(`warehouseImportReceipt.dowload`)}
               </Button>
             }
           />
