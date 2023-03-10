@@ -39,7 +39,11 @@ import { searchSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-man
 import { getWarehouseExportProposalDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-export-proposal/get-details'
 import { getWarehouseImportReceiptDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-import-receipt/get-details'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import { convertFilterParams, convertUtcDateToLocalTz } from '~/utils'
+import {
+  convertFilterParams,
+  convertSortParams,
+  convertUtcDateToLocalTz,
+} from '~/utils'
 
 import displayFollowBusinessTypeManagement from './display-field'
 import ItemSettingTable from './item-setting-table'
@@ -444,6 +448,7 @@ function WarehouseExportReceiptForm() {
   }
   const handleChangeWarehouse = async (val, setFieldValue) => {
     setFieldValue('items', DEFAULT_ITEMS)
+    setFieldValue('sourceId', null)
     if (val) {
       warehouseTransferAction.getListItemWarehouseStock({
         warehouseId: val?.id,
@@ -620,7 +625,7 @@ function WarehouseExportReceiptForm() {
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
                             filter: convertFilterParams({
-                              status: 1,
+                              status: ACTIVE_STATUS.ACTIVE,
                             }),
                           })
                         }
@@ -640,7 +645,7 @@ function WarehouseExportReceiptForm() {
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
                             filter: convertFilterParams({
-                              status: 1,
+                              status: ACTIVE_STATUS.ACTIVE,
                               parentBusiness: PARENT_BUSINESS_TYPE.EXPORT,
                             }),
                           })
@@ -651,30 +656,6 @@ function WarehouseExportReceiptForm() {
                         asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                        required
-                      />
-                    </Grid>
-                    <Grid item lg={6} xs={12}>
-                      <Field.Autocomplete
-                        name="sourceId"
-                        label={t('warehouseExportReceipt.suorceAccountant')}
-                        placeholder={t(
-                          'warehouseExportReceipt.suorceAccountant',
-                        )}
-                        asyncRequest={(s) =>
-                          searchSourceManagementApi({
-                            keyword: s,
-                            limit: ASYNC_SEARCH_LIMIT,
-                            filter: convertFilterParams({
-                              status: 1,
-                            }),
-                          })
-                        }
-                        asyncRequestHelper={(res) => res?.data?.items}
-                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
-                        getOptionSubLabel={(opt) => opt?.accountIdentifier}
-                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                        onChange={(val) => handleChangeSource(val)}
                         required
                       />
                     </Grid>
@@ -714,6 +695,10 @@ function WarehouseExportReceiptForm() {
                                 status: ACTIVE_STATUS.ACTIVE,
                                 userWarehouse: ACTIVE_STATUS.ACTIVE,
                               }),
+                              sort: convertSortParams({
+                                order: 'asc',
+                                orderBy: 'code',
+                              }),
                             })
                           }
                           asyncRequestHelper={(res) => res?.data?.items}
@@ -733,6 +718,34 @@ function WarehouseExportReceiptForm() {
                     </Grid>
                     <Grid item lg={6} xs={12}>
                       <Field.Autocomplete
+                        name="sourceId"
+                        label={t('warehouseExportReceipt.suorceAccountant')}
+                        placeholder={t(
+                          'warehouseExportReceipt.suorceAccountant',
+                        )}
+                        asyncRequest={(s) =>
+                          searchSourceManagementApi({
+                            keyword: s,
+                            limit: ASYNC_SEARCH_LIMIT,
+                            filter: convertFilterParams({
+                              warehouseId: values?.warehouseId?.id,
+                              status: ACTIVE_STATUS.ACTIVE,
+                            }),
+                          })
+                        }
+                        asyncRequestHelper={(res) => res?.data?.items}
+                        asyncRequestDeps={values?.warehouseId}
+                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+                        getOptionSubLabel={(opt) => opt?.accountIdentifier}
+                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                        onChange={(val) => handleChangeSource(val)}
+                        disabled={isEmpty(values?.warehouseId)}
+                        required
+                      />
+                    </Grid>
+
+                    <Grid item lg={6} xs={12}>
+                      <Field.Autocomplete
                         name="reasonId"
                         label={t(
                           'warehouseExportReceipt.warehouseExportReason',
@@ -745,7 +758,7 @@ function WarehouseExportReceiptForm() {
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
                             filter: convertFilterParams({
-                              status: 1,
+                              status: ACTIVE_STATUS.ACTIVE,
                             }),
                           })
                         }

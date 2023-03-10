@@ -396,7 +396,7 @@ const WarehouseTransferDetail = () => {
             color="grayF4"
             onClick={() => dowFile(id)}
           >
-            {t(`warehouseExportReceipt.dowload`)}
+            {t(`warehouseTransfer.dowload`)}
           </Button>
         }
       />

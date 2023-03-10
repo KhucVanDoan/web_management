@@ -51,6 +51,7 @@ function SourceManagement() {
     code: '',
     name: '',
     date: '',
+    warehouseId: '',
   }
   const {
     page,
@@ -88,6 +89,14 @@ function SourceManagement() {
       width: 150,
       fixed: true,
       sortable: true,
+    },
+    {
+      field: 'warehouseId',
+      headerName: t('sourceManagement.warehouseCode'),
+      width: 150,
+      renderCell: (params) => {
+        return params?.row?.warehouse?.code
+      },
     },
     {
       field: 'accountIdentifier',
@@ -167,13 +176,15 @@ function SourceManagement() {
   useEffect(() => {
     refreshData()
   }, [page, pageSize, sort, filters, keyword])
-
   const refreshData = () => {
     const params = {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, columns),
+      filter: convertFilterParams(
+        { ...filters, warehouseId: filters?.warehouseId?.id },
+        columns,
+      ),
       sort: convertSortParams(sort),
     }
     actions.searchSourceManagement(params)
