@@ -293,7 +293,6 @@ function WarehouseExportReceipt() {
       },
     },
   ]
-
   const refreshData = () => {
     const params = {
       keyword: keyword.trim(),

@@ -3,9 +3,13 @@ import React from 'react'
 import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import {
+  ASYNC_SEARCH_LIMIT,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 import { Field } from '~/components/Formik'
 import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 
 const FilterForm = () => {
   const { t } = useTranslation('wmsx')
@@ -27,6 +31,22 @@ const FilterForm = () => {
           name="accountIdentifier"
           label={t('sourceManagement.accountIdentifier')}
           placeholder={t('sourceManagement.accountIdentifier')}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <Field.Autocomplete
+          name="warehouseId"
+          label={t('sourceManagement.warehouse')}
+          placeholder={t('sourceManagement.warehouse')}
+          asyncRequest={(s) =>
+            searchWarehouseApi({
+              keyword: s,
+              limit: ASYNC_SEARCH_LIMIT,
+            })
+          }
+          asyncRequestHelper={(res) => res?.data?.items}
+          getOptionLabel={(opt) => opt?.code}
+          getOptionSubLabel={(opt) => opt?.name}
         />
       </Grid>
       <Grid item xs={12}>
