@@ -25,6 +25,7 @@ export const validateShema = (t) =>
           length: TEXTFIELD_REQUIRED_LENGTH.CODE_4.MAX,
         }),
       ),
+    warehouse: Yup.object().nullable().required(t('general:form.required')),
     productCode: Yup.string()
       .required(t('general:form.required'))
       .length(

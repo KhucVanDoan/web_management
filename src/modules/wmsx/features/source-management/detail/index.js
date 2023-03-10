@@ -95,6 +95,12 @@ const SourceManagementDetail = () => {
                 )}
               />
             </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('sourceManagement.warehouse')}
+                value={detailSourceManagement?.warehouse?.code}
+              />
+            </Grid>
             <Grid item xs={12}>
               <Typography variant="h4" component="span">
                 {t('sourceManagement.accountDetail')}

@@ -2537,6 +2537,7 @@
     "code": "Mã source",
     "name": "Tên source",
     "description": "Mô tả TKKT",
+    "warehouseCode": "Mã kho",
     "descriptionPlaceholder": "Mô tả tài khoản kế toán ",
     "status": "Trạng thái hoạt động",
     "createTime": "Thời gian tạo",
@@ -2554,7 +2555,8 @@
     "accountIdentifier": "Tài khoản định danh",
     "internalDepartmentCode": "Đơn vị nội bộ",
     "departmentBackupCode": "Dự phòng đơn vị",
-    "EVNBackupCode": "Dự phòng EVN"
+    "EVNBackupCode": "Dự phòng EVN",
+    "warehouse": "Kho"
   },
   "defineObjectCategory": {
     "list": "Danh sách danh mục đối tượng",
