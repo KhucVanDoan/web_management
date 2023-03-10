@@ -19,6 +19,7 @@ import Status from '~/components/Status'
 import { searchCompaniesApi } from '~/modules/database/redux/sagas/define-company/search-companies'
 import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useSourceManagement from '~/modules/wmsx/redux/hooks/useSourceManagement'
+import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams } from '~/utils'
 
@@ -54,6 +55,7 @@ const SourceManagementForm = () => {
       description: detailSourceManagement?.description || '',
       effectiveDate: detailSourceManagement?.effectiveDate || '',
       accountIdentifier: detailSourceManagement?.accountIdentifier || '',
+      warehouse: detailSourceManagement?.warehouse || null,
       companyId: detailSourceManagement?.company || '',
       produceTypeCode: detailSourceManagement?.produceTypeCode || '0000',
       branchCode: detailSourceManagement?.branchCode || '000000',
@@ -96,6 +98,7 @@ const SourceManagementForm = () => {
       EVNBackupCode: values?.EVNBackupCode || '0000',
       companyId: values?.companyId?.id,
       description: values?.description,
+      warehouseId: values?.warehouse?.id,
     }
     if (isUpdate) {
       actions.updateSourceManagement({ ...params, id: id }, backToList)
@@ -266,6 +269,24 @@ const SourceManagementForm = () => {
                     <Field.DatePicker
                       name="effectiveDate"
                       label={t('sourceManagement.effectiveDate')}
+                      required
+                    />
+                  </Grid>
+                  <Grid item lg={6} xs={12}>
+                    <Field.Autocomplete
+                      name="warehouse"
+                      label={t('sourceManagement.warehouse')}
+                      placeholder={t('sourceManagement.warehouse')}
+                      asyncRequest={(s) =>
+                        searchWarehouseApi({
+                          keyword: s,
+                          limit: ASYNC_SEARCH_LIMIT,
+                        })
+                      }
+                      asyncRequestHelper={(res) => res?.data?.items}
+                      getOptionLabel={(opt) => opt?.code}
+                      getOptionSubLabel={(opt) => opt?.name}
+                      isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                       required
                     />
                   </Grid>

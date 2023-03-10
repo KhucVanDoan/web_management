@@ -63,15 +63,23 @@ NumberFormatInput.propTypes = {
   formatter: PropTypes.oneOf(['quantity', 'price']),
 }
 
-export const NumberFormatText = ({ value, numberProps, formatter }) => (
-  <NumberFormat
-    value={Number(value)}
-    displayType="text"
-    isNumericString
-    {...config(formatter)}
-    {...numberProps}
-  />
-)
+export const NumberFormatText = ({ value, numberProps, formatter }) => {
+  const convertedValue = formatter
+    ? (+Number(value || 0).toFixed(
+        config(formatter)?.decimalScale || 0,
+      )).toString()
+    : value
+
+  return (
+    <NumberFormat
+      value={convertedValue}
+      displayType="text"
+      isNumericString
+      {...config(formatter)}
+      {...numberProps}
+    />
+  )
+}
 
 NumberFormatText.defaultProps = {
   value: '',

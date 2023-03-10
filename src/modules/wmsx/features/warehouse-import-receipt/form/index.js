@@ -38,7 +38,11 @@ import { searchSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-man
 import { getWarehouseExportProposalDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-export-proposal/get-details'
 import { getWarehouseExportReceiptDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/get-details'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import { convertFilterParams, convertUtcDateToLocalTz } from '~/utils'
+import {
+  convertFilterParams,
+  convertSortParams,
+  convertUtcDateToLocalTz,
+} from '~/utils'
 import addNotification from '~/utils/toast'
 
 import displayFollowBusinessTypeManagement from '../display-field'
@@ -646,15 +650,20 @@ function WarehouseImportReceiptForm() {
                               status: ACTIVE_STATUS.ACTIVE,
                               userWarehouse: ACTIVE_STATUS.ACTIVE,
                             }),
+                            sort: convertSortParams({
+                              order: 'asc',
+                              orderBy: 'code',
+                            }),
                           })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
                         disabled={values[receiptRequired]}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                        onChange={() =>
+                        onChange={() => {
                           setFieldValue('items', [{ ...DEFAULT_ITEMS }])
-                        }
+                          setFieldValue('sourceId', null)
+                        }}
                         required
                       />
                     </Grid>
@@ -689,9 +698,11 @@ function WarehouseImportReceiptForm() {
                             limit: ASYNC_SEARCH_LIMIT,
                             filter: convertFilterParams({
                               status: ACTIVE_STATUS.ACTIVE,
+                              warehouseId: values?.warehouse?.id,
                             }),
                           })
                         }
+                        asyncRequestDeps={values?.warehouse}
                         asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
                         getOptionSubLabel={(opt) => opt?.accountIdentifier}
@@ -699,6 +710,7 @@ function WarehouseImportReceiptForm() {
                         onChange={(val) =>
                           handleChangeSource(val, values, setFieldValue)
                         }
+                        disabled={isEmpty(values?.warehouse)}
                         required
                       />
                     </Grid>

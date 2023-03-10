@@ -33,7 +33,7 @@ import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/
 import { searchApi } from '~/modules/wmsx/redux/sagas/reason-management/search'
 import { searchSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-management/search'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import { convertFilterParams } from '~/utils'
+import { convertFilterParams, convertSortParams } from '~/utils'
 
 import DisplayFollowBusinessTypeManagement from './display-field'
 import ItemSettingTable from './items-setting-table'
@@ -435,46 +435,7 @@ const WarehouseTransferForm = () => {
                         required
                       />
                     </Grid>
-                    <Grid item lg={6} xs={12}>
-                      <Field.Autocomplete
-                        name="sourceId"
-                        label={t('warehouseTransfer.source')}
-                        placeholder={t('warehouseTransfer.source')}
-                        asyncRequest={(s) =>
-                          searchSourceManagementApi({
-                            keyword: s,
-                            limit: ASYNC_SEARCH_LIMIT,
-                            filter: convertFilterParams({
-                              status: ACTIVE_STATUS.ACTIVE,
-                            }),
-                          })
-                        }
-                        asyncRequestHelper={(res) => res?.data?.items}
-                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
-                        getOptionSubLabel={(opt) => opt?.accountIdentifier}
-                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                      />
-                    </Grid>
-                    <Grid item lg={6} xs={12}>
-                      <Field.Autocomplete
-                        name="reasonId"
-                        label={t('warehouseTransfer.reason')}
-                        placeholder={t('warehouseTransfer.reason')}
-                        asyncRequest={(s) =>
-                          searchApi({
-                            keyword: s,
-                            limit: ASYNC_SEARCH_LIMIT,
-                            filter: convertFilterParams({
-                              status: ACTIVE_STATUS.ACTIVE,
-                            }),
-                          })
-                        }
-                        asyncRequestHelper={(res) => res?.data?.items}
-                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
-                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                        required
-                      />
-                    </Grid>
+
                     <Grid item lg={6} xs={12}>
                       <Field.Autocomplete
                         name="sourceWarehouseId"
@@ -491,6 +452,10 @@ const WarehouseTransferForm = () => {
                                 WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG
                                   ? '1'
                                   : '0',
+                            }),
+                            sort: convertSortParams({
+                              order: 'asc',
+                              orderBy: 'code',
                             }),
                           })
                         }
@@ -521,6 +486,10 @@ const WarehouseTransferForm = () => {
                               manageByLot:
                                 values?.sourceWarehouseId?.manageByLot,
                             }),
+                            sort: convertSortParams({
+                              order: 'asc',
+                              orderBy: 'code',
+                            }),
                           })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
@@ -530,6 +499,49 @@ const WarehouseTransferForm = () => {
                         onChange={() =>
                           setFieldValue('items', [{ ...DEFAULT_ITEM }])
                         }
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <Field.Autocomplete
+                        name="sourceId"
+                        label={t('warehouseTransfer.source')}
+                        placeholder={t('warehouseTransfer.source')}
+                        asyncRequest={(s) =>
+                          searchSourceManagementApi({
+                            keyword: s,
+                            limit: ASYNC_SEARCH_LIMIT,
+                            filter: convertFilterParams({
+                              status: ACTIVE_STATUS.ACTIVE,
+                              warehouseId: values?.sourceWarehouseId?.id,
+                            }),
+                          })
+                        }
+                        asyncRequestDeps={values?.sourceWarehouseId}
+                        asyncRequestHelper={(res) => res?.data?.items}
+                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+                        getOptionSubLabel={(opt) => opt?.accountIdentifier}
+                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                        disabled={isEmpty(values?.sourceWarehouseId)}
+                      />
+                    </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <Field.Autocomplete
+                        name="reasonId"
+                        label={t('warehouseTransfer.reason')}
+                        placeholder={t('warehouseTransfer.reason')}
+                        asyncRequest={(s) =>
+                          searchApi({
+                            keyword: s,
+                            limit: ASYNC_SEARCH_LIMIT,
+                            filter: convertFilterParams({
+                              status: ACTIVE_STATUS.ACTIVE,
+                            }),
+                          })
+                        }
+                        asyncRequestHelper={(res) => res?.data?.items}
+                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                         required
                       />
                     </Grid>
