@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { Grid } from '@mui/material'
 import { isEmpty } from 'lodash'
 
@@ -45,16 +43,53 @@ const displayFollowBusinessTypeManagement = (
   const categoryConstructions = type?.find(
     (item) => item?.tableName === 'category_constructions',
   )?.id
+
   const handleChangeReceipt = (val) => {
     setItemReceipt([])
     setValueReceipt({})
-    setFieldValue('receiptDate', '')
     if (isEmpty(val)) {
       setItemReceipt([])
       setFieldValue('contractNumber', '')
+      const warehouseExportProposal =
+        values[
+          values?.businessTypeId?.bussinessTypeAttributes?.find(
+            (item) =>
+              item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
+          )?.id
+        ]?.code
+      const warehouseExportReceipt =
+        values[
+          values?.businessTypeId?.bussinessTypeAttributes?.find(
+            (item) => item?.tableName === TABLE_NAME_ENUM.SALE_ORDER_EXPORT,
+          )?.id
+        ]?.code
+      const receiptDate = convertUtcDateToLocalTz(
+        values?.receiptDate?.toISOString(),
+      )
+
+      const explaination = `${
+        receiptDate
+          ? `${t('warehouseImportReceipt.warehouseInputDate')} [${receiptDate}]`
+          : ''
+      }${
+        warehouseExportProposal
+          ? `  ${t(
+              'warehouseImportReceipt.receiptBy',
+            )} [${warehouseExportProposal}]`
+          : ''
+      }${
+        warehouseExportReceipt
+          ? `  ${t(
+              'warehouseImportReceipt.receiptBy',
+            )} [${warehouseExportReceipt}]`
+          : ''
+      }`
+      setFieldValue('explaination', explaination)
     }
     if (!isEmpty(val)) {
       setLoadingReceipt(true)
+      setFieldValue('receiptDate', null)
+      setFieldValue('explaination', val?.explaination)
       actions.getReceiptDetailsById(val?.id, (data) => {
         setItemReceipt(data?.items)
         setFieldValue(
@@ -103,35 +138,47 @@ const displayFollowBusinessTypeManagement = (
   const handleChangeProposals = async (val) => {
     setItemWarehouseExportProposal([])
     if (isEmpty(val)) {
-      setItemWarehouseExportProposal([])
-      const warehouseExportProposal = val?.code
-      const warehouseExportReceipt =
-        values[
-          values?.businessTypeId?.bussinessTypeAttributes?.find(
-            (item) => item?.tableName === TABLE_NAME_ENUM.SALE_ORDER_EXPORT,
-          )?.id
-        ]?.code
-      const receiptDate = convertUtcDateToLocalTz(
-        values?.receiptDate?.toISOString(),
-      )
-      const explaination = `${
-        receiptDate
-          ? `${t('warehouseImportReceipt.warehouseInputDate')} [${receiptDate}]`
-          : ''
-      }${
-        warehouseExportProposal
-          ? `  ${t(
-              'warehouseImportReceipt.receiptBy',
-            )} [${warehouseExportProposal}]`
-          : ''
-      }${
-        warehouseExportReceipt
-          ? `  ${t(
-              'warehouseImportReceipt.receiptBy',
-            )} [${warehouseExportReceipt}]`
-          : ''
-      }`
-      setFieldValue('explaination', explaination)
+      if (
+        isEmpty(
+          values[
+            values?.businessTypeId?.bussinessTypeAttributes?.find(
+              (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT,
+            )?.id
+          ],
+        )
+      ) {
+        setItemWarehouseExportProposal([])
+        const warehouseExportProposal = val?.code
+        const warehouseExportReceipt =
+          values[
+            values?.businessTypeId?.bussinessTypeAttributes?.find(
+              (item) => item?.tableName === TABLE_NAME_ENUM.SALE_ORDER_EXPORT,
+            )?.id
+          ]?.code
+        const receiptDate = convertUtcDateToLocalTz(
+          values?.receiptDate?.toISOString(),
+        )
+        const explaination = `${
+          receiptDate
+            ? `${t(
+                'warehouseImportReceipt.warehouseInputDate',
+              )} [${receiptDate}]`
+            : ''
+        }${
+          warehouseExportProposal
+            ? `  ${t(
+                'warehouseImportReceipt.receiptBy',
+              )} [${warehouseExportProposal}]`
+            : ''
+        }${
+          warehouseExportReceipt
+            ? `  ${t(
+                'warehouseImportReceipt.receiptBy',
+              )} [${warehouseExportReceipt}]`
+            : ''
+        }`
+        setFieldValue('explaination', explaination)
+      }
     }
     if (val) {
       const res = await getWarehouseExportProposalDetailsApi(val?.id)
@@ -153,131 +200,189 @@ const displayFollowBusinessTypeManagement = (
         })
       })
       setItemWarehouseExportProposal(items)
-      const warehouseExportProposal = val?.code
-      const warehouseExportReceipt =
-        values[
-          values?.businessTypeId?.bussinessTypeAttributes?.find(
-            (item) => item?.tableName === TABLE_NAME_ENUM.SALE_ORDER_EXPORT,
-          )?.id
-        ]?.code
-      const receiptDate = convertUtcDateToLocalTz(
-        values?.receiptDate.toISOString(),
-      )
-      const explaination = `${
-        receiptDate
-          ? `${t('warehouseImportReceipt.warehouseInputDate')} [${receiptDate}]`
-          : ''
-      }${
-        warehouseExportProposal
-          ? `  ${t(
-              'warehouseImportReceipt.receiptBy',
-            )} [${warehouseExportProposal}]`
-          : ''
-      }${
-        warehouseExportReceipt
-          ? `  ${t(
-              'warehouseImportReceipt.receiptBy',
-            )} [${warehouseExportReceipt}]`
-          : ''
-      }`
-      setFieldValue('explaination', explaination)
+      if (
+        isEmpty(
+          values[
+            values?.businessTypeId?.bussinessTypeAttributes?.find(
+              (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT,
+            )?.id
+          ],
+        )
+      ) {
+        const warehouseExportProposal = val?.code
+        const warehouseExportReceipt =
+          values[
+            values?.businessTypeId?.bussinessTypeAttributes?.find(
+              (item) => item?.tableName === TABLE_NAME_ENUM.SALE_ORDER_EXPORT,
+            )?.id
+          ]?.code
+        const receiptDate = convertUtcDateToLocalTz(
+          values?.receiptDate.toISOString(),
+        )
+        const explaination = `${
+          receiptDate
+            ? `${t(
+                'warehouseImportReceipt.warehouseInputDate',
+              )} [${receiptDate}]`
+            : ''
+        }${
+          warehouseExportProposal
+            ? `  ${t(
+                'warehouseImportReceipt.receiptBy',
+              )} [${warehouseExportProposal}]`
+            : ''
+        }${
+          warehouseExportReceipt
+            ? `  ${t(
+                'warehouseImportReceipt.receiptBy',
+              )} [${warehouseExportReceipt}]`
+            : ''
+        }`
+        setFieldValue('explaination', explaination)
+      }
     }
   }
   const handleChangeWarehouseExportReceipt = async (val) => {
-    const warehouseExportProposal =
-      values[
-        values?.businessTypeId?.bussinessTypeAttributes?.find(
-          (item) =>
-            item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
-        )?.id
-      ]?.code
-    const warehouseExportReceipt = val?.code
-    const receiptDate = convertUtcDateToLocalTz(
-      values?.receiptDate.toISOString(),
-    )
-    const explaination = `${
-      receiptDate
-        ? `${t('warehouseImportReceipt.warehouseInputDate')} [${receiptDate}]`
-        : ''
-    }${
-      warehouseExportProposal
-        ? ` ${t(
-            'warehouseImportReceipt.receiptBy',
-          )} [${warehouseExportProposal}]`
-        : ''
-    }${
-      warehouseExportReceipt
-        ? ` ${t(
-            'warehouseImportReceipt.receiptBy',
-          )} [${warehouseExportReceipt}]`
-        : ''
-    }`
-    setFieldValue('explaination', explaination)
-    setItemWarehouseExportReceipt([])
-    if (isEmpty(val)) {
-      const warehouseExportProposal =
+    if (
+      isEmpty(
         values[
           values?.businessTypeId?.bussinessTypeAttributes?.find(
-            (item) =>
-              item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
+            (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT,
           )?.id
-        ]?.code
-      const warehouseExportReceipt = val?.code
-      const receiptDate = convertUtcDateToLocalTz(
-        values?.receiptDate.toISOString(),
+        ],
       )
-      const explaination = `${
-        receiptDate
-          ? `${t('warehouseImportReceipt.warehouseInputDate')} [${receiptDate}]`
-          : ''
-      }${
-        warehouseExportProposal
-          ? ` ${t(
-              'warehouseImportReceipt.receiptBy',
-            )} [${warehouseExportProposal}]`
-          : ''
-      }${
-        warehouseExportReceipt
-          ? ` ${t(
-              'warehouseImportReceipt.receiptBy',
-            )} [${warehouseExportReceipt}]`
-          : ''
-      }`
-      setFieldValue('explaination', explaination)
+    ) {
+      if (
+        isEmpty(
+          values[
+            values?.businessTypeId?.bussinessTypeAttributes?.find(
+              (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT,
+            )?.id
+          ],
+        )
+      ) {
+        const warehouseExportProposal =
+          values[
+            values?.businessTypeId?.bussinessTypeAttributes?.find(
+              (item) =>
+                item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
+            )?.id
+          ]?.code
+        const warehouseExportReceipt = val?.code
+        const receiptDate = convertUtcDateToLocalTz(
+          values?.receiptDate.toISOString(),
+        )
+        const explaination = `${
+          receiptDate
+            ? `${t(
+                'warehouseImportReceipt.warehouseInputDate',
+              )} [${receiptDate}]`
+            : ''
+        }${
+          warehouseExportProposal
+            ? ` ${t(
+                'warehouseImportReceipt.receiptBy',
+              )} [${warehouseExportProposal}]`
+            : ''
+        }${
+          warehouseExportReceipt
+            ? ` ${t(
+                'warehouseImportReceipt.receiptBy',
+              )} [${warehouseExportReceipt}]`
+            : ''
+        }`
+        setFieldValue('explaination', explaination)
+      }
+    }
+    setItemWarehouseExportReceipt([])
+    if (isEmpty(val)) {
+      if (
+        isEmpty(
+          values[
+            values?.businessTypeId?.bussinessTypeAttributes?.find(
+              (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT,
+            )?.id
+          ],
+        )
+      ) {
+        const warehouseExportProposal =
+          values[
+            values?.businessTypeId?.bussinessTypeAttributes?.find(
+              (item) =>
+                item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
+            )?.id
+          ]?.code
+        const warehouseExportReceipt = val?.code
+        const receiptDate = convertUtcDateToLocalTz(
+          values?.receiptDate.toISOString(),
+        )
+        const explaination = `${
+          receiptDate
+            ? `${t(
+                'warehouseImportReceipt.warehouseInputDate',
+              )} [${receiptDate}]`
+            : ''
+        }${
+          warehouseExportProposal
+            ? ` ${t(
+                'warehouseImportReceipt.receiptBy',
+              )} [${warehouseExportProposal}]`
+            : ''
+        }${
+          warehouseExportReceipt
+            ? ` ${t(
+                'warehouseImportReceipt.receiptBy',
+              )} [${warehouseExportReceipt}]`
+            : ''
+        }`
+        setFieldValue('explaination', explaination)
+      }
       setItemWarehouseExportReceipt([])
     }
     if (!isEmpty(val)) {
       const res = await getWarehouseExportReceiptDetailsApi(val?.id)
       setItemWarehouseExportReceipt(res?.data?.saleOrderExportDetails)
-      const warehouseExportProposal =
-        values[
-          values?.businessTypeId?.bussinessTypeAttributes?.find(
-            (item) =>
-              item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
-          )?.id
-        ]?.code
-      const warehouseExportReceipt = val?.code
-      const receiptDate = convertUtcDateToLocalTz(
-        values?.receiptDate.toISOString(),
-      )
-      const explaination = `${
-        receiptDate
-          ? `${t('warehouseImportReceipt.warehouseInputDate')} [${receiptDate}]`
-          : ''
-      }${
-        warehouseExportProposal
-          ? ` ${t(
-              'warehouseImportReceipt.receiptBy',
-            )} [${warehouseExportProposal}]`
-          : ''
-      }${
-        warehouseExportReceipt
-          ? ` ${t(
-              'warehouseImportReceipt.receiptBy',
-            )} [${warehouseExportReceipt}]`
-          : ''
-      }`
-      setFieldValue('explaination', explaination)
+      if (
+        isEmpty(
+          values[
+            values?.businessTypeId?.bussinessTypeAttributes?.find(
+              (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT,
+            )?.id
+          ],
+        )
+      ) {
+        const warehouseExportProposal =
+          values[
+            values?.businessTypeId?.bussinessTypeAttributes?.find(
+              (item) =>
+                item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
+            )?.id
+          ]?.code
+        const warehouseExportReceipt = val?.code
+        const receiptDate = convertUtcDateToLocalTz(
+          values?.receiptDate.toISOString(),
+        )
+        const explaination = `${
+          receiptDate
+            ? `${t(
+                'warehouseImportReceipt.warehouseInputDate',
+              )} [${receiptDate}]`
+            : ''
+        }${
+          warehouseExportProposal
+            ? ` ${t(
+                'warehouseImportReceipt.receiptBy',
+              )} [${warehouseExportProposal}]`
+            : ''
+        }${
+          warehouseExportReceipt
+            ? ` ${t(
+                'warehouseImportReceipt.receiptBy',
+              )} [${warehouseExportReceipt}]`
+            : ''
+        }`
+        setFieldValue('explaination', explaination)
+      }
     }
   }
   const validate = (val, item) => {

@@ -189,11 +189,17 @@ const ItemSettingTable = ({
               // filterSelectedOptions
               onChange={(val) => handleChangeItem(val, index)}
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-              getOptionDisabled={(opt) =>
-                itemIdCodeList.some((id) => id === (opt?.id || opt?.itemId)) &&
-                (opt?.id || opt?.itemId) !==
-                  (items[index]?.id || items[index]?.itemId)
-              }
+              getOptionDisabled={(opt) => {
+                if (!hiden) {
+                  return (
+                    itemIdCodeList.some(
+                      (id) => id === (opt?.id || opt?.itemId),
+                    ) &&
+                    (opt?.id || opt?.itemId) !==
+                      (items[index]?.id || items[index]?.itemId)
+                  )
+                }
+              }}
               disabled={isEmpty(values?.warehouseId)}
             />
           )
