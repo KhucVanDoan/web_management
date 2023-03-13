@@ -13,8 +13,9 @@ import NumberFormatText from '~/components/NumberFormat'
 import { OrderTypeEnum, TABLE_NAME_ENUM } from '~/modules/wmsx/constants'
 import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
+import { getItemWarehouseStockAvailableApi } from '~/modules/wmsx/redux/sagas/warehouse-transfer/get-item-warehouse-stock-available'
 
-const ItemSettingTable = ({ items, lots, arrayHelpers }) => {
+const ItemSettingTable = ({ items, lots, arrayHelpers, setFieldValue }) => {
   const { t } = useTranslation(['wmsx'])
   const {
     data: { warehouseExportReceiptDetails },
@@ -47,6 +48,40 @@ const ItemSettingTable = ({ items, lots, arrayHelpers }) => {
       actions.getItemWarehouseStockAvailable(params)
     }
   }, [lots])
+  const handleChangeLocator = async (val, payload, index) => {
+    if (!isEmpty(val)) {
+      const params = {
+        order: {
+          orderType: OrderTypeEnum.SO,
+          orderId: warehouseExportReceiptDetails?.id,
+        },
+        items: [
+          {
+            itemId:
+              payload?.row?.itemCode?.id || payload?.row?.itemCode?.itemId,
+            warehouseId: warehouseExportReceiptDetails?.warehouse?.id,
+            lotNumber: payload?.row?.lotNumber?.lotNumber || null,
+            locatorId: val?.locatorId,
+          },
+        ],
+      }
+      const res = await getItemWarehouseStockAvailableApi(params)
+      const planExportedQuantity = res?.data?.find(
+        (item) =>
+          item?.itemId ===
+          (payload?.row?.itemCode?.id || payload?.row?.itemCode?.itemId),
+      )
+      setFieldValue(
+        `items[${index}].planQuantity`,
+        planExportedQuantity?.itemAvailables?.find(
+          (item) =>
+            item?.itemId ===
+              (payload?.row?.itemCode?.id || payload?.row?.itemCode?.itemId) &&
+            item?.locatorId === val?.locatorId,
+        )?.quantity,
+      )
+    }
+  }
   const columns = useMemo(
     () => [
       {
@@ -109,6 +144,9 @@ const ItemSettingTable = ({ items, lots, arrayHelpers }) => {
               // disabled={lotNumbersOfItem.some((lot) => !lot.lotNumber)}
               disabled={
                 !Boolean(warehouseExportReceiptDetails?.warehouse?.manageByLot)
+              }
+              isOptionEqualToValue={(opt, val) =>
+                opt?.lotNumber === val?.lotNumber
               }
               validate={(val) => {
                 if (warehouseExportReceiptDetails?.warehouse?.manageByLot) {
@@ -183,6 +221,15 @@ const ItemSettingTable = ({ items, lots, arrayHelpers }) => {
                     max: comparedQuantity,
                   })
                 }
+                if (+val > params?.row?.quantity) {
+                  return t('general:form.maxNumber', {
+                    max: params?.row?.quantity,
+                  })
+                } else if (+val > params?.row?.planQuantity) {
+                  return t('general:form.maxNumber', {
+                    max: params?.row?.planQuantity,
+                  })
+                }
               }}
               required
             />
@@ -208,14 +255,30 @@ const ItemSettingTable = ({ items, lots, arrayHelpers }) => {
               })),
             'code',
           )
-
           return (
             <Field.Autocomplete
               name={`items[${index}].locator`}
               dropdownWidth={250}
               options={locationList}
               getOptionLabel={(opt) => opt?.code || opt?.name}
+              onChange={(val) => handleChangeLocator(val, params, index)}
+              isOptionEqualToValue={(opt, val) =>
+                opt?.locatorId === val?.locatorId
+              }
               required
+            />
+          )
+        },
+      },
+      {
+        field: 'planQuantity',
+        headerName: t('warehouseExportReceipt.items.planQuantity'),
+        width: 150,
+        renderCell: (params) => {
+          return (
+            <NumberFormatText
+              value={+params?.row?.planQuantity}
+              formatter="quantity"
             />
           )
         },

@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from 'react'
 
 import { Box, Grid } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
-import { uniq, map, isEmpty } from 'lodash'
+import { uniq, map, isEmpty, minBy } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
@@ -17,9 +17,11 @@ import {
   DATA_TYPE,
   TABLE_NAME_ENUM,
   WAREHOUSE_EXPORT_RECEIPT_STATUS_OPTIONS,
+  OrderTypeEnum,
 } from '~/modules/wmsx/constants'
 import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
+import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertUtcDateToLocalTz, getLocalItem } from '~/utils'
 import addNotification from '~/utils/toast'
@@ -31,6 +33,10 @@ function WarehouseExportReceiptPickAndExport() {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
   const { id } = useParams()
+  const {
+    data: { itemStockAvailabe },
+    actions: GetItemStockAvailable,
+  } = useWarehouseTransfer()
   const breadcrumbs = [
     {
       title: 'receiptCommandManagement',
@@ -63,7 +69,6 @@ function WarehouseExportReceiptPickAndExport() {
     data: { attributesBusinessTypeDetails },
     actions: useWarehouseImportReceiptAction,
   } = useWarehouseImportReceipt()
-
   const initialValues = useMemo(
     () => ({
       items: warehouseExportReceiptDetails?.itemsSync?.map((item, index) => ({
@@ -77,13 +82,25 @@ function WarehouseExportReceiptPickAndExport() {
             id: item?.id,
             ...item?.item,
           } || null,
+        lotNumber: {
+          lotNumber: item?.lots[0]?.lotNumber,
+          itemId: item?.id,
+        },
         receivedQuantity: '',
-        locator: '',
+        planQuantity: minBy(
+          itemStockAvailabe?.find((e) => e?.itemid === item?.itemId)
+            ?.itemAvailables,
+          'quantity',
+        )?.quantity,
+        locator: minBy(
+          itemStockAvailabe?.find((e) => e?.itemid === item?.itemId)
+            ?.itemAvailables,
+          'quantity',
+        )?.locator,
       })),
     }),
-    [warehouseExportReceiptDetails],
+    [warehouseExportReceiptDetails, itemStockAvailabe],
   )
-
   useEffect(() => {
     actions.getWarehouseExportReceiptDetailsById(id, (data) => {
       const attributes = data?.attributes?.filter((e) => e?.tableName)
@@ -102,6 +119,18 @@ function WarehouseExportReceiptPickAndExport() {
         params,
       )
     })
+    const payload = {
+      order: {
+        orderType: OrderTypeEnum.SO,
+        orderId: warehouseExportReceiptDetails?.id,
+      },
+      items: warehouseExportReceiptDetails?.itemsSync?.map((item) => ({
+        itemId: item?.id,
+        warehouseId: warehouseExportReceiptDetails?.warehouse?.id,
+        lotNumber: item?.lots[0]?.lotNumber || null,
+      })),
+    }
+    GetItemStockAvailable.getItemWarehouseStockAvailable(payload)
     return () => {
       actions.resetWarehouseExportReceiptState()
     }

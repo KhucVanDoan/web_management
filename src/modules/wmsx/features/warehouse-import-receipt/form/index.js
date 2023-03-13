@@ -460,38 +460,48 @@ function WarehouseImportReceiptForm() {
     }
   }
   const handleChangeReceiptDate = (val, values, setFieldValue) => {
-    const warehouseExportProposal =
-      values[
-        values?.businessTypeId?.bussinessTypeAttributes?.find(
-          (item) =>
-            item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
-        )?.id
-      ]?.code
-    const warehouseExportReceipt =
-      values[
-        values?.businessTypeId?.bussinessTypeAttributes?.find(
-          (item) => item?.tableName === TABLE_NAME_ENUM.SALE_ORDER_EXPORT,
-        )?.id
-      ]?.code
-    const receiptDate = convertUtcDateToLocalTz(val?.toISOString())
-    const explaination = `${
-      receiptDate
-        ? `${t('warehouseImportReceipt.warehouseInputDate')} [${receiptDate}]`
-        : ''
-    }${
-      warehouseExportProposal
-        ? ` ${t(
-            'warehouseImportReceipt.receiptBy',
-          )} [${warehouseExportProposal}]`
-        : ''
-    }${
-      warehouseExportReceipt
-        ? ` ${t(
-            'warehouseImportReceipt.receiptBy',
-          )} [${warehouseExportReceipt}]`
-        : ''
-    }`
-    setFieldValue('explaination', explaination)
+    if (
+      isEmpty(
+        values[
+          values?.businessTypeId?.bussinessTypeAttributes?.find(
+            (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT,
+          )?.id
+        ],
+      )
+    ) {
+      const warehouseExportProposal =
+        values[
+          values?.businessTypeId?.bussinessTypeAttributes?.find(
+            (item) =>
+              item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
+          )?.id
+        ]?.code
+      const warehouseExportReceipt =
+        values[
+          values?.businessTypeId?.bussinessTypeAttributes?.find(
+            (item) => item?.tableName === TABLE_NAME_ENUM.SALE_ORDER_EXPORT,
+          )?.id
+        ]?.code
+      const receiptDate = convertUtcDateToLocalTz(val?.toISOString())
+      const explaination = `${
+        receiptDate
+          ? `${t('warehouseImportReceipt.warehouseInputDate')} [${receiptDate}]`
+          : ''
+      }${
+        warehouseExportProposal
+          ? ` ${t(
+              'warehouseImportReceipt.receiptBy',
+            )} [${warehouseExportProposal}]`
+          : ''
+      }${
+        warehouseExportReceipt
+          ? ` ${t(
+              'warehouseImportReceipt.receiptBy',
+            )} [${warehouseExportReceipt}]`
+          : ''
+      }`
+      setFieldValue('explaination', explaination)
+    }
   }
   return (
     <Page

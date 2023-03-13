@@ -2934,7 +2934,8 @@
       "unit": "Đơn vị tính",
       "quantityExportActual": "SL thực xuất",
       "locator": "Vị trí",
-      "quantityTransfer": "SL chuyển"
+      "quantityTransfer": "SL chuyển",
+      "planQuantity": "Số lượng có thể xuất"
     },
     "pickAndExport": {
       "title": "Lấy hàng & Xuất kho",
