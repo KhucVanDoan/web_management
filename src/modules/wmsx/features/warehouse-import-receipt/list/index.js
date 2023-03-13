@@ -213,7 +213,8 @@ function WarehouseImportReceipt() {
         const { id, status, syncStatus } = params?.row
         const isEdit =
           status === WAREHOUSE_IMPORT_RECEIPT_STATUS.PENDING ||
-          status === WAREHOUSE_IMPORT_RECEIPT_STATUS.REJECTED
+          status === WAREHOUSE_IMPORT_RECEIPT_STATUS.REJECTED ||
+          status === WAREHOUSE_IMPORT_RECEIPT_STATUS.CONFIRMED
         const isDelete =
           status === WAREHOUSE_IMPORT_RECEIPT_STATUS.PENDING ||
           status === WAREHOUSE_IMPORT_RECEIPT_STATUS.REJECTED
