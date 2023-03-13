@@ -2013,7 +2013,7 @@ export const REPORT_TYPE_OPTIONS = [
   {
     id: 9,
     text: 'reportType.inventory',
-    code: 'W007',
+    code: ' EVN_INV_011',
   },
   // {
   //   id: 8,
@@ -2023,27 +2023,27 @@ export const REPORT_TYPE_OPTIONS = [
   {
     id: 16,
     text: 'reportType.ageOfItemStock',
-    code: 'W009',
+    code: 'EVN_INV_049',
   },
   {
     id: 7,
     text: 'reportType.itemInventory',
-    code: 'W010',
+    code: 'EVN_INV_017',
   },
   {
     id: 14,
     text: 'reportType.situationImportPeriod',
-    code: 'W011',
+    code: 'EVN_INV_007',
   },
   {
     id: 15,
     text: 'reportType.situationExportPeriod',
-    code: 'W012',
+    code: 'EVN_INV_009',
   },
   {
     id: 12,
     text: 'reportType.situationTransfer',
-    code: 'W013',
+    code: 'EVN_INV_008',
   },
   {
     id: 13,
