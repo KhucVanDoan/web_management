@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 
 import { Grid, Typography } from '@mui/material'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
@@ -98,7 +99,11 @@ const SourceManagementDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('sourceManagement.warehouse')}
-                value={detailSourceManagement?.warehouse?.code}
+                value={
+                  !isEmpty(detailSourceManagement?.warehouse)
+                    ? `${detailSourceManagement?.warehouse?.code} - ${detailSourceManagement?.warehouse?.name}`
+                    : ''
+                }
               />
             </Grid>
             <Grid item xs={12}>

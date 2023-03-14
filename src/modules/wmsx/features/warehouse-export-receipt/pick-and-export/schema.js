@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash'
 import * as Yup from 'yup'
 
 export const formSchema = (t) =>
@@ -15,16 +16,32 @@ export const formSchema = (t) =>
                   max: context?.parent?.planQuantity,
                 }),
               })
-            }
-            if (+value > +context?.parent?.quantity) {
+            } else if (+value > +context?.parent?.quantity) {
               return context.createError({
                 message: t('general:form.maxNumber', {
                   max: context?.parent?.quantity,
                 }),
               })
             }
+            return true
           }),
-        locator: Yup.object().nullable().required(t('general:form.required')),
+        locator: Yup.object()
+          .nullable()
+          .required(t('general:form.required'))
+          .test('', '', (value, context) => {
+            const findItem = context?.from[2]?.value?.items?.find(
+              (item) =>
+                item?.id !== context?.parent?.id &&
+                item?.itemCode?.id === context?.parent?.itemCode?.id &&
+                item?.locator?.locatorId === value?.locatorId,
+            )
+            if (!isEmpty(findItem)) {
+              return context.createError({
+                message: t('wmsx:warehouseTransfer.duplicateItem'),
+              })
+            }
+            return true
+          }),
       }),
     ),
   })

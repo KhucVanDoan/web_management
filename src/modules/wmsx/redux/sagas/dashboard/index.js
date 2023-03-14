@@ -96,6 +96,10 @@ export const getDashboardItemStockConstructionScl = (params) => {
   const uri = '/v1/items/dashboard/item-stock-construction-scl'
   return api.get(uri, params)
 }
+export const getDashboardItemStockInformation = (params) => {
+  const uri = '/v1/items/dashboard/item-stock-informations/list'
+  return api.get(uri, params)
+}
 /**
  * Handle get data request and response
  * @param {object} action

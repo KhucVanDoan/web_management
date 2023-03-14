@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from 'react'
+import React, { useMemo } from 'react'
 
 import { IconButton, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
@@ -22,7 +22,6 @@ const ItemSettingTable = ({ items, lots, arrayHelpers, setFieldValue }) => {
   } = useWarehouseExportReceipt()
   const {
     data: { itemStockAvailabe },
-    actions,
   } = useWarehouseTransfer()
   const itemList = warehouseExportReceiptDetails?.itemsSync?.map((item) => ({
     ...item?.item,
@@ -32,22 +31,22 @@ const ItemSettingTable = ({ items, lots, arrayHelpers, setFieldValue }) => {
       item?.requestedQuantityWarehouseExportProposal,
     id: item?.id,
   }))
-  useEffect(() => {
-    if (!isEmpty(lots)) {
-      const params = {
-        order: {
-          orderType: OrderTypeEnum.SO,
-          orderId: warehouseExportReceiptDetails?.id,
-        },
-        items: lots?.map?.((lot) => ({
-          itemId: lot.itemId,
-          warehouseId: lot.warehouseId,
-          lotNumber: lot.lotNumber || null,
-        })),
-      }
-      actions.getItemWarehouseStockAvailable(params)
-    }
-  }, [lots])
+  // useEffect(() => {
+  //   if (!isEmpty(lots)) {
+  //     const params = {
+  //       order: {
+  //         orderType: OrderTypeEnum.SO,
+  //         orderId: warehouseExportReceiptDetails?.id,
+  //       },
+  //       items: lots?.map?.((lot) => ({
+  //         itemId: lot.itemId,
+  //         warehouseId: lot.warehouseId,
+  //         lotNumber: lot.lotNumber || null,
+  //       })),
+  //     }
+  //     actions.getItemWarehouseStockAvailable(params)
+  //   }
+  // }, [lots])
   const handleChangeLocator = async (val, payload, index) => {
     if (!isEmpty(val)) {
       const params = {
@@ -106,6 +105,7 @@ const ItemSettingTable = ({ items, lots, arrayHelpers, setFieldValue }) => {
               getOptionSubLabel={(opt) => opt?.name || ''}
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
               required
+              onChange={() => setFieldValue(`items[${index}].locator`, null)}
             />
           )
         },
@@ -185,53 +185,13 @@ const ItemSettingTable = ({ items, lots, arrayHelpers, setFieldValue }) => {
       },
       {
         field: 'quantityExport',
-        headerName: t('warehouseExportReceipt.items.quantityExport'),
+        headerName: t('warehouseExportReceipt.items.quantityExportExpected'),
         width: 150,
         renderCell: (params) => {
           return (
             <NumberFormatText
               value={+params?.row?.quantity || params?.row?.itemCode?.quantity}
               formatter="quantity"
-            />
-          )
-        },
-      },
-      {
-        field: 'exportedQuantity',
-        headerName: t('warehouseExportReceipt.items.quantityExportActual'),
-        width: 150,
-        renderCell: (params, index) => {
-          return (
-            <Field.TextField
-              name={`items[${index}].exportedQuantity`}
-              formatter="quantity"
-              validate={(val) => {
-                const exportPlanQuantity =
-                  params?.row?.lotNumber?.quantity ||
-                  params?.row?.item?.quantity
-                const comparedQuantity = params?.row?.lotNumber
-                  ?.requestedQuantity
-                  ? Math.min(
-                      params?.row?.lotNumber?.requestedQuantity,
-                      exportPlanQuantity,
-                    )
-                  : exportPlanQuantity
-                if (Number(val) > comparedQuantity) {
-                  return t('general:form.maxNumber', {
-                    max: comparedQuantity,
-                  })
-                }
-                if (+val > params?.row?.quantity) {
-                  return t('general:form.maxNumber', {
-                    max: params?.row?.quantity,
-                  })
-                } else if (+val > params?.row?.planQuantity) {
-                  return t('general:form.maxNumber', {
-                    max: params?.row?.planQuantity,
-                  })
-                }
-              }}
-              required
             />
           )
         },
@@ -279,6 +239,52 @@ const ItemSettingTable = ({ items, lots, arrayHelpers, setFieldValue }) => {
             <NumberFormatText
               value={+params?.row?.planQuantity}
               formatter="quantity"
+            />
+          )
+        },
+      },
+      {
+        field: 'exportedQuantity',
+        headerName: t('warehouseExportReceipt.items.quantityExportActual'),
+        width: 150,
+        renderCell: (params, index) => {
+          return (
+            <Field.TextField
+              name={`items[${index}].exportedQuantity`}
+              formatter="quantity"
+              validate={(val) => {
+                const exportPlanQuantity =
+                  params?.row?.lotNumber?.quantity ||
+                  params?.row?.item?.quantity
+                const comparedQuantity = params?.row?.lotNumber
+                  ?.requestedQuantity
+                  ? Math.min(
+                      params?.row?.lotNumber?.requestedQuantity,
+                      exportPlanQuantity,
+                    )
+                  : exportPlanQuantity
+                if (Number(val) > comparedQuantity) {
+                  return t('general:form.maxNumber', {
+                    max: comparedQuantity,
+                  })
+                }
+                const totalExportedQuantity = items
+                  .filter(
+                    (item) =>
+                      item.itemCode?.id === params?.row?.itemCode?.id &&
+                      item?.id !== params?.row?.id,
+                  )
+                  .reduce((prev, cur) => prev + Number(cur.exportedQuantity), 0)
+                if (
+                  totalExportedQuantity + Number(val) >
+                  params?.row?.quantity
+                ) {
+                  return t('general:form.totalQuantityExport', {
+                    exportQuantity: params?.row?.quantity,
+                  })
+                }
+              }}
+              required
             />
           )
         },

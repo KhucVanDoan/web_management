@@ -22,8 +22,6 @@ import ItemSummary from './components/item-summary'
 import MovementQuantityReport from './components/movement-quantity-report'
 import MovementReport from './components/movement-report'
 import StockItemReport from './components/stock-item-report'
-// import StockItemBySCLReport from './components/stock-item-scl'
-// import StockItemBySCLReport from './components/stock-item-scl'
 
 const breadcrumbs = [
   {
