@@ -25,6 +25,7 @@
     "maxQuantityStock": "Không được nhập quá số lượng tồn kho là {{max}}",
     "totalExportedQuantity": "Tổng số lượng xuất phải bằng số lượng chuyển là {{exportQuantity}}",
     "totalInputedQuantity": "Tổng số lượng nhập phải bằng số lượng chuyển là {{inputQuantity}}",
+    "totalQuantityExport": "Tổng số lượng xuất pahir nhỏ hơn hoặc bằng {{exportQuantity}}",
     "moreThanNumber": "Giá trị phải lớn hơn {{min}}",
     "duplicates": "Mục này không được trùng lặp",
     "dateRange": "Ngày phải thuộc khoảng từ {{from}} đến {{to}}",
