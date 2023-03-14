@@ -760,6 +760,10 @@ function WarehouseExportReceiptForm() {
                             filter: convertFilterParams({
                               status: ACTIVE_STATUS.ACTIVE,
                             }),
+                            sort: convertSortParams({
+                              order: 'asc',
+                              orderBy: 'code',
+                            }),
                           })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
