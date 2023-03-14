@@ -11,7 +11,7 @@ import { ACTIVE_STATUS } from '~/modules/wmsx/constants'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { searchLocationsApi } from '~/modules/wmsx/redux/sagas/location-management/search-locations'
 import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
-import { convertFilterParams } from '~/utils'
+import { convertFilterParams, convertSortParams } from '~/utils'
 
 const InventoryStatisticFilter = ({
   setQuickFilters,
@@ -48,11 +48,15 @@ const InventoryStatisticFilter = ({
                             status: ACTIVE_STATUS.ACTIVE,
                             userWarehouse: ACTIVE_STATUS.ACTIVE,
                           }),
+                          sort: convertSortParams({
+                            order: 'asc',
+                            orderBy: 'code',
+                          }),
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
-                      getOptionLabel={(opt) => opt?.name}
-                      getOptionSubLabel={(opt) => opt?.code}
+                      getOptionLabel={(opt) => opt?.code}
+                      getOptionSubLabel={(opt) => opt?.name}
                       onChange={() => {
                         // setFieldValue('itemId', null)
                         setFieldValue('locatorId', null)
