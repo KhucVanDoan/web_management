@@ -221,15 +221,6 @@ const ItemSettingTable = ({ items, lots, arrayHelpers, setFieldValue }) => {
                     max: comparedQuantity,
                   })
                 }
-                if (+val > params?.row?.quantity) {
-                  return t('general:form.maxNumber', {
-                    max: params?.row?.quantity,
-                  })
-                } else if (+val > params?.row?.planQuantity) {
-                  return t('general:form.maxNumber', {
-                    max: params?.row?.planQuantity,
-                  })
-                }
               }}
               required
             />

@@ -17,7 +17,7 @@ import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import { searchCompaniesApi } from '~/modules/database/redux/sagas/define-company/search-companies'
-import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useSourceManagement from '~/modules/wmsx/redux/hooks/useSourceManagement'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -281,6 +281,9 @@ const SourceManagementForm = () => {
                         searchWarehouseApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
+                          filter: convertFilterParams({
+                            status: ACTIVE_STATUS.ACTIVE,
+                          }),
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
@@ -305,7 +308,7 @@ const SourceManagementForm = () => {
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
                           filter: convertFilterParams({
-                            status: 1,
+                            status: ACTIVE_STATUS.ACTIVE,
                           }),
                         })
                       }

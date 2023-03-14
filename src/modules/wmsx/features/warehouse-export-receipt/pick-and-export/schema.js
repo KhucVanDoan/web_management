@@ -7,7 +7,23 @@ export const formSchema = (t) =>
         itemCode: Yup.object().nullable().required(t('general:form.required')),
         exportedQuantity: Yup.number()
           .nullable()
-          .required(t('general:form.required')),
+          .required(t('general:form.required'))
+          .test('', '', (value, context) => {
+            if (+value > +context?.parent?.planQuantity) {
+              return context.createError({
+                message: t('general:form.maxNumber', {
+                  max: context?.parent?.planQuantity,
+                }),
+              })
+            }
+            if (+value > +context?.parent?.quantity) {
+              return context.createError({
+                message: t('general:form.maxNumber', {
+                  max: context?.parent?.quantity,
+                }),
+              })
+            }
+          }),
         locator: Yup.object().nullable().required(t('general:form.required')),
       }),
     ),

@@ -55,33 +55,64 @@ const ReportExport = () => {
 
   const onSubmit = async (values) => {
     setIsLoading(true)
-    const convertValues = {
-      reportType: values?.type,
-      exportType: values?.fileFormat,
-      companyCode: userInfo?.company?.code,
-      constructionCode: values?.construction?.code,
-      warehouseCode: values?.warehouse?.code,
-      departmentReceiptCode: values?.receivingDepartment?.code,
-      dateFrom: values?.time?.[0]?.toISOString(),
-      dateTo: values?.time?.[1]?.toISOString(),
-    }
-    const uri = `/v1/reports/export`
-    const res = await reportApi.get(uri, convertValues, {
-      responseType: 'blob',
-      getHeaders: true,
-    })
-    if (res) {
-      setIsLoading(false)
-      const filename = getFileNameFromHeader(res)
-      const blob = new Blob([res?.data])
-      const url = URL.createObjectURL(blob)
-      const link = document.createElement('a')
-      link.href = url
-      const nameFile = decodeURI(filename)
-      link.setAttribute('download', nameFile)
-      document.body.appendChild(link)
-      link.click()
-      URL.revokeObjectURL(url)
+    if (values?.type === REPORT_TYPE.INVENTORY) {
+      const convertValues = {
+        reportType: values?.type,
+        exportType: values?.fileFormat,
+        companyCode: userInfo?.company?.code,
+        constructionCode: values?.construction?.code,
+        warehouseCode: values?.warehouse?.code,
+        departmentReceiptCode: values?.receivingDepartment?.code,
+        dateFrom: new Date(),
+        dateTo: new Date(),
+      }
+      const uri = `/v1/reports/export`
+      const res = await reportApi.get(uri, convertValues, {
+        responseType: 'blob',
+        getHeaders: true,
+      })
+      if (res) {
+        setIsLoading(false)
+        const filename = getFileNameFromHeader(res)
+        const blob = new Blob([res?.data])
+        const url = URL.createObjectURL(blob)
+        const link = document.createElement('a')
+        link.href = url
+        const nameFile = decodeURI(filename)
+        link.setAttribute('download', nameFile)
+        document.body.appendChild(link)
+        link.click()
+        URL.revokeObjectURL(url)
+      }
+    } else {
+      const convertValues = {
+        reportType: values?.type,
+        exportType: values?.fileFormat,
+        companyCode: userInfo?.company?.code,
+        constructionCode: values?.construction?.code,
+        warehouseCode: values?.warehouse?.code,
+        departmentReceiptCode: values?.receivingDepartment?.code,
+        dateFrom: values?.time?.[0]?.toISOString(),
+        dateTo: values?.time?.[1]?.toISOString(),
+      }
+      const uri = `/v1/reports/export`
+      const res = await reportApi.get(uri, convertValues, {
+        responseType: 'blob',
+        getHeaders: true,
+      })
+      if (res) {
+        setIsLoading(false)
+        const filename = getFileNameFromHeader(res)
+        const blob = new Blob([res?.data])
+        const url = URL.createObjectURL(blob)
+        const link = document.createElement('a')
+        link.href = url
+        const nameFile = decodeURI(filename)
+        link.setAttribute('download', nameFile)
+        document.body.appendChild(link)
+        link.click()
+        URL.revokeObjectURL(url)
+      }
     }
   }
 
