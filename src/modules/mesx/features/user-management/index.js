@@ -158,7 +158,7 @@ function UserManagement() {
         const isLocked = status === ACTIVE_STATUS.ACTIVE
         return (
           <div>
-            <Guard code={FUNCTION_CODE.USER_UPDATE_USER}>
+            <Guard code={FUNCTION_CODE.USER_DETAIL_USER}>
               <IconButton
                 onClick={() =>
                   history.push(
@@ -169,7 +169,7 @@ function UserManagement() {
                 <Icon name="show" />
               </IconButton>
             </Guard>
-            <Guard code={FUNCTION_CODE.USER_DETAIL_USER}>
+            <Guard code={FUNCTION_CODE.USER_UPDATE_USER}>
               <IconButton
                 onClick={() =>
                   history.push(
