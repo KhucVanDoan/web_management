@@ -4,8 +4,11 @@ import { Column } from '@ant-design/plots/es'
 import { Box, Card, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
+import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Autocomplete from '~/components/Autocomplete'
 import { useDashboardItemStockConstructionScl } from '~/modules/wmsx/redux/hooks/useDashboard'
+import { getDashboardItemStockInformation } from '~/modules/wmsx/redux/sagas/dashboard'
+import { convertNumberWithThousandSeparator } from '~/utils'
 
 const StockItemBySCLReport = () => {
   const { t } = useTranslation(['wmsx'])
@@ -20,7 +23,9 @@ const StockItemBySCLReport = () => {
     index: index,
     type: item?.type,
     totalItemStockAmount:
-      item.totalItemStockAmount < 0 ? 0 : item.totalItemStockAmount,
+      item.totalItemStockAmount < 0
+        ? 0
+        : convertNumberWithThousandSeparator(item.totalItemStockAmount, 5),
     name: t('dashboard.inventoryQuantity.value'),
   }))
 
@@ -74,10 +79,14 @@ const StockItemBySCLReport = () => {
           }}
         >
           <Autocomplete
-            sx={{}}
-            options={data}
             name="type"
-            // placeholder={t('dashboard.itemName')}
+            asyncRequest={(s) =>
+              getDashboardItemStockInformation({
+                keyword: s,
+                limit: ASYNC_SEARCH_LIMIT,
+              })
+            }
+            asyncRequestHelper={(res) => res?.data}
             getOptionLabel={(opt) => opt?.type}
             onChange={(val) => handleChange(val)}
           />

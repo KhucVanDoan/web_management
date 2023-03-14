@@ -2,6 +2,7 @@ import React, { useEffect, useMemo } from 'react'
 
 import { Grid, Typography } from '@mui/material'
 import { Form, Formik } from 'formik'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
@@ -55,7 +56,9 @@ const SourceManagementForm = () => {
       description: detailSourceManagement?.description || '',
       effectiveDate: detailSourceManagement?.effectiveDate || '',
       accountIdentifier: detailSourceManagement?.accountIdentifier || '',
-      warehouse: detailSourceManagement?.warehouse || null,
+      warehouse: !isEmpty(detailSourceManagement?.warehouse)
+        ? detailSourceManagement?.warehouse
+        : null,
       companyId: detailSourceManagement?.company || '',
       produceTypeCode: detailSourceManagement?.produceTypeCode || '0000',
       branchCode: detailSourceManagement?.branchCode || '000000',

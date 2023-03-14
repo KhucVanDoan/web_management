@@ -2924,6 +2924,7 @@
       "lotNumber": "Số lô",
       "quantityRequest": "SL yêu cầu",
       "quantityExport": "SL xuất",
+      "quantityExportExpected": "SL xuất dự kiến",
       "planExportedQuantity": "SL có thể xuất",
       "unitPriceRefer": "Đơn giá",
       "totalMoney": "Thành tiền",

@@ -71,33 +71,35 @@ function WarehouseExportReceiptPickAndExport() {
   } = useWarehouseImportReceipt()
   const initialValues = useMemo(
     () => ({
-      items: warehouseExportReceiptDetails?.itemsSync?.map((item, index) => ({
-        id: `${item?.id}-${index}`,
-        quantity: item?.quantity,
-        requestedQuantityWarehouseExportProposal:
-          item?.requestedQuantityWarehouseExportProposal,
-        exportedQuantity: item?.quantity,
-        itemCode:
-          {
-            id: item?.id,
-            ...item?.item,
-          } || null,
-        lotNumber: {
-          lotNumber: item?.lots[0]?.lotNumber,
-          itemId: item?.id,
-        },
-        receivedQuantity: '',
-        planQuantity: minBy(
-          itemStockAvailabe?.find((e) => e?.itemid === item?.itemId)
-            ?.itemAvailables,
-          'quantity',
-        )?.quantity,
-        locator: minBy(
-          itemStockAvailabe?.find((e) => e?.itemid === item?.itemId)
-            ?.itemAvailables,
-          'quantity',
-        )?.locator,
-      })),
+      items: warehouseExportReceiptDetails?.itemsSync?.map((item, index) => {
+        return {
+          id: `${item?.id}-${index}`,
+          quantity: item?.quantity,
+          requestedQuantityWarehouseExportProposal:
+            item?.requestedQuantityWarehouseExportProposal,
+          exportedQuantity: item?.quantity,
+          itemCode:
+            {
+              id: item?.id,
+              ...item?.item,
+            } || null,
+          lotNumber: {
+            lotNumber: item?.lots[0]?.lotNumber,
+            itemId: item?.id,
+          },
+          receivedQuantity: '',
+          planQuantity: minBy(
+            itemStockAvailabe?.find((e) => e?.itemId === item?.id)
+              ?.itemAvailables,
+            'quantity',
+          )?.quantity,
+          locator: minBy(
+            itemStockAvailabe?.find((e) => e?.itemId === item?.id)
+              ?.itemAvailables,
+            'quantity',
+          )?.locator,
+        }
+      }),
     }),
     [warehouseExportReceiptDetails, itemStockAvailabe],
   )
@@ -118,19 +120,20 @@ function WarehouseExportReceiptPickAndExport() {
       useWarehouseImportReceiptAction.getAttribuiteBusinessTypeDetailsById(
         params,
       )
+      const payload = {
+        order: {
+          orderType: OrderTypeEnum.SO,
+          orderId: +data?.id,
+        },
+        items: data?.itemsSync?.map((item) => ({
+          itemId: item?.id,
+          warehouseId: data?.warehouse?.id,
+          lotNumber: item?.lots[0]?.lotNumber || null,
+        })),
+      }
+      GetItemStockAvailable.getItemWarehouseStockAvailable(payload)
     })
-    const payload = {
-      order: {
-        orderType: OrderTypeEnum.SO,
-        orderId: warehouseExportReceiptDetails?.id,
-      },
-      items: warehouseExportReceiptDetails?.itemsSync?.map((item) => ({
-        itemId: item?.id,
-        warehouseId: warehouseExportReceiptDetails?.warehouse?.id,
-        lotNumber: item?.lots[0]?.lotNumber || null,
-      })),
-    }
-    GetItemStockAvailable.getItemWarehouseStockAvailable(payload)
+
     return () => {
       actions.resetWarehouseExportReceiptState()
     }
