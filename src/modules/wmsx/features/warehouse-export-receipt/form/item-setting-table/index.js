@@ -165,7 +165,7 @@ const ItemSettingTable = ({
               filterOptions={filterOptions}
               // filterSelectedOptions
               isOptionEqualToValue={(opt, val) =>
-                opt?.itemId === (val?.itemId || val?.id)
+                opt?.itemId === (val?.id || val?.itemId)
               }
               getOptionDisabled={(opt) =>
                 itemIdCodeList.some(
@@ -188,7 +188,9 @@ const ItemSettingTable = ({
               filterOptions={filterOptions}
               // filterSelectedOptions
               onChange={(val) => handleChangeItem(val, index)}
-              isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+              isOptionEqualToValue={(opt, val) =>
+                opt?.id === (val?.id || val?.itemId)
+              }
               getOptionDisabled={(opt) => {
                 if (!hiden) {
                   return (
