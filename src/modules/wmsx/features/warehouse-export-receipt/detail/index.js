@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Box, Grid } from '@mui/material'
 import { uniq, map, isEmpty } from 'lodash'
@@ -18,6 +18,7 @@ import { ORDER_STATUS } from '~/modules/mesx/constants'
 import {
   DATA_TYPE,
   TABLE_NAME_ENUM,
+  WAREHOUSE_EXPORT_RECEIPT_STATUS,
   WAREHOUSE_EXPORT_RECEIPT_STATUS_OPTIONS,
 } from '~/modules/wmsx/constants'
 import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
@@ -49,6 +50,7 @@ function WarehouseExportReceiptDetail() {
   const history = useHistory()
   const { id } = useParams()
   const routeMatch = useRouteMatch()
+  const [loadingDowFile, setLoadingDowFile] = useState(false)
   const MODE_MAP = {
     [ROUTE.WAREHOUSE_EXPORT_RECEIPT.DETAIL.PATH]: MODAL_MODE.DETAIL,
   }
@@ -72,6 +74,7 @@ function WarehouseExportReceiptDetail() {
     )?.amount,
   }))
   const dowFile = async (params) => {
+    setLoadingDowFile(true)
     const uri = `/v1/sales/sale-order-exports/export-delivery-ticket/${params}`
     const res = await api.get(
       uri,
@@ -81,9 +84,10 @@ function WarehouseExportReceiptDetail() {
         getHeaders: true,
       },
     )
-    if (res.status === 500) {
+    if (res.statusCode === 500) {
       addNotification(res?.statusText, NOTIFICATION_TYPE.ERROR)
     } else {
+      setLoadingDowFile(false)
       const filename = getFileNameFromHeader(res)
       const blob = new Blob([res?.data])
       const url = URL.createObjectURL(blob)
@@ -97,6 +101,7 @@ function WarehouseExportReceiptDetail() {
     }
   }
   const dowWarehouseExportReceipt = async (params) => {
+    setLoadingDowFile(true)
     const uri = `/v1/sales/sale-order-exports/export-soexport-ticket/${params}`
     const res = await api.get(
       uri,
@@ -106,9 +111,37 @@ function WarehouseExportReceiptDetail() {
         getHeaders: true,
       },
     )
-    if (res.status === 500) {
+    if (res.statusCode === 500) {
       addNotification(res?.statusText, NOTIFICATION_TYPE.ERROR)
     } else {
+      setLoadingDowFile(false)
+      const filename = getFileNameFromHeader(res)
+      const blob = new Blob([res?.data])
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      const nameFile = decodeURI(filename)
+      link.setAttribute('download', nameFile)
+      document.body.appendChild(link)
+      link.click()
+      URL.revokeObjectURL(url)
+    }
+  }
+  const dowDeliveryRecord = async (params) => {
+    setLoadingDowFile(true)
+    const uri = `/v1/sales/sale-order-exports/export-delivery-record/${params}`
+    const res = await api.get(
+      uri,
+      {},
+      {
+        responseType: 'blob',
+        getHeaders: true,
+      },
+    )
+    if (res.statusCode === 400) {
+      addNotification(res?.message, NOTIFICATION_TYPE.ERROR)
+    } else {
+      setLoadingDowFile(false)
       const filename = getFileNameFromHeader(res)
       const blob = new Blob([res?.data])
       const url = URL.createObjectURL(blob)
@@ -180,7 +213,7 @@ function WarehouseExportReceiptDetail() {
       breadcrumbs={breadcrumbs}
       title={t('menu.warehouseExportReceiptDetail')}
       onBack={backToList}
-      loading={isLoading}
+      loading={isLoading || loadingDowFile}
       renderHeaderRight={renderHeaderRight}
     >
       <Grid container justifyContent="center">
@@ -431,6 +464,15 @@ function WarehouseExportReceiptDetail() {
                   >
                     {t(`warehouseExportReceipt.dowloadWarehouseExportReceipt`)}
                   </Button>
+                  {warehouseExportReceiptDetails?.status ===
+                    WAREHOUSE_EXPORT_RECEIPT_STATUS.COMPLETED && (
+                    <Button
+                      color="grayF4"
+                      onClick={() => dowDeliveryRecord(id)}
+                    >
+                      {t(`warehouseExportReceipt.dowloadDeliveryRecord`)}
+                    </Button>
+                  )}
                 </Box>
               </>
             }
