@@ -2910,9 +2910,10 @@
     "cancelSyncTitlePopupEBS": "Xác nhận hủy đồng bộ",
     "cancelEBS": "Bạn có chắc chắn muốn hủy đồng bộ không?",
     "dowloadWarehouseExportReceipt": "Tải phiếu xuât kho",
+    "dowloadDeliveryRecord": "Tải biên bản bàn giao",
     "statusSync": {
       "pending": "chờ BOT xử lý",
-      "error": "Lỗi nhập kho EBS",
+      "error": "Lỗi xuất kho EBS",
       "success": "Thành công",
       "completed": "Hoàn thành",
       "cancel": "Huỷ đồng bộ"
