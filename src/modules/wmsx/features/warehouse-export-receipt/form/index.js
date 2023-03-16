@@ -14,6 +14,7 @@ import {
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 // import Button from '~/components/Button'
+import Dialog from '~/components/Dialog'
 import { Field } from '~/components/Formik'
 // import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
@@ -37,6 +38,7 @@ import { searchReceiptDepartmentApi } from '~/modules/wmsx/redux/sagas/receipt-d
 import { getSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-management/get-detail'
 import { searchSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-management/search'
 import { getWarehouseExportProposalDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-export-proposal/get-details'
+import { getWarehouseImportReceiptByConditions } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/create'
 import { getWarehouseImportReceiptDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-import-receipt/get-details'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import {
@@ -70,6 +72,7 @@ function WarehouseExportReceiptForm() {
   const { id } = useParams()
   const routeMatch = useRouteMatch()
   const [debitAccount, setDebitAccount] = useState('')
+  const [modal, setModal] = useState(false)
   const [warehouseExportProposalId, setWarehouseExportProposalId] = useState()
   const {
     data: { isLoading, warehouseExportReceiptDetails },
@@ -351,50 +354,65 @@ function WarehouseExportReceiptForm() {
     history.push(ROUTE.WAREHOUSE_EXPORT_RECEIPT.LIST.PATH)
   }
 
-  const onSubmit = (values) => {
-    const params = {
-      receiver: values?.deliver,
-      businessTypeId: values?.businessTypeId?.id,
-      reasonId: values?.reasonId?.id,
-      explaination: values?.explanation || '',
-      receiptDate: values?.receiptDate.toISOString(),
-      departmentReceiptId: values?.departmentReceiptId?.id,
-      sourceId: values?.sourceId?.id,
+  const onSubmit = async (values) => {
+    const payload = {
       warehouseId: values?.warehouseId?.id,
-      items: JSON.stringify(
-        values?.items?.map((item) => ({
-          id: +item?.itemCode?.itemId || +item?.itemCode?.id,
-          itemCode: item?.itemCode?.item?.code || item?.itemCode?.code,
-          lotNumber: item?.lotNumber || null,
-          quantity: +item?.quantityExport,
-          price: item?.price,
-          debitAccount: debitAccount || null,
-          creditAccount: item?.creditAccount?.replace(/^(\d*?[1-9])0+$/, '$1'),
-          warehouseId: values?.warehouseId?.id,
-        })),
+      receiptDate: values?.receiptDate,
+      itemIds: values?.items?.map(
+        (item) => item?.itemCode?.itemId || +item?.itemCode?.id,
       ),
     }
-    values?.businessTypeId?.bussinessTypeAttributes?.forEach((att, index) => {
-      // if (values[att.tableName]?.id) {
-      //   params[`attributes[${index}].id`] = att.id
-      //   params[`attributes[${index}].value`] = values[att.tableName]?.id
-      // }
-      if (values[att.id]) {
-        params[`attributes[${index}].id`] = att.id
-        params[`attributes[${index}].value`] =
-          values[att.id]?.id || values[att.id]
-      }
-    })
-    if (mode === MODAL_MODE.CREATE) {
-      actions.createWarehouseExportReceipt(params, backToList)
-    } else if (mode === MODAL_MODE.UPDATE) {
-      const paramUpdate = {
-        ...params,
-        code: warehouseExportReceiptDetails?.code,
-        id: +id,
-      }
 
-      actions.updateWarehouseExportReceipt(paramUpdate, backToList)
+    const res = await getWarehouseImportReceiptByConditions(payload)
+    if (!isEmpty(res?.data)) {
+      setModal(true)
+    } else {
+      const params = {
+        receiver: values?.deliver,
+        businessTypeId: values?.businessTypeId?.id,
+        reasonId: values?.reasonId?.id,
+        explaination: values?.explanation || '',
+        receiptDate: values?.receiptDate.toISOString(),
+        departmentReceiptId: values?.departmentReceiptId?.id,
+        sourceId: values?.sourceId?.id,
+        warehouseId: values?.warehouseId?.id,
+        items: JSON.stringify(
+          values?.items?.map((item) => ({
+            id: +item?.itemCode?.itemId || +item?.itemCode?.id,
+            itemCode: item?.itemCode?.item?.code || item?.itemCode?.code,
+            lotNumber: item?.lotNumber || null,
+            quantity: +item?.quantityExport,
+            price: item?.price,
+            debitAccount: debitAccount || null,
+            creditAccount: item?.creditAccount?.replace(
+              /^(\d*?[1-9])0+$/,
+              '$1',
+            ),
+            warehouseId: values?.warehouseId?.id,
+          })),
+        ),
+      }
+      values?.businessTypeId?.bussinessTypeAttributes?.forEach((att, index) => {
+        // if (values[att.tableName]?.id) {
+        //   params[`attributes[${index}].id`] = att.id
+        //   params[`attributes[${index}].value`] = values[att.tableName]?.id
+        // }
+        if (values[att.id]) {
+          params[`attributes[${index}].id`] = att.id
+          params[`attributes[${index}].value`] =
+            values[att.id]?.id || values[att.id]
+        }
+      })
+      if (mode === MODAL_MODE.CREATE) {
+        actions.createWarehouseExportReceipt(params, backToList)
+      } else if (mode === MODAL_MODE.UPDATE) {
+        const paramUpdate = {
+          ...params,
+          code: warehouseExportReceiptDetails?.code,
+          id: +id,
+        }
+        actions.updateWarehouseExportReceipt(paramUpdate, backToList)
+      }
     }
   }
 
@@ -515,6 +533,56 @@ function WarehouseExportReceiptForm() {
     }`
     setFieldValue('explanation', explaination)
   }
+  const onSubmitConfirm = (values) => {
+    const params = {
+      receiver: values?.deliver,
+      businessTypeId: values?.businessTypeId?.id,
+      reasonId: values?.reasonId?.id,
+      explaination: values?.explanation || '',
+      receiptDate: values?.receiptDate.toISOString(),
+      departmentReceiptId: values?.departmentReceiptId?.id,
+      sourceId: values?.sourceId?.id,
+      warehouseId: values?.warehouseId?.id,
+      items: JSON.stringify(
+        values?.items?.map((item) => ({
+          id: +item?.itemCode?.itemId || +item?.itemCode?.id,
+          itemCode: item?.itemCode?.item?.code || item?.itemCode?.code,
+          lotNumber: item?.lotNumber || null,
+          quantity: +item?.quantityExport,
+          price: item?.price,
+          debitAccount: debitAccount || null,
+          creditAccount: item?.creditAccount?.replace(/^(\d*?[1-9])0+$/, '$1'),
+          warehouseId: values?.warehouseId?.id,
+        })),
+      ),
+    }
+    values?.businessTypeId?.bussinessTypeAttributes?.forEach((att, index) => {
+      // if (values[att.tableName]?.id) {
+      //   params[`attributes[${index}].id`] = att.id
+      //   params[`attributes[${index}].value`] = values[att.tableName]?.id
+      // }
+      if (values[att.id]) {
+        params[`attributes[${index}].id`] = att.id
+        params[`attributes[${index}].value`] =
+          values[att.id]?.id || values[att.id]
+      }
+    })
+    if (mode === MODAL_MODE.CREATE) {
+      actions.createWarehouseExportReceipt(params, backToList)
+    } else if (mode === MODAL_MODE.UPDATE) {
+      const paramUpdate = {
+        ...params,
+        code: warehouseExportReceiptDetails?.code,
+        id: +id,
+      }
+      actions.updateWarehouseExportReceipt(paramUpdate, backToList)
+    }
+    setModal(false)
+  }
+
+  const onCloseModal = () => {
+    setModal(false)
+  }
   return (
     <Page
       breadcrumbs={getBreadcrumb()}
@@ -542,6 +610,7 @@ function WarehouseExportReceiptForm() {
                     item?.tableName ===
                     TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
                 )?.id
+
               return (
                 <Form>
                   <Grid
@@ -580,6 +649,7 @@ function WarehouseExportReceiptForm() {
                     <Grid item lg={6} xs={12}>
                       <Field.DatePicker
                         name="receiptDate"
+                        id="receiptDate"
                         label={t('warehouseExportReceipt.createdAt')}
                         placeholder={t('warehouseExportReceipt.createdAt')}
                         maxDate={new Date()}
@@ -852,6 +922,17 @@ function WarehouseExportReceiptForm() {
                     />
                   </Box>
                   {renderActionBar(handleReset)}
+                  <Dialog
+                    open={modal}
+                    title={t('warehouseExportReceipt.messageWarningCreate')}
+                    onCancel={() => onCloseModal()}
+                    cancelLabel={t('general:common.no')}
+                    onSubmit={() => onSubmitConfirm(values)}
+                    submitLabel={t('general:common.yes')}
+                    noBorderBottom
+                  >
+                    {t('warehouseExportReceipt.messageWarning')}
+                  </Dialog>
                 </Form>
               )
             }}
