@@ -1885,6 +1885,7 @@ export const WAREHOUSE_EXPORT_PROPOSAL_EXPORT_WAREHOUSE_STATUS_OPTION = [
 export const RECEIPT_MANAGEMENT_STATUS = {
   NOT_YET_STOCKED: 0,
   STOCKED: 1,
+  CANCELED: 2,
 }
 
 export const RECEIPT_MANAGEMENT_STATUS_MAP = {
@@ -1903,6 +1904,11 @@ export const RECEIPT_MANAGEMENT_STATUS_OPTIONS = [
     id: 1,
     text: 'receiptManagement.stocked',
     color: 'confirmed',
+  },
+  {
+    id: 2,
+    text: 'receiptManagement.canceled',
+    color: 'rejected',
   },
 ]
 
@@ -2291,7 +2297,7 @@ export const STATUS_SYNC_ORDER_TO_EBS_MAP = {
 export const STATUS_SYNC_WAREHOUSE_IMPORT_TO_EBS_OPTIONS = [
   {
     id: 0,
-    text: 'warehouseImportReceipt.confirmWarehouseExport',
+    text: 'warehouseImportReceipt.statusSync.pendingEBS',
     color: 'pending',
   },
   {
@@ -2318,7 +2324,7 @@ export const STATUS_SYNC_WAREHOUSE_IMPORT_TO_EBS_OPTIONS = [
 export const STATUS_SYNC_WAREHOUSE_EXPORT_TO_EBS_OPTIONS = [
   {
     id: 0,
-    text: 'warehouseExportReceipt.confirmWarehouseExport',
+    text: 'warehouseExportReceipt.statusSync.pendingEBS',
     color: 'pending',
   },
   {
