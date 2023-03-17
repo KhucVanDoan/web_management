@@ -17,6 +17,12 @@ const createWarehouseExportReceiptApi = (params) => {
   const uri = `/v1/sales/sale-order-exports/create`
   return api.post(uri, form_data)
 }
+export const getWarehouseImportReceiptByConditions = (params) => {
+  const uri = `/v1/sales/purchased-order-imports/condition?itemIds=[${params?.itemIds}]`
+  const data = { ...params }
+  delete data['itemIds']
+  return api.get(uri, data)
+}
 
 function* doCreateWarehouseExportReceipt(action) {
   try {
