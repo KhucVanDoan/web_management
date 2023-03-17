@@ -6,6 +6,9 @@ import {
   WMSX_SEARCH_RECEIPT_START,
   WMSX_SEARCH_RECEIPT_SUCCESS,
   WMSX_RESET_RECEIPT_DETAILS_STATE,
+  WMSX_RETURN_RECEIPT_FAILED,
+  WMSX_RETURN_RECEIPT_START,
+  WMSX_RETURN_RECEIPT_SUCCESS,
 } from '~/modules/wmsx/redux/actions/receipt-management'
 
 const initialState = {
@@ -25,6 +28,7 @@ export default function receiptManagement(state = initialState, action) {
   switch (action.type) {
     case WMSX_SEARCH_RECEIPT_START:
     case WMSX_GET_RECEIPT_DETAILS_START:
+    case WMSX_RETURN_RECEIPT_START:
       return {
         ...state,
         isLoading: true,
@@ -44,6 +48,8 @@ export default function receiptManagement(state = initialState, action) {
       }
     case WMSX_GET_RECEIPT_DETAILS_FAILED:
     case WMSX_SEARCH_RECEIPT_FAILED:
+    case WMSX_RETURN_RECEIPT_SUCCESS:
+    case WMSX_RETURN_RECEIPT_FAILED:
       return {
         ...state,
         isLoading: false,

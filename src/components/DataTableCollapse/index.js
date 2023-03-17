@@ -47,6 +47,7 @@ const DataTableCollapse = (props) => {
     onSettingChange,
     enableResizable,
     handleGetData,
+    expandable,
   } = props
 
   const [open, setOpen] = useState({})
@@ -140,7 +141,7 @@ const DataTableCollapse = (props) => {
               rows?.length > 0 &&
               rows?.map((row, index) => {
                 if (!row) return
-                const expandable = row?.[subDataKey]?.length > 0
+                const noExpandable = row?.[subDataKey]?.length > 0
                 return (
                   <React.Fragment>
                     <TableRow
@@ -180,7 +181,8 @@ const DataTableCollapse = (props) => {
                             id={`data-table-${field}-${i}`}
                             width={width}
                           >
-                            {i === 0 && expandable && (
+                            {((i === 0 && noExpandable) ||
+                              (i === 0 && expandable)) && (
                               <IconButton
                                 aria-label="expand row"
                                 size="small"
@@ -196,7 +198,7 @@ const DataTableCollapse = (props) => {
                       })}
                     </TableRow>
 
-                    {expandable && (
+                    {(noExpandable || expandable) && (
                       <TableRow className={classes.tableRowCollapse}>
                         <TableCell sx={{ p: 0 }} colSpan={columns.length}>
                           <Collapse
@@ -269,6 +271,7 @@ DataTableCollapse.defaultProps = {
   enableResizable: false,
   isRoot: true,
   subDataKey: 'details',
+  expandable: false,
 }
 
 DataTableCollapse.propsTypes = {
@@ -315,6 +318,7 @@ DataTableCollapse.propsTypes = {
   hideSetting: PropTypes.bool,
   filters: PropTypes.shape(),
   isRoot: PropTypes.bool,
+  expandable: PropTypes.bool,
 }
 
 export default withTranslation()(withClasses(style)(DataTableCollapse))

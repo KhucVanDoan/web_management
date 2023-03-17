@@ -206,6 +206,7 @@ import watchRejectReceiptDepartment from './receipt-department-management/reject
 import watchSearchReceiptDepartment from './receipt-department-management/search-receipt-department'
 import watchUpdateReceiptDepartment from './receipt-department-management/update-receipt-department'
 import watchGetReceiptDetails from './receipt-management/get-receipt-details'
+import watchReturnReceipt from './receipt-management/return-receipt'
 import watchSearchReceipt from './receipt-management/search-receipt'
 import watchExportReport from './report-export/export-report'
 import watchCreateRole from './role-list/create-role'
@@ -564,6 +565,7 @@ export default function* sagas() {
     //receipt-management
     watchGetReceiptDetails(),
     watchSearchReceipt(),
+    watchReturnReceipt(),
     // export report
     watchExportReport(),
     //inventory-calender
