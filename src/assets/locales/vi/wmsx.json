@@ -2866,7 +2866,8 @@
     "departmentReception": "Phòng ban nhận",
     "typeBusiness": "Loại nghiệp vụ",
     "warehouseExport": "Kho xuất",
-    "status": "Trạng thái xuất kho",
+    "status": "Xuất kho WMS",
+    "syncStatus": "Xuất kho EBS",
     "createdAt": "Ngày lập phiếu",
     "numberReceiptEBS": "Số phiếu EBS",
     "warehouseExportEBS": "Xuất kho EBS",
@@ -2918,7 +2919,8 @@
       "error": "Lỗi xuất kho EBS",
       "success": "Thành công",
       "completed": "Hoàn thành",
-      "cancel": "Huỷ đồng bộ"
+      "cancel": "Huỷ đồng bộ",
+      "pendingBOT": "Chờ xác nhận đồng bộ"
     },
     "items": {
       "STT": "STT",
@@ -2967,7 +2969,8 @@
     "businessType": "Loại nghiệp vụ",
     "warehouse": "Kho nhập",
     "receiptDate": "Ngày lập phiếu",
-    "status": "Trạng thái nhập kho",
+    "status": "Nhập kho WMS",
+    "syncStatus": "Nhập kho EBS",
     "receiptNoEbs": "Số phiếu EBS",
     "warehouseImportEbs": "Nhập kho EBS",
     "attachedFile": "Tệp đính kèm",
@@ -3036,7 +3039,8 @@
       "error": "Lỗi nhập kho EBS",
       "success": "Thành công",
       "completed": "Hoàn thành",
-      "cancel": "Huỷ đồng bộ"
+      "cancel": "Huỷ đồng bộ",
+      "pendingBOT": "Chờ xác nhận đồng bộ"
     }
   },
   "warehouseExportProposal": {
@@ -3194,6 +3198,7 @@
     "actions": "Hành động",
     "code": "Mã lệnh chuyển kho",
     "name": "Tên lệnh chuyển kho",
+    "dowload": "Tải phiếu",
     "type": "Loại lệnh",
     "internalType": "Chuyển kho nội bộ",
     "longTermType": "Chuyển kho dài hạn",
@@ -3203,7 +3208,8 @@
     "dowload": "Tải phiếu",
     "short": "Chuyển kho nội bộ",
     "long": "Chuyển kho dài hạn",
-    "status": "Trạng thái",
+    "status": "Chuyển kho WMS",
+    "syncStatus": "Chuyển kho EBS",
     "transactions": "Các giao dịch",
     "receiptDate": "Ngày dự kiến",
     "warehouseTransferCode": "Tên lệnh chuyển kho",
@@ -3257,7 +3263,8 @@
       "error": "Lỗi chuyển kho EBS",
       "success": "Thành công",
       "completed": "Hoàn thành",
-      "cancel": "Huỷ đồng bộ"
+      "cancel": "Huỷ đồng bộ",
+      "pendingBOT": "Chờ xác nhận đồng bộ"
     },
     "transferStatus": {
       "pending": "Chờ xác nhận",

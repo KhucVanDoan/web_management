@@ -2297,7 +2297,7 @@ export const STATUS_SYNC_ORDER_TO_EBS_MAP = {
 export const STATUS_SYNC_WAREHOUSE_IMPORT_TO_EBS_OPTIONS = [
   {
     id: 0,
-    text: 'warehouseImportReceipt.statusSync.pendingEBS',
+    text: 'warehouseImportReceipt.statusSync.pendingBOT',
     color: 'pending',
   },
   {
@@ -2324,7 +2324,7 @@ export const STATUS_SYNC_WAREHOUSE_IMPORT_TO_EBS_OPTIONS = [
 export const STATUS_SYNC_WAREHOUSE_EXPORT_TO_EBS_OPTIONS = [
   {
     id: 0,
-    text: 'warehouseExportReceipt.statusSync.pendingEBS',
+    text: 'warehouseExportReceipt.statusSync.pendingBOT',
     color: 'pending',
   },
   {
@@ -2370,6 +2370,34 @@ export const STATUS_SYNC_WAREHOUSE_TRANSFER_TO_EBS_OPTIONS = [
     color: 'rejected',
   },
 ]
+export const STATUS_SYNC_WAREHOUSE_TRANSFER_TO_EBS_FILTER_OPTIONS = [
+  {
+    id: 0,
+    text: 'warehouseTransfer.statusSync.pendingBOT',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'warehouseTransfer.statusSync.error',
+    color: 'rejected',
+  },
+  {
+    id: 2,
+    text: 'warehouseTransfer.statusSync.pending',
+    color: 'pending',
+  },
+  {
+    id: 3,
+    text: 'warehouseTransfer.statusSync.completed',
+    color: 'completed',
+  },
+  {
+    id: 4,
+    text: 'warehouseTransfer.statusSync.cancel',
+    color: 'rejected',
+  },
+]
+
 export const TYPE_TRANSACTION_DATA_SYNC = {
   WAREHOUSE_TRANSFER: 'Chuyển kho',
   PO_IMPORT: 'Phiếu nhập kho',
