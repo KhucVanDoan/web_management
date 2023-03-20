@@ -451,10 +451,10 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
             onClick={() => {
               handleRemoveRow(params, index, parentIndex)
             }}
-            disabled={
-              params?.row?.itemId ||
-              itemTableCollaspe[parentIndex]?.details?.length === 1
-            }
+            // disabled={
+            //   params?.row?.itemId ||
+            //   itemTableCollaspe[parentIndex]?.details?.length === 1
+            // }
           >
             <Icon name="remove" />
           </IconButton>
@@ -789,6 +789,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
         rows={itemTableCollaspe}
         columns={columns}
         subColumns={producingStepColumns}
+        expandable
         hideSetting
         hideFooter
       />
