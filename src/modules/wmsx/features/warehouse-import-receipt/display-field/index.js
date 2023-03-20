@@ -47,9 +47,11 @@ const displayFollowBusinessTypeManagement = (
   const handleChangeReceipt = (val) => {
     setItemReceipt([])
     setValueReceipt({})
+    setFieldValue('sourceId', null)
     if (isEmpty(val)) {
       setItemReceipt([])
       setFieldValue('contractNumber', '')
+      setFieldValue('warehouse', null)
       const warehouseExportProposal =
         values[
           values?.businessTypeId?.bussinessTypeAttributes?.find(
