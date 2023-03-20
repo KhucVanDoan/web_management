@@ -3150,6 +3150,7 @@
     "createdAt": "Ngày tạo",
     "notYetStocked": "Chưa nhập kho",
     "stocked": "Đã nhập kho",
+    "canceled": "Đã hủy",
     "formTitle": "Chi tiết Receipt",
     "code": "Số phiếu giao nhận",
     "warehouseCode": "Mã kho",
@@ -3158,6 +3159,10 @@
     "purpose": "Lý do",
     "description": "Mô tả",
     "deliver": "Người giao hàng",
+    "returnReceiptTitlePopup": "Xác nhận hủy phiếu giao nhận - số rceipt",
+    "returnReceiptConfirm": "Phiếu giao nhận - số receipt đã bị hủy sẽ không được sử dụng nhập kho !!!",
+    "returnReceiptConfirmText": "Bạn có chắc chắn muốn hủy số receipt:",
+    "contractNumber": "hợp đồng số:",
     "itemDetails": {
       "title": "Danh sách vật tư",
       "code": "Mã vật tư",

@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
+import { Typography } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
@@ -7,11 +8,15 @@ import { useHistory } from 'react-router-dom'
 import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import { useQueryState } from '~/common/hooks'
 import DataTable from '~/components/DataTable'
+import Dialog from '~/components/Dialog'
 import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { RECEIPT_MANAGEMENT_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import {
+  RECEIPT_MANAGEMENT_STATUS,
+  RECEIPT_MANAGEMENT_STATUS_OPTIONS,
+} from '~/modules/wmsx/constants'
 import useReceiptManagement from '~/modules/wmsx/redux/hooks/useReceiptManagement'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import {
@@ -32,6 +37,8 @@ const breadcrumbs = [
 function ReceiptManagement() {
   const { t } = useTranslation('wmsx')
   const history = useHistory()
+  const [openModal, setOpenModal] = useState(false)
+  const [tempItem, setTempItem] = useState(null)
   const {
     data: { receiptList, total, isLoading },
     actions,
@@ -132,7 +139,8 @@ function ReceiptManagement() {
       align: 'center',
       fixed: true,
       renderCell: (params) => {
-        const { id } = params.row
+        const { id, status } = params.row
+        const isCanceled = status === RECEIPT_MANAGEMENT_STATUS.NOT_YET_STOCKED
         return (
           <div>
             <Guard code={FUNCTION_CODE.SALE_DETAIL_RECEIPT}>
@@ -149,12 +157,23 @@ function ReceiptManagement() {
                 <Icon name="show" />
               </IconButton>
             </Guard>
+            {isCanceled && (
+              <Guard code={FUNCTION_CODE.SALE_DETAIL_RECEIPT}>
+                <IconButton
+                  onClick={() => {
+                    setOpenModal(true)
+                    setTempItem(params?.row)
+                  }}
+                >
+                  <Icon name="remove" />
+                </IconButton>
+              </Guard>
+            )}
           </div>
         )
       },
     },
   ]
-
   const refreshData = () => {
     const params = {
       keyword: keyword.trim(),
@@ -172,7 +191,11 @@ function ReceiptManagement() {
     }
     actions.searchReceipt(params)
   }
-
+  const onSubmitReturn = () => {
+    actions.returnReceiptById(tempItem?.id)
+    setTempItem(null)
+    setOpenModal(false)
+  }
   useEffect(() => {
     refreshData()
   }, [page, pageSize, filters, sort, keyword, quickFilters])
@@ -206,6 +229,35 @@ function ReceiptManagement() {
           onApply: setFilters,
         }}
       />
+      <Dialog
+        open={openModal}
+        title={t('receiptManagement.returnReceiptTitlePopup')}
+        onCancel={() => setOpenModal(false)}
+        cancelLabel={t('general:common.no')}
+        onSubmit={onSubmitReturn}
+        submitLabel={t('general:common.yes')}
+        submitProps={{
+          color: 'error',
+        }}
+        noBorderBottom
+      >
+        {t('receiptManagement.returnReceiptConfirm')}
+        <Typography sx={{ display: 'flex' }}>
+          <>
+            {t('receiptManagement.returnReceiptConfirmText')}
+            <Typography sx={{ ml: 0.5, mr: 0.5, fontWeight: 800 }}>
+              {tempItem?.receiptNumber}
+            </Typography>
+            -{' '}
+            <Typography sx={{ ml: 0.5 }}>
+              {t('receiptManagement.contractNumber')}
+            </Typography>
+            <Typography sx={{ ml: 0.5, fontWeight: 800 }}>
+              {tempItem?.contractNumber}
+            </Typography>
+          </>
+        </Typography>
+      </Dialog>
     </Page>
   )
 }
