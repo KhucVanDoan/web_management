@@ -44,9 +44,7 @@ function LocationManagementDetail() {
   } = useLocationManagement()
 
   useEffect(() => {
-    actions.getLocationDetailsById(id, (val) => {
-      actions.getItemByLocationId(val?.locatorId)
-    })
+    actions.getLocationDetailsById(id)
     return () => {
       actions.resetLocationDetailsState()
     }
