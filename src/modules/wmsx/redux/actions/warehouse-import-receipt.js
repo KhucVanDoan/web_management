@@ -75,6 +75,13 @@ export const IMPORT_WAREHOUSE_START = 'IMPORT_WAREHOUSE_START'
 export const IMPORT_WAREHOUSE_SUCCESS = 'IMPORT_WAREHOUSE_SUCCESS'
 export const IMPORT_WAREHOUSE_FAILED = 'IMPORT_WAREHOUSE_FAILED'
 
+export const RETURN_WAREHOUSE_IMPORT_RECEIPT_START =
+  'WMSX_RETURN_WAREHOUSE_IMPORT_RECEIPT_START'
+export const RETURN_WAREHOUSE_IMPORT_RECEIPT_SUCCESS =
+  'WMSX_RETURN_WAREHOUSE_IMPORT_RECEIPT_SUCCESS'
+export const RETURN_WAREHOUSE_IMPORT_RECEIPT_FAILED =
+  'WMSX_RETURN_WAREHOUSE_IMPORT_RECEIPT_FAILED'
+
 export function searchWarehouseImportReceipt(payload, onSuccess, onError) {
   return {
     type: SEARCH_WAREHOUSE_IMPORT_RECEIPT_START,
@@ -330,6 +337,27 @@ export function importWarehouseSuccess(payload) {
   }
 }
 
+export function returnWarehouseImportReceiptById(Id, onSuccess, onError) {
+  return {
+    type: RETURN_WAREHOUSE_IMPORT_RECEIPT_START,
+    payload: Id,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function returnWarehouseImportReceiptByIdSuccess(payload) {
+  return {
+    type: RETURN_WAREHOUSE_IMPORT_RECEIPT_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function returnWarehouseImportReceiptByIdFailed() {
+  return {
+    type: RETURN_WAREHOUSE_IMPORT_RECEIPT_FAILED,
+  }
+}
 export function importWarehouseFailed() {
   return {
     type: IMPORT_WAREHOUSE_FAILED,
@@ -371,4 +399,7 @@ export default {
   cancelWarehouseImportEBSById,
   cancelWarehouseImportEBStByIdSuccess,
   cancelWarehouseImportEBSByIdFailed,
+  returnWarehouseImportReceiptById,
+  returnWarehouseImportReceiptByIdSuccess,
+  returnWarehouseImportReceiptByIdFailed,
 }

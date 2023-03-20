@@ -3011,6 +3011,7 @@
     "completed": "Hoàn thành",
     "rejected": "Từ chối",
     "received": "Đã nhập kho",
+    "returnReceipt": "Trả phiếu",
     "table": {
       "title": "Danh sách vật tư",
       "addButton": "Thêm vật tư",
@@ -3159,7 +3160,7 @@
     "purpose": "Lý do",
     "description": "Mô tả",
     "deliver": "Người giao hàng",
-    "returnReceiptTitlePopup": "Xác nhận hủy phiếu giao nhận - số rceipt",
+    "returnReceiptTitlePopup": "Xác nhận hủy phiếu giao nhận - số receipt",
     "returnReceiptConfirm": "Phiếu giao nhận - số receipt đã bị hủy sẽ không được sử dụng nhập kho !!!",
     "returnReceiptConfirmText": "Bạn có chắc chắn muốn hủy số receipt:",
     "contractNumber": "hợp đồng số:",
