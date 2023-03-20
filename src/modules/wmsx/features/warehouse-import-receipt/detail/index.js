@@ -19,6 +19,7 @@ import {
   ORDER_STATUS,
   TABLE_NAME_ENUM,
   WAREHOUSE_IMPORT_RECEIPT_OPTIONS,
+  WAREHOUSE_IMPORT_RECEIPT_STATUS,
 } from '~/modules/wmsx/constants'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -137,6 +138,26 @@ function WarehouseImportReceiptDetail() {
   const renderHeaderRight = () => {
     return (
       <>
+        {warehouseImportReceiptDetails?.status ===
+          WAREHOUSE_IMPORT_RECEIPT_STATUS.CONFIRMED && (
+          <Button
+            onClick={() =>
+              actions.returnWarehouseImportReceiptById(
+                warehouseImportReceiptDetails?.id,
+                () => {
+                  window.location.reload()
+                },
+              )
+            }
+            sx={{
+              ml: 4 / 3,
+            }}
+            color="grayEE"
+            // icon="add"
+          >
+            {t('warehouseImportReceipt.returnReceipt')}
+          </Button>
+        )}
         {warehouseImportReceiptDetails?.status === ORDER_STATUS.CONFIRMED && (
           <Guard code={FUNCTION_CODE.SALE_RECEIVE_PURCHASED_ORDER_IMPORT}>
             <Button

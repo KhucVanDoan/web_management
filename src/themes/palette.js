@@ -78,6 +78,7 @@ const palette = {
     a7: 'rgba(237, 240, 244, 0.7)',
     a8: 'rgba(237, 240, 244, 0.8)',
     a9: 'rgba(237, 240, 244, 0.9)',
+    a10: 'rgba(154, 154, 159, 1)',
     contrastText: '#666',
   },
   grayF5: {
@@ -91,6 +92,7 @@ const palette = {
     a7: 'rgba(244, 245, 245, 0.7)',
     a8: 'rgba(244, 245, 245, 0.8)',
     a9: 'rgba(244, 245, 245, 0.9)',
+
     contrastText: '#666',
   },
   grayEE: {
