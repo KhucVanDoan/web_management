@@ -43,6 +43,7 @@ const TableHead = (props) => {
     tableSettingKey,
     containerRef,
     rawColumns = [],
+    visibleColumns,
   } = props
 
   const classes = useClasses(style)
@@ -78,33 +79,26 @@ const TableHead = (props) => {
       (hasVerticalScrollbar() ? DEFAULT_SCROLL_BAR_WIDTH : 0) -
       2
 
-    if (shortageWidth > -20) {
+    if (shortageWidth > 0) {
       const qty =
         setting.filter((c) => c.resizable !== false && c.visible)?.length || 1
       const growWidth = Math.floor(shortageWidth / qty)
 
-      const newSetting = setting.reduce((acc, cur) => {
+      setting.forEach((col) => {
         const newWidth =
-          cur.width + (cur.resizable !== false && cur.visible ? growWidth : 0)
-        if (columnRefs[cur.field]?.current?.parentElement) {
-          columnRefs[cur.field].current.parentElement.style.width =
+          col.width + (col.resizable !== false && col.visible ? growWidth : 0)
+        if (columnRefs[col.field]?.current?.parentElement) {
+          columnRefs[col.field].current.parentElement.style.width =
             newWidth + 'px'
         }
-
-        return [
-          ...acc,
-          {
-            ...cur,
-            ...(cur.resizable !== false && cur.visible
-              ? {
-                  width: newWidth,
-                }
-              : {}),
-          },
-        ]
-      }, [])
-
-      updateTableSetting(newSetting)
+      })
+    } else {
+      setting.forEach((col) => {
+        if (columnRefs[col.field]?.current?.parentElement) {
+          columnRefs[col.field].current.parentElement.style.width =
+            col.width + 'px'
+        }
+      })
     }
   }
 
@@ -205,7 +199,14 @@ const TableHead = (props) => {
     if (!isTableResizable) return
 
     autoAdjustWidth(initTableSetting(rawColumns))
-  }, [rawColumns, checkboxSelection, reorderable, columnRefs, isTableResizable])
+  }, [
+    rawColumns,
+    checkboxSelection,
+    reorderable,
+    columnRefs,
+    isTableResizable,
+    visibleColumns,
+  ])
 
   const onClickSort = (field) => {
     let newSort
