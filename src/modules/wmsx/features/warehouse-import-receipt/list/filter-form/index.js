@@ -10,6 +10,7 @@ import {
 import { Field } from '~/components/Formik'
 import {
   PARENT_BUSINESS_TYPE,
+  STATUS_SYNC_WAREHOUSE_IMPORT_TO_EBS_OPTIONS,
   WAREHOUSE_IMPORT_RECEIPT_OPTIONS,
 } from '~/modules/wmsx/constants'
 import { searchBusinessTypesApi } from '~/modules/wmsx/redux/sagas/business-type-management/search-business-types'
@@ -116,9 +117,21 @@ const FilterForm = () => {
       <Grid item xs={12}>
         <Field.Autocomplete
           name="status"
-          label={t('general.status')}
-          placeholder={t('general.status')}
+          multiple
+          label={t('warehouseImportReceipt.status')}
+          placeholder={t('warehouseImportReceipt.status')}
           options={WAREHOUSE_IMPORT_RECEIPT_OPTIONS}
+          getOptionLabel={(opt) => t(opt?.text)}
+          getOptionValue={(opt) => opt?.id?.toString()}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <Field.Autocomplete
+          name="syncStatus"
+          multiple
+          label={t('warehouseImportReceipt.syncStatus')}
+          placeholder={t('warehouseImportReceipt.syncStatus')}
+          options={STATUS_SYNC_WAREHOUSE_IMPORT_TO_EBS_OPTIONS}
           getOptionLabel={(opt) => t(opt?.text)}
           getOptionValue={(opt) => opt?.id?.toString()}
         />

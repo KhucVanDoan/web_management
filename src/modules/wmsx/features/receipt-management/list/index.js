@@ -143,7 +143,7 @@ function ReceiptManagement() {
         const isCanceled = status === RECEIPT_MANAGEMENT_STATUS.NOT_YET_STOCKED
         return (
           <div>
-            <Guard code={FUNCTION_CODE.SALE_DETAIL_RECEIPT}>
+            <Guard code={FUNCTION_CODE.SALE_RETURN_RECEIPT}>
               <IconButton
                 onClick={() =>
                   history.push(
@@ -192,7 +192,9 @@ function ReceiptManagement() {
     actions.searchReceipt(params)
   }
   const onSubmitReturn = () => {
-    actions.returnReceiptById(tempItem?.id)
+    actions.returnReceiptById(tempItem?.id, () => {
+      refreshData()
+    })
     setTempItem(null)
     setOpenModal(false)
   }
