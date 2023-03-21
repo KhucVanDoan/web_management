@@ -130,9 +130,10 @@ const DataTableCollapse = (props) => {
               orderBy={sort?.orderBy}
               onSortChange={onSortChange}
               columns={columns}
+              rawColumns={rawColumns}
+              visibleColumns={visibleColumns}
               enableResizable={enableResizable}
               tableSettingKey={tableSettingKey}
-              rawColumns={rawColumns}
               containerRef={containerRef}
             />
           )}
