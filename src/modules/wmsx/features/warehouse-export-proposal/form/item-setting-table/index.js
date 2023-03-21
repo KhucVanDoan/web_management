@@ -195,7 +195,10 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
         width: 100,
         renderCell: (params, index) => {
           return isView ? (
-            params?.row?.planExportedQuantity
+            <NumberFormatText
+              value={params?.row?.planExportedQuantity}
+              formatter="quantity"
+            />
           ) : (
             <Field.TextField
               name={`items[${index}].planExportedQuantity`}

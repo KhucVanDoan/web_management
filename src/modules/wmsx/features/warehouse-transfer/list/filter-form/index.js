@@ -11,6 +11,7 @@ import { Field } from '~/components/Formik'
 import { searchUsersApi } from '~/modules/mesx/redux/sagas/user-management/search-users'
 import {
   ACTIVE_STATUS,
+  STATUS_SYNC_WAREHOUSE_TRANSFER_TO_EBS_FILTER_OPTIONS,
   TRANSFER_STATUS_OPTIONS,
   WAREHOUSE_TRANSFER_TYPE_OPTIONS,
 } from '~/modules/wmsx/constants'
@@ -116,20 +117,32 @@ const FilterForm = () => {
         />
       </Grid>
       <Grid item xs={12}>
-        <Field.DateRangePicker
-          name="createdAt"
-          label={t('warehouseTransfer.table.createdAt')}
-          placeholder={t('warehouseTransfer.table.createdAt')}
-        />
-      </Grid>
-      <Grid item xs={12}>
         <Field.Autocomplete
           name="status"
+          multiple
           label={t('warehouseTransfer.status')}
           placeholder={t('warehouseTransfer.status')}
           options={TRANSFER_STATUS_OPTIONS}
           getOptionValue={(opt) => opt?.id?.toString()}
           getOptionLabel={(opt) => t(opt?.text)}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <Field.Autocomplete
+          name="syncStatus"
+          multiple
+          label={t('warehouseTransfer.syncStatus')}
+          placeholder={t('warehouseTransfer.syncStatus')}
+          options={STATUS_SYNC_WAREHOUSE_TRANSFER_TO_EBS_FILTER_OPTIONS}
+          getOptionValue={(opt) => opt?.id?.toString()}
+          getOptionLabel={(opt) => t(opt?.text)}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <Field.DateRangePicker
+          name="createdAt"
+          label={t('warehouseTransfer.table.createdAt')}
+          placeholder={t('warehouseTransfer.table.createdAt')}
         />
       </Grid>
     </Grid>

@@ -1,20 +1,44 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 
 import { Typography } from '@mui/material'
 import Box from '@mui/material/Box'
+import { isEmpty } from 'lodash'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
 import { MODAL_MODE } from '~/common/constants'
+import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import NumberFormatText from '~/components/NumberFormat'
-import { scrollToBottom } from '~/utils'
+import useInventoryStatistics from '~/modules/wmsx/redux/hooks/useInventoryStatistics'
+import useLocationManagement from '~/modules/wmsx/redux/hooks/useLocationManagement'
+import { convertFilterParams, scrollToBottom } from '~/utils'
 
 const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
-
+  const {
+    data: { inventoryStatisticList, total },
+    actions: getItemByLocationId,
+  } = useInventoryStatistics()
+  const {
+    data: { locationDetails },
+  } = useLocationManagement()
+  const { page, pageSize, setPage, setPageSize } = useQueryState()
+  useEffect(() => {
+    if (!isEmpty(locationDetails)) {
+      const params = {
+        page,
+        limit: pageSize,
+        filter: convertFilterParams({
+          warehouseId: locationDetails?.warehouse?.id,
+          locatorId: locationDetails?.locatorId,
+        }),
+      }
+      getItemByLocationId.searchInventoryStatistics(params)
+    }
+  }, [page, pageSize, locationDetails])
   const getColumns = useMemo(
     () => [
       {
@@ -26,12 +50,12 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
         },
       },
       {
-        field: 'code',
+        field: 'itemCode',
         headerName: t('locationManagement.item.code'),
         width: 200,
       },
       {
-        field: 'name',
+        field: 'itemName',
         headerName: t('locationManagement.item.name'),
         width: 200,
       },
@@ -40,7 +64,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
         headerName: t('locationManagement.item.quantity'),
         width: 200,
         renderCell: (params) => (
-          <NumberFormatText value={params.row?.quantity} formatter="quantity" />
+          <NumberFormatText value={params.row?.stock} formatter="quantity" />
         ),
       },
       {
@@ -54,13 +78,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
         headerName: t('locationManagement.item.price'),
         width: 200,
         renderCell: (params) => (
-          <NumberFormatText
-            value={
-              params.row.locations?.[0]?.lots?.[0]?.totalAmount /
-              params.row?.quantity
-            }
-            formatter="price"
-          />
+          <NumberFormatText value={params.row?.amount} formatter="price" />
         ),
       },
       {
@@ -68,10 +86,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
         headerName: t('locationManagement.item.intoMoney'),
         width: 200,
         renderCell: (params) => (
-          <NumberFormatText
-            value={params.row.locations?.[0]?.lots?.[0]?.totalAmount}
-            formatter="price"
-          />
+          <NumberFormatText value={params.row.totalAmount} formatter="price" />
         ),
       },
     ],
@@ -109,21 +124,18 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
         )}
       </Box>
       <DataTable
-        rows={items}
+        rows={inventoryStatisticList}
         columns={getColumns}
-        total={items.length}
+        total={total}
         striped={false}
+        pageSize={pageSize}
+        page={page}
+        onPageChange={setPage}
+        onPageSizeChange={setPageSize}
         hideSetting
-        hideFooter
       />
     </>
   )
-}
-
-ItemSettingTable.defaultProps = {
-  items: [],
-  mode: '',
-  arrayHelpers: {},
 }
 
 ItemSettingTable.propTypes = {
