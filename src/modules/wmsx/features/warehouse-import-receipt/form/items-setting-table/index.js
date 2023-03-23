@@ -32,6 +32,7 @@ function ItemsSettingTable(props) {
     values,
     creditAccount,
     receiptDetail,
+    isEdit,
   } = props
   const {
     data: { warehouseImportReceiptDetails },
@@ -101,8 +102,8 @@ function ItemsSettingTable(props) {
               item?.itemCode?.itemId ||
               item?.itemCode?.id,
           )
-          return isView ? (
-            params?.row?.item?.code
+          return isView || isEdit ? (
+            params?.row?.item?.code || params?.row?.itemCode?.item?.code
           ) : itemList?.length > 0 && isEmpty(values[receiptRequired]) ? (
             <Field.Autocomplete
               name={`items[${index}].itemCode`}
@@ -179,8 +180,8 @@ function ItemsSettingTable(props) {
         headerName: t('warehouseImportReceipt.table.itemName'),
         width: 180,
         renderCell: (params, index) => {
-          return isView ? (
-            params?.row?.item?.name
+          return isView || isEdit ? (
+            params?.row?.item?.name || params?.row?.itemCode?.item?.name
           ) : !isEmpty(values[receiptRequired]) ? (
             params?.row?.itemCode?.name
           ) : (
@@ -193,8 +194,8 @@ function ItemsSettingTable(props) {
         headerName: t('warehouseImportReceipt.table.unit'),
         width: 180,
         renderCell: (params, index) => {
-          return isView ? (
-            params?.row?.item?.itemUnit
+          return isView || isEdit ? (
+            params?.row?.item?.itemUnit || params?.row?.itemCode?.item?.itemUnit
           ) : !isEmpty(values[receiptRequired]) ? (
             params?.row?.itemCode?.itemUnit || params?.row?.unit
           ) : (
@@ -216,7 +217,7 @@ function ItemsSettingTable(props) {
         headerName: t('warehouseImportReceipt.table.requireQuantity'),
         width: 180,
         renderCell: (params, index) => {
-          return isView ? (
+          return isView || isEdit ? (
             <NumberFormatText
               value={
                 valuesReceiptRequired || valuesReceiptRequiredtransaction
@@ -252,7 +253,7 @@ function ItemsSettingTable(props) {
         headerName: t('warehouseImportReceipt.table.importQuantity'),
         width: 180,
         renderCell: (params, index) => {
-          return isView ? (
+          return isView || isEdit ? (
             <NumberFormatText
               value={+params?.row?.importQuantity || params?.row?.quantity}
               formatter="quantity"
@@ -286,8 +287,11 @@ function ItemsSettingTable(props) {
         headerAlign: 'left',
         align: 'right',
         renderCell: (params, index) => {
-          return isView ? (
-            <NumberFormatText value={params?.row?.amount} formatter="price" />
+          return isView || isEdit ? (
+            <NumberFormatText
+              value={params?.row?.amount || params?.row?.money}
+              formatter="price"
+            />
           ) : !isEmpty(values[receiptRequired]) ? (
             <NumberFormatText value={params?.row?.money} formatter="price" />
           ) : (
@@ -302,7 +306,7 @@ function ItemsSettingTable(props) {
         align: 'right',
         headerAlign: 'left',
         renderCell: (params, index) => {
-          return isView ? (
+          return isView || isEdit ? (
             <NumberFormatText value={params?.row?.price} formatter="price" />
           ) : !isEmpty(values[receiptRequired]) ? (
             <NumberFormatText
@@ -324,7 +328,7 @@ function ItemsSettingTable(props) {
         headerName: t('warehouseImportReceipt.table.debitAcc'),
         width: 180,
         renderCell: (params, index) => {
-          return isView ? (
+          return isView || isEdit ? (
             params?.row?.debitAccount?.length === LENGTH_DEBITACCOUNT ? (
               params?.row?.debitAccount
                 .slice(18, 29)
@@ -344,7 +348,7 @@ function ItemsSettingTable(props) {
         headerName: t('warehouseImportReceipt.table.creditAcc'),
         width: 250,
         renderCell: (params, index) => {
-          return isView ? (
+          return isView || isEdit ? (
             params?.row?.creditAccount?.length === LENGTH_DEBITACCOUNT ? (
               params?.row?.creditAccount
                 .slice(18, 29)
@@ -372,7 +376,7 @@ function ItemsSettingTable(props) {
           isView ||
           !isEmpty(values[receiptRequired]),
         renderCell: (params, idx) => {
-          return isView ? null : (
+          return isView || isEdit ? null : (
             <IconButton onClick={() => arrayHelpers.remove(idx)} size="large">
               <Icon name="remove" />
             </IconButton>

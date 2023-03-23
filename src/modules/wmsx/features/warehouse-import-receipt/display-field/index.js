@@ -1,10 +1,12 @@
-import { Grid } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import { isEmpty } from 'lodash'
 
 import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import { Field } from '~/components/Formik'
+import LV from '~/components/LabelValue'
 import {
   ACTIVE_STATUS,
+  CODE_BUSSINESS_TYPE,
   DATA_TYPE,
   ORDER_STATUS,
   TABLE_NAME_ENUM,
@@ -35,6 +37,9 @@ const displayFollowBusinessTypeManagement = (
   setLoadingReceipt,
   creditAccount,
   setValueReceipt,
+  warehouseImportReceiptDetails,
+  attributesBusinessTypeDetails,
+  isEdit,
 ) => {
   const { actions } = useReceiptManagement()
   const constructions = type?.find(
@@ -433,142 +438,334 @@ const displayFollowBusinessTypeManagement = (
         switch (item?.tableName) {
           case 'constructions':
             return display.push(
-              <Grid item lg={6} xs={12}>
-                <Field.Autocomplete
-                  name={item.id}
-                  label={t('warehouseImportReceipt.project')}
-                  placeholder={t('warehouseImportReceipt.project')}
-                  asyncRequest={(s) =>
-                    searchConstructionsApi({
-                      keyword: s,
-                      limit: ASYNC_SEARCH_LIMIT,
-                      filter: convertFilterParams({
-                        status: ACTIVE_STATUS.ACTIVE,
-                      }),
-                    })
-                  }
-                  asyncRequestHelper={(res) => res?.data?.items}
-                  asyncRequestDeps={values?.businessTypeId}
-                  getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
-                  isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                  onChange={() =>
-                    setFieldValue(`${categoryConstructions}`, null)
-                  }
-                  validate={(val) => validate(val, item)}
-                  required={Boolean(item?.required)}
-                />
-              </Grid>,
+              isEdit &&
+                !warehouseImportReceiptDetails?.businessType?.code ===
+                  CODE_BUSSINESS_TYPE.POIBYCONTRUCTION ? (
+                <Grid item lg={6} xs={12}>
+                  <LV
+                    label={
+                      <Typography>
+                        {t('warehouseImportReceipt.project')}
+                      </Typography>
+                    }
+                    value={`${
+                      attributesBusinessTypeDetails[item.tableName]?.find(
+                        (itemDetail) =>
+                          `${itemDetail.id}` ===
+                          warehouseImportReceiptDetails?.attributes?.find(
+                            (item) =>
+                              item?.tableName === TABLE_NAME_ENUM.CONSTRUCTION,
+                          )?.value,
+                      )?.code
+                    } - ${
+                      attributesBusinessTypeDetails[item.tableName]?.find(
+                        (itemDetail) =>
+                          `${itemDetail.id}` ===
+                          warehouseImportReceiptDetails?.attributes?.find(
+                            (item) =>
+                              item?.tableName === TABLE_NAME_ENUM.CONSTRUCTION,
+                          )?.value,
+                      )?.name
+                    }`}
+                  />
+                </Grid>
+              ) : isEdit &&
+                warehouseImportReceiptDetails?.businessType?.code ===
+                  CODE_BUSSINESS_TYPE.POIBYCONTRUCTION ? (
+                <Grid item lg={6} xs={12}>
+                  <Field.Autocomplete
+                    name={item.id}
+                    label={t('warehouseImportReceipt.project')}
+                    placeholder={t('warehouseImportReceipt.project')}
+                    asyncRequest={(s) =>
+                      searchConstructionsApi({
+                        keyword: s,
+                        limit: ASYNC_SEARCH_LIMIT,
+                        filter: convertFilterParams({
+                          status: ACTIVE_STATUS.ACTIVE,
+                        }),
+                      })
+                    }
+                    asyncRequestHelper={(res) => res?.data?.items}
+                    asyncRequestDeps={values?.businessTypeId}
+                    getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+                    isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                    onChange={() =>
+                      setFieldValue(`${categoryConstructions}`, null)
+                    }
+                    validate={(val) => validate(val, item)}
+                    required={Boolean(item?.required)}
+                  />
+                </Grid>
+              ) : (
+                <Grid item lg={6} xs={12}>
+                  <Field.Autocomplete
+                    name={item.id}
+                    label={t('warehouseImportReceipt.project')}
+                    placeholder={t('warehouseImportReceipt.project')}
+                    asyncRequest={(s) =>
+                      searchConstructionsApi({
+                        keyword: s,
+                        limit: ASYNC_SEARCH_LIMIT,
+                        filter: convertFilterParams({
+                          status: ACTIVE_STATUS.ACTIVE,
+                        }),
+                      })
+                    }
+                    asyncRequestHelper={(res) => res?.data?.items}
+                    asyncRequestDeps={values?.businessTypeId}
+                    getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+                    isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                    onChange={() =>
+                      setFieldValue(`${categoryConstructions}`, null)
+                    }
+                    validate={(val) => validate(val, item)}
+                    required={Boolean(item?.required)}
+                  />
+                </Grid>
+              ),
             )
           case 'category_constructions':
             return display.push(
-              <Grid item lg={6} xs={12}>
-                <Field.Autocomplete
-                  name={item.id}
-                  label={t('warehouseImportReceipt.task')}
-                  placeholder={t('warehouseImportReceipt.task')}
-                  asyncRequest={(s) =>
-                    searchConstructionItemsApi({
-                      keyword: s,
-                      limit: ASYNC_SEARCH_LIMIT,
-                      filter: convertFilterParams({
-                        status: ACTIVE_STATUS.ACTIVE,
-                        constructionId: values[constructions]?.id,
-                      }),
-                    })
-                  }
-                  asyncRequestHelper={(res) => res?.data?.items}
-                  asyncRequestDeps={values[constructions]}
-                  disabled={!values[constructions]}
-                  getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
-                  required={Boolean(item?.required)}
-                  validate={(val) => validate(val, item)}
-                  isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                />
-              </Grid>,
+              isEdit &&
+                !warehouseImportReceiptDetails?.businessType?.code ===
+                  CODE_BUSSINESS_TYPE.POIBYCONTRUCTION ? (
+                <Grid item lg={6} xs={12}>
+                  <LV
+                    label={
+                      <Typography>
+                        {t('warehouseImportReceipt.task')}
+                      </Typography>
+                    }
+                    value={`${
+                      attributesBusinessTypeDetails[item.tableName]?.find(
+                        (itemDetail) =>
+                          `${itemDetail.id}` ===
+                          warehouseImportReceiptDetails?.attributes?.find(
+                            (item) =>
+                              item?.tableName ===
+                              TABLE_NAME_ENUM.CATEGORY_CONSTRUCTION,
+                          )?.value,
+                      )?.code
+                    } - ${
+                      attributesBusinessTypeDetails[item.tableName]?.find(
+                        (itemDetail) =>
+                          `${itemDetail.id}` ===
+                          warehouseImportReceiptDetails?.attributes?.find(
+                            (item) =>
+                              item?.tableName ===
+                              TABLE_NAME_ENUM.CATEGORY_CONSTRUCTION,
+                          )?.value,
+                      )?.name
+                    }`}
+                  />
+                </Grid>
+              ) : isEdit &&
+                warehouseImportReceiptDetails?.businessType?.code ===
+                  CODE_BUSSINESS_TYPE.POIBYCONTRUCTION ? (
+                <Grid item lg={6} xs={12}>
+                  <Field.Autocomplete
+                    name={item.id}
+                    label={t('warehouseImportReceipt.task')}
+                    placeholder={t('warehouseImportReceipt.task')}
+                    asyncRequest={(s) =>
+                      searchConstructionItemsApi({
+                        keyword: s,
+                        limit: ASYNC_SEARCH_LIMIT,
+                        filter: convertFilterParams({
+                          status: ACTIVE_STATUS.ACTIVE,
+                          constructionId: values[constructions]?.id,
+                        }),
+                      })
+                    }
+                    asyncRequestHelper={(res) => res?.data?.items}
+                    asyncRequestDeps={values[constructions]}
+                    disabled={!values[constructions]}
+                    getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+                    required={Boolean(item?.required)}
+                    validate={(val) => validate(val, item)}
+                    isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                  />
+                </Grid>
+              ) : (
+                <Grid item lg={6} xs={12}>
+                  <Field.Autocomplete
+                    name={item.id}
+                    label={t('warehouseImportReceipt.task')}
+                    placeholder={t('warehouseImportReceipt.task')}
+                    asyncRequest={(s) =>
+                      searchConstructionItemsApi({
+                        keyword: s,
+                        limit: ASYNC_SEARCH_LIMIT,
+                        filter: convertFilterParams({
+                          status: ACTIVE_STATUS.ACTIVE,
+                          constructionId: values[constructions]?.id,
+                        }),
+                      })
+                    }
+                    asyncRequestHelper={(res) => res?.data?.items}
+                    asyncRequestDeps={values[constructions]}
+                    disabled={!values[constructions]}
+                    getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+                    required={Boolean(item?.required)}
+                    validate={(val) => validate(val, item)}
+                    isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                  />
+                </Grid>
+              ),
             )
           case 'warehouse_export_proposals':
             return display.push(
-              <Grid item lg={6} xs={12}>
-                <Field.Autocomplete
-                  name={item.id}
-                  label={t('warehouseImportReceipt.suggestExport')}
-                  placeholder={t('warehouseImportReceipt.suggestExport')}
-                  asyncRequest={(s) =>
-                    searchWarehouseExportProposalApi({
-                      keyword: s,
-                      limit: ASYNC_SEARCH_LIMIT,
-                      filter: convertFilterParams({
-                        status: WAREHOUSE_EXPORT_PROPOSAL_STATUS.CONFIRMED,
-                      }),
-                    })
-                  }
-                  asyncRequestHelper={(res) => res?.data?.items}
-                  asyncRequestDeps={values?.businessTypeId}
-                  getOptionLabel={(opt) => opt?.code}
-                  getOptionSubLabel={(opt) => opt?.departmentSetting?.name}
-                  isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                  required={Boolean(item?.required)}
-                  validate={(val) => validate(val, item)}
-                  onChange={(val) => handleChangeProposals(val)}
-                />
-              </Grid>,
+              isEdit ? (
+                <Grid item lg={6} xs={12}>
+                  <LV
+                    label={
+                      <Typography>
+                        {t('warehouseImportReceipt.suggestExport')}
+                      </Typography>
+                    }
+                    value={
+                      attributesBusinessTypeDetails[item.tableName]?.find(
+                        (itemDetail) =>
+                          `${itemDetail.id}` ===
+                          warehouseImportReceiptDetails?.attributes?.find(
+                            (item) =>
+                              item?.tableName ===
+                              TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
+                          )?.value,
+                      )?.code
+                    }
+                  />
+                </Grid>
+              ) : (
+                <Grid item lg={6} xs={12}>
+                  <Field.Autocomplete
+                    name={item.id}
+                    label={t('warehouseImportReceipt.suggestExport')}
+                    placeholder={t('warehouseImportReceipt.suggestExport')}
+                    asyncRequest={(s) =>
+                      searchWarehouseExportProposalApi({
+                        keyword: s,
+                        limit: ASYNC_SEARCH_LIMIT,
+                        filter: convertFilterParams({
+                          status: WAREHOUSE_EXPORT_PROPOSAL_STATUS.CONFIRMED,
+                        }),
+                      })
+                    }
+                    asyncRequestHelper={(res) => res?.data?.items}
+                    asyncRequestDeps={values?.businessTypeId}
+                    getOptionLabel={(opt) => opt?.code}
+                    getOptionSubLabel={(opt) => opt?.departmentSetting?.name}
+                    isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                    required={Boolean(item?.required)}
+                    validate={(val) => validate(val, item)}
+                    onChange={(val) => handleChangeProposals(val)}
+                  />
+                </Grid>
+              ),
             )
           case 'receipts':
             return display.push(
-              <Grid item lg={6} xs={12}>
-                <Field.Autocomplete
-                  name={item.id}
-                  label={t('warehouseImportReceipt.receiptNo')}
-                  placeholder={t('warehouseImportReceipt.receiptNo')}
-                  asyncRequest={(s) => {
-                    return searchReceiptApi({
-                      keyword: s,
-                      limit: ASYNC_SEARCH_LIMIT,
-                      filter: convertFilterParams({
-                        status: ACTIVE_STATUS.INACTIVE,
-                      }),
-                    })
-                  }}
-                  asyncRequestHelper={(res) => res?.data?.items}
-                  asyncRequestDeps={values?.businessTypeId}
-                  getOptionLabel={(opt) => opt?.receiptNumber}
-                  getOptionSubLabel={(opt) =>
-                    `${opt?.contractNumber} - ${opt?.code}`
-                  }
-                  isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                  required={Boolean(item?.required)}
-                  validate={(val) => validate(val, item)}
-                  onChange={(val) => handleChangeReceipt(val)}
-                />
-              </Grid>,
+              isEdit ? (
+                <Grid item lg={6} xs={12}>
+                  <LV
+                    label={
+                      <Typography>
+                        {t('warehouseImportReceipt.receiptNo')}
+                      </Typography>
+                    }
+                    value={
+                      attributesBusinessTypeDetails[item.tableName]?.find(
+                        (itemDetail) =>
+                          `${itemDetail.id}` ===
+                          warehouseImportReceiptDetails?.attributes?.find(
+                            (item) =>
+                              item?.tableName === TABLE_NAME_ENUM.RECEIPT,
+                          )?.value,
+                      )?.receiptNumber ||
+                      warehouseImportReceiptDetails?.receiptNumber
+                    }
+                  />
+                </Grid>
+              ) : (
+                <Grid item lg={6} xs={12}>
+                  <Field.Autocomplete
+                    name={item.id}
+                    label={t('warehouseImportReceipt.receiptNo')}
+                    placeholder={t('warehouseImportReceipt.receiptNo')}
+                    asyncRequest={(s) => {
+                      return searchReceiptApi({
+                        keyword: s,
+                        limit: ASYNC_SEARCH_LIMIT,
+                        filter: convertFilterParams({
+                          status: ACTIVE_STATUS.INACTIVE,
+                        }),
+                      })
+                    }}
+                    asyncRequestHelper={(res) => res?.data?.items}
+                    asyncRequestDeps={values?.businessTypeId}
+                    getOptionLabel={(opt) => opt?.receiptNumber}
+                    getOptionSubLabel={(opt) =>
+                      `${opt?.contractNumber} - ${opt?.code}`
+                    }
+                    isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                    required={Boolean(item?.required)}
+                    validate={(val) => validate(val, item)}
+                    onChange={(val) => handleChangeReceipt(val)}
+                  />
+                </Grid>
+              ),
             )
           case 'sale_order_exports':
             return display.push(
-              <Grid item lg={6} xs={12}>
-                <Field.Autocomplete
-                  name={item.id}
-                  label={t('warehouseImportReceipt.warehouseExportReceipt')}
-                  placeholder={t(
-                    'warehouseImportReceipt.warehouseExportReceipt',
-                  )}
-                  asyncRequest={(s) => {
-                    return searchWarehouseExportReceiptApi({
-                      keyword: s,
-                      limit: ASYNC_SEARCH_LIMIT,
-                      filter: convertFilterParams({
-                        status: ORDER_STATUS.COMPLETED,
-                      }),
-                    })
-                  }}
-                  asyncRequestHelper={(res) => res?.data?.items}
-                  asyncRequestDeps={values?.businessTypeId}
-                  getOptionLabel={(opt) => opt?.code}
-                  isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                  required={Boolean(item?.required)}
-                  validate={(val) => validate(val, item)}
-                  onChange={(val) => handleChangeWarehouseExportReceipt(val)}
-                />
-              </Grid>,
+              isEdit ? (
+                <Grid item lg={6} xs={12}>
+                  <LV
+                    label={
+                      <Typography>
+                        {t('warehouseImportReceipt.warehouseExportReceipt')}
+                      </Typography>
+                    }
+                    value={
+                      attributesBusinessTypeDetails[item.tableName]?.find(
+                        (itemDetail) =>
+                          `${itemDetail.id}` ===
+                          warehouseImportReceiptDetails?.attributes?.find(
+                            (item) =>
+                              item?.tableName ===
+                              TABLE_NAME_ENUM.SALE_ORDER_EXPORT,
+                          )?.value,
+                      )?.code
+                    }
+                  />
+                </Grid>
+              ) : (
+                <Grid item lg={6} xs={12}>
+                  <Field.Autocomplete
+                    name={item.id}
+                    label={t('warehouseImportReceipt.warehouseExportReceipt')}
+                    placeholder={t(
+                      'warehouseImportReceipt.warehouseExportReceipt',
+                    )}
+                    asyncRequest={(s) => {
+                      return searchWarehouseExportReceiptApi({
+                        keyword: s,
+                        limit: ASYNC_SEARCH_LIMIT,
+                        filter: convertFilterParams({
+                          status: ORDER_STATUS.COMPLETED,
+                        }),
+                      })
+                    }}
+                    asyncRequestHelper={(res) => res?.data?.items}
+                    asyncRequestDeps={values?.businessTypeId}
+                    getOptionLabel={(opt) => opt?.code}
+                    isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                    required={Boolean(item?.required)}
+                    validate={(val) => validate(val, item)}
+                    onChange={(val) => handleChangeWarehouseExportReceipt(val)}
+                  />
+                </Grid>
+              ),
             )
           case 'department_receipts':
             return display.push(
@@ -597,76 +794,242 @@ const displayFollowBusinessTypeManagement = (
             )
           case 'vendors':
             return display.push(
-              <Grid item lg={6} xs={12}>
-                <Field.Autocomplete
-                  name={item.id}
-                  label={item?.fieldName}
-                  asyncRequest={(s) => {
-                    return searchVendorsApi({
-                      keyword: s,
-                      limit: ASYNC_SEARCH_LIMIT,
-                      filter: convertFilterParams({
-                        status: ACTIVE_STATUS.ACTIVE,
-                      }),
-                    })
-                  }}
-                  asyncRequestHelper={(res) => res?.data?.items}
-                  asyncRequestDeps={values?.businessTypeId}
-                  getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
-                  isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                  validate={(val) => validate(val, item)}
-                  required={Boolean(item?.required)}
-                />
-              </Grid>,
+              isEdit &&
+                (!warehouseImportReceiptDetails?.businessType?.code ===
+                  CODE_BUSSINESS_TYPE.POIBYCONTRUCTION ||
+                  !warehouseImportReceiptDetails?.businessType?.code ===
+                    CODE_BUSSINESS_TYPE.POIBYCONTRUCTION) ? (
+                <Grid item lg={6} xs={12}>
+                  <LV
+                    label={<Typography>{item?.fieldName}</Typography>}
+                    value={`${
+                      attributesBusinessTypeDetails[item.tableName]?.find(
+                        (itemDetail) =>
+                          `${itemDetail.id}` ===
+                          warehouseImportReceiptDetails?.attributes?.find(
+                            (item) =>
+                              item?.tableName === TABLE_NAME_ENUM.CONSTRUCTION,
+                          )?.value,
+                      )?.code
+                    } - ${
+                      attributesBusinessTypeDetails[item.tableName]?.find(
+                        (itemDetail) =>
+                          `${itemDetail.id}` ===
+                          warehouseImportReceiptDetails?.attributes?.find(
+                            (item) =>
+                              item?.tableName === TABLE_NAME_ENUM.CONSTRUCTION,
+                          )?.value,
+                      )?.name
+                    }`}
+                  />
+                </Grid>
+              ) : isEdit &&
+                (warehouseImportReceiptDetails?.businessType?.code ===
+                  CODE_BUSSINESS_TYPE.POIBYCONTRUCTION ||
+                  warehouseImportReceiptDetails?.businessType?.code ===
+                    CODE_BUSSINESS_TYPE.POIBYCONTRUCTION) ? (
+                <Grid item lg={6} xs={12}>
+                  <Field.Autocomplete
+                    name={item.id}
+                    label={item?.fieldName}
+                    asyncRequest={(s) => {
+                      return searchVendorsApi({
+                        keyword: s,
+                        limit: ASYNC_SEARCH_LIMIT,
+                        filter: convertFilterParams({
+                          status: ACTIVE_STATUS.ACTIVE,
+                        }),
+                      })
+                    }}
+                    asyncRequestHelper={(res) => res?.data?.items}
+                    asyncRequestDeps={values?.businessTypeId}
+                    getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+                    isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                    validate={(val) => validate(val, item)}
+                    required={Boolean(item?.required)}
+                  />
+                </Grid>
+              ) : (
+                <Grid item lg={6} xs={12}>
+                  <Field.Autocomplete
+                    name={item.id}
+                    label={item?.fieldName}
+                    asyncRequest={(s) => {
+                      return searchVendorsApi({
+                        keyword: s,
+                        limit: ASYNC_SEARCH_LIMIT,
+                        filter: convertFilterParams({
+                          status: ACTIVE_STATUS.ACTIVE,
+                        }),
+                      })
+                    }}
+                    asyncRequestHelper={(res) => res?.data?.items}
+                    asyncRequestDeps={values?.businessTypeId}
+                    getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+                    isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                    validate={(val) => validate(val, item)}
+                    required={Boolean(item?.required)}
+                  />
+                </Grid>
+              ),
             )
           case 'cost_types':
             return display.push(
-              <Grid item lg={6} xs={12}>
-                <Field.Autocomplete
-                  name={item.id}
-                  label={item?.fieldName}
-                  asyncRequest={(s) => {
-                    return searchExpenditureTypeApi({
-                      keyword: s,
-                      limit: ASYNC_SEARCH_LIMIT,
-                      filter: convertFilterParams({
-                        status: ACTIVE_STATUS.ACTIVE,
-                      }),
-                    })
-                  }}
-                  asyncRequestHelper={(res) => res?.data?.items}
-                  asyncRequestDeps={values?.businessTypeId}
-                  getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
-                  isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                  required={Boolean(item?.required)}
-                  validate={(val) => validate(val, item)}
-                />
-              </Grid>,
+              isEdit &&
+                !warehouseImportReceiptDetails?.businessType?.code ===
+                  CODE_BUSSINESS_TYPE.POIBYCONTRUCTION ? (
+                <Grid item lg={6} xs={12}>
+                  <LV
+                    label={<Typography>{item?.fieldName}</Typography>}
+                    value={`${
+                      attributesBusinessTypeDetails[item.tableName]?.find(
+                        (itemDetail) =>
+                          `${itemDetail.id}` ===
+                          warehouseImportReceiptDetails?.attributes?.find(
+                            (item) =>
+                              item?.tableName === TABLE_NAME_ENUM.COST_TYPE,
+                          )?.value,
+                      )?.code
+                    } - ${
+                      attributesBusinessTypeDetails[item.tableName]?.find(
+                        (itemDetail) =>
+                          `${itemDetail.id}` ===
+                          warehouseImportReceiptDetails?.attributes?.find(
+                            (item) =>
+                              item?.tableName === TABLE_NAME_ENUM.COST_TYPE,
+                          )?.value,
+                      )?.name
+                    }`}
+                  />
+                </Grid>
+              ) : isEdit &&
+                warehouseImportReceiptDetails?.businessType?.code ===
+                  CODE_BUSSINESS_TYPE.POIBYCONTRUCTION ? (
+                <Grid item lg={6} xs={12}>
+                  <Field.Autocomplete
+                    name={item.id}
+                    label={item?.fieldName}
+                    asyncRequest={(s) => {
+                      return searchExpenditureTypeApi({
+                        keyword: s,
+                        limit: ASYNC_SEARCH_LIMIT,
+                        filter: convertFilterParams({
+                          status: ACTIVE_STATUS.ACTIVE,
+                        }),
+                      })
+                    }}
+                    asyncRequestHelper={(res) => res?.data?.items}
+                    asyncRequestDeps={values?.businessTypeId}
+                    getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+                    isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                    required={Boolean(item?.required)}
+                    validate={(val) => validate(val, item)}
+                  />
+                </Grid>
+              ) : (
+                <Grid item lg={6} xs={12}>
+                  <Field.Autocomplete
+                    name={item.id}
+                    label={item?.fieldName}
+                    asyncRequest={(s) => {
+                      return searchExpenditureTypeApi({
+                        keyword: s,
+                        limit: ASYNC_SEARCH_LIMIT,
+                        filter: convertFilterParams({
+                          status: ACTIVE_STATUS.ACTIVE,
+                        }),
+                      })
+                    }}
+                    asyncRequestHelper={(res) => res?.data?.items}
+                    asyncRequestDeps={values?.businessTypeId}
+                    getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+                    isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                    required={Boolean(item?.required)}
+                    validate={(val) => validate(val, item)}
+                  />
+                </Grid>
+              ),
             )
           case 'organization_payments':
             return display.push(
-              <Grid item lg={6} xs={12}>
-                <Field.Autocomplete
-                  name={item.id}
-                  label={item?.fieldName}
-                  asyncRequest={(s) => {
-                    return searchExpenditureOrgApi({
-                      keyword: s,
-                      limit: ASYNC_SEARCH_LIMIT,
-                      filter: convertFilterParams({
-                        status: ACTIVE_STATUS.ACTIVE,
-                      }),
-                    })
-                  }}
-                  asyncRequestHelper={(res) => res?.data?.items}
-                  asyncRequestDeps={values?.businessTypeId}
-                  getOptionLabel={(opt) => opt?.code}
-                  getOptionSubLabel={(opt) => opt?.name}
-                  isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                  required={Boolean(item?.required)}
-                  validate={(val) => validate(val, item)}
-                />
-              </Grid>,
+              isEdit &&
+                !warehouseImportReceiptDetails?.businessType?.code ===
+                  CODE_BUSSINESS_TYPE.POIBYCONTRUCTION ? (
+                <Grid item lg={6} xs={12}>
+                  <LV
+                    label={<Typography>{item?.fieldName}</Typography>}
+                    value={`${
+                      attributesBusinessTypeDetails[item.tableName]?.find(
+                        (itemDetail) =>
+                          `${itemDetail.id}` ===
+                          warehouseImportReceiptDetails?.attributes?.find(
+                            (item) =>
+                              item?.tableName ===
+                              TABLE_NAME_ENUM.ORGANIZATION_PAYMENT,
+                          )?.value,
+                      )?.code
+                    } - ${
+                      attributesBusinessTypeDetails[item.tableName]?.find(
+                        (itemDetail) =>
+                          `${itemDetail.id}` ===
+                          warehouseImportReceiptDetails?.attributes?.find(
+                            (item) =>
+                              item?.tableName ===
+                              TABLE_NAME_ENUM.ORGANIZATION_PAYMENT,
+                          )?.value,
+                      )?.name
+                    }`}
+                  />
+                </Grid>
+              ) : isEdit &&
+                warehouseImportReceiptDetails?.businessType?.code ===
+                  CODE_BUSSINESS_TYPE.POIBYCONTRUCTION ? (
+                <Grid item lg={6} xs={12}>
+                  <Field.Autocomplete
+                    name={item.id}
+                    label={item?.fieldName}
+                    asyncRequest={(s) => {
+                      return searchExpenditureOrgApi({
+                        keyword: s,
+                        limit: ASYNC_SEARCH_LIMIT,
+                        filter: convertFilterParams({
+                          status: ACTIVE_STATUS.ACTIVE,
+                        }),
+                      })
+                    }}
+                    asyncRequestHelper={(res) => res?.data?.items}
+                    asyncRequestDeps={values?.businessTypeId}
+                    getOptionLabel={(opt) => opt?.code}
+                    getOptionSubLabel={(opt) => opt?.name}
+                    isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                    required={Boolean(item?.required)}
+                    validate={(val) => validate(val, item)}
+                  />
+                </Grid>
+              ) : (
+                <Grid item lg={6} xs={12}>
+                  <Field.Autocomplete
+                    name={item.id}
+                    label={item?.fieldName}
+                    asyncRequest={(s) => {
+                      return searchExpenditureOrgApi({
+                        keyword: s,
+                        limit: ASYNC_SEARCH_LIMIT,
+                        filter: convertFilterParams({
+                          status: ACTIVE_STATUS.ACTIVE,
+                        }),
+                      })
+                    }}
+                    asyncRequestHelper={(res) => res?.data?.items}
+                    asyncRequestDeps={values?.businessTypeId}
+                    getOptionLabel={(opt) => opt?.code}
+                    getOptionSubLabel={(opt) => opt?.name}
+                    isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                    required={Boolean(item?.required)}
+                    validate={(val) => validate(val, item)}
+                  />
+                </Grid>
+              ),
             )
           default:
             break
