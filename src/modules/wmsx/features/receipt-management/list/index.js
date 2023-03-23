@@ -143,7 +143,7 @@ function ReceiptManagement() {
         const isCanceled = status === RECEIPT_MANAGEMENT_STATUS.NOT_YET_STOCKED
         return (
           <div>
-            <Guard code={FUNCTION_CODE.SALE_RETURN_RECEIPT}>
+            <Guard code={FUNCTION_CODE.SALE_DETAIL_RECEIPT}>
               <IconButton
                 onClick={() =>
                   history.push(
@@ -158,7 +158,7 @@ function ReceiptManagement() {
               </IconButton>
             </Guard>
             {isCanceled && (
-              <Guard code={FUNCTION_CODE.SALE_DETAIL_RECEIPT}>
+              <Guard code={FUNCTION_CODE.SALE_RETURN_RECEIPT}>
                 <IconButton
                   onClick={() => {
                     setOpenModal(true)
@@ -257,6 +257,7 @@ function ReceiptManagement() {
             <Typography sx={{ ml: 0.5, fontWeight: 800 }}>
               {tempItem?.contractNumber}
             </Typography>
+            <Typography sx={{ ml: 0.3 }}> ?</Typography>
           </>
         </Typography>
       </Dialog>

@@ -25,8 +25,19 @@ import viMesx from '~/assets/locales/vi/mesx.json'
 import viMmsx from '~/assets/locales/vi/mmsx.json'
 import viQmsx from '~/assets/locales/vi/qmsx.json'
 import viWmsx from '~/assets/locales/vi/wmsx.json'
+import wmsxBKU from '~/assets/locales/vi/wmsxBku'
+import wmsxMDU from '~/assets/locales/vi/wmsxMdu.json'
 import { DEFAULT_LANG, LANG_OPTIONS } from '~/common/constants'
 
+const getResource = () => {
+  if (process.env.REACT_APP_ENVIRONMENT === 'MDU') {
+    return wmsxMDU
+  } else if (process.env.REACT_APP_ENVIRONMENT === 'BKU') {
+    return wmsxBKU
+  } else {
+    return viWmsx
+  }
+}
 const resources = {
   [LANG_OPTIONS.VI]: {
     general: viGeneral,
@@ -36,7 +47,7 @@ const resources = {
     configuration: viConfiguration,
     mmsx: viMmsx,
     qmsx: viQmsx,
-    wmsx: viWmsx,
+    wmsx: getResource(),
   },
   [LANG_OPTIONS.EN]: {
     general: enGeneral,

@@ -172,17 +172,17 @@ function WarehouseExportReceipt() {
         return (
           isConfirmWarehouseExport &&
           (syncStatus === STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC ? (
-            // <Guard code={FUNCTION_CODE.SALE_SYNC_SALE_ORDER_TO_EBS}>
-            <Button
-              variant="text"
-              size="small"
-              bold={false}
-              onClick={() => onClickConfirmEBS(params?.row)}
-            >
-              {t('warehouseExportReceipt.confirmWarehouseExport')}
-            </Button>
+            <Guard code={FUNCTION_CODE.SALE_SYNC_SALE_ORDER_TO_EBS}>
+              <Button
+                variant="text"
+                size="small"
+                bold={false}
+                onClick={() => onClickConfirmEBS(params?.row)}
+              >
+                {t('warehouseExportReceipt.confirmWarehouseExport')}
+              </Button>
+            </Guard>
           ) : (
-            // </Guard>
             <Status
               options={STATUS_SYNC_WAREHOUSE_EXPORT_TO_EBS_OPTIONS}
               value={syncStatus}
