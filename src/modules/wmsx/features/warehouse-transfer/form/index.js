@@ -515,6 +515,10 @@ const WarehouseTransferForm = () => {
                               status: ACTIVE_STATUS.ACTIVE,
                               warehouseId: values?.sourceWarehouseId?.id,
                             }),
+                            sort: convertSortParams({
+                              order: 'asc',
+                              orderBy: 'code',
+                            }),
                           })
                         }
                         asyncRequestDeps={values?.sourceWarehouseId}
