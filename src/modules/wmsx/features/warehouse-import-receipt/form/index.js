@@ -25,6 +25,7 @@ import {
   PARENT_BUSINESS_TYPE,
   TABLE_NAME_ENUM,
   WAREHOUSE_IMPORT_RECEIPT_OPTIONS,
+  WAREHOUSE_IMPORT_RECEIPT_STATUS,
 } from '~/modules/wmsx/constants'
 import useSourceManagement from '~/modules/wmsx/redux/hooks/useSourceManagement'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
@@ -98,7 +99,7 @@ function WarehouseImportReceiptForm() {
         ? new Date(warehouseImportReceiptDetails?.receiptDate)
         : new Date(),
       deliver: warehouseImportReceiptDetails?.deliver || '',
-      businessTypeId: warehouseImportReceiptDetails?.businessType
+      businessTypeId: !isEmpty(warehouseImportReceiptDetails?.businessType)
         ? {
             ...warehouseImportReceiptDetails?.businessType,
             bussinessTypeAttributes: warehouseImportReceiptDetails?.attributes,
@@ -118,6 +119,7 @@ function WarehouseImportReceiptForm() {
       warehouse: warehouseImportReceiptDetails?.warehouse || null,
       reasonId: warehouseImportReceiptDetails?.reason || null,
       sourceId: warehouseImportReceiptDetails?.source || null,
+      receiptEBS: warehouseImportReceiptDetails?.ebsId || '',
       explaination:
         warehouseImportReceiptDetails?.explanation ||
         `${t(
@@ -131,10 +133,12 @@ function WarehouseImportReceiptForm() {
           lotNumber: item?.lotNumber,
           money: item?.amount,
           price: item?.price,
-          debitAcc: item?.debitAccount,
-          creditAcc: item?.creditAccount.replace(/^(\d*?[1-9])0+$/, '$1'),
+          debitAccount: item?.debitAccount,
+          creditAccount: item?.creditAccount.replace(/^(\d*?[1-9])0+$/, '$1'),
           importQuantity: item?.quantity,
           quantity: item?.quantity,
+          requestedQuantityWarehouseExportProposal:
+            item?.requestedQuantityWarehouseExportProposal,
           itemCode: {
             itemId: item?.itemId,
             id: item?.itemId,
@@ -359,9 +363,10 @@ function WarehouseImportReceiptForm() {
           price: item?.price || (item?.money / item?.quantity).toFixed(2),
           amount: item?.money,
           debitAccount:
-            item?.debitAcc?.replace(/^(\d*?[1-9])0+$/, '$1') || null,
+            item?.debitAccount?.replace(/^(\d*?[1-9])0+$/, '$1') || null,
           creditAccount:
-            item?.creditAcc || creditAccount?.replace(/^(\d*?[1-9])0+$/, '$1'),
+            item?.creditAccount ||
+            creditAccount?.replace(/^(\d*?[1-9])0+$/, '$1'),
           warehouseId: values?.warehouse?.id,
         })),
       ),
@@ -378,15 +383,68 @@ function WarehouseImportReceiptForm() {
           values[att.id]?.id || values[att.id]
       }
     })
+    const paramsUpdateHeader = {
+      deliver: values?.deliver || warehouseImportReceiptDetails?.deliver,
+      businessTypeId:
+        values?.businessTypeId?.id ||
+        warehouseImportReceiptDetails?.businessType?.id,
+      reasonId:
+        values?.reasonId?.id || warehouseImportReceiptDetails?.reason?.id,
+      explanation:
+        values?.explaination || warehouseImportReceiptDetails?.explanation,
+      receiptDate:
+        values?.receiptDate?.toISOString() ||
+        warehouseImportReceiptDetails?.receiptDate,
+      departmentReceiptId:
+        values?.departmentReceiptId?.id ||
+        warehouseImportReceiptDetails?.departmentReceipt?.id,
+      sourceId:
+        values?.sourceId?.id || warehouseImportReceiptDetails?.source?.id,
+      warehouseId:
+        values?.warehouse?.id || warehouseImportReceiptDetails?.warehouse?.id,
+      contractNumber:
+        values?.contractNumber || warehouseImportReceiptDetails?.contractNumber,
+      attachment: values?.attachment[0]?.id ? null : values?.attachment,
+      ebsId: values?.receiptEBS || null,
+      files: values?.attachment[0]?.id
+        ? JSON.stringify([{ id: values?.attachment[0]?.id }])
+        : [],
+    }
+
+    values?.businessTypeId?.bussinessTypeAttributes?.forEach((att, index) => {
+      // if (values[att.tableName]) {
+      //   params[`attributes[${index}].id`] = att.id
+      //   params[`attributes[${index}].value`] = values[att.tableName]?.id
+      // }
+      if (values[att.id]) {
+        paramsUpdateHeader[`attributes[${index}].id`] = att.id
+        paramsUpdateHeader[`attributes[${index}].value`] =
+          values[att.id]?.id || values[att.id]
+      }
+    })
     if (mode === MODAL_MODE.CREATE) {
       actions.createWarehouseImportReceipt(params, backToList)
     } else if (mode === MODAL_MODE.UPDATE) {
-      const paramUpdate = {
-        ...params,
-        code: warehouseImportReceiptDetails?.code,
-        id: id,
+      if (
+        warehouseImportReceiptDetails?.status ===
+          WAREHOUSE_IMPORT_RECEIPT_STATUS.COMPLETED ||
+        warehouseImportReceiptDetails?.status ===
+          WAREHOUSE_IMPORT_RECEIPT_STATUS.IN_PROGRESS ||
+        warehouseImportReceiptDetails?.status ===
+          WAREHOUSE_IMPORT_RECEIPT_STATUS.RECEIVED
+      ) {
+        actions.updateHeaderWarehouseImportReceipt(
+          { ...paramsUpdateHeader, id: +id },
+          backToList,
+        )
+      } else {
+        const paramUpdate = {
+          ...params,
+          code: warehouseImportReceiptDetails?.code,
+          id: id,
+        }
+        actions.updateWarehouseImportReceipt(paramUpdate, backToList)
       }
-      actions.updateWarehouseImportReceipt(paramUpdate, backToList)
     }
   }
 
@@ -523,6 +581,13 @@ function WarehouseImportReceiptForm() {
                 values?.businessTypeId?.bussinessTypeAttributes?.find(
                   (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT,
                 )?.id
+              const isEdit =
+                warehouseImportReceiptDetails?.status ===
+                  WAREHOUSE_IMPORT_RECEIPT_STATUS.COMPLETED ||
+                warehouseImportReceiptDetails?.status ===
+                  WAREHOUSE_IMPORT_RECEIPT_STATUS.RECEIVED ||
+                warehouseImportReceiptDetails?.status ===
+                  WAREHOUSE_IMPORT_RECEIPT_STATUS.IN_PROGRESS
               return (
                 <Form>
                   <Grid
@@ -531,7 +596,7 @@ function WarehouseImportReceiptForm() {
                     columnSpacing={{ xl: 8, xs: 4 }}
                   >
                     {isUpdate && (
-                      <Grid item xs={12}>
+                      <Grid item lg={6} xs={12}>
                         <LV
                           label={
                             <Typography>
@@ -548,36 +613,9 @@ function WarehouseImportReceiptForm() {
                       </Grid>
                     )}
                     <Grid item lg={6} xs={12}>
-                      <Field.DatePicker
-                        name="receiptDate"
-                        label={t('warehouseImportReceipt.receiptDate')}
-                        placeholder={t('warehouseImportReceipt.receiptDate')}
-                        maxDate={new Date()}
-                        minDate={
-                          !isEmpty(values[receiptRequired])
-                            ? new Date(values[receiptRequired]?.receiptDate)
-                            : new Date(
-                                sub(new Date(), {
-                                  years: 0,
-                                  months: 3,
-                                  weeks: 0,
-                                  days: 0,
-                                  hours: 0,
-                                  minutes: 0,
-                                  seconds: 0,
-                                }),
-                              )
-                        }
-                        onChange={(val) =>
-                          handleChangeReceiptDate(val, values, setFieldValue)
-                        }
-                        required
-                      />
-                    </Grid>
-                    <Grid item lg={6} xs={12}>
                       <LV
                         label={
-                          <Typography mt={1}>
+                          <Typography sx={{ mt: 0.5 }}>
                             {t('warehouseImportReceipt.Attachments')}
                           </Typography>
                         }
@@ -590,6 +628,84 @@ function WarehouseImportReceiptForm() {
                         }
                       />
                     </Grid>
+                    {isEdit && (
+                      <Grid item xs={12} lg={6}>
+                        <LV
+                          label={
+                            <Typography>
+                              {t('warehouseImportReceipt.id')}
+                            </Typography>
+                          }
+                          value={warehouseImportReceiptDetails.code}
+                        />
+                      </Grid>
+                    )}
+                    {isEdit ? (
+                      <Grid item lg={6} xs={12}>
+                        <LV
+                          label={
+                            <Typography>
+                              {t('warehouseImportReceipt.createdAt')}
+                            </Typography>
+                          }
+                          value={convertUtcDateToLocalTz(
+                            warehouseImportReceiptDetails.receiptDate,
+                          )}
+                        />
+                      </Grid>
+                    ) : (
+                      <Grid item lg={6} xs={12}>
+                        <Field.DatePicker
+                          name="receiptDate"
+                          label={t('warehouseImportReceipt.receiptDate')}
+                          placeholder={t('warehouseImportReceipt.receiptDate')}
+                          maxDate={new Date()}
+                          minDate={
+                            !isEmpty(values[receiptRequired])
+                              ? new Date(values[receiptRequired]?.receiptDate)
+                              : new Date(
+                                  sub(new Date(), {
+                                    years: 0,
+                                    months: 3,
+                                    weeks: 0,
+                                    days: 0,
+                                    hours: 0,
+                                    minutes: 0,
+                                    seconds: 0,
+                                  }),
+                                )
+                          }
+                          onChange={(val) =>
+                            handleChangeReceiptDate(val, values, setFieldValue)
+                          }
+                          required
+                        />
+                      </Grid>
+                    )}
+
+                    {isEdit && (
+                      <Grid item lg={6} xs={12}>
+                        <Field.TextField
+                          name="receiptEBS"
+                          label={t('warehouseImportReceipt.receiptEBS')}
+                          placeholder={t('warehouseImportReceipt.receiptEBS')}
+                          disabled={!warehouseImportReceiptDetails?.ebsId}
+                          required
+                        />
+                      </Grid>
+                    )}
+                    {isEdit && (
+                      <Grid item lg={6} xs={12}>
+                        <LV
+                          label={
+                            <Typography>
+                              {t('warehouseImportReceipt.receiptEBSOld')}
+                            </Typography>
+                          }
+                          value={warehouseImportReceiptDetails?.oldEbsId}
+                        />
+                      </Grid>
+                    )}
                     <Grid item lg={6} xs={12}>
                       <Field.TextField
                         name="deliver"
@@ -623,60 +739,101 @@ function WarehouseImportReceiptForm() {
                         required
                       />
                     </Grid>
-                    <Grid item lg={6} xs={12}>
-                      <Field.Autocomplete
-                        name="businessTypeId"
-                        label={t('warehouseImportReceipt.businessType')}
-                        placeholder={t('warehouseImportReceipt.businessType')}
-                        asyncRequest={(s) =>
-                          searchBusinessTypesApi({
-                            keyword: s,
-                            limit: ASYNC_SEARCH_LIMIT,
-                            filter: convertFilterParams({
-                              status: ACTIVE_STATUS.ACTIVE,
-                              parentBusiness: PARENT_BUSINESS_TYPE.IMPORT,
-                            }),
-                          })
-                        }
-                        asyncRequestHelper={(res) => res?.data?.items}
-                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
-                        onChange={(val) =>
-                          handleChangeBusinessType(val, setFieldValue, values)
-                        }
-                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                        required
-                      />
-                    </Grid>
-                    <Grid item lg={6} xs={12}>
-                      <Field.Autocomplete
-                        name="warehouse"
-                        label={t('warehouseImportReceipt.warehouse')}
-                        placeholder={t('warehouseImportReceipt.warehouse')}
-                        asyncRequest={(s) =>
-                          searchWarehouseApi({
-                            keyword: s,
-                            limit: ASYNC_SEARCH_LIMIT,
-                            filter: convertFilterParams({
-                              status: ACTIVE_STATUS.ACTIVE,
-                              userWarehouse: ACTIVE_STATUS.ACTIVE,
-                            }),
-                            sort: convertSortParams({
-                              order: 'asc',
-                              orderBy: 'code',
-                            }),
-                          })
-                        }
-                        asyncRequestHelper={(res) => res?.data?.items}
-                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
-                        disabled={values[receiptRequired]}
-                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                        onChange={() => {
-                          setFieldValue('items', [{ ...DEFAULT_ITEMS }])
-                          setFieldValue('sourceId', null)
-                        }}
-                        required
-                      />
-                    </Grid>
+                    {isEdit ? (
+                      <Grid item lg={6} xs={12}>
+                        <LV
+                          label={
+                            <Typography>
+                              {t('warehouseImportReceipt.businessType')}
+                            </Typography>
+                          }
+                          value={
+                            !isEmpty(
+                              warehouseImportReceiptDetails?.businessType,
+                            )
+                              ? `${warehouseImportReceiptDetails?.businessType?.code} - ${warehouseImportReceiptDetails?.businessType?.name}`
+                              : ''
+                          }
+                        />
+                      </Grid>
+                    ) : (
+                      <Grid item lg={6} xs={12}>
+                        <Field.Autocomplete
+                          name="businessTypeId"
+                          label={t('warehouseImportReceipt.businessType')}
+                          placeholder={t('warehouseImportReceipt.businessType')}
+                          asyncRequest={(s) =>
+                            searchBusinessTypesApi({
+                              keyword: s,
+                              limit: ASYNC_SEARCH_LIMIT,
+                              filter: convertFilterParams({
+                                status: ACTIVE_STATUS.ACTIVE,
+                                parentBusiness: PARENT_BUSINESS_TYPE.IMPORT,
+                              }),
+                            })
+                          }
+                          asyncRequestHelper={(res) => res?.data?.items}
+                          getOptionLabel={(opt) =>
+                            `${opt?.code} - ${opt?.name}`
+                          }
+                          onChange={(val) =>
+                            handleChangeBusinessType(val, setFieldValue, values)
+                          }
+                          isOptionEqualToValue={(opt, val) =>
+                            opt?.id === val?.id
+                          }
+                          required
+                        />
+                      </Grid>
+                    )}
+                    {isEdit ? (
+                      <Grid item lg={6} xs={12}>
+                        <LV
+                          label={
+                            <Typography>
+                              {t('warehouseImportReceipt.warehouse')}
+                            </Typography>
+                          }
+                          value={`${warehouseImportReceiptDetails?.warehouse?.code} - ${warehouseImportReceiptDetails?.warehouse?.name}`}
+                        />
+                      </Grid>
+                    ) : (
+                      <Grid item lg={6} xs={12}>
+                        <Field.Autocomplete
+                          name="warehouse"
+                          label={t('warehouseImportReceipt.warehouse')}
+                          placeholder={t('warehouseImportReceipt.warehouse')}
+                          asyncRequest={(s) =>
+                            searchWarehouseApi({
+                              keyword: s,
+                              limit: ASYNC_SEARCH_LIMIT,
+                              filter: convertFilterParams({
+                                status: ACTIVE_STATUS.ACTIVE,
+                                userWarehouse: ACTIVE_STATUS.ACTIVE,
+                              }),
+                              sort: convertSortParams({
+                                order: 'asc',
+                                orderBy: 'code',
+                              }),
+                            })
+                          }
+                          asyncRequestHelper={(res) => res?.data?.items}
+                          getOptionLabel={(opt) =>
+                            `${opt?.code} - ${opt?.name}`
+                          }
+                          disabled={values[receiptRequired]}
+                          isOptionEqualToValue={(opt, val) =>
+                            opt?.id === val?.id
+                          }
+                          onChange={() => {
+                            setFieldValue('items', [{ ...DEFAULT_ITEMS }])
+                            setFieldValue('sourceId', null)
+                          }}
+                          required
+                        />
+                      </Grid>
+                    )}
+
                     <Grid item lg={6} xs={12}>
                       <Field.Autocomplete
                         name="reasonId"
@@ -714,6 +871,10 @@ function WarehouseImportReceiptForm() {
                               status: ACTIVE_STATUS.ACTIVE,
                               warehouseId: values?.warehouse?.id,
                             }),
+                            sort: convertSortParams({
+                              order: 'asc',
+                              orderBy: 'code',
+                            }),
                           })
                         }
                         asyncRequestDeps={values?.warehouse}
@@ -739,6 +900,9 @@ function WarehouseImportReceiptForm() {
                       setLoadingReceipt,
                       creditAccount,
                       setValueReceipt,
+                      warehouseImportReceiptDetails,
+                      attributesBusinessTypeDetails,
+                      isEdit,
                     )}
                     {receiptRequired && (
                       <Grid item lg={6} xs={12}>
@@ -779,6 +943,7 @@ function WarehouseImportReceiptForm() {
                         <ItemsSettingTable
                           items={values?.items || []}
                           mode={mode}
+                          isEdit={isEdit}
                           arrayHelpers={arrayHelpers}
                           setFieldValue={setFieldValue}
                           creditAccount={creditAccount}

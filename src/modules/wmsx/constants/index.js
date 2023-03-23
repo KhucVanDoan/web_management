@@ -554,11 +554,11 @@ export const TRANSFER_STATUS_OPTIONS = [
     text: 'warehouseTransfer.transferStatus.exporting',
     color: 'exporting',
   },
-  {
-    id: 7,
-    text: 'warehouseTransfer.transferStatus.received',
-    color: 'received',
-  },
+  // {
+  //   id: 7,
+  //   text: 'warehouseTransfer.transferStatus.received',
+  //   color: 'received',
+  // },
   // {
   //   id: 8,
   //   text: 'warehouseTransfer.transferStatus.incollecting',
@@ -569,11 +569,11 @@ export const TRANSFER_STATUS_OPTIONS = [
     text: 'warehouseTransfer.transferStatus.exported',
     color: 'exported',
   },
-  {
-    id: 11,
-    text: 'warehouseTransfer.transferStatus.inStoring',
-    color: 'inStoring',
-  },
+  // {
+  //   id: 11,
+  //   text: 'warehouseTransfer.transferStatus.inStoring',
+  //   color: 'inStoring',
+  // },
   {
     id: 12,
     text: 'warehouseTransfer.transferStatus.incollecting',
@@ -2550,4 +2550,8 @@ export const WAREHOUSE_EXPORT_RECEIPT_STATUS_OPTIONS = [
 export const TYPE_DOWLOAD_WAREHOUSE_EXPORT_RECEIPT = {
   DELIVERY_RECCEIPT: 1,
   WAREHOUSE_EXPORT_RECEIPT: 2,
+}
+export const CODE_BUSSINESS_TYPE = {
+  POINORMAL: 'N0001',
+  POIBYCONTRUCTION: 'N0002',
 }

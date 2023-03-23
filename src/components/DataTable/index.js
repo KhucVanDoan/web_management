@@ -197,8 +197,9 @@ const DataTable = (props) => {
             onSortChange={onSortChange}
             onSelectAllClick={handleSelectAllClick}
             checkboxSelection={checkboxSelection}
-            rawColumns={rawColumns}
             columns={columns}
+            rawColumns={rawColumns}
+            visibleColumns={visibleColumns}
             reorderable={reorderable}
             enableResizable={enableResizable}
             tableSettingKey={tableSettingKey}
