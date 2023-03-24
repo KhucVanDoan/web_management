@@ -19,6 +19,13 @@ export const UPDATE_WAREHOUSE_EXPORT_RECEIPT_SUCCESS =
 export const UPDATE_WAREHOUSE_EXPORT_RECEIPT_FAILED =
   'WMSX_UPDATE_WAREHOUSE_EXPORT_RECEIPT_FAILED'
 
+export const UPDATE_HEADER_WAREHOUSE_EXPORT_RECEIPT_START =
+  'WMSX_UPDATE_HEADER_WAREHOUSE_EXPORT_RECEIPT_START'
+export const UPDATE_HEADER_WAREHOUSE_EXPORT_RECEIPT_SUCCESS =
+  'WMSX_UPDATE_HEADER_WAREHOUSE_EXPORT_RECEIPT_SUCCESS'
+export const UPDATE_HEADER_WAREHOUSE_EXPORT_RECEIPT_FAILED =
+  'WMSX_UPDATE_HEADER_WAREHOUSE_EXPORT_RECEIPT_FAILED'
+
 export const DELETE_WAREHOUSE_EXPORT_RECEIPT_START =
   'WMSX_DELETE_WAREHOUSE_EXPORT_RECEIPT_START'
 export const DELETE_WAREHOUSE_EXPORT_RECEIPT_SUCCESS =
@@ -138,6 +145,32 @@ export function updateWarehouseExportReceiptSuccess(payload) {
 export function updateWarehouseExportReceiptFailed() {
   return {
     type: UPDATE_WAREHOUSE_EXPORT_RECEIPT_FAILED,
+  }
+}
+
+export function updateHeaderWarehouseExportReceipt(
+  payload,
+  onSuccess,
+  onError,
+) {
+  return {
+    type: UPDATE_HEADER_WAREHOUSE_EXPORT_RECEIPT_START,
+    payload: payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function updateHeaderWarehouseExportReceiptSuccess(payload) {
+  return {
+    type: UPDATE_HEADER_WAREHOUSE_EXPORT_RECEIPT_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function updateHeaderWarehouseExportReceiptFailed() {
+  return {
+    type: UPDATE_HEADER_WAREHOUSE_EXPORT_RECEIPT_FAILED,
   }
 }
 
@@ -359,4 +392,7 @@ export default {
   cancelWarehouseExportEBSById,
   cancelWarehouseExportEBStByIdSuccess,
   cancelWarehouseExportEBSByIdFailed,
+  updateHeaderWarehouseExportReceipt,
+  updateHeaderWarehouseExportReceiptSuccess,
+  updateHeaderWarehouseExportReceiptFailed,
 }

@@ -140,23 +140,25 @@ function WarehouseImportReceiptDetail() {
       <>
         {warehouseImportReceiptDetails?.status ===
           WAREHOUSE_IMPORT_RECEIPT_STATUS.CONFIRMED && (
-          <Button
-            onClick={() =>
-              actions.returnWarehouseImportReceiptById(
-                warehouseImportReceiptDetails?.id,
-                () => {
-                  window.location.reload()
-                },
-              )
-            }
-            sx={{
-              ml: 4 / 3,
-            }}
-            color="grayEE"
-            // icon="add"
-          >
-            {t('warehouseImportReceipt.returnReceipt')}
-          </Button>
+          <Guard code={FUNCTION_CODE.SALE_RETURN_PURCHASED_ORDER_IMPORT}>
+            <Button
+              onClick={() =>
+                actions.returnWarehouseImportReceiptById(
+                  warehouseImportReceiptDetails?.id,
+                  () => {
+                    window.location.reload()
+                  },
+                )
+              }
+              sx={{
+                ml: 4 / 3,
+              }}
+              color="grayEE"
+              // icon="add"
+            >
+              {t('warehouseImportReceipt.returnReceipt')}
+            </Button>
+          </Guard>
         )}
         {warehouseImportReceiptDetails?.status === ORDER_STATUS.CONFIRMED && (
           <Guard code={FUNCTION_CODE.SALE_RECEIVE_PURCHASED_ORDER_IMPORT}>
