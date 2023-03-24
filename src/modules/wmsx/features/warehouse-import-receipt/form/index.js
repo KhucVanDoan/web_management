@@ -690,6 +690,13 @@ function WarehouseImportReceiptForm() {
                           label={t('warehouseImportReceipt.receiptEBS')}
                           placeholder={t('warehouseImportReceipt.receiptEBS')}
                           disabled={!warehouseImportReceiptDetails?.ebsId}
+                          validate={(val) => {
+                            if (warehouseImportReceiptDetails?.ebsId) {
+                              if (!val) {
+                                return t('general:form.required')
+                              }
+                            }
+                          }}
                           required
                         />
                       </Grid>
