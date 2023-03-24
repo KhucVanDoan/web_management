@@ -14,6 +14,7 @@ import {
   ACTIVE_STATUS_OPTIONS,
   WAREHOUSE_LAYOUTS,
 } from '~/modules/wmsx/constants'
+import useInventoryStatistics from '~/modules/wmsx/redux/hooks/useInventoryStatistics'
 import useLocationManagement from '~/modules/wmsx/redux/hooks/useLocationManagement'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
@@ -42,7 +43,9 @@ function LocationManagementDetail() {
     data: { isLoading, locationDetails, itemByLocationIdList },
     actions,
   } = useLocationManagement()
-
+  const {
+    data: { isLoading: isLoadingGetItem },
+  } = useInventoryStatistics()
   useEffect(() => {
     actions.getLocationDetailsById(id)
     return () => {
@@ -59,7 +62,7 @@ function LocationManagementDetail() {
       breadcrumbs={breadcrumbs}
       title={t('menu.locationManagementDetail')}
       onBack={backToList}
-      loading={isLoading}
+      loading={isLoading || isLoadingGetItem}
     >
       <Grid container justifyContent="center">
         <Grid item xl={11} xs={12}>
