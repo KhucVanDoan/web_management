@@ -215,6 +215,19 @@ function WarehouseExportReceipt() {
           status === WAREHOUSE_EXPORT_RECEIPT_STATUS.COMPLETED
         const isCancelSync =
           syncStatus === STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR
+        const isEditHeader =
+          (status === WAREHOUSE_EXPORT_RECEIPT_STATUS.IN_COLLECTING &&
+            (syncStatus === STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC ||
+              syncStatus === STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR ||
+              syncStatus === STATUS_SYNC_ORDER_TO_EBS.COMPLETED)) ||
+          (status === WAREHOUSE_EXPORT_RECEIPT_STATUS.COMPLETED &&
+            (syncStatus === STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC ||
+              syncStatus === STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR ||
+              syncStatus === STATUS_SYNC_ORDER_TO_EBS.COMPLETED)) ||
+          (status === WAREHOUSE_EXPORT_RECEIPT_STATUS.COLLECTED &&
+            (syncStatus === STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC ||
+              syncStatus === STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR ||
+              syncStatus === STATUS_SYNC_ORDER_TO_EBS.COMPLETED))
         return (
           <div>
             <Guard code={FUNCTION_CODE.SALE_DETAIL_SALE_ORDER_EXPORT}>
@@ -237,6 +250,22 @@ function WarehouseExportReceipt() {
               </IconButton>
             )}
             {isEdit && (
+              <Guard code={FUNCTION_CODE.SALE_UPDATE_SALE_ORDER_EXPORT}>
+                <IconButton
+                  onClick={() =>
+                    history.push(
+                      ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT.PATH.replace(
+                        ':id',
+                        `${id}`,
+                      ),
+                    )
+                  }
+                >
+                  <Icon name="edit" />
+                </IconButton>
+              </Guard>
+            )}
+            {isEditHeader && (
               <Guard code={FUNCTION_CODE.SALE_UPDATE_SALE_ORDER_EXPORT}>
                 <IconButton
                   onClick={() =>
