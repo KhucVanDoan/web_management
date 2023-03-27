@@ -23,7 +23,6 @@ import {
   TRANSFER_STATUS,
   WAREHOUSE_TRANSFER_TYPE,
 } from '~/modules/wmsx/constants'
-import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 import { getItemWarehouseStockAvailableApi } from '~/modules/wmsx/redux/sagas/warehouse-transfer/get-item-warehouse-stock-available'
 import {
   checkItemWarehouseImport,
@@ -38,9 +37,6 @@ const ItemSettingTable = (props) => {
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
   const [storageDates, setStorageDates] = useState([])
-  const {
-    data: { warehouseTransferDetails },
-  } = useWarehouseTransfer()
   useEffect(() => {
     items?.forEach((item) => {
       item?.storageDates?.forEach((d) => {
@@ -345,11 +341,7 @@ const ItemSettingTable = (props) => {
         field: 'locator',
         headerName: t('warehouseTransfer.table.locator'),
         width: 150,
-        hide:
-          values?.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_SHORT ||
-          warehouseTransferDetails?.type ===
-            WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_SHORT ||
-          values?.type === '',
+        hide: type !== WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG,
         renderCell: (params, index) => {
           const { itemCode } = params?.row
           const locationList = params?.row?.itemCode?.locations?.map(
@@ -359,6 +351,7 @@ const ItemSettingTable = (props) => {
               locatorId: item?.locator?.locatorId,
             }),
           )
+
           return isView ? (
             <>{params?.row?.locator?.code}</>
           ) : (
@@ -426,9 +419,7 @@ const ItemSettingTable = (props) => {
         field: 'warehouseImportDate',
         headerName: t('warehouseTransfer.table.warehouseImportDate'),
         width: 180,
-        hide:
-          values?.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_SHORT ||
-          type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_SHORT,
+        hide: type !== WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG,
         renderCell: (params, index) => {
           const storageDateList = storageDates?.filter(
             (item) =>
@@ -577,7 +568,6 @@ const ItemSettingTable = (props) => {
           !isView ||
           (status !== TRANSFER_STATUS.COMPLETED &&
             status !== TRANSFER_STATUS.EXPORTED &&
-            status !== TRANSFER_STATUS.EXPORTING &&
             status !== TRANSFER_STATUS.INCOLLECTING),
         renderCell: (params, index) => {
           return isView ? (
@@ -601,7 +591,6 @@ const ItemSettingTable = (props) => {
           !isView ||
           (status !== TRANSFER_STATUS.COMPLETED &&
             status !== TRANSFER_STATUS.EXPORTED &&
-            status !== TRANSFER_STATUS.EXPORTING &&
             status !== TRANSFER_STATUS.INCOLLECTING),
         renderCell: (params, index) => {
           return isView ? (
@@ -684,6 +673,7 @@ const ItemSettingTable = (props) => {
       values?.items,
       storageDates,
       values?.destinationWarehouseId,
+      type,
     ],
   )
   return (

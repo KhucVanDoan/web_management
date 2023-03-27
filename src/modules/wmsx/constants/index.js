@@ -1921,6 +1921,7 @@ export const WAREHOUSE_LAYOUTS = {
 export const WAREHOUSE_TRANSFER_TYPE = {
   WAREHOUSE_TRANSFER_LONG: 2,
   WAREHOUSE_TRANSFER_SHORT: 1,
+  WAREHOUSE_TRANSFER_FAST: 3,
 }
 export const WAREHOUSE_TRANSFER_MAP = {
   [WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG]: 'warehouseTransfer.long',
@@ -1935,6 +1936,10 @@ export const WAREHOUSE_TRANSFER_TYPE_OPTIONS = [
   {
     id: 2,
     text: 'warehouseTransfer.long',
+  },
+  {
+    id: 3,
+    text: 'warehouseTransfer.fast',
   },
 ]
 
