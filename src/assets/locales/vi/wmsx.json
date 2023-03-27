@@ -3202,6 +3202,7 @@
     "actions": "Hành động",
     "code": "Mã lệnh chuyển kho",
     "name": "Tên lệnh chuyển kho",
+    "dowload": "Tải phiếu",
     "type": "Loại lệnh",
     "internalType": "Chuyển kho nội bộ",
     "longTermType": "Chuyển kho dài hạn",
