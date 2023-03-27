@@ -2916,6 +2916,7 @@
     "dowloadDeliveryRecord": "Tải biên bản bàn giao",
     "messageWarning": "Phiếu xuất kho có ngày chứng từ xuất kho nhỏ hơn ngày chứng từ nhập kho. Bạn có chắc chắn tiếp tục tạo phiếu xuất kho?",
     "messageWarningCreate": "Cảnh báo ",
+    "returnReceipt": "Trả phiếu",
     "statusSync": {
       "pending": "chờ BOT xử lý",
       "error": "Lỗi xuất kho EBS",

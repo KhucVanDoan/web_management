@@ -5,6 +5,7 @@ import {
   WMSX_UPDATE_INVENTORIES_STATISTICS_FAILED,
   WMSX_UPDATE_INVENTORIES_STATISTICS_START,
   WMSX_UPDATE_INVENTORIES_STATISTICS_SUCCESS,
+  WMSX_RESET_STATE_INVENTORIES_STATISTICS,
 } from '~/modules/wmsx/redux/actions/inventory-statistics'
 
 const initialState = {
@@ -48,6 +49,11 @@ export default function inventoryStatistics(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
+      }
+    case WMSX_RESET_STATE_INVENTORIES_STATISTICS:
+      return {
+        ...state,
+        inventoryStatisticList: [],
       }
     default:
       return state
