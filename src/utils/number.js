@@ -1,3 +1,5 @@
+import BigNumber from 'bignumber.js'
+
 export const convertNumberWithSISymbol = (num, digits = 2) => {
   if (!num) return 0
 
@@ -22,10 +24,13 @@ export const convertNumberWithSISymbol = (num, digits = 2) => {
 }
 
 export const convertNumberWithThousandSeparator = (num, digits = 2) => {
-  if (!num) return 0
+  if (num === 0) return 0
+  if (!num) return ''
 
-  return (+Number(num).toFixed(digits))
+  return BigNumber(num)
+    .toFixed(digits)
     .toString()
     .replace(/\d(?=(\d{3})+(?!\d))/g, '$& ')
+    .replace(/\.?0+$/, '')
     .replace('.', ',')
 }
