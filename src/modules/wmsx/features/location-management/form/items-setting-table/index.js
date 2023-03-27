@@ -38,6 +38,9 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
       }
       getItemByLocationId.searchInventoryStatistics(params)
     }
+    return () => {
+      getItemByLocationId.resetStateInventoryStatistics()
+    }
   }, [page, pageSize, locationDetails])
   const getColumns = useMemo(
     () => [
