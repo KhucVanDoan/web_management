@@ -7,7 +7,7 @@ import { TEXTFIELD_ALLOW, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import { Field } from '~/components/Formik'
 
 const FilterForm = () => {
-  const { t } = useTranslation(['mmsx'])
+  const { t } = useTranslation(['wmsx'])
   return (
     <Grid container rowSpacing={4 / 3}>
       <Grid item xs={12}>
@@ -31,8 +31,8 @@ const FilterForm = () => {
       <Grid item xs={12}>
         <Field.DateRangePicker
           name="createdAt"
-          label={t('maintenanceTeam.createAt')}
-          placeholder={t('maintenanceTeam.createAt')}
+          label={t('roleList.createdAt')}
+          placeholder={t('roleList.createdAt')}
         />
       </Grid>
     </Grid>

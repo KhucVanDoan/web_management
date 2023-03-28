@@ -405,7 +405,7 @@ function WarehouseImportReceiptForm() {
       contractNumber:
         values?.contractNumber || warehouseImportReceiptDetails?.contractNumber,
       attachment: values?.attachment[0]?.id ? null : values?.attachment,
-      ebsId: values?.receiptEBS || null,
+      ebsId: values?.receiptEBS || '',
       files: values?.attachment[0]?.id
         ? JSON.stringify([{ id: values?.attachment[0]?.id }])
         : [],

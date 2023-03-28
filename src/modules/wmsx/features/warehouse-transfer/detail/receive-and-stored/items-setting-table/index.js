@@ -268,40 +268,40 @@ const ItemSettingTable = (props) => {
           )
         },
       },
-      {
-        field: 'price',
-        headerName: t('warehouseTransfer.table.price'),
-        width: 180,
-        align: 'right',
-        headerAlign: 'left',
-        renderCell: (params, index) => {
-          return (
-            <Field.TextField
-              name={`items[${index}].price`}
-              formatter="price"
-              type="number"
-              disabled={true}
-            />
-          )
-        },
-      },
-      {
-        field: 'amount',
-        headerName: t('warehouseTransfer.table.amount'),
-        width: 180,
-        align: 'right',
-        headerAlign: 'left',
-        renderCell: (params, index) => {
-          return (
-            <Field.TextField
-              name={`items[${index}].amount`}
-              formatter="price"
-              type="number"
-              disabled={true}
-            />
-          )
-        },
-      },
+      // {
+      //   field: 'price',
+      //   headerName: t('warehouseTransfer.table.price'),
+      //   width: 180,
+      //   align: 'right',
+      //   headerAlign: 'left',
+      //   renderCell: (params, index) => {
+      //     return (
+      //       <Field.TextField
+      //         name={`items[${index}].price`}
+      //         formatter="price"
+      //         type="number"
+      //         disabled={true}
+      //       />
+      //     )
+      //   },
+      // },
+      // {
+      //   field: 'amount',
+      //   headerName: t('warehouseTransfer.table.amount'),
+      //   width: 180,
+      //   align: 'right',
+      //   headerAlign: 'left',
+      //   renderCell: (params, index) => {
+      //     return (
+      //       <Field.TextField
+      //         name={`items[${index}].amount`}
+      //         formatter="price"
+      //         type="number"
+      //         disabled={true}
+      //       />
+      //     )
+      //   },
+      // },
       {
         field: 'debitAcc',
         headerName: t('warehouseTransfer.table.debitAcc'),

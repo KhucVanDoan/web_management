@@ -14,7 +14,6 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
-import { ORDER_STATUS } from '~/modules/mesx/constants'
 import {
   DATA_TYPE,
   TABLE_NAME_ENUM,
@@ -186,7 +185,30 @@ function WarehouseExportReceiptDetail() {
   const renderHeaderRight = () => {
     return (
       <>
-        {warehouseExportReceiptDetails?.status === ORDER_STATUS.CONFIRMED && (
+        {warehouseExportReceiptDetails?.status ===
+          WAREHOUSE_EXPORT_RECEIPT_STATUS.CONFIRMED && (
+          <Guard code={FUNCTION_CODE.SALE_RETURN_SALE_ORDER_EXPORT}>
+            <Button
+              onClick={() =>
+                actions.returnWarehouseExportReceiptById(
+                  warehouseExportReceiptDetails?.id,
+                  () => {
+                    window.location.reload()
+                  },
+                )
+              }
+              sx={{
+                ml: 4 / 3,
+              }}
+              color="grayEE"
+              // icon="add"
+            >
+              {t('warehouseExportReceipt.returnReceipt')}
+            </Button>
+          </Guard>
+        )}
+        {warehouseExportReceiptDetails?.status ===
+          WAREHOUSE_EXPORT_RECEIPT_STATUS.CONFIRMED && (
           <Guard code={FUNCTION_CODE.SALE_COLLECT_SALE_ORDER_EXPORT}>
             <Button
               onClick={() =>
