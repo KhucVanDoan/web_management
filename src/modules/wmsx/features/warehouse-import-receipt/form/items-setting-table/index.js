@@ -6,7 +6,12 @@ import Typography from '@mui/material/Typography'
 import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
-import { ASYNC_SEARCH_LIMIT, MODAL_MODE } from '~/common/constants'
+import {
+  ASYNC_SEARCH_LIMIT,
+  MODAL_MODE,
+  TEXTFIELD_ALLOW,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
@@ -81,6 +86,7 @@ function ItemsSettingTable(props) {
       setFieldValue(`items[${index}].requestedQuantity`, +val?.quantity)
     }
   }
+
   const columns = useMemo(
     () => [
       {
@@ -348,7 +354,7 @@ function ItemsSettingTable(props) {
         headerName: t('warehouseImportReceipt.table.creditAcc'),
         width: 250,
         renderCell: (params, index) => {
-          return isView || isEdit ? (
+          return isView || (isEdit && !warehouseImportReceiptDetails?.ebsId) ? (
             params?.row?.creditAccount?.length === LENGTH_DEBITACCOUNT ? (
               params?.row?.creditAccount
                 .slice(18, 29)
@@ -356,8 +362,21 @@ function ItemsSettingTable(props) {
             ) : (
               params?.row?.creditAccount
             )
+          ) : isEdit && warehouseImportReceiptDetails?.ebsId ? (
+            <Field.TextField
+              name={`items[${index}].creditAccount`}
+              inputProps={{
+                maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_11.MAX,
+              }}
+              allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
+              validate={(val) => {
+                if (!val) {
+                  return t('general:form.required')
+                }
+              }}
+            />
           ) : !isEmpty(values[receiptRequired]) ? (
-            params?.row?.creditAcc
+            params?.row?.creditAccount
           ) : (
             <Field.TextField
               name={`items[${index}].creditAcc`}
@@ -406,7 +425,7 @@ function ItemsSettingTable(props) {
         <Typography variant="h4">
           {t('warehouseImportReceipt.table.title')}
         </Typography>
-        {!isView && (
+        {!isView && !isEdit && (
           <Box>
             <Button
               variant="outlined"

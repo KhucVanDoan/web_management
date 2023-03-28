@@ -84,7 +84,13 @@ function WarehouseImportReceiptForm() {
     },
     actions,
   } = useWarehouseImportReceipt()
-
+  const isEdit =
+    warehouseImportReceiptDetails?.status ===
+      WAREHOUSE_IMPORT_RECEIPT_STATUS.COMPLETED ||
+    warehouseImportReceiptDetails?.status ===
+      WAREHOUSE_IMPORT_RECEIPT_STATUS.RECEIVED ||
+    warehouseImportReceiptDetails?.status ===
+      WAREHOUSE_IMPORT_RECEIPT_STATUS.IN_PROGRESS
   const { actions: sourceAction } = useSourceManagement()
   const MODE_MAP = {
     [ROUTE.WAREHOUSE_IMPORT_RECEIPT.CREATE.PATH]: MODAL_MODE.CREATE,
@@ -134,7 +140,10 @@ function WarehouseImportReceiptForm() {
           money: item?.amount,
           price: item?.price,
           debitAccount: item?.debitAccount,
-          creditAccount: item?.creditAccount.replace(/^(\d*?[1-9])0+$/, '$1'),
+          creditAccount:
+            isEdit && warehouseImportReceiptDetails?.ebsId
+              ? warehouseImportReceiptDetails?.source?.accountant
+              : item?.creditAccount.replace(/^(\d*?[1-9])0+$/, '$1'),
           importQuantity: item?.quantity,
           quantity: item?.quantity,
           requestedQuantityWarehouseExportProposal:
@@ -409,6 +418,12 @@ function WarehouseImportReceiptForm() {
       files: values?.attachment[0]?.id
         ? JSON.stringify([{ id: values?.attachment[0]?.id }])
         : [],
+      items: JSON.stringify(
+        values?.items?.map((item) => ({
+          itemId: item?.itemId,
+          creditAccount: item?.creditAccount,
+        })),
+      ),
     }
 
     values?.businessTypeId?.bussinessTypeAttributes?.forEach((att, index) => {
@@ -581,13 +596,7 @@ function WarehouseImportReceiptForm() {
                 values?.businessTypeId?.bussinessTypeAttributes?.find(
                   (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT,
                 )?.id
-              const isEdit =
-                warehouseImportReceiptDetails?.status ===
-                  WAREHOUSE_IMPORT_RECEIPT_STATUS.COMPLETED ||
-                warehouseImportReceiptDetails?.status ===
-                  WAREHOUSE_IMPORT_RECEIPT_STATUS.RECEIVED ||
-                warehouseImportReceiptDetails?.status ===
-                  WAREHOUSE_IMPORT_RECEIPT_STATUS.IN_PROGRESS
+
               return (
                 <Form>
                   <Grid
@@ -865,37 +874,54 @@ function WarehouseImportReceiptForm() {
                         required
                       />
                     </Grid>
-                    <Grid item lg={6} xs={12}>
-                      <Field.Autocomplete
-                        name="sourceId"
-                        label={t('warehouseImportReceipt.source')}
-                        placeholder={t('warehouseImportReceipt.source')}
-                        asyncRequest={(s) =>
-                          searchSourceManagementApi({
-                            keyword: s,
-                            limit: ASYNC_SEARCH_LIMIT,
-                            filter: convertFilterParams({
-                              status: ACTIVE_STATUS.ACTIVE,
-                              warehouseId: values?.warehouse?.id,
-                            }),
-                            sort: convertSortParams({
-                              order: 'asc',
-                              orderBy: 'code',
-                            }),
-                          })
-                        }
-                        asyncRequestDeps={values?.warehouse}
-                        asyncRequestHelper={(res) => res?.data?.items}
-                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
-                        getOptionSubLabel={(opt) => opt?.accountIdentifier}
-                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                        onChange={(val) =>
-                          handleChangeSource(val, values, setFieldValue)
-                        }
-                        disabled={isEmpty(values?.warehouse)}
-                        required
-                      />
-                    </Grid>
+                    {isEdit && warehouseImportReceiptDetails?.ebsId ? (
+                      <Grid item lg={6} xs={12}>
+                        <LV
+                          label={
+                            <Typography>
+                              {t('warehouseImportReceipt.source')}
+                            </Typography>
+                          }
+                          value={`${warehouseImportReceiptDetails?.source?.code} - ${warehouseImportReceiptDetails?.source?.name}`}
+                        />
+                      </Grid>
+                    ) : (
+                      <Grid item lg={6} xs={12}>
+                        <Field.Autocomplete
+                          name="sourceId"
+                          label={t('warehouseImportReceipt.source')}
+                          placeholder={t('warehouseImportReceipt.source')}
+                          asyncRequest={(s) =>
+                            searchSourceManagementApi({
+                              keyword: s,
+                              limit: ASYNC_SEARCH_LIMIT,
+                              filter: convertFilterParams({
+                                status: ACTIVE_STATUS.ACTIVE,
+                                warehouseId: values?.warehouse?.id,
+                              }),
+                              sort: convertSortParams({
+                                order: 'asc',
+                                orderBy: 'code',
+                              }),
+                            })
+                          }
+                          asyncRequestDeps={values?.warehouse}
+                          asyncRequestHelper={(res) => res?.data?.items}
+                          getOptionLabel={(opt) =>
+                            `${opt?.code} - ${opt?.name}`
+                          }
+                          getOptionSubLabel={(opt) => opt?.accountIdentifier}
+                          isOptionEqualToValue={(opt, val) =>
+                            opt?.id === val?.id
+                          }
+                          onChange={(val) =>
+                            handleChangeSource(val, values, setFieldValue)
+                          }
+                          disabled={isEmpty(values?.warehouse)}
+                          required
+                        />
+                      </Grid>
+                    )}
                     {displayFollowBusinessTypeManagement(
                       values?.businessTypeId?.bussinessTypeAttributes,
                       t,
