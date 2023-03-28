@@ -82,6 +82,13 @@ export const APPROVE_WAREHOUSE_EXPORT_RECEIPT_SUCCESS =
 export const APPROVE_WAREHOUSE_EXPORT_RECEIPT_FAILED =
   'WMSX_APPROVE_WAREHOUSE_EXPORT_RECEIPT_FAILED'
 
+export const RETURN_WAREHOUSE_EXPORT_RECEIPT_START =
+  'WMSX_RETURN_WAREHOUSE_EXPORT_RECEIPT_START'
+export const RETURN_WAREHOUSE_EXPORT_RECEIPT_SUCCESS =
+  'WMSX_RETURN_WAREHOUSE_EXPORT_RECEIPT_SUCCESS'
+export const RETURN_WAREHOUSE_EXPORT_RECEIPT_FAILED =
+  'WMSX_RETURN_WAREHOUSE_EXPORT_RECEIPT_FAILED'
+
 export function searchWarehouseExportReceipt(payload, onSuccess, onError) {
   return {
     type: SEARCH_WAREHOUSE_EXPORT_RECEIPT_START,
@@ -357,6 +364,27 @@ export function approveWarehouseFailed() {
     type: APPROVE_WAREHOUSE_EXPORT_RECEIPT_FAILED,
   }
 }
+export function returnWarehouseExportReceiptById(Id, onSuccess, onError) {
+  return {
+    type: RETURN_WAREHOUSE_EXPORT_RECEIPT_START,
+    payload: Id,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function returnWarehouseExportReceiptByIdSuccess(payload) {
+  return {
+    type: RETURN_WAREHOUSE_EXPORT_RECEIPT_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function returnWarehouseExportReceiptByIdFailed() {
+  return {
+    type: RETURN_WAREHOUSE_EXPORT_RECEIPT_FAILED,
+  }
+}
 export default {
   searchWarehouseExportReceipt,
   searchWarehouseExportReceiptSuccess,
@@ -395,4 +423,7 @@ export default {
   updateHeaderWarehouseExportReceipt,
   updateHeaderWarehouseExportReceiptSuccess,
   updateHeaderWarehouseExportReceiptFailed,
+  returnWarehouseExportReceiptById,
+  returnWarehouseExportReceiptByIdSuccess,
+  returnWarehouseExportReceiptByIdFailed,
 }

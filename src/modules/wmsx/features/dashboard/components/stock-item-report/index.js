@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { Pie } from '@ant-design/plots'
 import { Box, Card, Typography } from '@mui/material'
+import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
 
 import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
@@ -36,16 +37,49 @@ const StockItemReport = () => {
     })
   }, [itemId, warehouseId])
 
+  const maxProportion = 100_000_000
+  const rawPlanningAmount = itemGroupStockSummary?.totalItemPlanningAmount || 0
+  const rawStockAmount = itemGroupStockSummary?.totalItemStockAmount || 0
+
+  let piePlanningAmount = BigNumber(rawPlanningAmount)
+  let pieStockAmount = BigNumber(rawStockAmount)
+
+  if (piePlanningAmount.gt(pieStockAmount)) {
+    const actualProportion = piePlanningAmount.div(pieStockAmount)
+    if (actualProportion.gt(maxProportion)) {
+      piePlanningAmount = BigNumber(maxProportion)
+      pieStockAmount = BigNumber(1)
+    }
+  } else {
+    const actualProportion = pieStockAmount.div(piePlanningAmount)
+    if (actualProportion.gt(maxProportion)) {
+      piePlanningAmount = BigNumber(1)
+      pieStockAmount = BigNumber(maxProportion)
+    }
+  }
+
   const data = [
     {
       type: 'Giá trị VT bị giữ (VNĐ)',
       data: 1,
-      value: Number(itemGroupStockSummary?.totalItemPlanningAmount),
+      value: piePlanningAmount.toNumber(),
+      formattedValue: convertNumberWithThousandSeparator(rawPlanningAmount, 0),
+      rawValue: rawPlanningAmount,
+      available: convertNumberWithThousandSeparator(
+        itemGroupStockSummary.totalItemPlanning || 0,
+        0,
+      ),
     },
     {
       type: 'Giá trị VT có thể xuất (VNĐ) ',
       data: 2,
-      value: Number(itemGroupStockSummary?.totalItemStockAmount),
+      value: pieStockAmount.toNumber(),
+      formattedValue: convertNumberWithThousandSeparator(rawStockAmount, 0),
+      rawValue: rawStockAmount,
+      available: convertNumberWithThousandSeparator(
+        itemGroupStockSummary.totalItemStockAvaiable || 0,
+        0,
+      ),
     },
   ]
 
@@ -69,35 +103,15 @@ const StockItemReport = () => {
       type: 'outer',
       style: { fontSize: 14, textOverflow: 'unset' },
       formatter: (datum) => {
-        return convertNumberWithThousandSeparator(datum.value, 0)
+        return datum.formattedValue
       },
     },
     tooltip: {
+      fields: ['formattedValue', 'available', 'type'],
       formatter: (datum) => {
         return {
           name: datum.type?.slice(8, datum?.type?.length),
-          value:
-            datum.type === data[0]?.type
-              ? `${convertNumberWithThousandSeparator(
-                  datum.value,
-                  0,
-                )} VNĐ | ${Number(itemGroupStockSummary?.totalItemPlanning)
-                  .toFixed(2)
-                  .toString()
-                  .replace(/(\.\d*?)0+\b/, '$1')
-                  .replace('.', ',')
-                  .replace(/,$/, '')}
-                `
-              : `${convertNumberWithThousandSeparator(
-                  datum.value,
-                  0,
-                )} VNĐ | ${Number(itemGroupStockSummary?.totalItemStockAvaiable)
-                  .toFixed(2)
-                  .toString()
-                  .replace(/(\.\d*?)0+\b/, '$1')
-                  .replace('.', ',')
-                  .replace(/,$/, '')}
-                `,
+          value: `${datum.formattedValue} VNĐ | ${datum.available}`,
         }
       },
     },
@@ -121,9 +135,9 @@ const StockItemReport = () => {
         },
         formatter: (_, items = []) => {
           const total = items.reduce((acc, cur) => {
-            return acc + (cur?.value || 0)
+            return BigNumber(acc).plus(BigNumber(cur?.rawValue || 0))
           }, 0)
-          return convertNumberWithThousandSeparator(total, 0)
+          return convertNumberWithThousandSeparator(total.toString(), 0)
         },
       },
     },

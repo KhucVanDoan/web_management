@@ -12,6 +12,8 @@ export const WMSX_UPDATE_INVENTORIES_STATISTICS_SUCCESS =
 export const WMSX_UPDATE_INVENTORIES_STATISTICS_FAILED =
   'WMSX_UPDATE_INVENTORIES_STATISTICS_FAILED'
 
+export const WMSX_RESET_STATE_INVENTORIES_STATISTICS =
+  'WMSX_RESET_STATE_INVENTORIES_STATISTICS'
 /**
  * Get inventory details
  * @param {int} payload
@@ -72,6 +74,12 @@ export function updateInventoryStatisticsFailed() {
   }
 }
 
+export function resetStateInventoryStatistics() {
+  return {
+    type: WMSX_RESET_STATE_INVENTORIES_STATISTICS,
+  }
+}
+
 export default {
   searchInventoryStatistics,
   searchInventoryStatisticsSuccess,
@@ -79,4 +87,5 @@ export default {
   updateInventoryStatistics,
   updateInventoryStatisticsSuccess,
   updateInventoryStatisticsFailed,
+  resetStateInventoryStatistics,
 }
