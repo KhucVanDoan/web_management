@@ -45,7 +45,8 @@
     "invalidBreakTime": "Thời gian nghỉ phải thuộc khoảng thời gian làm việc của ca",
     "validTime": "Thời gian không hợp lệ",
     "minItem": "Chọn tối thiểu {{min}} sản phẩm",
-    "equalItem": "Nhập đủ {{quantity}}"
+    "equalItem": "Nhập đủ {{quantity}}",
+    "formatDebitAccount": "Vui lòng nhập đúng định dạng"
   },
   "toast": {
     "notificationTitle": "Thông báo",

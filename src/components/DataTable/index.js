@@ -291,6 +291,7 @@ const DataTable = (props) => {
                           sx={{
                             width: width,
                             minWidth: width,
+                            verticalAlign: 'middle',
                             ...(sticky
                               ? {
                                   position: 'sticky',

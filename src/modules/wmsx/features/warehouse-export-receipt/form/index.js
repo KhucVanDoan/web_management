@@ -97,6 +97,13 @@ function WarehouseExportReceiptForm() {
     useState([])
   const [warehouseList, setWarehouseList] = useState([])
   const { actions: sourceAction } = useSourceManagement()
+  const isEdit =
+    warehouseExportReceiptDetails?.status ===
+      WAREHOUSE_EXPORT_RECEIPT_STATUS.COMPLETED ||
+    warehouseExportReceiptDetails?.status ===
+      WAREHOUSE_EXPORT_RECEIPT_STATUS.IN_COLLECTING ||
+    warehouseExportReceiptDetails?.status ===
+      WAREHOUSE_EXPORT_RECEIPT_STATUS.COLLECTED
   const initialValues = useMemo(
     () => ({
       code: warehouseExportReceiptDetails?.code,
@@ -146,7 +153,10 @@ function WarehouseExportReceiptForm() {
               100
             : '',
           planExportedQuantity: item?.exportableQuantity,
-          debitAccount: item?.debitAccount,
+          debitAccount:
+            isEdit && warehouseExportReceiptDetails?.ebsId
+              ? item?.debitAccount?.toString()?.slice(18, 43)
+              : item?.debitAccount,
           creditAccount: item?.creditAccount,
           itemCode: {
             ...item?.item,
@@ -513,6 +523,12 @@ function WarehouseExportReceiptForm() {
             warehouseExportReceiptDetails?.warehouse?.id,
           ebsId: values?.warehouseExportReceiptEBS || '',
           transactionNumberCreated: values?.numberEBS || '',
+          items: JSON.stringify(
+            values?.items?.map((item) => ({
+              itemId: item?.itemId,
+              debitAccount: item?.debitAccount || '',
+            })),
+          ),
         }
         values?.businessTypeId?.bussinessTypeAttributes?.forEach(
           (att, index) => {
@@ -740,13 +756,7 @@ function WarehouseExportReceiptForm() {
                     item?.tableName ===
                     TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
                 )?.id
-              const isEdit =
-                warehouseExportReceiptDetails?.status ===
-                  WAREHOUSE_EXPORT_RECEIPT_STATUS.COMPLETED ||
-                warehouseExportReceiptDetails?.status ===
-                  WAREHOUSE_EXPORT_RECEIPT_STATUS.IN_COLLECTING ||
-                warehouseExportReceiptDetails?.status ===
-                  WAREHOUSE_EXPORT_RECEIPT_STATUS.COLLECTED
+
               return (
                 <Form>
                   <Grid
@@ -771,7 +781,7 @@ function WarehouseExportReceiptForm() {
                         />
                       </Grid>
                     )}
-                    {isUpdate && isEdit ? (
+                    {isEdit && (
                       <Grid item xs={12} lg={6}>
                         <LV
                           label={
@@ -782,7 +792,8 @@ function WarehouseExportReceiptForm() {
                           value={warehouseExportReceiptDetails?.code}
                         />
                       </Grid>
-                    ) : (
+                    )}
+                    {isUpdate && (
                       <Grid item xs={12} lg={6}>
                         <Field.TextField
                           label={t('warehouseExportReceipt.receiptId')}
@@ -979,39 +990,54 @@ function WarehouseExportReceiptForm() {
                         )}
                       </Grid>
                     )}
-
-                    <Grid item lg={6} xs={12}>
-                      <Field.Autocomplete
-                        name="sourceId"
-                        label={t('warehouseExportReceipt.suorceAccountant')}
-                        placeholder={t(
-                          'warehouseExportReceipt.suorceAccountant',
-                        )}
-                        asyncRequest={(s) =>
-                          searchSourceManagementApi({
-                            keyword: s,
-                            limit: ASYNC_SEARCH_LIMIT,
-                            filter: convertFilterParams({
-                              warehouseId: values?.warehouseId?.id,
-                              status: ACTIVE_STATUS.ACTIVE,
-                            }),
-                            sort: convertSortParams({
-                              order: 'asc',
-                              orderBy: 'code',
-                            }),
-                          })
-                        }
-                        asyncRequestHelper={(res) => res?.data?.items}
-                        asyncRequestDeps={values?.warehouseId}
-                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
-                        getOptionSubLabel={(opt) => opt?.accountIdentifier}
-                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                        onChange={(val) => handleChangeSource(val)}
-                        disabled={isEmpty(values?.warehouseId)}
-                        required
-                      />
-                    </Grid>
-
+                    {isEdit && warehouseExportReceiptDetails?.ebsId ? (
+                      <Grid item lg={6} xs={12}>
+                        <LV
+                          label={
+                            <Typography>
+                              {t('warehouseImportReceipt.source')}
+                            </Typography>
+                          }
+                          value={`${warehouseExportReceiptDetails?.source?.code} - ${warehouseExportReceiptDetails?.source?.name}`}
+                        />
+                      </Grid>
+                    ) : (
+                      <Grid item lg={6} xs={12}>
+                        <Field.Autocomplete
+                          name="sourceId"
+                          label={t('warehouseExportReceipt.suorceAccountant')}
+                          placeholder={t(
+                            'warehouseExportReceipt.suorceAccountant',
+                          )}
+                          asyncRequest={(s) =>
+                            searchSourceManagementApi({
+                              keyword: s,
+                              limit: ASYNC_SEARCH_LIMIT,
+                              filter: convertFilterParams({
+                                warehouseId: values?.warehouseId?.id,
+                                status: ACTIVE_STATUS.ACTIVE,
+                              }),
+                              sort: convertSortParams({
+                                order: 'asc',
+                                orderBy: 'code',
+                              }),
+                            })
+                          }
+                          asyncRequestHelper={(res) => res?.data?.items}
+                          asyncRequestDeps={values?.warehouseId}
+                          getOptionLabel={(opt) =>
+                            `${opt?.code} - ${opt?.name}`
+                          }
+                          getOptionSubLabel={(opt) => opt?.accountIdentifier}
+                          isOptionEqualToValue={(opt, val) =>
+                            opt?.id === val?.id
+                          }
+                          onChange={(val) => handleChangeSource(val)}
+                          disabled={isEmpty(values?.warehouseId)}
+                          required
+                        />
+                      </Grid>
+                    )}
                     <Grid item lg={6} xs={12}>
                       <Field.Autocomplete
                         name="reasonId"
@@ -1183,7 +1209,12 @@ function WarehouseExportReceiptForm() {
                   </Grid>
                   {isEdit ? (
                     <Box sx={{ mt: 3 }}>
-                      <ItemSettingTableDetail items={items || []} mode={mode} />
+                      <ItemSettingTableDetail
+                        items={items || []}
+                        mode={mode}
+                        isEdit={isEdit}
+                        setFieldValue={setFieldValue}
+                      />
                     </Box>
                   ) : (
                     <Box sx={{ mt: 3 }}>
