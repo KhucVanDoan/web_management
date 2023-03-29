@@ -256,22 +256,22 @@ function WarehouseImportReceipt() {
               </IconButton>
             )}
             {isEditHeader && (
-              <Guard
-                code={FUNCTION_CODE.SALE_UPDATE_HEADER_PURCHASED_ORDER_IMPORT}
+              // <Guard
+              //   code={FUNCTION_CODE.SALE_UPDATE_HEADER_PURCHASED_ORDER_IMPORT}
+              // >
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.WAREHOUSE_IMPORT_RECEIPT.EDIT.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    ),
+                  )
+                }
               >
-                <IconButton
-                  onClick={() =>
-                    history.push(
-                      ROUTE.WAREHOUSE_IMPORT_RECEIPT.EDIT.PATH.replace(
-                        ':id',
-                        `${id}`,
-                      ),
-                    )
-                  }
-                >
-                  <Icon name="edit" />
-                </IconButton>
-              </Guard>
+                <Icon name="edit" />
+              </IconButton>
+              // </Guard>
             )}
             {isEdit && (
               <Guard code={FUNCTION_CODE.SALE_UPDATE_PURCHASED_ORDER_IMPORT}>

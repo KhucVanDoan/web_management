@@ -4,18 +4,48 @@ import { Typography } from '@mui/material'
 import Box from '@mui/material/Box'
 import { useTranslation } from 'react-i18next'
 
+import { TEXTFIELD_ALLOW } from '~/common/constants'
 import DataTable from '~/components/DataTable'
+import { Field } from '~/components/Formik'
 import NumberFormatText from '~/components/NumberFormat'
 import {
   LENGTH_DEBITACCOUNT,
   WAREHOUSE_EXPORT_RECEIPT_STATUS,
 } from '~/modules/wmsx/constants'
 import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
-const ItemSettingTableDetail = ({ items }) => {
+const ItemSettingTableDetail = ({ items, isEdit, setFieldValue }) => {
   const { t } = useTranslation(['wmsx'])
   const {
     data: { warehouseExportReceiptDetails },
   } = useWarehouseExportReceipt()
+  const addSeperators = (str, mask) => {
+    const chars = str.split('')
+    let count = 0
+
+    let formatted = ''
+    for (let i = 0; i < mask.length; i++) {
+      const m = mask[i]
+      if (chars[count]) {
+        if (/#/.test(m)) {
+          formatted += chars[count]
+          count++
+        } else {
+          formatted += m
+        }
+      }
+    }
+    return formatted
+  }
+  const handleChangeDebitAccount = (val = '', setFieldValue, index) => {
+    setFieldValue(
+      `items[${index}].debitAccount`,
+      addSeperators(
+        val.replace(TEXTFIELD_ALLOW.ALPHANUMERIC, ''),
+        '###########.####.####.###',
+      ),
+    )
+  }
+
   const columns = useMemo(
     () => [
       {
@@ -122,10 +152,25 @@ const ItemSettingTableDetail = ({ items }) => {
         field: 'debitAccount',
         headerName: t('warehouseExportReceipt.items.debitAccount'),
         width: 250,
-        renderCell: (params) => {
-          return params?.row?.debitAccount?.length === LENGTH_DEBITACCOUNT
-            ? params?.row?.debitAccount.toString()?.slice(18, 43)
-            : params?.row?.debitAccount
+        renderCell: (params, index) => {
+          return isEdit && warehouseExportReceiptDetails?.ebsId ? (
+            <Field.TextField
+              name={`items[${index}].debitAccount`}
+              onInput={(val) => {
+                handleChangeDebitAccount(val, setFieldValue, index)
+              }}
+              allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
+              // validate={(val) => {
+              //   if (val?.length !== 25) {
+              //     return t(`general:form.formatDebitAccount`)
+              //   }
+              // }}
+            />
+          ) : params?.row?.debitAccount?.length === LENGTH_DEBITACCOUNT ? (
+            params?.row?.debitAccount.toString()?.slice(18, 43)
+          ) : (
+            params?.row?.debitAccount
+          )
         },
       },
       {
