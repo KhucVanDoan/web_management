@@ -86,7 +86,6 @@ function ItemsSettingTable(props) {
       setFieldValue(`items[${index}].requestedQuantity`, +val?.quantity)
     }
   }
-
   const columns = useMemo(
     () => [
       {
@@ -123,15 +122,19 @@ function ItemsSettingTable(props) {
                 (opt?.itemId || opt?.itemCode?.itemId) ===
                 (val?.itemId || val?.itemCode?.itemId)
               }
-              getOptionDisabled={(opt) =>
-                itemIdCodeList.some(
-                  (id) => id === (opt?.itemId || opt?.itemCode?.itemId),
-                ) &&
-                (opt?.itemId || opt?.itemCode?.itemId) !==
-                  (items[index]?.itemId ||
-                    items[index]?.itemCode?.itemId ||
-                    items[index]?.itemCode?.id)
-              }
+              getOptionDisabled={(opt) => {
+                if (!values?.warehouse?.manageByLot) {
+                  return (
+                    itemIdCodeList.some(
+                      (id) => id === (opt?.itemId || opt?.itemCode?.itemId),
+                    ) &&
+                    (opt?.itemId || opt?.itemCode?.itemId) !==
+                      (items[index]?.itemId ||
+                        items[index]?.itemCode?.itemId ||
+                        items[index]?.itemCode?.id)
+                  )
+                }
+              }}
             />
           ) : !isEmpty(values[receiptRequired]) ? (
             params?.row?.itemCode?.code
@@ -148,11 +151,16 @@ function ItemsSettingTable(props) {
               isOptionEqualToValue={(opt, val) =>
                 opt?.itemCode?.itemId === val?.itemCode?.itemId
               }
-              getOptionDisabled={(opt) =>
-                itemIdCodeList.some((id) => id === opt?.itemId) &&
-                opt?.itemId !==
-                  (items[index]?.itemCode?.itemId || items[index]?.itemCode?.id)
-              }
+              getOptionDisabled={(opt) => {
+                if (!values?.warehouse?.manageByLot) {
+                  return (
+                    itemIdCodeList.some((id) => id === opt?.itemId) &&
+                    opt?.itemId !==
+                      (items[index]?.itemCode?.itemId ||
+                        items[index]?.itemCode?.id)
+                  )
+                }
+              }}
             />
           ) : (
             <Field.Autocomplete
@@ -172,10 +180,14 @@ function ItemsSettingTable(props) {
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
               getOptionLabel={(opt) => opt?.code}
               getOptionSubLabel={(opt) => opt?.name || ''}
-              getOptionDisabled={(opt) =>
-                itemIdCodeList.some((id) => id === opt?.id) &&
-                opt?.id !== items[index]?.itemCode?.id
-              }
+              getOptionDisabled={(opt) => {
+                if (!values?.warehouse?.manageByLot) {
+                  return (
+                    itemIdCodeList.some((id) => id === opt?.id) &&
+                    opt?.id !== items[index]?.itemCode?.id
+                  )
+                }
+              }}
               required
             />
           )
