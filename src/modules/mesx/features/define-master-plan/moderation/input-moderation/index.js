@@ -135,8 +135,8 @@ const InputModeration = () => {
               workCenterSchedule.workCenterDetailSchedules.map(
                 (workCenterDetailSchedule) => ({
                   ...workCenterDetailSchedule,
-                  id: workCenterDetailSchedule.id || generateRandomString()
-                })
+                  id: workCenterDetailSchedule.id || generateRandomString(),
+                }),
               ),
           },
         }
@@ -227,7 +227,8 @@ const InputModeration = () => {
             {
               field: 'totalQuantity',
               headerName: t('defineMasterPlan.inputModeration.total'),
-              align: 'center',
+              align: 'right',
+              headerAlign: 'left',
               sortable: false,
             },
           ],
@@ -310,10 +311,11 @@ const InputModeration = () => {
                       ? workCenterDetailSchedule.quantity
                       : minusQuantity
                 }
-                
+
                 return {
                   workCenterId: currentWorkCenterSchedule.workCenterId,
-                  workCenterShiftScheduleId: workCenterDetailSchedule.workCenterShiftScheduleId,
+                  workCenterShiftScheduleId:
+                    workCenterDetailSchedule.workCenterShiftScheduleId,
                   date: date,
                   quantity: tmpQuantity,
                 }

@@ -321,6 +321,8 @@ const ItemSettingTable = ({
         field: 'quantity',
         headerName: t('inventoryAdjust.items.quantity'),
         width: 150,
+        align: 'right',
+        headerAlign: 'left',
         renderCell: (params, index) => {
           return isView ? (
             <NumberFormatText
@@ -364,6 +366,8 @@ const ItemSettingTable = ({
         headerName: t('inventoryAdjust.items.quantityExported'),
         width: 150,
         hide: values?.type !== INVENTORY_ADJUST_TYPE.WAREHOUSE_EXPORT,
+        align: 'right',
+        headerAlign: 'left',
         renderCell: (params, index) => {
           return isView ? (
             <NumberFormatText
@@ -384,6 +388,8 @@ const ItemSettingTable = ({
         field: 'amount',
         headerName: t('inventoryAdjust.items.totalMoney'),
         width: 150,
+        align: 'right',
+        headerAlign: 'left',
         renderCell: (params, index) => {
           return isView ? (
             <NumberFormatText value={params?.row?.amount} formatter="price" />
@@ -406,6 +412,8 @@ const ItemSettingTable = ({
         field: 'price',
         headerName: t('inventoryAdjust.items.price'),
         width: 150,
+        align: 'right',
+        headerAlign: 'left',
         renderCell: (params, index) => {
           return isView ? (
             <NumberFormatText value={params?.row?.price} formatter="price" />

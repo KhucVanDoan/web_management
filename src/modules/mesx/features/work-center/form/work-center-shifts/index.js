@@ -20,6 +20,8 @@ const ShiftTable = ({ mode, shifts, arrayHelpers, status }) => {
   const { cloneId } = qs.parse(location.search)
 
   const isDisabledField = !cloneId && status === WORK_CENTER_STATUS.IN_PROGRESS
+  const isView = mode === MODAL_MODE.DETAIL
+
   const getColumns = () => {
     return [
       // {
@@ -39,7 +41,6 @@ const ShiftTable = ({ mode, shifts, arrayHelpers, status }) => {
         renderCell: (params, index) => {
           const { id } = params.row
           const shiftObject = shifts?.find((x) => x.id === id)
-          const isView = mode === MODAL_MODE.DETAIL
           return isView ? (
             <>{shiftObject?.shiftName}</>
           ) : (
@@ -59,7 +60,6 @@ const ShiftTable = ({ mode, shifts, arrayHelpers, status }) => {
         renderCell: (params, index) => {
           const { id, startAt, endAt } = params.row
           const shiftObject = shifts?.find((x) => x.id === id)
-          const isView = mode === MODAL_MODE.DETAIL
           return isView ? (
             <>{shiftObject?.startAt}</>
           ) : (
@@ -85,7 +85,6 @@ const ShiftTable = ({ mode, shifts, arrayHelpers, status }) => {
         renderCell: (params, index) => {
           const { id } = params.row
           const shiftObject = shifts?.find((x) => x.id === id)
-          const isView = mode === MODAL_MODE.DETAIL
           return isView ? (
             <>{shiftObject?.endAt}</>
           ) : (
@@ -100,11 +99,11 @@ const ShiftTable = ({ mode, shifts, arrayHelpers, status }) => {
         field: 'pricePerHour',
         headerName: t('workCenter.pricePerHour'),
         width: 200,
-        align: 'center',
+        align: 'right',
+        headerAlign: 'left',
         renderCell: (params, index) => {
           const { id } = params.row
           const shiftObject = shifts?.find((x) => x.id === id)
-          const isView = mode === MODAL_MODE.DETAIL
           return isView ? (
             <>
               <NumberFormatText
@@ -126,11 +125,10 @@ const ShiftTable = ({ mode, shifts, arrayHelpers, status }) => {
         headerName: '',
         width: 50,
         align: 'center',
-        hide: mode === MODAL_MODE.DETAIL,
+        hide: isView,
         renderCell: (params) => {
           const idx = shifts.findIndex((shift) => shift.id === params.row.id)
-          const hide = mode === MODAL_MODE.DETAIL
-          return hide ? null : (
+          return isView ? null : (
             <IconButton
               onClick={() => {
                 arrayHelpers.remove(idx)
@@ -145,7 +143,6 @@ const ShiftTable = ({ mode, shifts, arrayHelpers, status }) => {
     ]
   }
 
-  const isView = mode === MODAL_MODE.DETAIL
   return (
     <>
       <Box

@@ -39,7 +39,8 @@ const ItemsSettingTable = (props) => {
       width: 100,
       sortable: false,
       filterable: false,
-      align: 'center',
+      align: 'right',
+      headerAlign: 'left',
     },
     {
       field: 'itemUnitName',
@@ -76,7 +77,8 @@ const ItemsSettingTable = (props) => {
       field: 'quantity',
       headerName: t('Mo.item.quantity'),
       width: 100,
-      align: 'center',
+      align: 'right',
+      headerAlign: 'left',
     },
     {
       field: 'itemUnitName',

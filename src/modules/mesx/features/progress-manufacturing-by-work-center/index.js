@@ -177,6 +177,8 @@ function ProgressManufacturingByWorkCenter() {
       headerName: t('progressManufacturingByWorkCenter.planQuantity'),
       width: 150,
       sortable: false,
+      align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => {
         return params?.row?.mo?.planQuantity
       },
@@ -186,6 +188,8 @@ function ProgressManufacturingByWorkCenter() {
       headerName: t('progressManufacturingByWorkCenter.actualQuantity'),
       width: 150,
       sortable: false,
+      align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => {
         return params?.row?.mo?.actualQuantity
       },

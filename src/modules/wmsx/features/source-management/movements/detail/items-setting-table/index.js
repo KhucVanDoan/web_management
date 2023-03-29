@@ -97,6 +97,7 @@ const ItemSettingTable = ({ items }) => {
       headerName: t('movements.itemDetails.planQuantity'),
       width: 120,
       align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => {
         return Number(params.row?.planQuantity)
       },
@@ -106,6 +107,7 @@ const ItemSettingTable = ({ items }) => {
       headerName: t('movements.itemDetails.actualQuantity'),
       width: 120,
       align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => {
         return Number(params.row?.quantity)
       },

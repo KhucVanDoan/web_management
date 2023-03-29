@@ -49,6 +49,8 @@ const ItemSettingTableDetail = ({ items }) => {
         field: 'quantityRequest',
         headerName: t('warehouseExportReceipt.items.quantityRequest'),
         width: 150,
+        align: 'right',
+        headerAlign: 'left',
         renderCell: (params) => {
           return params?.row?.exportableQuantity
         },
@@ -57,6 +59,8 @@ const ItemSettingTableDetail = ({ items }) => {
         field: 'quantityExport',
         headerName: t('warehouseExportReceipt.items.quantityTransfer'),
         width: 150,
+        align: 'right',
+        headerAlign: 'left',
         renderCell: (params) => {
           return params?.row?.planQuantity
         },
@@ -81,6 +85,8 @@ const ItemSettingTableDetail = ({ items }) => {
         field: 'totalMoney',
         headerName: t('warehouseExportReceipt.items.totalMoney'),
         width: 150,
+        align: 'right',
+        headerAlign: 'left',
         renderCell: (params) => {
           return params?.row?.amount
         },

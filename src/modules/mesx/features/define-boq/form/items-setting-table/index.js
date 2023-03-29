@@ -93,7 +93,8 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
         field: 'quantity',
         headerName: t('defineBOQ.item.quantity'),
         width: 200,
-        align: 'center',
+        align: 'right',
+        headerAlign: 'left',
         renderCell: (params, index) => {
           const { quantity } = params.row
           return isView ? (

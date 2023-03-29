@@ -67,7 +67,7 @@ const StockItemReport = () => {
       rawValue: rawPlanningAmount,
       available: convertNumberWithThousandSeparator(
         itemGroupStockSummary.totalItemPlanning || 0,
-        0,
+        2,
       ),
     },
     {
@@ -78,7 +78,7 @@ const StockItemReport = () => {
       rawValue: rawStockAmount,
       available: convertNumberWithThousandSeparator(
         itemGroupStockSummary.totalItemStockAvaiable || 0,
-        0,
+        2,
       ),
     },
   ]

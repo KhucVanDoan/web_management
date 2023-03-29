@@ -142,7 +142,8 @@ const ItemSettingTable = (props) => {
         field: 'quantity',
         headerName: t('defineBOM.item.quantity'),
         width: 150,
-        align: 'center',
+        align: 'right',
+        headerAlign: 'left',
         renderCell: (params, index) => {
           const { quantity } = params.row
           return isView ? (
