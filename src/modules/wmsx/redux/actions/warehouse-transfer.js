@@ -61,6 +61,13 @@ export const REJECT_WAREHOUSE_TRANSFER_SUCCESS =
 export const REJECT_WAREHOUSE_TRANSFER_FAILED =
   'WMSX_REJECT_WAREHOUSE_TRANSFER_FAILED'
 
+export const RETURN_WAREHOUSE_TRANSFER_START =
+  'WMSX_RETURN_WAREHOUSE_TRANSFER_START'
+export const RETURN_WAREHOUSE_TRANSFER_SUCCESS =
+  'WMSX_RETURN_WAREHOUSE_TRANSFER_SUCCESS'
+export const RETURN_WAREHOUSE_TRANSFER_FAILED =
+  'WMSX_RETURN_WAREHOUSE_TRANSFER_FAILED'
+
 export const GET_LOT_NUMBER_LIST_WAREHOUSE_TRANSFER_START =
   'WMSX_GET_LOT_NUMBER_LIST_WAREHOUSE_TRANSFER_START'
 export const GET_LOT_NUMBER_LIST_WAREHOUSE_TRANSFER_SUCCESS =
@@ -429,6 +436,36 @@ export function rejectWarehouseTransferByIdFailed() {
   }
 }
 
+export function returnWarehouseTransferById(Id, onSuccess, onError) {
+  return {
+    type: RETURN_WAREHOUSE_TRANSFER_START,
+    payload: Id,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+/**
+ * Get reject warehouse transfer by id success action
+ * @param {*} payload
+ * @returns {object}
+ */
+export function returnWarehouseTransferByIdSuccess(payload) {
+  return {
+    type: RETURN_WAREHOUSE_TRANSFER_SUCCESS,
+    payload: payload,
+  }
+}
+
+/**
+ * Get reject warehouse transfer by id failed action
+ * @returns {object}
+ */
+export function returnWarehouseTransferByIdFailed() {
+  return {
+    type: RETURN_WAREHOUSE_TRANSFER_FAILED,
+  }
+}
 /**
  * Get lot number list
  * @param {function=} onSuccess Callback function on success
@@ -684,4 +721,7 @@ export default {
   cancelWarehouseTransferEBS,
   cancelWarehouseTransferEBSSuccess,
   cancelWarehouseTransferEBSFailed,
+  returnWarehouseTransferById,
+  returnWarehouseTransferByIdSuccess,
+  returnWarehouseTransferByIdFailed,
 }

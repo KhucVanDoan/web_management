@@ -92,6 +92,8 @@ function ItemsSettingTable(props) {
         field: 'importQuantity',
         headerName: t('warehouseImportReceipt.table.importQuantity'),
         width: 180,
+        headerAlign: 'left',
+        align: 'right',
         renderCell: (params) => {
           return (
             <NumberFormatText
@@ -105,6 +107,8 @@ function ItemsSettingTable(props) {
         field: 'receivedQuantity',
         headerName: t('warehouseImportReceipt.table.receivedQuantity'),
         width: 180,
+        headerAlign: 'left',
+        align: 'right',
         renderCell: (params, index) => {
           return (
             <Field.TextField

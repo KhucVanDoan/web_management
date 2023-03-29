@@ -66,6 +66,8 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
         field: 'quantity',
         headerName: t('locationManagement.item.quantity'),
         width: 200,
+        headerAlign: 'left',
+        align: 'right',
         renderCell: (params) => (
           <NumberFormatText value={params.row?.stock} formatter="quantity" />
         ),
@@ -74,12 +76,14 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
         field: 'lotNumber',
         headerName: t('locationManagement.item.lotNumber'),
         width: 200,
-        renderCell: (params) => params.row.locations?.[0]?.lots?.[0]?.lotNumber,
+        renderCell: (params) => params.row?.lotNumber,
       },
       {
         field: 'price',
         headerName: t('locationManagement.item.price'),
         width: 200,
+        headerAlign: 'left',
+        align: 'right',
         renderCell: (params) => (
           <NumberFormatText value={params.row?.amount} formatter="price" />
         ),
@@ -88,6 +92,8 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
         field: 'intoMoney',
         headerName: t('locationManagement.item.intoMoney'),
         width: 200,
+        headerAlign: 'left',
+        align: 'right',
         renderCell: (params) => (
           <NumberFormatText value={params.row.totalAmount} formatter="price" />
         ),

@@ -38,6 +38,7 @@ const ItemSettingTable = ({
     data: { itemWarehouseStockList },
   } = useWarehouseTransfer()
   const handleChangeItem = async (val, index) => {
+    setFieldValue(`items[${index}].lotNumber`, '')
     if (!isEmpty(val)) {
       const params = {
         order: !isEmpty(values[warehouseExprotProposal])
@@ -339,6 +340,8 @@ const ItemSettingTable = ({
         field: 'quantityRequest',
         headerName: t('warehouseExportReceipt.items.quantityRequest'),
         width: 150,
+        headerAlign: 'left',
+        align: 'right',
         renderCell: (params, index) => {
           return (
             <Field.TextField
@@ -354,6 +357,8 @@ const ItemSettingTable = ({
         field: 'planExportedQuantity',
         headerName: t('warehouseExportReceipt.items.planExportedQuantity'),
         width: 150,
+        headerAlign: 'left',
+        align: 'right',
         renderCell: (params, index) => {
           return isView ? (
             <NumberFormatText
@@ -374,6 +379,8 @@ const ItemSettingTable = ({
         field: 'quantityExport',
         headerName: t('warehouseExportReceipt.items.quantityExport'),
         width: 150,
+        headerAlign: 'left',
+        align: 'right',
         renderCell: (params, index) => {
           return isView ? (
             <NumberFormatText
