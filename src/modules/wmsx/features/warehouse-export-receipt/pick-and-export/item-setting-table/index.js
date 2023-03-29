@@ -163,6 +163,8 @@ const ItemSettingTable = ({ items, lots, arrayHelpers, setFieldValue }) => {
         field: 'quantityRequest',
         headerName: t('warehouseExportReceipt.items.quantityRequest'),
         width: 150,
+        align: 'right',
+        headerAlign: 'left',
         renderCell: (params) => {
           return !isEmpty(
             warehouseExportReceiptDetails?.attributes?.find(
@@ -187,6 +189,8 @@ const ItemSettingTable = ({ items, lots, arrayHelpers, setFieldValue }) => {
         field: 'quantityExport',
         headerName: t('warehouseExportReceipt.items.quantityExportExpected'),
         width: 150,
+        align: 'right',
+        headerAlign: 'left',
         renderCell: (params) => {
           return (
             <NumberFormatText
@@ -234,6 +238,8 @@ const ItemSettingTable = ({ items, lots, arrayHelpers, setFieldValue }) => {
         field: 'planQuantity',
         headerName: t('warehouseExportReceipt.items.planQuantity'),
         width: 150,
+        align: 'right',
+        headerAlign: 'left',
         renderCell: (params) => {
           return (
             <NumberFormatText
@@ -247,6 +253,8 @@ const ItemSettingTable = ({ items, lots, arrayHelpers, setFieldValue }) => {
         field: 'exportedQuantity',
         headerName: t('warehouseExportReceipt.items.quantityExportActual'),
         width: 150,
+        align: 'right',
+        headerAlign: 'left',
         renderCell: (params, index) => {
           return (
             <Field.TextField

@@ -188,6 +188,7 @@ const progressManufacturingByOrder = () => {
       headerName: t('progressManufacturingByOrder.planQuantity'),
       width: 100,
       align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => {
         return +params?.row?.planQuantity
       },
@@ -197,6 +198,7 @@ const progressManufacturingByOrder = () => {
       headerName: t('progressManufacturingByOrder.quantity'),
       width: 100,
       align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => {
         return +params?.row?.producedQuantity
       },

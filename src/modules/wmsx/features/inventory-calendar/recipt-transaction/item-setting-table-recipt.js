@@ -99,6 +99,8 @@ function ItemSettingTableRecipt() {
       field: 'planQuantity',
       headerName: t('inventoryCalendar.items.planQuantity'),
       width: 80,
+      align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => {
         return (
           <NumberFormatText
@@ -114,6 +116,8 @@ function ItemSettingTableRecipt() {
         'inventoryCalendar.items.importedQuantityFromCheckPointToExecuteDate',
       ),
       width: 80,
+      align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => {
         return (
           <NumberFormatText
@@ -129,6 +133,8 @@ function ItemSettingTableRecipt() {
         'inventoryCalendar.items.exportedQuantityFromCheckPointToExecuteDate',
       ),
       width: 50,
+      align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => {
         return (
           <NumberFormatText
@@ -142,6 +148,8 @@ function ItemSettingTableRecipt() {
       field: 'inventoryQuantityAtExecuteDate',
       headerName: t('inventoryCalendar.items.inventoryQuantityAtExecuteDate'),
       width: 80,
+      align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => {
         return (
           <NumberFormatText
@@ -155,6 +163,8 @@ function ItemSettingTableRecipt() {
       field: 'actualInventoryQuantity',
       headerName: t('inventoryCalendar.items.actualInventoryQuantity'),
       width: 80,
+      align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => {
         return (
           <NumberFormatText
@@ -168,6 +178,8 @@ function ItemSettingTableRecipt() {
       field: 'importedQuantityFromStartExecute',
       headerName: t('inventoryCalendar.items.importedQuantityFromStartExecute'),
       width: 80,
+      align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => {
         return (
           <NumberFormatText
@@ -181,6 +193,8 @@ function ItemSettingTableRecipt() {
       field: 'exportedQuantityFromStartExecute',
       headerName: t('inventoryCalendar.items.exportedQuantityFromStartExecute'),
       width: 80,
+      align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => {
         return (
           <NumberFormatText
@@ -194,6 +208,8 @@ function ItemSettingTableRecipt() {
       field: 'remainingQuantityAtCheckPoint',
       headerName: t('inventoryCalendar.items.remainingQuantityAtCheckPoint'),
       width: 80,
+      align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => {
         return (
           <NumberFormatText
@@ -209,6 +225,8 @@ function ItemSettingTableRecipt() {
         'inventoryCalendar.items.actualRemainingQuantityAtCheckPoint',
       ),
       width: 80,
+      align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => {
         return (
           <NumberFormatText
@@ -222,6 +240,8 @@ function ItemSettingTableRecipt() {
       field: 'excessQuantity',
       headerName: t('inventoryCalendar.items.excessQuantity'),
       width: 80,
+      align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => {
         return (
           <NumberFormatText
@@ -235,6 +255,8 @@ function ItemSettingTableRecipt() {
       field: 'missingQuantity',
       headerName: t('inventoryCalendar.items.missingQuantity'),
       width: 80,
+      align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => {
         return (
           <NumberFormatText

@@ -171,12 +171,16 @@ const WorkOrder = () => {
       headerName: t('workOrder.lblquantityPlan'),
       width: 200,
       sortable: true,
+      align: 'right',
+      headerAlign: 'left',
     },
     {
       field: 'actualQuantity',
       headerName: t('workOrder.quantityPro'),
       width: 200,
       sortable: true,
+      align: 'right',
+      headerAlign: 'left',
     },
     {
       field: 'itemUnitId',
@@ -401,6 +405,8 @@ const WorkOrder = () => {
       field: 'amount',
       headerName: t('workOrder.productAmount'),
       width: 200,
+      align: 'right',
+      headerAlign: 'left',
       renderCell: (_, index) => {
         return <Field.TextField name={`items[${index}].amount`} type="number" />
       },

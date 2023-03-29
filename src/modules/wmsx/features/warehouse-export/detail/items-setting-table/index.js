@@ -104,6 +104,8 @@ const ItemSettingTable = ({ items, movementType }) => {
       field: 'pickedQuantity',
       headerName: t('movements.itemDetails.pickedQuantity'),
       width: 120,
+      align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => {
         return (
           <NumberFormatText value={params.row?.quantity} formatter="quantity" />
@@ -126,6 +128,8 @@ const ItemSettingTable = ({ items, movementType }) => {
       field: 'unpickedQuantity',
       headerName: t('movements.itemDetails.unpickedQuantity'),
       width: 120,
+      align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => {
         return (
           <NumberFormatText

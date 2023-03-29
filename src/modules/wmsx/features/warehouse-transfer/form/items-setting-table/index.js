@@ -458,8 +458,8 @@ const ItemSettingTable = (props) => {
         headerName: t('warehouseTransfer.table.planExportedQuantity'),
         width: 180,
         hide: isView,
-        headerAlign: 'left',
         align: 'right',
+        headerAlign: 'left',
         renderCell: (params, index) => {
           return isView ? (
             <NumberFormatText
@@ -479,8 +479,8 @@ const ItemSettingTable = (props) => {
         field: 'transferQuantity',
         headerName: t('warehouseTransfer.table.transferQuantity'),
         width: 180,
-        headerAlign: 'left',
         align: 'right',
+        headerAlign: 'left',
         renderCell: (params, index) => {
           const { itemCode } = params?.row
           return isView ? (

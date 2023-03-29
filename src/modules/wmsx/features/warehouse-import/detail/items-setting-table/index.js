@@ -102,8 +102,8 @@ const ItemSettingTable = ({ items, movementType }) => {
       field: 'storedQuantity',
       headerName: t('movements.itemDetails.storedQuantity'),
       width: 120,
-      headerAlign: 'left',
       align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => (
         <NumberFormatText value={params.row?.quantity} formatter="quantity" />
       ),
@@ -122,8 +122,8 @@ const ItemSettingTable = ({ items, movementType }) => {
       field: 'unstoredQuantity',
       headerName: t('movements.itemDetails.unstoredQuantity'),
       width: 120,
-      headerAlign: 'left',
       align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => (
         <NumberFormatText
           value={params.row?.planQuantity}

@@ -50,22 +50,32 @@ const ImportReceipt = ({ fromDate, toDate }) => {
     {
       field: 'totalOrder',
       headerName: t('dashboard.importReceipt.total'),
+      align: 'right',
+      headerAlign: 'left',
     },
     {
       field: 'totalReceived',
       headerName: t('dashboard.importReceipt.import'),
+      align: 'right',
+      headerAlign: 'left',
     },
     {
       field: 'totalStoring',
       headerName: t('dashboard.importReceipt.inStock'),
+      align: 'right',
+      headerAlign: 'left',
     },
     {
       field: 'totalCompleted',
       headerName: t('dashboard.importReceipt.finishStock'),
+      align: 'right',
+      headerAlign: 'left',
     },
     {
       field: 'totalEbs',
       headerName: t('dashboard.importReceipt.ebsImport'),
+      align: 'right',
+      headerAlign: 'left',
     },
   ]
   return (

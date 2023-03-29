@@ -93,7 +93,8 @@ const MaterialDetailPlan = () => {
         headerName: t(`materialDetailPlan.total`),
         fixed: true,
         width: 100,
-        align: 'center',
+        align: 'right',
+        headerAlign: 'left',
       },
     ]
     return columns.concat(total)
@@ -209,7 +210,8 @@ const MaterialDetailPlan = () => {
         headerName: t(`materialDetailPlan.total`),
         fixed: true,
         width: 100,
-        align: 'center',
+        align: 'right',
+        headerAlign: 'left',
       },
     ]
     return columns.concat(total)

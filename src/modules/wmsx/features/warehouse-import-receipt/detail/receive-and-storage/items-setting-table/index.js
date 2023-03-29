@@ -114,8 +114,8 @@ function ItemsSettingTable(props) {
         field: 'importQuantity',
         headerName: t('warehouseImportReceipt.table.importQuantity'),
         width: 180,
-        headerAlign: 'left',
         align: 'right',
+        headerAlign: 'left',
         renderCell: (params) => {
           return (
             <NumberFormatText

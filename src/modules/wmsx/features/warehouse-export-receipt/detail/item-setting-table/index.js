@@ -104,8 +104,8 @@ const ItemSettingTableDetail = ({ items, isEdit, setFieldValue }) => {
         field: 'quantityExport',
         headerName: t('warehouseExportReceipt.items.quantityExport'),
         width: 150,
-        headerAlign: 'left',
         align: 'right',
+        headerAlign: 'left',
         renderCell: (params) => (
           <NumberFormatText
             value={params?.row?.quantity}
@@ -117,8 +117,8 @@ const ItemSettingTableDetail = ({ items, isEdit, setFieldValue }) => {
         field: 'actualExportedQuantity',
         headerName: t('warehouseExportReceipt.actualExportedQuantity'),
         width: 150,
-        headerAlign: 'left',
         align: 'right',
+        headerAlign: 'left',
         renderCell: (params) => (
           <NumberFormatText
             value={params?.row?.actualQuantity}

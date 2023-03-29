@@ -117,6 +117,7 @@ const QualityReports = () => {
       headerName: t('qualityReport.quantityPlan'),
       width: 100,
       align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => {
         const { row } = params
         return row?.quantity ? row?.quantity : '0.00'
@@ -127,6 +128,7 @@ const QualityReports = () => {
       headerName: t('qualityReport.quantitySX'),
       width: 100,
       align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => {
         const { row } = params
         return row?.actualQuantity ? row?.actualQuantity : '0.00'
@@ -137,6 +139,7 @@ const QualityReports = () => {
       headerName: t('qualityReport.quantityNeed'),
       width: 100,
       align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => {
         const { row } = params
         return row?.quantityNeedQC ? row?.quantityNeedQC : '0.00'
@@ -147,6 +150,7 @@ const QualityReports = () => {
       headerName: t('qualityReport.quantityPass'),
       width: 100,
       align: 'right',
+      headerAlign: 'left',
 
       renderCell: (params) => {
         const { row } = params
@@ -158,6 +162,7 @@ const QualityReports = () => {
       headerName: t('qualityReport.quantityErr'),
       width: 100,
       align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => {
         const { row } = params
         return row?.errorQuantity ? row?.errorQuantity : '0.00'
@@ -168,6 +173,7 @@ const QualityReports = () => {
       headerName: t('qualityReport.quantityErrs'),
       width: 100,
       align: 'right',
+      headerAlign: 'left',
       sortable: false,
       renderCell: (params) => {
         const { row } = params
