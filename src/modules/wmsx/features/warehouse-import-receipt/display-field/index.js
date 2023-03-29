@@ -11,6 +11,7 @@ import {
   ORDER_STATUS,
   TABLE_NAME_ENUM,
   WAREHOUSE_EXPORT_PROPOSAL_STATUS,
+  WAREHOUSE_IMPORT_RECEIPT_STATUS,
 } from '~/modules/wmsx/constants'
 import useReceiptManagement from '~/modules/wmsx/redux/hooks/useReceiptManagement'
 import { searchConstructionItemsApi } from '~/modules/wmsx/redux/sagas/construction-items-management/search-construction-items'
@@ -658,6 +659,10 @@ const displayFollowBusinessTypeManagement = (
                     getOptionSubLabel={(opt) => opt?.departmentSetting?.name}
                     isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                     required={Boolean(item?.required)}
+                    disabled={
+                      warehouseImportReceiptDetails?.status ===
+                      WAREHOUSE_IMPORT_RECEIPT_STATUS.CONFIRMED
+                    }
                     validate={(val) => validate(val, item)}
                     onChange={(val) => handleChangeProposals(val)}
                   />
@@ -709,6 +714,10 @@ const displayFollowBusinessTypeManagement = (
                       `${opt?.contractNumber} - ${opt?.code}`
                     }
                     isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                    disabled={
+                      warehouseImportReceiptDetails?.status ===
+                      WAREHOUSE_IMPORT_RECEIPT_STATUS.CONFIRMED
+                    }
                     required={Boolean(item?.required)}
                     validate={(val) => validate(val, item)}
                     onChange={(val) => handleChangeReceipt(val)}
@@ -762,6 +771,10 @@ const displayFollowBusinessTypeManagement = (
                     isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                     required={Boolean(item?.required)}
                     validate={(val) => validate(val, item)}
+                    disabled={
+                      warehouseImportReceiptDetails?.status ===
+                      WAREHOUSE_IMPORT_RECEIPT_STATUS.CONFIRMED
+                    }
                     onChange={(val) => handleChangeWarehouseExportReceipt(val)}
                   />
                 </Grid>
