@@ -200,6 +200,8 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       field: 'quantityRequest',
       headerName: t('warehouseExportProposal.items.quantityRequest'),
       width: 100,
+      headerAlign: 'left',
+      align: 'right',
       renderCell: ({ row }) => (
         <NumberFormatText value={row?.quantityRequest} formatter="quantity" />
       ),
@@ -208,6 +210,8 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       field: 'quantityExport',
       headerName: t('warehouseExportProposal.items.quantityExport'),
       width: 100,
+      headerAlign: 'left',
+      align: 'right',
       renderCell: ({ row }) => (
         <NumberFormatText value={row?.quantityExport} formatter="quantity" />
       ),
@@ -216,6 +220,8 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       field: 'quantityExportActual',
       headerName: t('warehouseExportProposal.items.quantityExportActual'),
       width: 100,
+      headerAlign: 'left',
+      align: 'right',
       renderCell: ({ row }) => (
         <NumberFormatText
           value={row?.quantityExportActual}
@@ -227,6 +233,8 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       field: 'importedQuantity',
       headerName: t('warehouseExportProposal.items.importedQuantity'),
       width: 200,
+      headerAlign: 'left',
+      align: 'right',
       renderCell: (params, index) => {
         return isView || params?.row?.importQuantity ? (
           <NumberFormatText
@@ -597,6 +605,8 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       field: 'planExportedQuantity',
       headerName: t('warehouseExportProposal.items.planExportedQuantity'),
       width: 100,
+      headerAlign: 'left',
+      align: 'right',
       renderCell: (params, index) => {
         return isView ? (
           <NumberFormatText
@@ -616,6 +626,8 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       field: 'quantityExport',
       headerName: t('warehouseExportProposal.items.quantityExport'),
       width: 100,
+      headerAlign: 'left',
+      align: 'right',
       renderCell: (params, index) => {
         return isView || params?.row?.exportQuantity ? (
           <NumberFormatText
@@ -649,6 +661,8 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       field: 'quantityExportActual',
       headerName: t('warehouseExportProposal.items.quantityExportActual'),
       width: 100,
+      headerAlign: 'left',
+      align: 'right',
       renderCell: ({ row }) => (
         <NumberFormatText
           value={row?.quantityExportActual}

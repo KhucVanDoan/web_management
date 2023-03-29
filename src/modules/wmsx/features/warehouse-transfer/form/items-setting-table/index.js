@@ -458,6 +458,8 @@ const ItemSettingTable = (props) => {
         headerName: t('warehouseTransfer.table.planExportedQuantity'),
         width: 180,
         hide: isView,
+        headerAlign: 'left',
+        align: 'right',
         renderCell: (params, index) => {
           return isView ? (
             <NumberFormatText
@@ -477,6 +479,8 @@ const ItemSettingTable = (props) => {
         field: 'transferQuantity',
         headerName: t('warehouseTransfer.table.transferQuantity'),
         width: 180,
+        headerAlign: 'left',
+        align: 'right',
         renderCell: (params, index) => {
           const { itemCode } = params?.row
           return isView ? (
@@ -504,6 +508,8 @@ const ItemSettingTable = (props) => {
         field: 'actualExportedQuantity',
         headerName: t('warehouseTransfer.table.actualExportedQuantity'),
         width: 180,
+        headerAlign: 'left',
+        align: 'right',
         hide:
           !isView ||
           (status !== TRANSFER_STATUS.COMPLETED &&
@@ -522,6 +528,8 @@ const ItemSettingTable = (props) => {
       {
         field: 'actualImportedQuantity',
         headerName: t('warehouseTransfer.table.actualImportedQuantity'),
+        headerAlign: 'left',
+        align: 'right',
         hide:
           !isView ||
           (status !== TRANSFER_STATUS.COMPLETED &&
