@@ -222,6 +222,8 @@ function ItemsSettingTable(props) {
         field: 'requireQuantity',
         headerName: t('warehouseImportReceipt.table.requireQuantity'),
         width: 180,
+        headerAlign: 'left',
+        align: 'right',
         renderCell: (params, index) => {
           return isView || isEdit ? (
             <NumberFormatText
@@ -258,6 +260,8 @@ function ItemsSettingTable(props) {
         field: 'importQuantity',
         headerName: t('warehouseImportReceipt.table.importQuantity'),
         width: 180,
+        headerAlign: 'left',
+        align: 'right',
         renderCell: (params, index) => {
           return isView || isEdit ? (
             <NumberFormatText

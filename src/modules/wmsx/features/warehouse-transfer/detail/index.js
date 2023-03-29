@@ -119,21 +119,45 @@ const WarehouseTransferDetail = () => {
     switch (warehouseTransferDetails?.status) {
       case TRANSFER_STATUS.CONFIRMED:
         return (
-          <Guard
-            code={FUNCTION_CODE.WAREHOUSE_CONFIRM_EXPORT_WAREHOUSE_TRANSFER}
-          >
-            <Button
-              onClick={() =>
-                history.push(
-                  ROUTE.WAREHOUSE_TRANSFER.PICKUP.PATH.replace(':id', `${id}`),
-                )
-              }
-              icon="add"
-              sx={{ ml: 4 / 3 }}
+          <>
+            <Guard code={FUNCTION_CODE.WAREHOUSE_RETURN_WAREHOUSE_TRANSFER}>
+              <Button
+                onClick={() =>
+                  actions.returnWarehouseTransferById(
+                    warehouseTransferDetails?.id,
+                    () => {
+                      window.location.reload()
+                    },
+                  )
+                }
+                sx={{
+                  ml: 4 / 3,
+                }}
+                color="grayEE"
+                // icon="add"
+              >
+                {t('warehouseImportReceipt.returnReceipt')}
+              </Button>
+            </Guard>
+            <Guard
+              code={FUNCTION_CODE.WAREHOUSE_CONFIRM_EXPORT_WAREHOUSE_TRANSFER}
             >
-              {t('warehouseTransfer.pickupAndWarehouseExport')}
-            </Button>
-          </Guard>
+              <Button
+                onClick={() =>
+                  history.push(
+                    ROUTE.WAREHOUSE_TRANSFER.PICKUP.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    ),
+                  )
+                }
+                icon="add"
+                sx={{ ml: 4 / 3 }}
+              >
+                {t('warehouseTransfer.pickupAndWarehouseExport')}
+              </Button>
+            </Guard>
+          </>
         )
       case TRANSFER_STATUS.EXPORTED:
         return (

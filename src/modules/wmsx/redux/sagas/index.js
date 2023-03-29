@@ -277,6 +277,7 @@ import watchGetItemWarehouseStockAvailable from './warehouse-transfer/get-item-w
 import watchGetListItemWarehouseStock from './warehouse-transfer/get-list-item'
 import watchGetWarehouseTransferDetails from './warehouse-transfer/get-warehouse-transfer-detail'
 import watchRejectWarehouseTransfer from './warehouse-transfer/reject-warehouse-transfer'
+import watchReturnWarehouseTransfer from './warehouse-transfer/return-warehouse-transfer'
 import watchSearchWarehouseTransfers from './warehouse-transfer/search-warehouse-transfer'
 import watchUpdateWarehouseTransfer from './warehouse-transfer/update-warehouse-transfer'
 /**
@@ -614,6 +615,7 @@ export default function* sagas() {
     watchGetItemWarehouseStockAvailable(),
     watchConfirmWarehouseTransferEBS(),
     watchCancelWarehouseTransferEBS(),
+    watchReturnWarehouseTransfer(),
 
     // data sync management
     watchSearchDataSyncManagement(),
