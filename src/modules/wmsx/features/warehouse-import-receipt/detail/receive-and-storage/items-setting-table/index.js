@@ -88,10 +88,34 @@ function ItemsSettingTable(props) {
           return params?.row?.itemCode?.itemUnit
         },
       },
+      // {
+      //   field: 'lotNumber',
+      //   headerName: t('warehouseImportReceipt.table.lotNumber'),
+      //   width: 180,
+      //   renderCell: (params, index) => {
+      //     return (
+      //       <Field.Autocomplete
+      //         name={`items[${index}].lotNumber`}
+      //         options={[]}
+      //         getOptionLabel={(opt) => opt.lotNumber}
+      //         getOptionValue={(option) => option?.lotNumber}
+      //         isOptionEqualToValue={(opt, val) => opt?.lotNumber === val}
+      //         // onChange={(val) => }
+      //         validate={(val) => {
+      //           if (!val) {
+      //             return t('general:form.required')
+      //           }
+      //         }}
+      //       />
+      //     )
+      //   },
+      // },
       {
         field: 'importQuantity',
         headerName: t('warehouseImportReceipt.table.importQuantity'),
         width: 180,
+        headerAlign: 'left',
+        align: 'right',
         renderCell: (params) => {
           return (
             <NumberFormatText
@@ -105,6 +129,8 @@ function ItemsSettingTable(props) {
         field: 'receivedQuantity',
         headerName: t('warehouseImportReceipt.table.receivedQuantity'),
         width: 180,
+        headerAlign: 'left',
+        align: 'right',
         renderCell: (params, index) => {
           return (
             <Field.TextField

@@ -178,13 +178,15 @@ const WarehouseTransfer = () => {
         fixed: true,
         renderCell: (params) => {
           const { id, status, syncStatus } = params?.row
-          const isEdit = status === TRANSFER_STATUS.PENDING
+          const isEdit =
+            status === TRANSFER_STATUS.PENDING ||
+            status === TRANSFER_STATUS.CONFIRMED ||
+            status === TRANSFER_STATUS.REJECTED
           const isConfirmed = status === TRANSFER_STATUS.PENDING
-          const isRejected = status === TRANSFER_STATUS.REJECTED
+          const isRejected = status === TRANSFER_STATUS.PENDING
           const isDelete =
             status === TRANSFER_STATUS.PENDING ||
             status === TRANSFER_STATUS.REJECTED
-
           const hasTransaction =
             status === TRANSFER_STATUS.COMPLETED ||
             status === TRANSFER_STATUS.EXPORTED ||
@@ -218,7 +220,7 @@ const WarehouseTransfer = () => {
                   </IconButton>
                 </Guard>
               )}
-              {(isEdit || isRejected) && (
+              {isEdit && (
                 <Guard code={FUNCTION_CODE.WAREHOUSE_UPDATE_WAREHOUSE_TRANSFER}>
                   <IconButton
                     onClick={() =>
@@ -250,7 +252,7 @@ const WarehouseTransfer = () => {
                   </IconButton>
                 </Guard>
               )}
-              {isEdit && (
+              {isRejected && (
                 <Guard code={FUNCTION_CODE.WAREHOUSE_REJECT_WAREHOUSE_TRANSFER}>
                   <IconButton onClick={() => onClickRejected(params.row)}>
                     <Icon name="remove" />

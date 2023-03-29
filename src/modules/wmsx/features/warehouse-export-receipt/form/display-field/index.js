@@ -14,6 +14,7 @@ import {
   TABLE_NAME_ENUM,
   WAREHOUSE_EXPORT_PROPOSAL_EXPORT_WAREHOUSE_STATUS,
   WAREHOUSE_EXPORT_PROPOSAL_STATUS,
+  WAREHOUSE_EXPORT_RECEIPT_STATUS,
 } from '~/modules/wmsx/constants'
 import { searchConstructionItemsApi } from '~/modules/wmsx/redux/sagas/construction-items-management/search-construction-items'
 import { searchConstructionsApi } from '~/modules/wmsx/redux/sagas/construction-management/search-constructions'
@@ -526,6 +527,10 @@ const displayFollowBusinessTypeManagement = (
                     getOptionLabel={(opt) => opt?.code}
                     getOptionSubLabel={(opt) => opt?.departmentSetting?.name}
                     isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                    disabled={
+                      warehouseExportReceiptDetails?.status ===
+                      WAREHOUSE_EXPORT_RECEIPT_STATUS.CONFIRMED
+                    }
                     required={Boolean(item?.required)}
                     validate={(val) => validate(val, item)}
                     onChange={(val) => handleChangeProposals(val)}
@@ -554,6 +559,10 @@ const displayFollowBusinessTypeManagement = (
                   getOptionLabel={(opt) => opt?.code}
                   getOptionSubLabel={(opt) => opt?.name}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                  disabled={
+                    warehouseExportReceiptDetails?.status ===
+                    WAREHOUSE_EXPORT_RECEIPT_STATUS.CONFIRMED
+                  }
                   required={Boolean(item?.required)}
                   validate={(val) => validate(val, item)}
                 />
@@ -837,6 +846,10 @@ const displayFollowBusinessTypeManagement = (
                     getOptionLabel={(opt) => opt?.code}
                     isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                     required={Boolean(item?.required)}
+                    disabled={
+                      warehouseExportReceiptDetails?.status ===
+                      WAREHOUSE_EXPORT_RECEIPT_STATUS.CONFIRMED
+                    }
                     validate={(val) => validate(val, item)}
                     onChange={(val) => handleChangeWarehouseImportReciept(val)}
                   />
