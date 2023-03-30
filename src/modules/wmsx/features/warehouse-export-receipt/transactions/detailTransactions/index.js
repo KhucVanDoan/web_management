@@ -184,15 +184,7 @@ const MovementExportWarehouseDetail = () => {
                 value={
                   warehouseExportReceiptDetails?.ebsId
                     ? warehouseExportReceiptDetails?.ebsId
-                    : `02${
-                        warehouseExportReceiptDetails?.warehouse?.code
-                          ? `.${warehouseExportReceiptDetails?.warehouse?.code}`
-                          : ''
-                      }${
-                        warehouseExportReceiptDetails?.reason?.code
-                          ? `.${warehouseExportReceiptDetails?.reason?.code}`
-                          : ''
-                      }`
+                    : ''
                 }
               />
             </Grid>
@@ -202,15 +194,7 @@ const MovementExportWarehouseDetail = () => {
                 value={
                   warehouseExportReceiptDetails?.transactionNumberCreated
                     ? warehouseExportReceiptDetails?.transactionNumberCreated
-                    : `03${
-                        warehouseExportReceiptDetails?.warehouse?.code
-                          ? `.${warehouseExportReceiptDetails?.warehouse?.code}`
-                          : ''
-                      }${
-                        warehouseExportReceiptDetails?.reason?.code
-                          ? `.${warehouseExportReceiptDetails?.reason?.code}`
-                          : ''
-                      }`
+                    : ''
                 }
               />
             </Grid>
