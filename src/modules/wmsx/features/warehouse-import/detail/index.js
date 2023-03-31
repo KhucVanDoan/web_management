@@ -780,7 +780,7 @@ const WarehouseImportDetail = () => {
       ) && (
         <Box sx={{ mt: 3 }}>
           <ItemsSettingTable
-            items={receiptDetail?.purchasedOrderImportDetails || []}
+            items={receiptDetail?.purchasedOrderImportWarehouseLots || []}
             mode={MODAL_MODE.DETAIL}
             receiptDetail={receiptDetail}
           />

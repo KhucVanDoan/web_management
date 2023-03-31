@@ -3003,6 +3003,8 @@
     "rejectTitlePopup": "Từ chối phiếu nhập kho",
     "deleteConfirm": "Bạn có chắc chắn muốn xóa phiếu nhập kho này không?",
     "rejectConfirm": "Bạn có chắc chắn muốn từ chối không",
+    "updateHeaderTitlePopup": "Xác nhận lưu và đồng bộ sang EBS",
+    "updateHeaderConfirm": "Thông tin thay đổi sẽ được cập nhật vào hệ thống và đồng bộ qua ERP EBS. Bạn có chắc muốn lưu không?",
     "shipper": "Người giao hàng",
     "departmentReceipts": "Phòng ban nhận",
     "vendors": "Nhà cung cấp",

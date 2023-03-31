@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from 'react'
 
 import { Box, Grid } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
-import { uniq, map, groupBy, isEmpty } from 'lodash'
+import { uniq, map, groupBy, isEmpty, first } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
@@ -120,12 +120,11 @@ function WarehouseImportReceiveAndStorage() {
           ...item,
           itemId: item.itemCode?.itemId,
         })),
-        'itemId',
+        (e) => `${e.itemId}_${e.lotNumber?.lotNumber || ''}`,
       )
-
       if (
         Object.keys(itemByIds)?.length <
-        warehouseImportReceiptDetails?.purchasedOrderImportDetails?.length
+        warehouseImportReceiptDetails?.purchasedOrderImportWarehouseLots?.length
       ) {
         addNotification(
           t('warehouseImportReceipt.importedItemIsNotEnough'),
@@ -135,7 +134,10 @@ function WarehouseImportReceiveAndStorage() {
       }
 
       const itemsRequest = Object.keys(itemByIds)?.map((itemId) => ({
-        id: Number(itemId),
+        id: Number(itemByIds[itemId]?.map((itemId) => itemId?.itemId)),
+        lotNumber: first(
+          itemByIds[itemId]?.map((lotNumber) => lotNumber.lotNumber?.lotNumber),
+        ),
         locations: itemByIds[itemId]?.map((locator) => ({
           locatorId: locator.locator?.locatorId,
           quantity: locator.receivedQuantity,
@@ -158,20 +160,22 @@ function WarehouseImportReceiveAndStorage() {
 
   const initialValues = useMemo(
     () => ({
-      items: warehouseImportReceiptDetails?.purchasedOrderImportDetails?.map(
-        (item, index) => ({
-          id: `${item?.itemId}-${index}`,
-          itemCode:
-            {
-              itemId: item?.itemId,
-              id: item?.itemId,
-              quantity: item?.quantity,
-              ...item?.item,
-            } || null,
-          receivedQuantity: item?.quantity,
-          locator: '',
-        }),
-      ),
+      items:
+        warehouseImportReceiptDetails?.purchasedOrderImportWarehouseLots?.map(
+          (item, index) => ({
+            id: `${item?.itemId}-${index}`,
+            itemCode:
+              {
+                itemId: item?.itemId,
+                id: item?.itemId,
+                quantity: item?.quantity,
+                ...item?.item,
+              } || null,
+            importQuantity: item?.quantity,
+            receivedQuantity: item?.quantity,
+            locator: '',
+          }),
+        ),
     }),
     [warehouseImportReceiptDetails],
   )
@@ -449,6 +453,7 @@ function WarehouseImportReceiveAndStorage() {
                           items={values?.items}
                           setFieldValue={setFieldValue}
                           arrayHelpers={arrayHelpers}
+                          values={values}
                           warehouseId={
                             warehouseImportReceiptDetails?.warehouse?.id
                           }

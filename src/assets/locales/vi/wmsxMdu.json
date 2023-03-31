@@ -3005,6 +3005,8 @@
     "rejectConfirm": "Bạn có chắc chắn muốn từ chối không",
     "shipper": "Người giao hàng",
     "departmentReceipts": "Phòng ban nhận",
+    "updateHeaderTitlePopup": "Xác nhận lưu và đồng bộ sang EBS",
+    "updateHeaderConfirm": "Thông tin thay đổi sẽ được cập nhật vào hệ thống và đồng bộ qua ERP EBS. Bạn có chắc muốn lưu không?",
     "vendors": "Nhà cung cấp",
     "costTypes": "Loại chi phí",
     "organizationPayments": "Tổ chức chi",

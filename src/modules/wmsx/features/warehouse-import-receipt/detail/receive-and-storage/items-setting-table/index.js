@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
@@ -10,7 +11,6 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import NumberFormatText from '~/components/NumberFormat'
 import { ACTIVE_STATUS } from '~/modules/wmsx/constants'
 import useLocationManagement from '~/modules/wmsx/redux/hooks/useLocationManagement'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
@@ -18,17 +18,27 @@ import { scrollToBottom, convertFilterParams } from '~/utils'
 
 function ItemsSettingTable(props) {
   const { t } = useTranslation(['wmsx'])
-  const { items, arrayHelpers, warehouseId } = props
+  const { items, arrayHelpers, warehouseId, setFieldValue, values } = props
   const {
     data: { warehouseImportReceiptDetails },
   } = useWarehouseImportReceipt()
   const itemList =
-    warehouseImportReceiptDetails?.purchasedOrderImportDetails?.map((item) => ({
-      ...item?.item,
-      quantity: item?.quantity,
-      receivedQuantity: item?.quantity,
-      itemId: item?.itemId,
-    }))
+    warehouseImportReceiptDetails?.purchasedOrderImportWarehouseLots?.map(
+      (item) => ({
+        ...item?.item,
+        importQuantity: item?.quantity,
+        receivedQuantity: item?.quantity,
+        lotNumber: item?.lotNumber,
+        itemId: item?.itemId,
+      }),
+    )
+  const lotNumberLists =
+    warehouseImportReceiptDetails?.purchasedOrderImportWarehouseLots?.map(
+      (item) => ({
+        itemId: item?.itemId,
+        lotNumber: item?.lotNumber,
+      }),
+    )
   const {
     actions,
     data: { locationList },
@@ -46,6 +56,24 @@ function ItemsSettingTable(props) {
       })
     }
   }, [warehouseId])
+  const handleChangeLotNumber = (val, index) => {
+    if (val) {
+      const findLotNumber = itemList?.find(
+        (lot) =>
+          lot?.itemId === val?.itemId && lot?.lotNumber === val?.lotNumber,
+      )
+      if (!isEmpty(findLotNumber)) {
+        setFieldValue(
+          `items[${index}].importQuantity`,
+          findLotNumber?.importQuantity,
+        )
+        setFieldValue(
+          `items[${index}].receivedQuantity`,
+          findLotNumber?.importQuantity,
+        )
+      }
+    }
+  }
   const getColumns = () => {
     return [
       {
@@ -88,39 +116,45 @@ function ItemsSettingTable(props) {
           return params?.row?.itemCode?.itemUnit
         },
       },
-      // {
-      //   field: 'lotNumber',
-      //   headerName: t('warehouseImportReceipt.table.lotNumber'),
-      //   width: 180,
-      //   renderCell: (params, index) => {
-      //     return (
-      //       <Field.Autocomplete
-      //         name={`items[${index}].lotNumber`}
-      //         options={[]}
-      //         getOptionLabel={(opt) => opt.lotNumber}
-      //         getOptionValue={(option) => option?.lotNumber}
-      //         isOptionEqualToValue={(opt, val) => opt?.lotNumber === val}
-      //         // onChange={(val) => }
-      //         validate={(val) => {
-      //           if (!val) {
-      //             return t('general:form.required')
-      //           }
-      //         }}
-      //       />
-      //     )
-      //   },
-      // },
+      {
+        field: 'lotNumber',
+        headerName: t('warehouseImportReceipt.table.lotNumber'),
+        width: 180,
+        hide: !values?.warehouse?.manageByLot,
+        renderCell: (params, index) => {
+          const lotNumberList = lotNumberLists?.filter(
+            (lot) => lot?.itemId === params?.row?.itemCode?.itemId,
+          )
+          return (
+            <Field.Autocomplete
+              name={`items[${index}].lotNumber`}
+              options={lotNumberList}
+              getOptionLabel={(opt) => opt.lotNumber}
+              isOptionEqualToValue={(opt, val) =>
+                opt?.lotNumber === val?.lotNumber
+              }
+              onChange={(val) => handleChangeLotNumber(val, index)}
+              validate={(val) => {
+                if (!val) {
+                  return t('general:form.required')
+                }
+              }}
+            />
+          )
+        },
+      },
       {
         field: 'importQuantity',
         headerName: t('warehouseImportReceipt.table.importQuantity'),
         width: 180,
         align: 'right',
         headerAlign: 'left',
-        renderCell: (params) => {
+        renderCell: (params, index) => {
           return (
-            <NumberFormatText
-              value={params?.row?.itemCode?.quantity}
+            <Field.TextField
+              name={`items[${index}].importQuantity`}
               formatter="quantity"
+              disabled
             />
           )
         },
@@ -136,22 +170,6 @@ function ItemsSettingTable(props) {
             <Field.TextField
               name={`items[${index}].receivedQuantity`}
               formatter="quantity"
-              validate={() => {
-                const totalReceivedQuantity = items
-                  .filter(
-                    (item) =>
-                      item.itemCode?.itemId === params?.row?.itemCode?.itemId,
-                  )
-                  .reduce((prev, cur) => prev + Number(cur.receivedQuantity), 0)
-                if (
-                  totalReceivedQuantity &&
-                  totalReceivedQuantity !== params?.row?.itemCode?.quantity
-                ) {
-                  return t('general:form.equalItem', {
-                    quantity: params?.row?.itemCode?.quantity,
-                  })
-                }
-              }}
             />
           )
         },
@@ -165,6 +183,8 @@ function ItemsSettingTable(props) {
             .filter(
               (item) =>
                 item.itemCode?.itemId === params?.row?.itemCode?.itemId &&
+                item?.lotNumber?.lotNumber ===
+                  params?.row?.lotNumber?.lotNumber &&
                 item?.id !== params?.row?.id,
             )
             .map((item) => item.locator?.locatorId)

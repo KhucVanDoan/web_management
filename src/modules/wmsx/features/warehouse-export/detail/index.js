@@ -175,19 +175,7 @@ const WarehouseExportDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.warehouseExportReceipt')}
-                value={
-                  receiptDetail?.ebsId
-                    ? receiptDetail?.ebsId
-                    : `02${
-                        receiptDetail?.warehouse?.code
-                          ? `.${receiptDetail?.warehouse?.code}`
-                          : ''
-                      }${
-                        receiptDetail?.reason?.code
-                          ? `.${receiptDetail?.reason?.code}`
-                          : ''
-                      }`
-                }
+                value={receiptDetail?.ebsId ? receiptDetail?.ebsId : ''}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -196,15 +184,7 @@ const WarehouseExportDetail = () => {
                 value={
                   receiptDetail?.transactionNumberCreated
                     ? receiptDetail?.transactionNumberCreated
-                    : `03${
-                        receiptDetail?.warehouse?.code
-                          ? `.${receiptDetail?.warehouse?.code}`
-                          : ''
-                      }${
-                        receiptDetail?.reason?.code
-                          ? `.${receiptDetail?.reason?.code}`
-                          : ''
-                      }`
+                    : ''
                 }
               />
             </Grid>

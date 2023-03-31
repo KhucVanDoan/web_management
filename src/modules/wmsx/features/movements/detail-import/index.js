@@ -331,7 +331,7 @@ const MovementImportDetail = ({ breadcrumbs, onBack }) => {
       {movementDetail?.movementType === MOVEMENT_TYPE.PO_IMPORT_RECEIVE && (
         <Box sx={{ mt: 3 }}>
           <ItemsSettingTable
-            items={receiptDetail?.purchasedOrderImportDetails || []}
+            items={receiptDetail?.purchasedOrderImportWarehouseLots || []}
             mode={MODAL_MODE.DETAIL}
             receiptDetail={receiptDetail}
           />
