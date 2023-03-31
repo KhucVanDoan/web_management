@@ -3005,6 +3005,8 @@
     "rejectConfirm": "Bạn có chắc chắn muốn từ chối không",
     "updateHeaderTitlePopup": "Xác nhận lưu và đồng bộ sang EBS",
     "updateHeaderConfirm": "Thông tin thay đổi sẽ được cập nhật vào hệ thống và đồng bộ qua ERP EBS. Bạn có chắc muốn lưu không?",
+    "updateHeaderConfirmEbs": "Đồng bộ từ WMS -> WSO2 gặp lỗi, bạn có muốn thử lại không?",
+    "updateHeaderTitlePopupEbs": "Lỗi đồng bộ từ WMS -> WSO2",
     "shipper": "Người giao hàng",
     "departmentReceipts": "Phòng ban nhận",
     "vendors": "Nhà cung cấp",
@@ -3182,7 +3184,7 @@
       "quantity": "SL giao nhận",
       "price": "Đơn giá",
       "amount": "Thành tiền",
-      "debitAccount": "Tái khoản nợ",
+      "debitAccount": "Tài khoản nợ",
       "creditAccount": "Tài khoản có"
     }
   },

@@ -164,11 +164,11 @@ const ItemSettingTableDetail = ({ items, isEdit, setFieldValue }) => {
                 handleChangeDebitAccount(val, setFieldValue, index)
               }}
               allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
-              // validate={(val) => {
-              //   if (val?.length !== 25) {
-              //     return t(`general:form.formatDebitAccount`)
-              //   }
-              // }}
+              validate={(val) => {
+                if (val?.length !== 25) {
+                  return t(`general:form.formatDebitAccount`)
+                }
+              }}
             />
           ) : params?.row?.debitAccount?.length === LENGTH_DEBITACCOUNT ? (
             params?.row?.debitAccount.toString()?.slice(18, 43)

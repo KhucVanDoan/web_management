@@ -24,6 +24,7 @@ import {
   ACTIVE_STATUS,
   CODE_TYPE_DATA_FATHER_JOB,
   PARENT_BUSINESS_TYPE,
+  ruleEbs,
   TABLE_NAME_ENUM,
   WAREHOUSE_IMPORT_RECEIPT_OPTIONS,
   WAREHOUSE_IMPORT_RECEIPT_STATUS,
@@ -78,6 +79,7 @@ function WarehouseImportReceiptForm() {
   const [loadingReceipt, setLoadingReceipt] = useState(false)
   const [valueReceipt, setValueReceipt] = useState({})
   const [isOpenModalUpdateHeader, setIsOpenModalUpdateHeade] = useState(false)
+  const [isOpenModalConfirmEBS, setIsOpenModalConfirmEBS] = useState(false)
   const {
     data: {
       warehouseImportReceiptDetails,
@@ -97,10 +99,11 @@ function WarehouseImportReceiptForm() {
   const MODE_MAP = {
     [ROUTE.WAREHOUSE_IMPORT_RECEIPT.CREATE.PATH]: MODAL_MODE.CREATE,
     [ROUTE.WAREHOUSE_IMPORT_RECEIPT.EDIT.PATH]: MODAL_MODE.UPDATE,
+    [ROUTE.WAREHOUSE_IMPORT_RECEIPT.EDIT_HEADER.PATH]: MODAL_MODE.UPDATE_HEADER,
   }
   const mode = MODE_MAP[routeMatch.path]
   const isUpdate = mode === MODAL_MODE.UPDATE
-
+  const isUpdateHeader = mode === MODAL_MODE.UPDATE_HEADER
   const initialValues = useMemo(
     () => ({
       receiptDate: !isEmpty(warehouseImportReceiptDetails)
@@ -206,6 +209,12 @@ function WarehouseImportReceiptForm() {
           title: ROUTE.WAREHOUSE_IMPORT_RECEIPT.EDIT.TITLE,
         })
         break
+      case MODAL_MODE.UPDATE_HEADER:
+        breadcrumbs.push({
+          route: ROUTE.WAREHOUSE_IMPORT_RECEIPT.EDIT_HEADER.PATH,
+          title: ROUTE.WAREHOUSE_IMPORT_RECEIPT.EDIT_HEADER.TITLE,
+        })
+        break
       default:
         break
     }
@@ -213,7 +222,7 @@ function WarehouseImportReceiptForm() {
   }
 
   useEffect(async () => {
-    if (isUpdate) {
+    if (isUpdate || isUpdateHeader) {
       actions.getWarehouseImportReceiptDetailsById(id, async (data) => {
         const res = await getSourceManagementApi(data?.source?.id)
 
@@ -322,6 +331,8 @@ function WarehouseImportReceiptForm() {
         return ROUTE.WAREHOUSE_IMPORT_RECEIPT.CREATE.TITLE
       case MODAL_MODE.UPDATE:
         return ROUTE.WAREHOUSE_IMPORT_RECEIPT.EDIT.TITLE
+      case MODAL_MODE.UPDATE_HEADER:
+        return ROUTE.WAREHOUSE_IMPORT_RECEIPT.EDIT.TITLE
       default:
         break
     }
@@ -398,27 +409,18 @@ function WarehouseImportReceiptForm() {
 
     if (mode === MODAL_MODE.CREATE) {
       actions.createWarehouseImportReceipt(params, backToList)
-    } else if (mode === MODAL_MODE.UPDATE) {
-      if (
-        warehouseImportReceiptDetails?.status ===
-          WAREHOUSE_IMPORT_RECEIPT_STATUS.COMPLETED ||
-        warehouseImportReceiptDetails?.status ===
-          WAREHOUSE_IMPORT_RECEIPT_STATUS.IN_PROGRESS ||
-        warehouseImportReceiptDetails?.status ===
-          WAREHOUSE_IMPORT_RECEIPT_STATUS.RECEIVED
-      ) {
-        setIsOpenModalUpdateHeade(true)
-      } else {
-        const paramUpdate = {
-          ...params,
-          code: warehouseImportReceiptDetails?.code,
-          id: id,
-        }
-        actions.updateWarehouseImportReceipt(paramUpdate, backToList)
+    } else if (mode === MODAL_MODE.UPDATE_HEADER) {
+      setIsOpenModalUpdateHeade(true)
+    } else {
+      const paramUpdate = {
+        ...params,
+        code: warehouseImportReceiptDetails?.code,
+        id: id,
       }
+      actions.updateWarehouseImportReceipt(paramUpdate, backToList)
     }
   }
-  const onSubmitUpdateHeader = (values) => {
+  const onSubmitUpdateHeader = (values, setFieldError) => {
     const paramsUpdateHeader = {
       deliver: values?.deliver || warehouseImportReceiptDetails?.deliver,
       businessTypeId:
@@ -467,6 +469,15 @@ function WarehouseImportReceiptForm() {
     actions.updateHeaderWarehouseImportReceipt(
       { ...paramsUpdateHeader, id: +id },
       backToList,
+      (val) => {
+        setIsOpenModalUpdateHeade(false)
+        if (val?.message === ruleEbs) {
+          setFieldError('receiptEBS', ' ')
+        }
+        if (val?.data?.ebsError) {
+          setIsOpenModalConfirmEBS(true)
+        }
+      },
     )
   }
   const renderActionBar = (handleReset) => {
@@ -480,6 +491,14 @@ function WarehouseImportReceiptForm() {
           />
         )
       case MODAL_MODE.UPDATE:
+        return (
+          <ActionBar
+            onBack={backToList}
+            onCancel={handleReset}
+            mode={MODAL_MODE.UPDATE}
+          />
+        )
+      case MODAL_MODE.UPDATE_HEADER:
         return (
           <ActionBar
             onBack={backToList}
@@ -597,12 +616,11 @@ function WarehouseImportReceiptForm() {
             onSubmit={onSubmit}
             enableReinitialize
           >
-            {({ handleReset, values, setFieldValue }) => {
+            {({ handleReset, values, setFieldValue, setFieldError }) => {
               const receiptRequired =
                 values?.businessTypeId?.bussinessTypeAttributes?.find(
                   (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT,
                 )?.id
-
               return (
                 <Form>
                   <Grid
@@ -610,7 +628,7 @@ function WarehouseImportReceiptForm() {
                     rowSpacing={4 / 3}
                     columnSpacing={{ xl: 8, xs: 4 }}
                   >
-                    {isUpdate && (
+                    {(isUpdate || isUpdateHeader) && (
                       <Grid item lg={6} xs={12}>
                         <LV
                           label={
@@ -847,7 +865,6 @@ function WarehouseImportReceiptForm() {
                             opt?.id === val?.id
                           }
                           onChange={() => {
-                            setFieldValue('items', [{ ...DEFAULT_ITEMS }])
                             setFieldValue('sourceId', null)
                           }}
                           required
@@ -1001,11 +1018,27 @@ function WarehouseImportReceiptForm() {
                     title={t('warehouseImportReceipt.updateHeaderTitlePopup')}
                     onCancel={() => setIsOpenModalUpdateHeade(false)}
                     cancelLabel={t('general:common.no')}
-                    onSubmit={() => onSubmitUpdateHeader(values)}
+                    onSubmit={() => onSubmitUpdateHeader(values, setFieldError)}
                     submitLabel={t('general:common.yes')}
                     noBorderBottom
                   >
                     {t('warehouseImportReceipt.updateHeaderConfirm')}
+                  </Dialog>
+                  <Dialog
+                    open={isOpenModalConfirmEBS}
+                    title={t(
+                      'warehouseImportReceipt.updateHeaderTitlePopupEbs',
+                    )}
+                    onCancel={() => setIsOpenModalConfirmEBS(false)}
+                    cancelLabel={t('general:common.no')}
+                    onSubmit={() => {
+                      onSubmitUpdateHeader(values, setFieldError)
+                      setIsOpenModalConfirmEBS(false)
+                    }}
+                    submitLabel={t('general:common.yes')}
+                    noBorderBottom
+                  >
+                    {t('warehouseImportReceipt.updateHeaderConfirmEbs')}
                   </Dialog>
                 </Form>
               )

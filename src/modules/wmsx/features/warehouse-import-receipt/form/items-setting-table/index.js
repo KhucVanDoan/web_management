@@ -384,7 +384,7 @@ function ItemsSettingTable(props) {
               inputProps={{
                 maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_11.MAX,
               }}
-              allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
+              allow={TEXTFIELD_ALLOW.NUMERIC}
               validate={(val) => {
                 if (!val) {
                   return t('general:form.required')

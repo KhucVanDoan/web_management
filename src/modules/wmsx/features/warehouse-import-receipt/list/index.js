@@ -22,6 +22,7 @@ import { TYPE_ENUM_EXPORT } from '~/modules/mesx/constants'
 import {
   STATUS_SYNC_ORDER_TO_EBS,
   STATUS_SYNC_WAREHOUSE_IMPORT_TO_EBS_OPTIONS,
+  SYNC_STATUS_CAN_UPDATE_HEADER_POI,
   WAREHOUSE_IMPORT_RECEIPT_OPTIONS,
   WAREHOUSE_IMPORT_RECEIPT_STATUS,
 } from '~/modules/wmsx/constants'
@@ -229,14 +230,11 @@ function WarehouseImportReceipt() {
           syncStatus === STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR
         const isEditHeader =
           (status === WAREHOUSE_IMPORT_RECEIPT_STATUS.COMPLETED &&
-            (syncStatus !== STATUS_SYNC_ORDER_TO_EBS.CANCEL ||
-              syncStatus !== STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_SUCCESS)) ||
+            SYNC_STATUS_CAN_UPDATE_HEADER_POI.includes(syncStatus)) ||
           (status === WAREHOUSE_IMPORT_RECEIPT_STATUS.IN_PROGRESS &&
-            (syncStatus !== STATUS_SYNC_ORDER_TO_EBS.CANCEL ||
-              syncStatus !== STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_SUCCESS)) ||
+            SYNC_STATUS_CAN_UPDATE_HEADER_POI.includes(syncStatus)) ||
           (status === WAREHOUSE_IMPORT_RECEIPT_STATUS.RECEIVED &&
-            (syncStatus !== STATUS_SYNC_ORDER_TO_EBS.CANCEL ||
-              syncStatus !== STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_SUCCESS))
+            SYNC_STATUS_CAN_UPDATE_HEADER_POI.includes(syncStatus))
         return (
           <div>
             <Guard code={FUNCTION_CODE.SALE_DETAIL_PURCHASED_ORDER_IMPORT}>
@@ -265,7 +263,7 @@ function WarehouseImportReceipt() {
                 <IconButton
                   onClick={() =>
                     history.push(
-                      ROUTE.WAREHOUSE_IMPORT_RECEIPT.EDIT.PATH.replace(
+                      ROUTE.WAREHOUSE_IMPORT_RECEIPT.EDIT_HEADER.PATH.replace(
                         ':id',
                         `${id}`,
                       ),
