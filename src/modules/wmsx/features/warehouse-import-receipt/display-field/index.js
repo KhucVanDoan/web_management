@@ -26,7 +26,18 @@ import { searchWarehouseExportProposalApi } from '~/modules/wmsx/redux/sagas/war
 import { getWarehouseExportReceiptDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/get-details'
 import { searchWarehouseExportReceiptApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/search'
 import { convertFilterParams, convertUtcDateToLocalTz } from '~/utils'
-
+const DEFAULT_ITEMS = {
+  id: 1,
+  itemCode: null,
+  itemName: '',
+  unit: '',
+  lotNumber: '',
+  money: '',
+  importQuantity: '',
+  price: '',
+  debitAcc: '',
+  creditAcc: '',
+}
 const displayFollowBusinessTypeManagement = (
   type,
   t,
@@ -146,6 +157,7 @@ const displayFollowBusinessTypeManagement = (
   const handleChangeProposals = async (val) => {
     setItemWarehouseExportProposal([])
     if (isEmpty(val)) {
+      setFieldValue('items', { ...DEFAULT_ITEMS })
       if (
         isEmpty(
           values[
@@ -704,6 +716,7 @@ const displayFollowBusinessTypeManagement = (
                         limit: ASYNC_SEARCH_LIMIT,
                         filter: convertFilterParams({
                           status: ACTIVE_STATUS.INACTIVE,
+                          purchasedOrderImport: ACTIVE_STATUS.INACTIVE,
                         }),
                       })
                     }}

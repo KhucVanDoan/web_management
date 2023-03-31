@@ -27,6 +27,8 @@ import {
   TABLE_NAME_ENUM,
   WAREHOUSE_EXPORT_RECEIPT_STATUS_OPTIONS,
   WAREHOUSE_EXPORT_RECEIPT_STATUS,
+  ruleEbs,
+  ruleTransactionEbs,
 } from '~/modules/wmsx/constants'
 import useSourceManagement from '~/modules/wmsx/redux/hooks/useSourceManagement'
 import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
@@ -77,6 +79,7 @@ function WarehouseExportReceiptForm() {
   const [modal, setModal] = useState(false)
   const [warehouseExportProposalId, setWarehouseExportProposalId] = useState()
   const [isOpenModalUpdateHeader, setIsOpenModalUpdateHeade] = useState(false)
+  const [isOpenModalConfirmEBS, setIsOpenModalConfirmEBS] = useState(false)
   const {
     data: { isLoading, warehouseExportReceiptDetails },
     actions,
@@ -90,9 +93,11 @@ function WarehouseExportReceiptForm() {
   const MODE_MAP = {
     [ROUTE.WAREHOUSE_EXPORT_RECEIPT.CREATE.PATH]: MODAL_MODE.CREATE,
     [ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT.PATH]: MODAL_MODE.UPDATE,
+    [ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT_HEADER.PATH]: MODAL_MODE.UPDATE_HEADER,
   }
   const mode = MODE_MAP[routeMatch.path]
   const isUpdate = mode === MODAL_MODE.UPDATE
+  const isUpdateHeader = mode === MODAL_MODE.UPDATE_HEADER
   const [itemWarehouseExport, setItemWarehouseExport] = useState([])
   const [itemWarehouseExportProposal, setItemWarehouseExportProposal] =
     useState([])
@@ -215,6 +220,12 @@ function WarehouseExportReceiptForm() {
           title: ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT.TITLE,
         })
         break
+      case MODAL_MODE.UPDATE_HEADER:
+        breadcrumbs.push({
+          route: ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT_HEADER.PATH,
+          title: ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT_HEADER.TITLE,
+        })
+        break
       default:
         break
     }
@@ -222,7 +233,7 @@ function WarehouseExportReceiptForm() {
   }
 
   useEffect(() => {
-    if (isUpdate) {
+    if (isUpdate || isUpdateHeader) {
       actions.getWarehouseExportReceiptDetailsById(id, async (data) => {
         const res = await getSourceManagementApi(data?.source?.id)
         setDebitAccount(
@@ -360,6 +371,8 @@ function WarehouseExportReceiptForm() {
         return ROUTE.WAREHOUSE_EXPORT_RECEIPT.CREATE.TITLE
       case MODAL_MODE.UPDATE:
         return ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT.TITLE
+      case MODAL_MODE.UPDATE_HEADER:
+        return ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT_HEADER.TITLE
       default:
         break
     }
@@ -432,81 +445,72 @@ function WarehouseExportReceiptForm() {
         }
       }
     } else if (mode === MODAL_MODE.UPDATE) {
-      if (
-        warehouseExportReceiptDetails?.status ===
-          WAREHOUSE_EXPORT_RECEIPT_STATUS.PENDING ||
-        warehouseExportReceiptDetails?.status ===
-          WAREHOUSE_EXPORT_RECEIPT_STATUS.CONFIRMED ||
-        warehouseExportReceiptDetails?.status ===
-          WAREHOUSE_EXPORT_RECEIPT_STATUS.REJECTED
-      ) {
-        const payload = {
+      const payload = {
+        warehouseId: values?.warehouseId?.id,
+        receiptDate: values?.receiptDate,
+        itemIds: values?.items?.map(
+          (item) => item?.itemCode?.itemId || +item?.itemCode?.id,
+        ),
+      }
+
+      const res = await getWarehouseImportReceiptByConditions(payload)
+      if (!isEmpty(res?.data)) {
+        setModal(true)
+      } else {
+        const params = {
+          receiver: values?.deliver,
+          businessTypeId: values?.businessTypeId?.id,
+          reasonId: values?.reasonId?.id,
+          explaination: values?.explanation || '',
+          receiptDate: values?.receiptDate.toISOString(),
+          departmentReceiptId: values?.departmentReceiptId?.id,
+          sourceId: values?.sourceId?.id,
           warehouseId: values?.warehouseId?.id,
-          receiptDate: values?.receiptDate,
-          itemIds: values?.items?.map(
-            (item) => item?.itemCode?.itemId || +item?.itemCode?.id,
+          items: JSON.stringify(
+            values?.items?.map((item) => ({
+              id: +item?.itemCode?.itemId || +item?.itemCode?.id,
+              itemCode: item?.itemCode?.item?.code || item?.itemCode?.code,
+              lotNumber: item?.lotNumber || null,
+              quantity: +item?.quantityExport,
+              price: item?.price,
+              debitAccount: debitAccount || null,
+              creditAccount: item?.creditAccount?.replace(
+                /^(\d*?[1-9])0+$/,
+                '$1',
+              ),
+              warehouseId: values?.warehouseId?.id,
+            })),
           ),
         }
-
-        const res = await getWarehouseImportReceiptByConditions(payload)
-        if (!isEmpty(res?.data)) {
-          setModal(true)
-        } else {
-          const params = {
-            receiver: values?.deliver,
-            businessTypeId: values?.businessTypeId?.id,
-            reasonId: values?.reasonId?.id,
-            explaination: values?.explanation || '',
-            receiptDate: values?.receiptDate.toISOString(),
-            departmentReceiptId: values?.departmentReceiptId?.id,
-            sourceId: values?.sourceId?.id,
-            warehouseId: values?.warehouseId?.id,
-            items: JSON.stringify(
-              values?.items?.map((item) => ({
-                id: +item?.itemCode?.itemId || +item?.itemCode?.id,
-                itemCode: item?.itemCode?.item?.code || item?.itemCode?.code,
-                lotNumber: item?.lotNumber || null,
-                quantity: +item?.quantityExport,
-                price: item?.price,
-                debitAccount: debitAccount || null,
-                creditAccount: item?.creditAccount?.replace(
-                  /^(\d*?[1-9])0+$/,
-                  '$1',
-                ),
-                warehouseId: values?.warehouseId?.id,
-              })),
-            ),
-          }
-          values?.businessTypeId?.bussinessTypeAttributes?.forEach(
-            (att, index) => {
-              // if (values[att.tableName]?.id) {
-              //   params[`attributes[${index}].id`] = att.id
-              //   params[`attributes[${index}].value`] = values[att.tableName]?.id
-              // }
-              if (values[att.id]) {
-                params[`attributes[${index}].id`] = att.id
-                params[`attributes[${index}].value`] =
-                  values[att.id]?.id || values[att.id]
-              }
-            },
-          )
-          if (mode === MODAL_MODE.CREATE) {
-            actions.createWarehouseExportReceipt(params, backToList)
-          } else if (mode === MODAL_MODE.UPDATE) {
-            const paramUpdate = {
-              ...params,
-              code: warehouseExportReceiptDetails?.code,
-              id: +id,
+        values?.businessTypeId?.bussinessTypeAttributes?.forEach(
+          (att, index) => {
+            // if (values[att.tableName]?.id) {
+            //   params[`attributes[${index}].id`] = att.id
+            //   params[`attributes[${index}].value`] = values[att.tableName]?.id
+            // }
+            if (values[att.id]) {
+              params[`attributes[${index}].id`] = att.id
+              params[`attributes[${index}].value`] =
+                values[att.id]?.id || values[att.id]
             }
-            actions.updateWarehouseExportReceipt(paramUpdate, backToList)
+          },
+        )
+        if (mode === MODAL_MODE.CREATE) {
+          actions.createWarehouseExportReceipt(params, backToList)
+        } else if (mode === MODAL_MODE.UPDATE) {
+          const paramUpdate = {
+            ...params,
+            code: warehouseExportReceiptDetails?.code,
+            id: +id,
           }
+          actions.updateWarehouseExportReceipt(paramUpdate, backToList)
         }
-      } else {
-        setIsOpenModalUpdateHeade(true)
       }
+    } else {
+      setIsOpenModalUpdateHeade(true)
     }
   }
-  const onSubmitUpdateHeader = (values) => {
+  const onSubmitUpdateHeader = (values, setFieldError) => {
     const paramsUpdateHeader = {
       receiver: values?.deliver || warehouseExportReceiptDetails?.receiver,
       businessTypeId:
@@ -552,6 +556,16 @@ function WarehouseExportReceiptForm() {
         id: id,
       },
       backToList,
+      (val) => {
+        if (val?.data?.ebsError) {
+          setIsOpenModalConfirmEBS(true)
+        }
+        setIsOpenModalUpdateHeade(false)
+        if (val?.message === ruleEbs) {
+          setFieldError('warehouseExportReceiptEBS', ' ')
+        } else if (val?.message === ruleTransactionEbs)
+          setFieldError('numberEBS', ' ')
+      },
     )
     setIsOpenModalUpdateHeade(false)
   }
@@ -572,6 +586,20 @@ function WarehouseExportReceiptForm() {
           />
         )
       case MODAL_MODE.UPDATE:
+        return (
+          <ActionBar
+            onBack={backToList}
+            onCancel={handleReset}
+            mode={MODAL_MODE.UPDATE}
+            // elBefore={
+            //   <Button sx={{ mr: 'auto' }}>
+            //     <Icon name="print" mr={1} />
+            //     {t(`warehouseTransfer.view`)}
+            //   </Button>
+            // }
+          />
+        )
+      case MODAL_MODE.UPDATE_HEADER:
         return (
           <ActionBar
             onBack={backToList}
@@ -761,7 +789,7 @@ function WarehouseExportReceiptForm() {
             onSubmit={onSubmit}
             enableReinitialize
           >
-            {({ handleReset, values, setFieldValue }) => {
+            {({ handleReset, values, setFieldValue, setFieldError }) => {
               const warehouseImportReceipt =
                 values?.businessTypeId?.bussinessTypeAttributes?.find(
                   (item) =>
@@ -1236,11 +1264,27 @@ function WarehouseExportReceiptForm() {
                     title={t('warehouseImportReceipt.updateHeaderTitlePopup')}
                     onCancel={() => setIsOpenModalUpdateHeade(false)}
                     cancelLabel={t('general:common.no')}
-                    onSubmit={() => onSubmitUpdateHeader(values)}
+                    onSubmit={() => onSubmitUpdateHeader(values, setFieldError)}
                     submitLabel={t('general:common.yes')}
                     noBorderBottom
                   >
                     {t('warehouseImportReceipt.updateHeaderConfirm')}
+                  </Dialog>
+                  <Dialog
+                    open={isOpenModalConfirmEBS}
+                    title={t(
+                      'warehouseImportReceipt.updateHeaderTitlePopupEbs',
+                    )}
+                    onCancel={() => setIsOpenModalConfirmEBS(false)}
+                    cancelLabel={t('general:common.no')}
+                    onSubmit={() => {
+                      onSubmitUpdateHeader(values, setFieldError)
+                      setIsOpenModalConfirmEBS(false)
+                    }}
+                    submitLabel={t('general:common.yes')}
+                    noBorderBottom
+                  >
+                    {t('warehouseImportReceipt.updateHeaderConfirmEbs')}
                   </Dialog>
                 </Form>
               )

@@ -65,7 +65,6 @@ export default function warehouseImportReceipt(state = initialState, action) {
     case CONFIRM_WAREHOUSE_IMPORT_RECEIPT_START:
     case REJECT_WAREHOUSE_IMPORT_RECEIPT_START:
     case GET_WAREHOUSE_IMPORT_RECEIPT_DETAILS_START:
-    case GET_ATTRIBUITE_BUSINESS_TYPE_DETAILS_START:
     case IMPORT_WAREHOUSE_START:
     case CONFIRM_WAREHOUSE_IMPORT_EBS_START:
     case CANCEL_WAREHOUSE_IMPORT_EBS_START:
@@ -123,15 +122,14 @@ export default function warehouseImportReceipt(state = initialState, action) {
         isLoading: false,
       }
     case GET_ATTRIBUITE_BUSINESS_TYPE_DETAILS_FAILED:
+    case GET_ATTRIBUITE_BUSINESS_TYPE_DETAILS_START:
       return {
         ...state,
-        isLoading: false,
       }
     case GET_ATTRIBUITE_BUSINESS_TYPE_DETAILS_SUCCESS:
       return {
         ...state,
         attributesBusinessTypeDetails: action.payload,
-        isLoading: false,
       }
     case RESET_WAREHOUSE_IMPORT_RECEIPT_DETAILS_STATE:
       return {

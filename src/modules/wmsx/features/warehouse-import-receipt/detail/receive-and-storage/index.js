@@ -133,16 +133,20 @@ function WarehouseImportReceiveAndStorage() {
         return
       }
 
-      const itemsRequest = Object.keys(itemByIds)?.map((itemId) => ({
-        id: Number(itemByIds[itemId]?.map((itemId) => itemId?.itemId)),
-        lotNumber: first(
-          itemByIds[itemId]?.map((lotNumber) => lotNumber.lotNumber?.lotNumber),
-        ),
-        locations: itemByIds[itemId]?.map((locator) => ({
-          locatorId: locator.locator?.locatorId,
-          quantity: locator.receivedQuantity,
-        })),
-      }))
+      const itemsRequest = Object.keys(itemByIds)?.map((itemId) => {
+        return {
+          id: Number(itemId.split('_').shift()),
+          lotNumber: first(
+            itemByIds[itemId]?.map(
+              (lotNumber) => lotNumber.lotNumber?.lotNumber,
+            ),
+          ),
+          locations: itemByIds[itemId]?.map((locator) => ({
+            locatorId: locator.locator?.locatorId,
+            quantity: locator.receivedQuantity,
+          })),
+        }
+      })
       const userInfo = getLocalItem('userInfo')
       const payload = {
         userId: userInfo.id,
@@ -454,9 +458,7 @@ function WarehouseImportReceiveAndStorage() {
                           setFieldValue={setFieldValue}
                           arrayHelpers={arrayHelpers}
                           values={values}
-                          warehouseId={
-                            warehouseImportReceiptDetails?.warehouse?.id
-                          }
+                          warehouse={warehouseImportReceiptDetails?.warehouse}
                         />
                       )}
                     />

@@ -522,6 +522,10 @@ export const ROUTE = {
       PATH: '/wms/warehouse-export-receipt/:id/edit',
       TITLE: 'warehouseExportReceiptEdit',
     },
+    EDIT_HEADER: {
+      PATH: '/wms/warehouse-export-receipt/:id/edit-header',
+      TITLE: 'warehouseExportReceiptEdit',
+    },
     DETAIL: {
       PATH: '/wms/warehouse-export-receipt/:id/detail',
       TITLE: 'warehouseExportReceiptDetail',
@@ -556,6 +560,10 @@ export const ROUTE = {
     },
     EDIT: {
       PATH: '/wms/warehouse-import-receipt/:id/edit',
+      TITLE: 'warehouseImportReceiptEdit',
+    },
+    EDIT_HEADER: {
+      PATH: '/wms/warehouse-import-receipt/:id/edit-header',
       TITLE: 'warehouseImportReceiptEdit',
     },
     DETAIL: {
