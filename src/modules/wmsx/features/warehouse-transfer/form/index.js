@@ -25,6 +25,7 @@ import {
   TRANSFER_STATUS_OPTIONS,
   WAREHOUSE_TRANSFER_TYPE_OPTIONS,
   WAREHOUSE_TRANSFER_TYPE,
+  TRANSFER_STATUS,
 } from '~/modules/wmsx/constants'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
@@ -433,6 +434,10 @@ const WarehouseTransferForm = () => {
                             setFieldValue('items', [{ ...DEFAULT_ITEM }])
                           }
                         }}
+                        disabled={
+                          warehouseTransferDetails?.status ===
+                          TRANSFER_STATUS.CONFIRMED
+                        }
                         required
                       />
                     </Grid>
