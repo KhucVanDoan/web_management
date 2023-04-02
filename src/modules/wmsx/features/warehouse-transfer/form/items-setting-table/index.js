@@ -135,19 +135,13 @@ const ItemSettingTable = (props) => {
         ],
       }
       const res = await getItemWarehouseStockAvailableApi(params)
-      const planExportedQuantity = res?.data
-        ?.find(
-          (item) =>
-            item?.itemId ===
-              (payload?.row?.itemCode?.id || payload?.row?.itemCode?.itemId) &&
-            item?.lotNumber === val,
-        )
-        ?.itemAvailables?.find(
-          (e) =>
-            e?.itemId ===
-              (payload?.row?.itemCode?.id || payload?.row?.itemCode?.itemId) &&
-            e?.lotNumber === val,
-        )
+      const planExportedQuantity = res?.data?.find(
+        (item) =>
+          item?.itemId ===
+            (payload?.row?.itemCode?.id || payload?.row?.itemCode?.itemId) &&
+          item?.lotNumber === val,
+      )
+
       setFieldValue(
         `items[${index}].planExportedQuantity`,
         planExportedQuantity?.quantity || 0,
