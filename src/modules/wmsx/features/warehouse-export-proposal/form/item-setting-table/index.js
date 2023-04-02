@@ -174,8 +174,8 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
         field: 'quantityRequest',
         headerName: t('warehouseExportProposal.items.quantityRequest'),
         width: 100,
-        headerAlign: 'left',
         align: 'right',
+        headerAlign: 'left',
         renderCell: (params, index) => {
           return isView ? (
             <NumberFormatText
@@ -195,8 +195,8 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
         field: 'planExportedQuantity',
         headerName: t('warehouseExportProposal.items.planExportedQuantity'),
         width: 100,
-        headerAlign: 'left',
         align: 'right',
+        headerAlign: 'left',
         renderCell: (params, index) => {
           return isView ? (
             <NumberFormatText

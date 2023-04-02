@@ -289,6 +289,7 @@ const WarehouseTransferForm = () => {
   const handleChangeWarehouse = (val, setFieldValue) => {
     setFieldValue('items', [{ ...DEFAULT_ITEM }])
     setFieldValue('destinationWarehouseId', null)
+    setFieldValue('sourceId', null)
     // if (val) {
     //   actions.getListItemWarehouseStock({
     //     warehouseId: val?.id,

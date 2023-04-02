@@ -2287,6 +2287,7 @@ export const STATUS_SYNC_ORDER_TO_EBS = {
   SYNC_WSO2_SUCCESS: 2,
   COMPLETED: 3,
   CANCEL: 4,
+  DEACTIVE: 5,
 }
 export const STATUS_SYNC_ORDER_TO_EBS_MAP = {
   [STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC]:
@@ -2299,7 +2300,12 @@ export const STATUS_SYNC_ORDER_TO_EBS_MAP = {
     'warehouseImportReceipt.statusSync.completed',
   [STATUS_SYNC_ORDER_TO_EBS.CANCEL]: 'warehouseImportReceipt.statusSync.cancel',
 }
-
+export const SYNC_STATUS_CAN_UPDATE_HEADER_POI = [
+  STATUS_SYNC_ORDER_TO_EBS.COMPLETED,
+  STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC,
+  STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR,
+  STATUS_SYNC_ORDER_TO_EBS.DEACTIVE,
+]
 export const STATUS_SYNC_WAREHOUSE_IMPORT_TO_EBS_OPTIONS = [
   {
     id: 0,
@@ -2558,7 +2564,9 @@ export const TYPE_DOWLOAD_WAREHOUSE_EXPORT_RECEIPT = {
   WAREHOUSE_EXPORT_RECEIPT: 2,
 }
 export const CODE_BUSSINESS_TYPE = {
-  POINORMAL: 'N0001',
-  POIBYCONTRUCTION: 'N0002',
+  POINORMAL: 'N0002',
+  POIBYCONTRUCTION: 'N0003',
   SOEBYCONTRUCTION: 'X0002',
 }
+export const ruleEbs = 'Số phiếu EBS không đúng quy tắc'
+export const ruleTransactionEbs = 'Số phiếu giao hàng EBS không đúng quy tắc'

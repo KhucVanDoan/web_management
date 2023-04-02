@@ -104,8 +104,8 @@ const ItemSettingTableDetail = ({ items, isEdit, setFieldValue }) => {
         field: 'quantityExport',
         headerName: t('warehouseExportReceipt.items.quantityExport'),
         width: 150,
-        headerAlign: 'left',
         align: 'right',
+        headerAlign: 'left',
         renderCell: (params) => (
           <NumberFormatText
             value={params?.row?.quantity}
@@ -117,8 +117,8 @@ const ItemSettingTableDetail = ({ items, isEdit, setFieldValue }) => {
         field: 'actualExportedQuantity',
         headerName: t('warehouseExportReceipt.actualExportedQuantity'),
         width: 150,
-        headerAlign: 'left',
         align: 'right',
+        headerAlign: 'left',
         renderCell: (params) => (
           <NumberFormatText
             value={params?.row?.actualQuantity}
@@ -164,11 +164,11 @@ const ItemSettingTableDetail = ({ items, isEdit, setFieldValue }) => {
                 handleChangeDebitAccount(val, setFieldValue, index)
               }}
               allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
-              // validate={(val) => {
-              //   if (val?.length !== 25) {
-              //     return t(`general:form.formatDebitAccount`)
-              //   }
-              // }}
+              validate={(val) => {
+                if (val?.length !== 25) {
+                  return t(`general:form.formatDebitAccount`)
+                }
+              }}
             />
           ) : params?.row?.debitAccount?.length === LENGTH_DEBITACCOUNT ? (
             params?.row?.debitAccount.toString()?.slice(18, 43)

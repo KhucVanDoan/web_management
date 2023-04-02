@@ -421,7 +421,8 @@ function WarehouseImportReceiptDetail() {
           <Box sx={{ mt: 3 }}>
             <ItemsSettingTable
               items={
-                warehouseImportReceiptDetails?.purchasedOrderImportDetails || []
+                warehouseImportReceiptDetails?.purchasedOrderImportWarehouseLots ||
+                []
               }
               mode={mode}
             />

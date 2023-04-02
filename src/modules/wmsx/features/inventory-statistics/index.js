@@ -124,6 +124,8 @@ function InventoryStatistics() {
       field: 'quantity',
       headerName: t('inventoryStatistics.quantity'),
       width: 150,
+      align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => (
         <NumberFormatText value={params.row?.stock} formatter="quantity" />
       ),
@@ -132,6 +134,8 @@ function InventoryStatistics() {
       field: 'price',
       headerName: t('inventoryStatistics.price'),
       width: 150,
+      align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => (
         <NumberFormatText value={params.row?.amount} formatter="price" />
       ),
@@ -140,6 +144,8 @@ function InventoryStatistics() {
       field: 'amount',
       headerName: t('inventoryStatistics.intoMoney'),
       width: 150,
+      align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => (
         <NumberFormatText value={params.row?.totalAmount} formatter="price" />
       ),

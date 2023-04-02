@@ -39,13 +39,17 @@ function* doUpdateHeaderWarehouseExportReceipt(action) {
       addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
     } else {
       addNotification(response?.message, NOTIFICATION_TYPE.ERROR)
-      throw new Error(response?.message)
+      yield put(updateHeaderWarehouseExportReceiptFailed())
+      // Call callback action if provided
+      if (action.onError) {
+        yield action.onError(response)
+      }
     }
   } catch (error) {
     yield put(updateHeaderWarehouseExportReceiptFailed())
     // Call callback action if provided
     if (action.onError) {
-      yield action.onError()
+      yield action.onError(error)
     }
   }
 }

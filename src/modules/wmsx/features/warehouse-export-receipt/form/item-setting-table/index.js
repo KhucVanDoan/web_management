@@ -357,8 +357,8 @@ const ItemSettingTable = ({
         field: 'planExportedQuantity',
         headerName: t('warehouseExportReceipt.items.planExportedQuantity'),
         width: 150,
-        headerAlign: 'left',
         align: 'right',
+        headerAlign: 'left',
         renderCell: (params, index) => {
           return isView ? (
             <NumberFormatText
@@ -379,8 +379,8 @@ const ItemSettingTable = ({
         field: 'quantityExport',
         headerName: t('warehouseExportReceipt.items.quantityExport'),
         width: 150,
-        headerAlign: 'left',
         align: 'right',
+        headerAlign: 'left',
         renderCell: (params, index) => {
           return isView ? (
             <NumberFormatText
@@ -401,6 +401,7 @@ const ItemSettingTable = ({
       //   headerName: t('warehouseExportReceipt.items.unitPriceRefer'),
       //   hide: !isView,
       //   width: 150,
+      // align: 'right', headerAlign: 'left',
       //   renderCell: (params, index) => {
       //     return (
       //       <Field.TextField

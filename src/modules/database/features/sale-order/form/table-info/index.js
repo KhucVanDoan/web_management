@@ -124,6 +124,7 @@ function TableInfo(props) {
       headerName: t('saleOrder.itemInfo.itemPrice'),
       width: 120,
       align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => {
         return (
           <NumberFormatText

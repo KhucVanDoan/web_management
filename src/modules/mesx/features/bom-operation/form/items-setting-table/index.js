@@ -67,7 +67,8 @@ const ItemSettingTable = ({ items, mode }) => {
         field: `step_${stepIndex}`,
         headerName: col?.producingStep?.name,
         width: 120,
-        align: 'center',
+        align: 'right',
+        headerAlign: 'left',
         renderCell: (params, index) => {
           const { producingStepData } = params.row
           if (!producingStepData) return 0

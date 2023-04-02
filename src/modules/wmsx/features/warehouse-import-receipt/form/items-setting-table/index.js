@@ -228,15 +228,15 @@ function ItemsSettingTable(props) {
         width: 180,
         hide: !isView,
         renderCell: (params) => {
-          return params?.row?.lots[0]?.lotNumber
+          return params?.row?.lotNumber
         },
       },
       {
         field: 'requireQuantity',
         headerName: t('warehouseImportReceipt.table.requireQuantity'),
         width: 180,
-        headerAlign: 'left',
         align: 'right',
+        headerAlign: 'left',
         renderCell: (params, index) => {
           return isView || isEdit ? (
             <NumberFormatText
@@ -273,8 +273,8 @@ function ItemsSettingTable(props) {
         field: 'importQuantity',
         headerName: t('warehouseImportReceipt.table.importQuantity'),
         width: 180,
-        headerAlign: 'left',
         align: 'right',
+        headerAlign: 'left',
         renderCell: (params, index) => {
           return isView || isEdit ? (
             <NumberFormatText
@@ -385,7 +385,7 @@ function ItemsSettingTable(props) {
               inputProps={{
                 maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_11.MAX,
               }}
-              allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
+              allow={TEXTFIELD_ALLOW.NUMERIC}
               validate={(val) => {
                 if (!val) {
                   return t('general:form.required')

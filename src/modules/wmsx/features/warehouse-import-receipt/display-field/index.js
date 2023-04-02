@@ -26,7 +26,18 @@ import { searchWarehouseExportProposalApi } from '~/modules/wmsx/redux/sagas/war
 import { getWarehouseExportReceiptDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/get-details'
 import { searchWarehouseExportReceiptApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/search'
 import { convertFilterParams, convertUtcDateToLocalTz } from '~/utils'
-
+const DEFAULT_ITEMS = {
+  id: 1,
+  itemCode: null,
+  itemName: '',
+  unit: '',
+  lotNumber: '',
+  money: '',
+  importQuantity: '',
+  price: '',
+  debitAcc: '',
+  creditAcc: '',
+}
 const displayFollowBusinessTypeManagement = (
   type,
   t,
@@ -146,6 +157,7 @@ const displayFollowBusinessTypeManagement = (
   const handleChangeProposals = async (val) => {
     setItemWarehouseExportProposal([])
     if (isEmpty(val)) {
+      setFieldValue('items', { ...DEFAULT_ITEMS })
       if (
         isEmpty(
           values[
@@ -440,7 +452,7 @@ const displayFollowBusinessTypeManagement = (
           case 'constructions':
             return display.push(
               isEdit &&
-                !warehouseImportReceiptDetails?.businessType?.code ===
+                warehouseImportReceiptDetails?.businessType?.code !==
                   CODE_BUSSINESS_TYPE.POIBYCONTRUCTION ? (
                 <Grid item lg={6} xs={12}>
                   <LV
@@ -529,7 +541,7 @@ const displayFollowBusinessTypeManagement = (
           case 'category_constructions':
             return display.push(
               isEdit &&
-                !warehouseImportReceiptDetails?.businessType?.code ===
+                warehouseImportReceiptDetails?.businessType?.code !==
                   CODE_BUSSINESS_TYPE.POIBYCONTRUCTION ? (
                 <Grid item lg={6} xs={12}>
                   <LV
@@ -704,6 +716,7 @@ const displayFollowBusinessTypeManagement = (
                         limit: ASYNC_SEARCH_LIMIT,
                         filter: convertFilterParams({
                           status: ACTIVE_STATUS.INACTIVE,
+                          purchasedOrderImport: ACTIVE_STATUS.INACTIVE,
                         }),
                       })
                     }}
@@ -808,9 +821,9 @@ const displayFollowBusinessTypeManagement = (
           case 'vendors':
             return display.push(
               isEdit &&
-                (!warehouseImportReceiptDetails?.businessType?.code ===
-                  CODE_BUSSINESS_TYPE.POIBYCONTRUCTION ||
-                  !warehouseImportReceiptDetails?.businessType?.code ===
+                (warehouseImportReceiptDetails?.businessType?.code !==
+                  CODE_BUSSINESS_TYPE.POINORMAL ||
+                  warehouseImportReceiptDetails?.businessType?.code !==
                     CODE_BUSSINESS_TYPE.POIBYCONTRUCTION) ? (
                 <Grid item lg={6} xs={12}>
                   <LV
@@ -821,7 +834,7 @@ const displayFollowBusinessTypeManagement = (
                           `${itemDetail.id}` ===
                           warehouseImportReceiptDetails?.attributes?.find(
                             (item) =>
-                              item?.tableName === TABLE_NAME_ENUM.CONSTRUCTION,
+                              item?.tableName === TABLE_NAME_ENUM.VENDOR,
                           )?.value,
                       )?.code
                     } - ${
@@ -830,7 +843,7 @@ const displayFollowBusinessTypeManagement = (
                           `${itemDetail.id}` ===
                           warehouseImportReceiptDetails?.attributes?.find(
                             (item) =>
-                              item?.tableName === TABLE_NAME_ENUM.CONSTRUCTION,
+                              item?.tableName === TABLE_NAME_ENUM.VENDOR,
                           )?.value,
                       )?.name
                     }`}
@@ -889,7 +902,7 @@ const displayFollowBusinessTypeManagement = (
           case 'cost_types':
             return display.push(
               isEdit &&
-                !warehouseImportReceiptDetails?.businessType?.code ===
+                warehouseImportReceiptDetails?.businessType?.code !==
                   CODE_BUSSINESS_TYPE.POIBYCONTRUCTION ? (
                 <Grid item lg={6} xs={12}>
                   <LV
@@ -966,7 +979,7 @@ const displayFollowBusinessTypeManagement = (
           case 'organization_payments':
             return display.push(
               isEdit &&
-                !warehouseImportReceiptDetails?.businessType?.code ===
+                warehouseImportReceiptDetails?.businessType?.code !==
                   CODE_BUSSINESS_TYPE.POIBYCONTRUCTION ? (
                 <Grid item lg={6} xs={12}>
                   <LV

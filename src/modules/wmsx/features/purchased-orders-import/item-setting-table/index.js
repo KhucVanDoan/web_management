@@ -415,6 +415,8 @@ function ItemSettingTable(props) {
       field: 'quantity',
       headerName: t('purchasedOrderImport.item.quantity'),
       width: 180,
+      align: 'right',
+      headerAlign: 'left',
       renderCell: (params, index) => {
         const { quantity } = params.row
         return isView ? (
@@ -436,6 +438,8 @@ function ItemSettingTable(props) {
       headerName: t('purchasedOrder.item.storedQuantity'),
       width: 180,
       hide: hideCols,
+      align: 'right',
+      headerAlign: 'left',
       renderCell: (params, index) => {
         const { storedQuantity } = params.row
         return isView ? (
@@ -454,6 +458,8 @@ function ItemSettingTable(props) {
       headerName: t('purchasedOrderImport.item.remainQuantity'),
       width: 180,
       hide: hideCols,
+      align: 'right',
+      headerAlign: 'left',
       renderCell: (params, index) => {
         const { quantity, actualQuantity } = params.row
         return isView ? (
@@ -472,6 +478,8 @@ function ItemSettingTable(props) {
       headerName: t('purchasedOrderImport.item.actualQuantity'),
       width: 180,
       hide: hideCols,
+      align: 'right',
+      headerAlign: 'left',
       renderCell: (params, index) => {
         const { actualQuantity } = params.row
         return isView ? (

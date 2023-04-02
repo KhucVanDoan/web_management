@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 
 import { IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
@@ -10,7 +11,6 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import NumberFormatText from '~/components/NumberFormat'
 import { ACTIVE_STATUS } from '~/modules/wmsx/constants'
 import useLocationManagement from '~/modules/wmsx/redux/hooks/useLocationManagement'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
@@ -18,35 +18,66 @@ import { scrollToBottom, convertFilterParams } from '~/utils'
 
 function ItemsSettingTable(props) {
   const { t } = useTranslation(['wmsx'])
-  const { items, arrayHelpers, warehouseId } = props
+  const { items, arrayHelpers, warehouse, setFieldValue } = props
   const {
     data: { warehouseImportReceiptDetails },
   } = useWarehouseImportReceipt()
-  const itemList =
-    warehouseImportReceiptDetails?.purchasedOrderImportDetails?.map((item) => ({
-      ...item?.item,
-      quantity: item?.quantity,
-      receivedQuantity: item?.quantity,
-      itemId: item?.itemId,
-    }))
+  const itemList = []
+  warehouseImportReceiptDetails?.purchasedOrderImportWarehouseLots?.forEach(
+    (item) => {
+      const findItem = itemList?.find((e) => e?.itemId === item?.itemId)
+      if (isEmpty(findItem)) {
+        itemList.push({
+          ...item?.item,
+          importQuantity: item?.quantity,
+          receivedQuantity: item?.quantity,
+          lotNumber: item?.lotNumber,
+          itemId: item?.itemId,
+        })
+      }
+    },
+  )
+  const lotNumberLists =
+    warehouseImportReceiptDetails?.purchasedOrderImportWarehouseLots?.map(
+      (item) => ({
+        itemId: item?.itemId,
+        lotNumber: item?.lotNumber,
+      }),
+    )
   const {
     actions,
     data: { locationList },
   } = useLocationManagement()
 
   useEffect(() => {
-    if (warehouseId) {
+    if (!isEmpty(warehouse)) {
       actions.searchLocations({
         limit: ASYNC_SEARCH_LIMIT,
         filter: convertFilterParams({
-          warehouseId,
+          warehouseId: warehouse?.id,
           status: ACTIVE_STATUS.ACTIVE,
           type: [0, 1],
         }),
       })
     }
-  }, [warehouseId])
-  const getColumns = () => {
+  }, [warehouse])
+  const handleChangeLotNumber = (val, index) => {
+    if (val) {
+      const findLotNumber =
+        warehouseImportReceiptDetails?.purchasedOrderImportWarehouseLots?.find(
+          (lot) =>
+            lot?.itemId === val?.itemId && lot?.lotNumber === val?.lotNumber,
+        )
+      if (!isEmpty(findLotNumber)) {
+        setFieldValue(`items[${index}].importQuantity`, findLotNumber?.quantity)
+        setFieldValue(
+          `items[${index}].receivedQuantity`,
+          findLotNumber?.quantity,
+        )
+      }
+    }
+  }
+  const getColumns = useMemo(() => {
     return [
       {
         field: 'id',
@@ -111,16 +142,44 @@ function ItemsSettingTable(props) {
       //   },
       // },
       {
+        field: 'lotNumber',
+        headerName: t('warehouseImportReceipt.table.lotNumber'),
+        width: 180,
+        hide: !warehouse?.manageByLot,
+        renderCell: (params, index) => {
+          const lotNumberList = lotNumberLists?.filter(
+            (lot) => lot?.itemId === params?.row?.itemCode?.itemId,
+          )
+          return (
+            <Field.Autocomplete
+              name={`items[${index}].lotNumber`}
+              options={lotNumberList}
+              getOptionLabel={(opt) => opt.lotNumber}
+              isOptionEqualToValue={(opt, val) =>
+                opt?.lotNumber === val?.lotNumber
+              }
+              onChange={(val) => handleChangeLotNumber(val, index)}
+              validate={(val) => {
+                if (!val) {
+                  return t('general:form.required')
+                }
+              }}
+            />
+          )
+        },
+      },
+      {
         field: 'importQuantity',
         headerName: t('warehouseImportReceipt.table.importQuantity'),
         width: 180,
-        headerAlign: 'left',
         align: 'right',
-        renderCell: (params) => {
+        headerAlign: 'left',
+        renderCell: (params, index) => {
           return (
-            <NumberFormatText
-              value={params?.row?.itemCode?.quantity}
+            <Field.TextField
+              name={`items[${index}].importQuantity`}
               formatter="quantity"
+              disabled
             />
           )
         },
@@ -136,22 +195,6 @@ function ItemsSettingTable(props) {
             <Field.TextField
               name={`items[${index}].receivedQuantity`}
               formatter="quantity"
-              validate={() => {
-                const totalReceivedQuantity = items
-                  .filter(
-                    (item) =>
-                      item.itemCode?.itemId === params?.row?.itemCode?.itemId,
-                  )
-                  .reduce((prev, cur) => prev + Number(cur.receivedQuantity), 0)
-                if (
-                  totalReceivedQuantity &&
-                  totalReceivedQuantity !== params?.row?.itemCode?.quantity
-                ) {
-                  return t('general:form.equalItem', {
-                    quantity: params?.row?.itemCode?.quantity,
-                  })
-                }
-              }}
             />
           )
         },
@@ -165,6 +208,8 @@ function ItemsSettingTable(props) {
             .filter(
               (item) =>
                 item.itemCode?.itemId === params?.row?.itemCode?.itemId &&
+                item?.lotNumber?.lotNumber ===
+                  params?.row?.lotNumber?.lotNumber &&
                 item?.id !== params?.row?.id,
             )
             .map((item) => item.locator?.locatorId)
@@ -195,7 +240,7 @@ function ItemsSettingTable(props) {
         },
       },
     ]
-  }
+  }, [itemList])
 
   return (
     <>
@@ -232,7 +277,7 @@ function ItemsSettingTable(props) {
       </Box>
       <DataTable
         rows={items}
-        columns={getColumns()}
+        columns={getColumns}
         hideSetting
         hideFooter
         striped={false}

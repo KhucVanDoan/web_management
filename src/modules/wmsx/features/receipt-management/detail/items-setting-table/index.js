@@ -49,6 +49,7 @@ const ItemSettingTable = ({ items }) => {
       headerName: t('receiptManagement.itemDetails.quantity'),
       width: 150,
       align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => {
         return (
           <NumberFormatText value={params.row?.quantity} formatter="quantity" />
@@ -60,6 +61,7 @@ const ItemSettingTable = ({ items }) => {
       headerName: t('receiptManagement.itemDetails.price'),
       width: 150,
       align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => {
         return <NumberFormatText value={params.row?.price} formatter="price" />
       },
@@ -69,6 +71,7 @@ const ItemSettingTable = ({ items }) => {
       headerName: t('receiptManagement.itemDetails.amount'),
       width: 150,
       align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => {
         return <NumberFormatText value={params.row?.amount} formatter="price" />
       },

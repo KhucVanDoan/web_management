@@ -45,13 +45,17 @@ function* doUpdateHaderWarehouseImportReceipt(action) {
         response?.message || response?.payload?.message,
         NOTIFICATION_TYPE.ERROR,
       )
-      throw new Error(response?.message || response?.payload?.message)
+      yield put(updateHeaderWarehouseImportReceiptFailed())
+      // Call callback action if provided
+      if (action.onError) {
+        yield action.onError(response)
+      }
     }
   } catch (error) {
     yield put(updateHeaderWarehouseImportReceiptFailed())
     // Call callback action if provided
     if (action.onError) {
-      yield action.onError()
+      yield action.onError(error)
     }
   }
 }

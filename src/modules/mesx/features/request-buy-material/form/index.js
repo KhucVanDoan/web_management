@@ -101,7 +101,8 @@ function RequestBuyMaterialForm() {
       field: 'quantity',
       headerName: t('requestBuyMaterial.item.quantity'),
       width: 180,
-      align: 'center',
+      align: 'right',
+      headerAlign: 'left',
     },
     {
       field: 'itemUnit',

@@ -118,6 +118,8 @@ function InventorySetting() {
       headerName: t('inventorySetting.minInventoryLimit'),
       width: 50,
       sortable: true,
+      align: 'right',
+      headerAlign: 'left',
       renderCell: ({ row }) => (
         <NumberFormatText value={row.minInventoryLimit} formatter="quantity" />
       ),
@@ -127,6 +129,8 @@ function InventorySetting() {
       headerName: t('inventorySetting.inventoryLimit'),
       width: 50,
       sortable: true,
+      align: 'right',
+      headerAlign: 'left',
       renderCell: ({ row }) => (
         <NumberFormatText value={row.inventoryLimit} formatter="quantity" />
       ),
@@ -136,6 +140,8 @@ function InventorySetting() {
       headerName: t('inventorySetting.maxInventoryLimit'),
       width: 50,
       sortable: true,
+      align: 'right',
+      headerAlign: 'left',
       renderCell: ({ row }) => (
         <NumberFormatText value={row.maxInventoryLimit} formatter="quantity" />
       ),

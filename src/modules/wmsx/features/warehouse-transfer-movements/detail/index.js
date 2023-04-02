@@ -102,11 +102,15 @@ function WarehouseTransferMovementsDetail() {
       field: 'planQuantity',
       width: 150,
       headerName: t('warehouseTransferMovement.item.quantity'),
+      align: 'right',
+      headerAlign: 'left',
     },
     {
       field: 'quantity',
       width: 150,
       headerName: t('warehouseTransferMovement.item.movementQuantity'),
+      align: 'right',
+      headerAlign: 'left',
     },
   ]
 

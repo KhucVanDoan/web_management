@@ -317,6 +317,8 @@ function ItemSettingTable(props) {
       field: 'quantity',
       headerName: t('returnOrder.items.planQuantity'),
       width: 180,
+      align: 'right',
+      headerAlign: 'left',
       renderCell: (params, index) => {
         return isView ? (
           <>{params?.row?.planQuantity}</>
@@ -341,6 +343,8 @@ function ItemSettingTable(props) {
             field: 'remainQuantity',
             headerName: t('returnOrder.items.remainQuantity'),
             width: 180,
+            align: 'right',
+            headerAlign: 'left',
             renderCell: (params, index) => {
               const { planQuantity, actualQuantity } = params.row
               return isView ? (
@@ -365,6 +369,8 @@ function ItemSettingTable(props) {
             field: 'actualQuantity',
             headerName: t('returnOrder.items.actualQuantity'),
             width: 180,
+            align: 'right',
+            headerAlign: 'left',
             renderCell: (params, index) => {
               return isView ? (
                 <>{params?.row?.actualQuantity}</>

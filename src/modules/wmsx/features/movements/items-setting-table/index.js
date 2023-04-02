@@ -32,21 +32,21 @@ const ItemSettingTable = ({ items, movementType }) => {
           if (totalLotsInItem === 1) {
             rowSpanMatrix.push([1])
           } else if (lotIndex === totalLotsInItem - 1) {
-            rowSpanMatrix.push([-1, -1, -1, -1, -1, 1, 1, -1, 1])
+            rowSpanMatrix.push([-1, -1, -1, -1, 1, 1, 1, 1, 1])
           } else if (lotIndex === 0) {
             rowSpanMatrix.push([
               totalLotsInItem,
               totalLotsInItem,
               totalLotsInItem,
               totalLotsInItem,
-              totalLotsInItem,
               1,
               1,
-              totalLotsInItem,
+              1,
+              1,
               1,
             ])
           } else {
-            rowSpanMatrix.push([-1, -1, -1, -1, -1, 1, 1, -1, 1])
+            rowSpanMatrix.push([-1, -1, -1, -1, 1, 1, 1, 1, 1])
           }
           rows.push(obj)
         })
@@ -107,6 +107,8 @@ const ItemSettingTable = ({ items, movementType }) => {
         movementType === MOVEMENT_TYPE.TRANSFER_IMPORT ||
         movementType === MOVEMENT_TYPE.PO_IMPORT,
       width: 120,
+      align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => (
         <NumberFormatText value={+params?.row?.quantity} formatter="quantity" />
       ),
@@ -133,6 +135,8 @@ const ItemSettingTable = ({ items, movementType }) => {
         movementType === MOVEMENT_TYPE.SO_EXPORT ||
         movementType === MOVEMENT_TYPE.TRANSFER_EXPORT,
       width: 120,
+      align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => (
         <NumberFormatText value={+params?.row?.quantity} formatter="quantity" />
       ),
@@ -145,6 +149,8 @@ const ItemSettingTable = ({ items, movementType }) => {
         movementType === MOVEMENT_TYPE.TRANSFER_IMPORT ||
         movementType === MOVEMENT_TYPE.PO_IMPORT,
       width: 120,
+      align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => (
         <NumberFormatText
           value={+params?.row?.planQuantity}
@@ -172,6 +178,8 @@ const ItemSettingTable = ({ items, movementType }) => {
         movementType === MOVEMENT_TYPE.SO_EXPORT ||
         movementType === MOVEMENT_TYPE.TRANSFER_EXPORT,
       width: 120,
+      align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => (
         <NumberFormatText
           value={+params.row?.planQuantity}

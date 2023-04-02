@@ -124,18 +124,24 @@ function InventoryWarning() {
       headerName: t('inventoryWarning.quantity'),
       width: 150,
       sortable: true,
+      align: 'right',
+      headerAlign: 'left',
     },
     {
       field: 'price',
       headerName: t('inventoryWarning.price'),
       width: 150,
       sortable: true,
+      align: 'right',
+      headerAlign: 'left',
     },
     {
       field: 'intoMoney',
       headerName: t('inventoryWarning.intoMoney'),
       width: 150,
       sortable: true,
+      align: 'right',
+      headerAlign: 'left',
     },
   ]
 

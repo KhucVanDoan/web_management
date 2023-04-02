@@ -65,18 +65,21 @@ export const DetailJob = () => {
         headerName: t('defineMasterPlan.itemDetail.quantityPlan'),
         width: 150,
         align: 'right',
+        headerAlign: 'left',
       },
       {
         field: 'restQuantity',
         headerName: t('defineMasterPlan.restQuantity'),
         width: 150,
         align: 'right',
+        headerAlign: 'left',
       },
       {
         field: 'total',
         headerName: t('defineMasterPlan.inputModeration.total'),
         width: 100,
         align: 'right',
+        headerAlign: 'left',
       },
       ...(saleOder?.itemSchedules?.[0]?.quantityDays?.days || []).map(
         (d, index) => ({
@@ -84,6 +87,7 @@ export const DetailJob = () => {
           headerName: convertUtcDateToLocalTz(d?.executionDate),
           width: 100,
           align: 'right',
+          headerAlign: 'left',
           renderCell: (params) => {
             return params?.row?.schedules[index]?.quantity
           },

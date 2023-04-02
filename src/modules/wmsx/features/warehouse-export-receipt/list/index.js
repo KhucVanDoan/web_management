@@ -22,6 +22,7 @@ import {
   WAREHOUSE_EXPORT_RECEIPT_STATUS,
   WAREHOUSE_EXPORT_RECEIPT_STATUS_OPTIONS,
   STATUS_SYNC_WAREHOUSE_EXPORT_TO_EBS_OPTIONS,
+  SYNC_STATUS_CAN_UPDATE_HEADER_POI,
 } from '~/modules/wmsx/constants'
 import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
 import {
@@ -217,17 +218,11 @@ function WarehouseExportReceipt() {
           syncStatus === STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR
         const isEditHeader =
           (status === WAREHOUSE_EXPORT_RECEIPT_STATUS.IN_COLLECTING &&
-            (syncStatus === STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC ||
-              syncStatus === STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR ||
-              syncStatus === STATUS_SYNC_ORDER_TO_EBS.COMPLETED)) ||
+            SYNC_STATUS_CAN_UPDATE_HEADER_POI.includes(syncStatus)) ||
           (status === WAREHOUSE_EXPORT_RECEIPT_STATUS.COMPLETED &&
-            (syncStatus === STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC ||
-              syncStatus === STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR ||
-              syncStatus === STATUS_SYNC_ORDER_TO_EBS.COMPLETED)) ||
+            SYNC_STATUS_CAN_UPDATE_HEADER_POI.includes(syncStatus)) ||
           (status === WAREHOUSE_EXPORT_RECEIPT_STATUS.COLLECTED &&
-            (syncStatus === STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC ||
-              syncStatus === STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR ||
-              syncStatus === STATUS_SYNC_ORDER_TO_EBS.COMPLETED))
+            SYNC_STATUS_CAN_UPDATE_HEADER_POI.includes(syncStatus))
         return (
           <div>
             <Guard code={FUNCTION_CODE.SALE_DETAIL_SALE_ORDER_EXPORT}>
@@ -266,11 +261,11 @@ function WarehouseExportReceipt() {
               </Guard>
             )}
             {isEditHeader && (
-              <Guard code={FUNCTION_CODE.SALE_UPDATE_SALE_ORDER_EXPORT}>
+              <Guard code={FUNCTION_CODE.SALE_UPDATE_HEADER_SALE_ORDER_EXPORT}>
                 <IconButton
                   onClick={() =>
                     history.push(
-                      ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT.PATH.replace(
+                      ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT_HEADER.PATH.replace(
                         ':id',
                         `${id}`,
                       ),

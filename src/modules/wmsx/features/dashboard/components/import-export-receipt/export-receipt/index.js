@@ -49,22 +49,32 @@ const ExportReceipt = ({ fromDate, toDate }) => {
     {
       field: 'totalOrder',
       headerName: t('dashboard.exportReceipt.total'),
+      align: 'right',
+      headerAlign: 'left',
     },
     {
       field: 'totalInCollecting',
       headerName: t('dashboard.exportReceipt.pickingItem'),
+      align: 'right',
+      headerAlign: 'left',
     },
     {
       field: 'totalCollected',
       headerName: t('dashboard.exportReceipt.pendingExport'),
+      align: 'right',
+      headerAlign: 'left',
     },
     {
       field: 'totalCompleted',
       headerName: t('dashboard.exportReceipt.exported'),
+      align: 'right',
+      headerAlign: 'left',
     },
     {
       field: 'totalEbs',
       headerName: t('dashboard.exportReceipt.ebsExport'),
+      align: 'right',
+      headerAlign: 'left',
     },
   ]
   return (

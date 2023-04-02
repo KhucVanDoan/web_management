@@ -497,6 +497,13 @@ const routes = [
             isInSidebar: false,
           },
           {
+            name: ROUTE.WAREHOUSE_IMPORT_RECEIPT.EDIT_HEADER.TITLE,
+            path: ROUTE.WAREHOUSE_IMPORT_RECEIPT.EDIT_HEADER.PATH,
+            component: WarehouseImportReceiptForm,
+            code: FUNCTION_CODE.SALE_UPDATE_HEADER_PURCHASED_ORDER_IMPORT,
+            isInSidebar: false,
+          },
+          {
             name: ROUTE.WAREHOUSE_IMPORT_RECEIPT.TRANSACTIONS.LIST.TITLE,
             path: ROUTE.WAREHOUSE_IMPORT_RECEIPT.TRANSACTIONS.LIST.PATH,
             component: WarehouseImportReceiptTransactions,
@@ -537,6 +544,13 @@ const routes = [
             path: ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT.PATH,
             component: WarehouseExportReceiptForm,
             code: FUNCTION_CODE.SALE_UPDATE_SALE_ORDER_EXPORT,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT_HEADER.TITLE,
+            path: ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT_HEADER.PATH,
+            component: WarehouseExportReceiptForm,
+            // code: FUNCTION_CODE.SALE_UPDATE_HEADER_SALE_ORDER_EXPORT,
             isInSidebar: false,
           },
           {

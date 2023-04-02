@@ -305,7 +305,7 @@ const displayFollowBusinessTypeManagement = (
           case 'constructions':
             return display.push(
               isEdit &&
-                !warehouseExportReceiptDetails?.businessType?.code ===
+                warehouseExportReceiptDetails?.businessType?.code !==
                   CODE_BUSSINESS_TYPE.SOEBYCONTRUCTION ? (
                 <Grid item lg={6} xs={12}>
                   <LV
@@ -394,7 +394,7 @@ const displayFollowBusinessTypeManagement = (
           case 'category_constructions':
             return display.push(
               isEdit &&
-                !warehouseExportReceiptDetails?.businessType?.code ===
+                warehouseExportReceiptDetails?.businessType?.code !==
                   CODE_BUSSINESS_TYPE.SOEBYCONTRUCTION ? (
                 <Grid item lg={6} xs={12}>
                   <LV
@@ -485,11 +485,7 @@ const displayFollowBusinessTypeManagement = (
               isEdit ? (
                 <Grid item lg={6} xs={12}>
                   <LV
-                    label={
-                      <Typography>
-                        {t('warehouseImportReceipt.suggestExport')}
-                      </Typography>
-                    }
+                    label={<Typography>{item?.fieldName}</Typography>}
                     value={
                       attributesBusinessTypeDetails[item.tableName]?.find(
                         (itemDetail) =>
@@ -507,8 +503,8 @@ const displayFollowBusinessTypeManagement = (
                 <Grid item lg={6} xs={12}>
                   <Field.Autocomplete
                     name={item.id}
-                    label={t('warehouseImportReceipt.suggestExport')}
-                    placeholder={t('warehouseImportReceipt.suggestExport')}
+                    label={item?.fieldName}
+                    placeholder={item?.fieldName}
                     asyncRequest={(s) =>
                       searchWarehouseExportProposalApi({
                         keyword: s,
@@ -543,8 +539,8 @@ const displayFollowBusinessTypeManagement = (
               <Grid item lg={6} xs={12}>
                 <Field.Autocomplete
                   name={item.id}
-                  label={t('warehouseImportReceipt.receiptNo')}
-                  placeholder={t('warehouseImportReceipt.receiptNo')}
+                  label={item?.fieldName}
+                  placeholder={item?.fieldName}
                   asyncRequest={(s) => {
                     return searchReceiptApi({
                       keyword: s,
@@ -573,10 +569,8 @@ const displayFollowBusinessTypeManagement = (
               <Grid item lg={6} xs={12}>
                 <Field.Autocomplete
                   name={item.id}
-                  label={t('warehouseImportReceipt.warehouseExportReceipt')}
-                  placeholder={t(
-                    'warehouseImportReceipt.warehouseExportReceipt',
-                  )}
+                  label={item?.fieldName}
+                  placeholder={item?.fieldName}
                   asyncRequest={(s) => {
                     return searchWarehouseExportReceiptApi({
                       keyword: s,
@@ -647,7 +641,7 @@ const displayFollowBusinessTypeManagement = (
           case 'cost_types':
             return display.push(
               isEdit &&
-                !warehouseExportReceiptDetails?.businessType?.code ===
+                warehouseExportReceiptDetails?.businessType?.code !==
                   CODE_BUSSINESS_TYPE.SOEBYCONTRUCTION ? (
                 <Grid item lg={6} xs={12}>
                   <LV
@@ -724,7 +718,7 @@ const displayFollowBusinessTypeManagement = (
           case 'organization_payments':
             return display.push(
               isEdit &&
-                !warehouseExportReceiptDetails?.businessType?.code ===
+                warehouseExportReceiptDetails?.businessType?.code !==
                   CODE_BUSSINESS_TYPE.SOEBYCONTRUCTION ? (
                 <Grid item lg={6} xs={12}>
                   <LV
@@ -805,11 +799,7 @@ const displayFollowBusinessTypeManagement = (
               isEdit ? (
                 <Grid item lg={6} xs={12}>
                   <LV
-                    label={
-                      <Typography>
-                        {t('warehouseImportReceipt.warehouseImportReceipt')}
-                      </Typography>
-                    }
+                    label={<Typography>{item?.fieldName}</Typography>}
                     value={
                       attributesBusinessTypeDetails[item.tableName]?.find(
                         (itemDetail) =>
@@ -827,7 +817,7 @@ const displayFollowBusinessTypeManagement = (
                 <Grid item lg={6} xs={12}>
                   <Field.Autocomplete
                     name={item.id}
-                    label={t(`warehouseExportReceipt.warehouseImportReceipt`)}
+                    label={item?.fieldName}
                     asyncRequest={(s) => {
                       return searchWarehouseImportReceiptApi({
                         keyword: s,

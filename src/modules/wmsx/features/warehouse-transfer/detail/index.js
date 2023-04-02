@@ -178,7 +178,6 @@ const WarehouseTransferDetail = () => {
           </Guard>
         )
       default:
-        break
     }
   }
   const dowFile = async (params) => {
