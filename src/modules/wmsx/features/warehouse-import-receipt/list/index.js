@@ -257,18 +257,8 @@ function WarehouseImportReceipt() {
               </IconButton>
             )}
             {isEditHeader && (
-              // <Guard
-              //   code={FUNCTION_CODE.SALE_UPDATE_HEADER_PURCHASED_ORDER_IMPORT}
-              // >
-              <IconButton
-                onClick={() =>
-                  history.push(
-                    ROUTE.WAREHOUSE_IMPORT_RECEIPT.EDIT.PATH.replace(
-                      ':id',
-                      `${id}`,
-                    ),
-                  )
-                }
+              <Guard
+                code={FUNCTION_CODE.SALE_UPDATE_HEADER_PURCHASED_ORDER_IMPORT}
               >
                 <IconButton
                   onClick={() =>
