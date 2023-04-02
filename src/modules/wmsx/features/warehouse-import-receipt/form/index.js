@@ -866,6 +866,7 @@ function WarehouseImportReceiptForm() {
                           }
                           onChange={() => {
                             setFieldValue('sourceId', null)
+                            setFieldValue('items', [{ ...DEFAULT_ITEMS }])
                           }}
                           required
                         />
