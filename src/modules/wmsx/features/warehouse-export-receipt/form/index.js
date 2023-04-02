@@ -319,6 +319,7 @@ function WarehouseExportReceiptForm() {
           )?.value,
         )
         const warehouseList = []
+        setWarehouseExportProposalId(res?.data?.id)
         res?.data?.items?.forEach((item) => {
           item?.childrens?.forEach((children) => {
             const findWarehouse = warehouseList?.find(
@@ -785,7 +786,7 @@ function WarehouseExportReceiptForm() {
         <Grid item xl={11} xs={12}>
           <Formik
             initialValues={initialValues}
-            validationSchema={formSchema(t)}
+            validationSchema={formSchema(t, isEdit)}
             onSubmit={onSubmit}
             enableReinitialize
           >

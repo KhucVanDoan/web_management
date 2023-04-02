@@ -157,7 +157,7 @@ const displayFollowBusinessTypeManagement = (
   const handleChangeProposals = async (val) => {
     setItemWarehouseExportProposal([])
     if (isEmpty(val)) {
-      setFieldValue('items', { ...DEFAULT_ITEMS })
+      setFieldValue('items', [{ ...DEFAULT_ITEMS }])
       if (
         isEmpty(
           values[
@@ -452,7 +452,7 @@ const displayFollowBusinessTypeManagement = (
           case 'constructions':
             return display.push(
               isEdit &&
-                warehouseImportReceiptDetails?.businessType?.code !==
+                !warehouseImportReceiptDetails?.businessType?.code ===
                   CODE_BUSSINESS_TYPE.POIBYCONTRUCTION ? (
                 <Grid item lg={6} xs={12}>
                   <LV
@@ -541,7 +541,7 @@ const displayFollowBusinessTypeManagement = (
           case 'category_constructions':
             return display.push(
               isEdit &&
-                warehouseImportReceiptDetails?.businessType?.code !==
+                !warehouseImportReceiptDetails?.businessType?.code ===
                   CODE_BUSSINESS_TYPE.POIBYCONTRUCTION ? (
                 <Grid item lg={6} xs={12}>
                   <LV
@@ -820,10 +820,11 @@ const displayFollowBusinessTypeManagement = (
             )
           case 'vendors':
             return display.push(
-              isEdit &&
-                (warehouseImportReceiptDetails?.businessType?.code !==
-                  CODE_BUSSINESS_TYPE.POINORMAL ||
-                  warehouseImportReceiptDetails?.businessType?.code !==
+              (isEdit &&
+                !warehouseImportReceiptDetails?.businessType?.code ===
+                  CODE_BUSSINESS_TYPE.POINORMAL) ||
+                (isEdit &&
+                  !warehouseImportReceiptDetails?.businessType?.code ===
                     CODE_BUSSINESS_TYPE.POIBYCONTRUCTION) ? (
                 <Grid item lg={6} xs={12}>
                   <LV
@@ -849,9 +850,10 @@ const displayFollowBusinessTypeManagement = (
                     }`}
                   />
                 </Grid>
-              ) : isEdit &&
-                (warehouseImportReceiptDetails?.businessType?.code ===
-                  CODE_BUSSINESS_TYPE.POIBYCONTRUCTION ||
+              ) : (isEdit &&
+                  warehouseImportReceiptDetails?.businessType?.code ===
+                    CODE_BUSSINESS_TYPE.POIBYCONTRUCTION) ||
+                (isEdit &&
                   warehouseImportReceiptDetails?.businessType?.code ===
                     CODE_BUSSINESS_TYPE.POIBYCONTRUCTION) ? (
                 <Grid item lg={6} xs={12}>
@@ -902,7 +904,7 @@ const displayFollowBusinessTypeManagement = (
           case 'cost_types':
             return display.push(
               isEdit &&
-                warehouseImportReceiptDetails?.businessType?.code !==
+                !warehouseImportReceiptDetails?.businessType?.code ===
                   CODE_BUSSINESS_TYPE.POIBYCONTRUCTION ? (
                 <Grid item lg={6} xs={12}>
                   <LV
@@ -979,7 +981,7 @@ const displayFollowBusinessTypeManagement = (
           case 'organization_payments':
             return display.push(
               isEdit &&
-                warehouseImportReceiptDetails?.businessType?.code !==
+                !warehouseImportReceiptDetails?.businessType?.code ===
                   CODE_BUSSINESS_TYPE.POIBYCONTRUCTION ? (
                 <Grid item lg={6} xs={12}>
                   <LV
