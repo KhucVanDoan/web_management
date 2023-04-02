@@ -77,6 +77,16 @@ function ItemsSettingTable(props) {
       }
     }
   }
+  const handleChangeItem = (val, index) => {
+    const findItem = itemList?.find((e) => e?.itemId === val?.itemId)
+    if (!isEmpty(findItem)) {
+      setFieldValue(`items[${index}].importQuantity`, findItem?.importQuantity)
+      setFieldValue(
+        `items[${index}].receivedQuantity`,
+        findItem?.receivedQuantity,
+      )
+    }
+  }
   const getColumns = useMemo(() => {
     return [
       {
@@ -99,6 +109,7 @@ function ItemsSettingTable(props) {
               getOptionLabel={(opt) => opt?.code || ''}
               getOptionSubLabel={(opt) => opt?.name || ''}
               isOptionEqualToValue={(opt, val) => opt?.itemId === val?.itemId}
+              onChange={(val) => handleChangeItem(val, index)}
             />
           )
         },

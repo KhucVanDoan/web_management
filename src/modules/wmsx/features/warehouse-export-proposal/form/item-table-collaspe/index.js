@@ -77,9 +77,10 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
             const findItem = lotNumberlist?.find(
               (lot) =>
                 lot?.itemId === item?.itemId &&
-                lot?.lotNumber === item?.lotNumber &&
-                new Date(`${lot?.mfg}`).toISOString() ===
-                  new Date(`${item?.mfg}`).toISOString(),
+                lot?.lotNumber === item?.lotNumber,
+              // &&
+              // new Date(`${lot?.mfg}`).toISOString() ===
+              //   new Date(`${item?.mfg}`).toISOString(),
             )
             if (isEmpty(findItem)) {
               lotNumberlist.push({
