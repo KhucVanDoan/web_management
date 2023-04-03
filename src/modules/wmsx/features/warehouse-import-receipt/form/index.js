@@ -132,10 +132,11 @@ function WarehouseImportReceiptForm() {
       sourceId: warehouseImportReceiptDetails?.source || null,
       receiptEBS: warehouseImportReceiptDetails?.ebsId || '',
       explaination:
-        warehouseImportReceiptDetails?.explanation ||
-        `${t(
-          `warehouseImportReceipt.warehouseInputDate`,
-        )} [${convertUtcDateToLocalTz(new Date().toISOString())}]`,
+        isUpdate || isUpdateHeader
+          ? warehouseImportReceiptDetails?.explanation
+          : `${t(
+              `warehouseImportReceipt.warehouseInputDate`,
+            )} [${convertUtcDateToLocalTz(new Date().toISOString())}]`,
       items:
         warehouseImportReceiptDetails?.purchasedOrderImportWarehouseLots?.map(
           (item) => ({
@@ -413,10 +414,51 @@ function WarehouseImportReceiptForm() {
       setIsOpenModalUpdateHeade(true)
     } else {
       const paramUpdate = {
-        ...params,
         code: warehouseImportReceiptDetails?.code,
         id: id,
+        deliver: values?.deliver,
+        businessTypeId: values?.businessTypeId?.id,
+        reasonId: values?.reasonId?.id,
+        explanation: values?.explaination || '',
+        receiptDate: values?.receiptDate?.toISOString(),
+        departmentReceiptId: values?.departmentReceiptId?.id,
+        sourceId: values?.sourceId?.id,
+        warehouseId: values?.warehouse?.id,
+        contractNumber: values?.contractNumber,
+        attachment: values?.attachment[0]?.id ? null : values?.attachment,
+        files: values?.attachment[0]?.id
+          ? JSON.stringify([{ id: values?.attachment[0]?.id }])
+          : [],
+        items: JSON.stringify(
+          values?.items?.map((item) => ({
+            id:
+              +item?.itemCode?.itemId ||
+              +item?.itemCode?.id ||
+              +item?.itemCode?.itemCode?.itemId,
+            requestedItemIdImportActual: item?.itemCode?.item?.code,
+            lotNumber: '',
+            quantity: +item?.importQuantity || item?.quantity,
+            price: item?.price || (item?.money / item?.quantity).toFixed(2),
+            amount: item?.money,
+            debitAccount:
+              item?.debitAccount?.replace(/^(\d*?[1-9])0+$/, '$1') || null,
+            creditAccount:
+              item?.creditAccount ||
+              creditAccount?.replace(/^(\d*?[1-9])0+$/, '$1'),
+            warehouseId: values?.warehouse?.id,
+          })),
+        ),
       }
+
+      values?.businessTypeId?.bussinessTypeAttributes?.forEach((att, index) => {
+        // if (values[att.tableName]) {
+        //   params[`attributes[${index}].id`] = att.id
+        //   params[`attributes[${index}].value`] = values[att.tableName]?.id
+        // }
+        paramUpdate[`attributes[${index}].id`] = att.id
+        paramUpdate[`attributes[${index}].value`] =
+          values[att.id]?.id || values[att.id] || ''
+      })
       actions.updateWarehouseImportReceipt(paramUpdate, backToList)
     }
   }
@@ -892,6 +934,7 @@ function WarehouseImportReceiptForm() {
                             }),
                           })
                         }
+                        asyncRequestDeps={values?.warehouse}
                         asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
