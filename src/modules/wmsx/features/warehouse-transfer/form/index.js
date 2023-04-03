@@ -165,7 +165,7 @@ const WarehouseTransferForm = () => {
       bussinessTypeId: values?.businessTypeId?.id,
       sourceWarehouseId: +values?.sourceWarehouseId?.id,
       receiptDate: values?.receiptDate.toISOString(),
-      sourceId: !isEmpty(values?.sourceId) ? values?.sourceId?.id : null,
+      sourceId: !isEmpty(values?.sourceId) ? values?.sourceId?.id : '',
       reasonId: values?.reasonId?.id,
       type: +values?.type,
       receiver: values?.deliver,
@@ -195,18 +195,8 @@ const WarehouseTransferForm = () => {
       }
     })
     if (isUpdate) {
-      Object.keys(params).forEach((key) => {
-        if (params[key] === null) {
-          delete params[key]
-        }
-      })
       actions.updateWarehouseTransfer({ ...params, id: id }, backToList)
     } else {
-      Object.keys(params).forEach((key) => {
-        if (params[key] === null) {
-          delete params[key]
-        }
-      })
       actions.createWarehouseTransfer(params, backToList)
     }
   }

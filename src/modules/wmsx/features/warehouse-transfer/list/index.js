@@ -27,7 +27,11 @@ import {
 } from '~/modules/wmsx/constants'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import { convertFilterParams, convertSortParams } from '~/utils'
+import {
+  convertFilterParams,
+  convertSortParams,
+  convertUtcDateToLocalTz,
+} from '~/utils'
 
 import FilterForm from './filter-form'
 
@@ -90,7 +94,7 @@ const WarehouseTransfer = () => {
         headerName: t('warehouseTransfer.name'),
         width: 150,
         sortable: true,
-        fixed: true,
+        // fixed: true,
       },
       {
         field: 'type',
@@ -114,6 +118,22 @@ const WarehouseTransfer = () => {
         width: 150,
         renderCell: (params) => {
           return params?.row?.sourceWarehouse?.name
+        },
+      },
+      {
+        field: 'receiptDate',
+        headerName: t('warehouseTransfer.createdAt'),
+        width: 150,
+        renderCell: (params) => {
+          return convertUtcDateToLocalTz(params?.row?.receiptDate)
+        },
+      },
+      {
+        field: 'createdByUser',
+        headerName: t('warehouseTransfer.createdByUser'),
+        width: 150,
+        renderCell: (params) => {
+          return params?.row?.createdByUser?.fullName
         },
       },
       {

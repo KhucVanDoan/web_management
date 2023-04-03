@@ -74,12 +74,16 @@ const ItemSettingTable = (props) => {
       )?.planQuantity
     setFieldValue(`items[${index}].transferQuantity`, +planQuantity)
   }
-  const itemList = warehouseTransferDetails?.warehouseTransferDetailLots?.map(
-    (item) => ({
-      ...item?.item,
-      itemId: item?.itemId,
-    }),
-  )
+  const itemList = []
+  warehouseTransferDetails?.warehouseTransferDetailLots?.forEach((item) => {
+    const findItem = itemList?.find((e) => e?.itemId === item?.itemId)
+    if (isEmpty(findItem)) {
+      itemList.push({
+        ...item?.item,
+        itemId: item?.itemId,
+      })
+    }
+  })
   const lots = warehouseTransferDetails?.warehouseTransferDetailLots?.map(
     (item) => ({
       lotNumber: item?.lotNumber,

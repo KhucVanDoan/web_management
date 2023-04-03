@@ -8,6 +8,7 @@ import {
   ACTIVE_STATUS,
   CODE_BUSSINESS_TYPE,
   DATA_TYPE,
+  LIST_CODE_BUSSINESS_TYPE_PO,
   ORDER_STATUS,
   TABLE_NAME_ENUM,
   WAREHOUSE_EXPORT_PROPOSAL_STATUS,
@@ -820,12 +821,10 @@ const displayFollowBusinessTypeManagement = (
             )
           case 'vendors':
             return display.push(
-              (isEdit &&
-                !warehouseImportReceiptDetails?.businessType?.code ===
-                  CODE_BUSSINESS_TYPE.POINORMAL) ||
-                (isEdit &&
-                  !warehouseImportReceiptDetails?.businessType?.code ===
-                    CODE_BUSSINESS_TYPE.POIBYCONTRUCTION) ? (
+              isEdit &&
+                !LIST_CODE_BUSSINESS_TYPE_PO.includes(
+                  warehouseImportReceiptDetails?.businessType?.code,
+                ) ? (
                 <Grid item lg={6} xs={12}>
                   <LV
                     label={<Typography>{item?.fieldName}</Typography>}
@@ -850,12 +849,10 @@ const displayFollowBusinessTypeManagement = (
                     }`}
                   />
                 </Grid>
-              ) : (isEdit &&
-                  warehouseImportReceiptDetails?.businessType?.code ===
-                    CODE_BUSSINESS_TYPE.POIBYCONTRUCTION) ||
-                (isEdit &&
-                  warehouseImportReceiptDetails?.businessType?.code ===
-                    CODE_BUSSINESS_TYPE.POIBYCONTRUCTION) ? (
+              ) : isEdit &&
+                LIST_CODE_BUSSINESS_TYPE_PO.includes(
+                  warehouseImportReceiptDetails?.businessType?.code,
+                ) ? (
                 <Grid item lg={6} xs={12}>
                   <Field.Autocomplete
                     name={item.id}
