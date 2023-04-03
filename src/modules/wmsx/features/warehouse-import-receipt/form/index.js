@@ -24,7 +24,7 @@ import {
   ACTIVE_STATUS,
   CODE_TYPE_DATA_FATHER_JOB,
   PARENT_BUSINESS_TYPE,
-  ruleEbs,
+  ruleEBS,
   TABLE_NAME_ENUM,
   WAREHOUSE_IMPORT_RECEIPT_OPTIONS,
   WAREHOUSE_IMPORT_RECEIPT_STATUS,
@@ -428,8 +428,7 @@ function WarehouseImportReceiptForm() {
         warehouseImportReceiptDetails?.businessType?.id,
       reasonId:
         values?.reasonId?.id || warehouseImportReceiptDetails?.reason?.id,
-      explanation:
-        values?.explaination || warehouseImportReceiptDetails?.explanation,
+      explanation: values?.explaination || '',
       receiptDate:
         values?.receiptDate?.toISOString() ||
         warehouseImportReceiptDetails?.receiptDate,
@@ -460,22 +459,24 @@ function WarehouseImportReceiptForm() {
       //   params[`attributes[${index}].id`] = att.id
       //   params[`attributes[${index}].value`] = values[att.tableName]?.id
       // }
-      if (values[att.id]) {
-        paramsUpdateHeader[`attributes[${index}].id`] = att.id
-        paramsUpdateHeader[`attributes[${index}].value`] =
-          values[att.id]?.id || values[att.id]
-      }
+
+      paramsUpdateHeader[`attributes[${index}].id`] = att.id
+      paramsUpdateHeader[`attributes[${index}].value`] =
+        values[att.id]?.id || values[att.id] || ''
     })
     actions.updateHeaderWarehouseImportReceipt(
       { ...paramsUpdateHeader, id: +id },
       backToList,
       (val) => {
         setIsOpenModalUpdateHeade(false)
-        if (val?.message === ruleEbs) {
-          setFieldError('receiptEBS', ' ')
-        }
         if (val?.data?.ebsError) {
           setIsOpenModalConfirmEBS(true)
+        } else if (val?.message === ruleEBS.numberEbs) {
+          setFieldError('receiptEBS', ' ')
+        } else if (val?.message === ruleEBS.reason) {
+          setFieldError('reasonId', ' ')
+        } else if (val?.message === ruleEBS.warehouse) {
+          setFieldError('receiptEBS', ' ')
         }
       },
     )

@@ -2568,5 +2568,13 @@ export const CODE_BUSSINESS_TYPE = {
   POIBYCONTRUCTION: 'N0003',
   SOEBYCONTRUCTION: 'X0002',
 }
-export const ruleEbs = 'Số phiếu EBS không đúng quy tắc'
-export const ruleTransactionEbs = 'Số phiếu giao hàng EBS không đúng quy tắc'
+export const LIST_CODE_BUSSINESS_TYPE_PO = [
+  CODE_BUSSINESS_TYPE.POINORMAL,
+  CODE_BUSSINESS_TYPE.POIBYCONTRUCTION,
+]
+export const ruleEBS = {
+  numberEbs: 'Số phiếu EBS không đúng quy tắc',
+  transactionEbs: 'Số phiếu giao hàng EBS không đúng quy tắc',
+  reason: 'Lý do không hợp lệ',
+  warehouse: 'Kho không hợp lệ',
+}
