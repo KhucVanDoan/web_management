@@ -27,8 +27,7 @@ import {
   TABLE_NAME_ENUM,
   WAREHOUSE_EXPORT_RECEIPT_STATUS_OPTIONS,
   WAREHOUSE_EXPORT_RECEIPT_STATUS,
-  ruleEbs,
-  ruleTransactionEbs,
+  ruleEBS,
 } from '~/modules/wmsx/constants'
 import useSourceManagement from '~/modules/wmsx/redux/hooks/useSourceManagement'
 import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
@@ -496,9 +495,18 @@ function WarehouseExportReceiptForm() {
             }
           },
         )
-        if (mode === MODAL_MODE.CREATE) {
-          actions.createWarehouseExportReceipt(params, backToList)
-        } else if (mode === MODAL_MODE.UPDATE) {
+        if (
+          warehouseExportReceiptDetails?.status ===
+          WAREHOUSE_EXPORT_RECEIPT_STATUS.CONFIRMED
+        ) {
+          const paramUpdate = {
+            ...params,
+            code: warehouseExportReceiptDetails?.code,
+            id: +id,
+            status: WAREHOUSE_EXPORT_RECEIPT_STATUS.CONFIRMED,
+          }
+          actions.updateWarehouseExportReceipt(paramUpdate, backToList)
+        } else {
           const paramUpdate = {
             ...params,
             code: warehouseExportReceiptDetails?.code,
@@ -508,7 +516,62 @@ function WarehouseExportReceiptForm() {
         }
       }
     } else {
-      setIsOpenModalUpdateHeade(true)
+      if (
+        warehouseExportReceiptDetails?.status ===
+        WAREHOUSE_EXPORT_RECEIPT_STATUS.COMPLETED
+      ) {
+        setIsOpenModalUpdateHeade(true)
+      } else {
+        const paramsUpdateHeader = {
+          receiver: values?.deliver || warehouseExportReceiptDetails?.receiver,
+          businessTypeId:
+            values?.businessTypeId?.id ||
+            warehouseExportReceiptDetails?.businessType?.id,
+          reasonId:
+            values?.reasonId?.id || warehouseExportReceiptDetails?.reason?.id,
+          explaination:
+            values?.explanation ||
+            warehouseExportReceiptDetails?.explaination ||
+            '',
+          receiptDate:
+            values?.receiptDate.toISOString() ||
+            warehouseExportReceiptDetails?.receiptDate,
+          departmentReceiptId: values?.departmentReceiptId?.id,
+          sourceId:
+            values?.sourceId?.id || warehouseExportReceiptDetails?.source?.id,
+          warehouseId:
+            values?.warehouseId?.id ||
+            warehouseExportReceiptDetails?.warehouse?.id,
+          ebsId: values?.warehouseExportReceiptEBS || '',
+          transactionNumberCreated: values?.numberEBS || '',
+          items: JSON.stringify(
+            values?.items?.map((item) => ({
+              itemId: item?.itemId,
+              debitAccount: item?.debitAccount || '',
+            })),
+          ),
+        }
+        values?.businessTypeId?.bussinessTypeAttributes?.forEach(
+          (att, index) => {
+            // if (values[att.tableName]?.id) {
+            //   params[`attributes[${index}].id`] = att.id
+            //   params[`attributes[${index}].value`] = values[att.tableName]?.id
+            // }
+            if (values[att.id]) {
+              paramsUpdateHeader[`attributes[${index}].id`] = att.id
+              paramsUpdateHeader[`attributes[${index}].value`] =
+                values[att.id]?.id || values[att.id]
+            }
+          },
+        )
+        actions.updateHeaderWarehouseExportReceipt(
+          {
+            ...paramsUpdateHeader,
+            id: id,
+          },
+          backToList,
+        )
+      }
     }
   }
   const onSubmitUpdateHeader = (values, setFieldError) => {
@@ -558,14 +621,21 @@ function WarehouseExportReceiptForm() {
       },
       backToList,
       (val) => {
+        setIsOpenModalUpdateHeade(false)
         if (val?.data?.ebsError) {
           setIsOpenModalConfirmEBS(true)
-        }
-        setIsOpenModalUpdateHeade(false)
-        if (val?.message === ruleEbs) {
+        } else if (val?.message === ruleEBS?.numberEbs) {
           setFieldError('warehouseExportReceiptEBS', ' ')
-        } else if (val?.message === ruleTransactionEbs)
+        } else if (val?.message === ruleEBS.transactionEbs) {
           setFieldError('numberEBS', ' ')
+        } else if (val?.message === ruleEBS.warehouse) {
+          setFieldError('warehouseExportReceiptEBS', ' ')
+          setFieldError('numberEBS', ' ')
+        } else if (val?.message === ruleEBS.reason) {
+          setFieldError('reasonId', ' ')
+          setFieldError('warehouseExportReceiptEBS', ' ')
+          setFieldError('numberEBS', ' ')
+        }
       },
     )
     setIsOpenModalUpdateHeade(false)
@@ -710,9 +780,6 @@ function WarehouseExportReceiptForm() {
       warehouseExportReceiptDetails?.status ===
         WAREHOUSE_EXPORT_RECEIPT_STATUS.REJECTED
     ) {
-      setModal(false)
-      setIsOpenModalUpdateHeade(true)
-    } else {
       const params = {
         receiver: values?.deliver,
         businessTypeId: values?.businessTypeId?.id,
@@ -962,6 +1029,10 @@ function WarehouseExportReceiptForm() {
                           isOptionEqualToValue={(opt, val) =>
                             opt?.id === val?.id
                           }
+                          disabled={
+                            warehouseExportReceiptDetails?.status ===
+                            WAREHOUSE_EXPORT_RECEIPT_STATUS.CONFIRMED
+                          }
                           required
                         />
                       </Grid>
@@ -997,6 +1068,10 @@ function WarehouseExportReceiptForm() {
                             isOptionEqualToValue={(opt, val) =>
                               opt?.id === val?.id
                             }
+                            disabled={
+                              warehouseExportReceiptDetails?.status ===
+                              WAREHOUSE_EXPORT_RECEIPT_STATUS.CONFIRMED
+                            }
                             required
                           />
                         ) : (
@@ -1021,7 +1096,10 @@ function WarehouseExportReceiptForm() {
                               })
                             }
                             asyncRequestHelper={(res) => res?.data?.items}
-                            disabled={values[warehouseImportReceipt]}
+                            disabled={
+                              WAREHOUSE_EXPORT_RECEIPT_STATUS.CONFIRMED ||
+                              values[warehouseImportReceipt]
+                            }
                             getOptionLabel={(opt) =>
                               `${opt?.code} - ${opt?.name}`
                             }

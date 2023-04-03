@@ -2917,6 +2917,7 @@
     "messageWarning": "Phiếu xuất kho có ngày chứng từ xuất kho nhỏ hơn ngày chứng từ nhập kho. Bạn có chắc chắn tiếp tục tạo phiếu xuất kho?",
     "messageWarningCreate": "Cảnh báo ",
     "returnReceipt": "Trả phiếu",
+    "createdByUser": "Người tạo",
     "statusSync": {
       "pending": "chờ BOT xử lý",
       "error": "Lỗi xuất kho EBS",
@@ -3023,6 +3024,7 @@
     "rejected": "Từ chối",
     "received": "Đã nhập kho",
     "returnReceipt": "Trả phiếu",
+    "createdByUser": "Người tạo",
     "table": {
       "title": "Danh sách vật tư",
       "addButton": "Thêm vật tư",

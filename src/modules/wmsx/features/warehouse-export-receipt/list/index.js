@@ -140,6 +140,14 @@ function WarehouseExportReceipt() {
       },
     },
     {
+      field: 'createdByUser',
+      headerName: t('warehouseExportReceipt.createdByUser'),
+      width: 120,
+      renderCell: (params) => {
+        return params?.row?.user?.fullName
+      },
+    },
+    {
       field: 'status',
       headerName: t('warehouseExportReceipt.status'),
       width: 120,
@@ -204,7 +212,8 @@ function WarehouseExportReceipt() {
         const { id, status, warehouseId, syncStatus } = params?.row
         const isEdit =
           status === WAREHOUSE_EXPORT_RECEIPT_STATUS.PENDING ||
-          status === WAREHOUSE_EXPORT_RECEIPT_STATUS.REJECTED
+          status === WAREHOUSE_EXPORT_RECEIPT_STATUS.REJECTED ||
+          status === WAREHOUSE_EXPORT_RECEIPT_STATUS.CONFIRMED
         const isDelete =
           status === WAREHOUSE_EXPORT_RECEIPT_STATUS.PENDING ||
           status === WAREHOUSE_EXPORT_RECEIPT_STATUS.REJECTED

@@ -134,6 +134,14 @@ function WarehouseImportReceipt() {
       },
     },
     {
+      field: 'createdByUser',
+      headerName: t('warehouseImportReceipt.createdByUser'),
+      width: 150,
+      renderCell: (params) => {
+        return params?.row?.createdByUser?.fullName
+      },
+    },
+    {
       field: 'status',
       headerName: t('warehouseImportReceipt.status'),
       sortable: true,
