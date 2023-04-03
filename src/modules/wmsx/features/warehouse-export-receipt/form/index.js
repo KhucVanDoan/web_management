@@ -128,10 +128,11 @@ function WarehouseExportReceiptForm() {
       reasonId: warehouseExportReceiptDetails?.reason || null,
       sourceId: warehouseExportReceiptDetails?.source || null,
       explanation:
-        warehouseExportReceiptDetails?.explaination ||
-        `${t(
-          `warehouseExportReceipt.warehouseExportDate`,
-        )} [${convertUtcDateToLocalTz(new Date().toISOString())}]`,
+        isUpdate || isUpdateHeader
+          ? warehouseExportReceiptDetails?.explaination
+          : `${t(
+              `warehouseExportReceipt.warehouseExportDate`,
+            )} [${convertUtcDateToLocalTz(new Date().toISOString())}]`,
       project: warehouseExportReceiptDetails?.project || '',
       task: warehouseExportReceiptDetails?.task || '',
       suggestExport: warehouseExportReceiptDetails?.suggestExport || '',
@@ -557,11 +558,9 @@ function WarehouseExportReceiptForm() {
             //   params[`attributes[${index}].id`] = att.id
             //   params[`attributes[${index}].value`] = values[att.tableName]?.id
             // }
-            if (values[att.id]) {
-              paramsUpdateHeader[`attributes[${index}].id`] = att.id
-              paramsUpdateHeader[`attributes[${index}].value`] =
-                values[att.id]?.id || values[att.id]
-            }
+            paramsUpdateHeader[`attributes[${index}].id`] = att.id
+            paramsUpdateHeader[`attributes[${index}].value`] =
+              values[att.id]?.id || values[att.id] || ''
           },
         )
         actions.updateHeaderWarehouseExportReceipt(
@@ -830,8 +829,9 @@ function WarehouseExportReceiptForm() {
     }
   }
 
-  const onCloseModal = () => {
+  const onCloseModal = (setFieldError) => {
     setModal(false)
+    setFieldError('receiptDate', ' ')
   }
   const items = warehouseExportReceiptDetails?.itemsSync?.map((item) => ({
     ...item,
@@ -842,6 +842,7 @@ function WarehouseExportReceiptForm() {
       (e) => e?.itemId === item?.id,
     )?.amount,
   }))
+
   return (
     <Page
       breadcrumbs={getBreadcrumb()}
@@ -869,7 +870,6 @@ function WarehouseExportReceiptForm() {
                     item?.tableName ===
                     TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
                 )?.id
-
               return (
                 <Form>
                   <Grid
@@ -934,7 +934,6 @@ function WarehouseExportReceiptForm() {
                       <Grid item lg={6} xs={12}>
                         <Field.DatePicker
                           name="receiptDate"
-                          id="receiptDate"
                           label={t('warehouseExportReceipt.createdAt')}
                           placeholder={t('warehouseExportReceipt.createdAt')}
                           maxDate={new Date()}
@@ -1097,7 +1096,8 @@ function WarehouseExportReceiptForm() {
                             }
                             asyncRequestHelper={(res) => res?.data?.items}
                             disabled={
-                              WAREHOUSE_EXPORT_RECEIPT_STATUS.CONFIRMED ||
+                              warehouseExportReceiptDetails?.status ===
+                                WAREHOUSE_EXPORT_RECEIPT_STATUS.CONFIRMED ||
                               values[warehouseImportReceipt]
                             }
                             getOptionLabel={(opt) =>
@@ -1330,7 +1330,7 @@ function WarehouseExportReceiptForm() {
                   <Dialog
                     open={modal}
                     title={t('warehouseExportReceipt.messageWarningCreate')}
-                    onCancel={() => onCloseModal()}
+                    onCancel={() => onCloseModal(setFieldError)}
                     cancelLabel={t('general:common.no')}
                     onSubmit={() => onSubmitConfirm(values)}
                     submitLabel={t('general:common.yes')}
