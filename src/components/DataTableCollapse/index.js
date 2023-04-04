@@ -23,6 +23,7 @@ import style from './style'
 import { ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
 import Truncate from '../DataTable/Truncate'
 import useTableSetting from '~/components/DataTable/hooks/useTableSetting'
+import { Box } from '@mui/material'
 
 const DataTableCollapse = (props) => {
   const {
@@ -47,7 +48,6 @@ const DataTableCollapse = (props) => {
     onSettingChange,
     enableResizable,
     handleGetData,
-    expandable,
   } = props
 
   const [open, setOpen] = useState({})
@@ -72,6 +72,10 @@ const DataTableCollapse = (props) => {
     })
   }
 
+  useEffect(() => {
+    setOpen({})
+  }, [page, pageSize, sort])
+
   /**
    * Handle change order
    * @param {*} param
@@ -94,7 +98,7 @@ const DataTableCollapse = (props) => {
   useEffect(() => {
     initTableSetting(rawColumns)
   }, [rawColumns])
-  const handleApplySetting = () => {}
+
   return (
     <>
       {(title || filters || !hideSetting) && (
@@ -102,7 +106,6 @@ const DataTableCollapse = (props) => {
           title={title}
           columns={rawColumns}
           visibleColumns={visibleColumns}
-          onApplySetting={handleApplySetting}
           filters={filters}
           hideSetting={hideSetting}
           tableSettingKey={tableSettingKey}
@@ -142,7 +145,7 @@ const DataTableCollapse = (props) => {
               rows?.length > 0 &&
               rows?.map((row, index) => {
                 if (!row) return
-                const noExpandable = row?.[subDataKey]?.length > 0
+                const expandable = row?.[subDataKey]?.length > 0
                 return (
                   <React.Fragment>
                     <TableRow
@@ -155,10 +158,7 @@ const DataTableCollapse = (props) => {
                         // classes.tableRowHover,
                         'original',
                         {
-                          [classes.tableRowSelected]: open[index], // onChange={(newPage, newPageSize) => {
-                          //   onPageChange(newPage)
-                          //   onPageSizeChange(newPageSize)
-                          // }}
+                          [classes.tableRowSelected]: open[index],
                           [classes.tableRowRootSelected]: open[index] && isRoot,
                         },
                       )}
@@ -182,24 +182,35 @@ const DataTableCollapse = (props) => {
                             id={`data-table-${field}-${i}`}
                             width={width}
                           >
-                            {((i === 0 && noExpandable) ||
-                              (i === 0 && expandable)) && (
-                              <IconButton
-                                aria-label="expand row"
-                                size="small"
-                                onClick={() => onOpen(index, !open[index], row)}
-                                className={classes.toggler}
+                            {i === 0 && (expandable || props.expandable) ? (
+                              <Box
+                                sx={{
+                                  display: 'flex',
+                                  alignItems: 'flex-start',
+                                }}
                               >
-                                {open[index] ? <RemoveIcon /> : <AddIcon />}
-                              </IconButton>
+                                <IconButton
+                                  aria-label="expand row"
+                                  size="small"
+                                  onClick={() =>
+                                    onOpen(index, !open[index], row)
+                                  }
+                                  className={classes.toggler}
+                                >
+                                  {open[index] ? <RemoveIcon /> : <AddIcon />}
+                                </IconButton>
+
+                                {renderCellValue(cellValue, row)}
+                              </Box>
+                            ) : (
+                              renderCellValue(cellValue, row)
                             )}
-                            {renderCellValue(cellValue, row)}
                           </TableCell>
                         )
                       })}
                     </TableRow>
 
-                    {(noExpandable || expandable) && (
+                    {(expandable || props.expandable) && (
                       <TableRow className={classes.tableRowCollapse}>
                         <TableCell sx={{ p: 0 }} colSpan={columns.length}>
                           <Collapse
@@ -213,7 +224,7 @@ const DataTableCollapse = (props) => {
                             }}
                           >
                             <DataTableCollapse
-                              rows={row?.details}
+                              rows={row?.[subDataKey]}
                               columns={
                                 typeof subColumns === 'function'
                                   ? subColumns(row, index)

@@ -407,7 +407,6 @@ const Autocomplete = ({
       disableCloseOnSelect={multiple ? true : false}
       {...(isAsync
         ? {
-            value,
             options: getDisplayedAsyncOptions(),
             filterOptions: (opts) => opts,
             isOptionEqualToValue: (opt, val) => isOptEqual(opt, val),
@@ -415,6 +414,7 @@ const Autocomplete = ({
             ...(multiple
               ? {
                   // async multiple
+                  value: value ?? [],
                   onChange: (_, newVal, reason) => {
                     onChange(newVal)
                     if (
@@ -432,7 +432,7 @@ const Autocomplete = ({
                 }
               : {
                   // async single
-                  key: JSON.stringify(value),
+                  value: value ?? null,
                   onChange: (_, newVal, reason) => {
                     onChange(newVal)
 

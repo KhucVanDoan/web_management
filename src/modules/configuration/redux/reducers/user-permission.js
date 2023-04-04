@@ -26,7 +26,7 @@ export default function userPermission(state = initialState, action) {
     case UPDATE_USER_PERMISSION_START:
       return {
         ...state,
-        isLoading: false,
+        isLoading: true,
       }
     case GET_USER_PERMISSION_DETAILS_SUCCESS:
       return {
