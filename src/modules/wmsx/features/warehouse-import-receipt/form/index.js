@@ -125,8 +125,11 @@ function WarehouseImportReceiptForm() {
             },
           ]
         : [],
-      departmentReceiptId:
-        warehouseImportReceiptDetails?.departmentReceipt || null,
+      departmentReceiptId: !isEmpty(
+        warehouseImportReceiptDetails?.departmentReceipt,
+      )
+        ? warehouseImportReceiptDetails?.departmentReceipt
+        : null,
       warehouse: warehouseImportReceiptDetails?.warehouse || null,
       reasonId: warehouseImportReceiptDetails?.reason || null,
       sourceId: warehouseImportReceiptDetails?.source || null,
