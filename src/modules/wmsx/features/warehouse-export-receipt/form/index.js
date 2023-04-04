@@ -122,14 +122,17 @@ function WarehouseExportReceiptForm() {
             bussinessTypeAttributes: warehouseExportReceiptDetails?.attributes,
           }
         : null,
-      departmentReceiptId:
-        warehouseExportReceiptDetails?.departmentReceipt || null,
+      departmentReceiptId: !isEmpty(
+        warehouseExportReceiptDetails?.departmentReceipt,
+      )
+        ? warehouseExportReceiptDetails?.departmentReceipt
+        : null,
       warehouseId: warehouseExportReceiptDetails?.warehouse || null,
       reasonId: warehouseExportReceiptDetails?.reason || null,
       sourceId: warehouseExportReceiptDetails?.source || null,
       explanation:
         isUpdate || isUpdateHeader
-          ? warehouseExportReceiptDetails?.explaination
+          ? warehouseExportReceiptDetails?.explaination || ''
           : `${t(
               `warehouseExportReceipt.warehouseExportDate`,
             )} [${convertUtcDateToLocalTz(new Date().toISOString())}]`,
@@ -530,10 +533,7 @@ function WarehouseExportReceiptForm() {
             warehouseExportReceiptDetails?.businessType?.id,
           reasonId:
             values?.reasonId?.id || warehouseExportReceiptDetails?.reason?.id,
-          explaination:
-            values?.explanation ||
-            warehouseExportReceiptDetails?.explaination ||
-            '',
+          explaination: values?.explanation || '',
           receiptDate:
             values?.receiptDate.toISOString() ||
             warehouseExportReceiptDetails?.receiptDate,
@@ -581,10 +581,7 @@ function WarehouseExportReceiptForm() {
         warehouseExportReceiptDetails?.businessType?.id,
       reasonId:
         values?.reasonId?.id || warehouseExportReceiptDetails?.reason?.id,
-      explaination:
-        values?.explanation ||
-        warehouseExportReceiptDetails?.explaination ||
-        '',
+      explaination: values?.explanation || '',
       receiptDate:
         values?.receiptDate.toISOString() ||
         warehouseExportReceiptDetails?.receiptDate,

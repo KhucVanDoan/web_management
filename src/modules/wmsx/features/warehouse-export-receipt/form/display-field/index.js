@@ -314,41 +314,25 @@ const displayFollowBusinessTypeManagement = (
                         {t('warehouseImportReceipt.project')}
                       </Typography>
                     }
-                    value={
-                      !isEmpty(
-                        attributesBusinessTypeDetails[item.tableName]?.find(
-                          (itemDetail) =>
-                            `${itemDetail.id}` ===
-                            warehouseExportReceiptDetails?.attributes?.find(
-                              (item) =>
-                                item?.tableName ===
-                                TABLE_NAME_ENUM.CONSTRUCTION,
-                            )?.value,
-                        ),
-                      )
-                        ? `${
-                            attributesBusinessTypeDetails[item.tableName]?.find(
-                              (itemDetail) =>
-                                `${itemDetail.id}` ===
-                                warehouseExportReceiptDetails?.attributes?.find(
-                                  (item) =>
-                                    item?.tableName ===
-                                    TABLE_NAME_ENUM.CONSTRUCTION,
-                                )?.value,
-                            )?.code
-                          } - ${
-                            attributesBusinessTypeDetails[item.tableName]?.find(
-                              (itemDetail) =>
-                                `${itemDetail.id}` ===
-                                warehouseExportReceiptDetails?.attributes?.find(
-                                  (item) =>
-                                    item?.tableName ===
-                                    TABLE_NAME_ENUM.CONSTRUCTION,
-                                )?.value,
-                            )?.name
-                          }`
-                        : ''
-                    }
+                    value={`${
+                      attributesBusinessTypeDetails[item.tableName]?.find(
+                        (itemDetail) =>
+                          `${itemDetail.id}` ===
+                          warehouseExportReceiptDetails?.attributes?.find(
+                            (item) =>
+                              item?.tableName === TABLE_NAME_ENUM.CONSTRUCTION,
+                          )?.value,
+                      )?.code
+                    } - ${
+                      attributesBusinessTypeDetails[item.tableName]?.find(
+                        (itemDetail) =>
+                          `${itemDetail.id}` ===
+                          warehouseExportReceiptDetails?.attributes?.find(
+                            (item) =>
+                              item?.tableName === TABLE_NAME_ENUM.CONSTRUCTION,
+                          )?.value,
+                      )?.name
+                    }`}
                   />
                 </Grid>
               ) : isEdit &&
@@ -419,41 +403,27 @@ const displayFollowBusinessTypeManagement = (
                         {t('warehouseImportReceipt.task')}
                       </Typography>
                     }
-                    value={
-                      !isEmpty(
-                        attributesBusinessTypeDetails[item.tableName]?.find(
-                          (itemDetail) =>
-                            `${itemDetail.id}` ===
-                            warehouseExportReceiptDetails?.attributes?.find(
-                              (item) =>
-                                item?.tableName ===
-                                TABLE_NAME_ENUM.CATEGORY_CONSTRUCTION,
-                            )?.value,
-                        ),
-                      )
-                        ? `${
-                            attributesBusinessTypeDetails[item.tableName]?.find(
-                              (itemDetail) =>
-                                `${itemDetail.id}` ===
-                                warehouseExportReceiptDetails?.attributes?.find(
-                                  (item) =>
-                                    item?.tableName ===
-                                    TABLE_NAME_ENUM.CATEGORY_CONSTRUCTION,
-                                )?.value,
-                            )?.code
-                          } - ${
-                            attributesBusinessTypeDetails[item.tableName]?.find(
-                              (itemDetail) =>
-                                `${itemDetail.id}` ===
-                                warehouseExportReceiptDetails?.attributes?.find(
-                                  (item) =>
-                                    item?.tableName ===
-                                    TABLE_NAME_ENUM.CATEGORY_CONSTRUCTION,
-                                )?.value,
-                            )?.name
-                          }`
-                        : ''
-                    }
+                    value={`${
+                      attributesBusinessTypeDetails[item.tableName]?.find(
+                        (itemDetail) =>
+                          `${itemDetail.id}` ===
+                          warehouseExportReceiptDetails?.attributes?.find(
+                            (item) =>
+                              item?.tableName ===
+                              TABLE_NAME_ENUM.CATEGORY_CONSTRUCTION,
+                          )?.value,
+                      )?.code
+                    } - ${
+                      attributesBusinessTypeDetails[item.tableName]?.find(
+                        (itemDetail) =>
+                          `${itemDetail.id}` ===
+                          warehouseExportReceiptDetails?.attributes?.find(
+                            (item) =>
+                              item?.tableName ===
+                              TABLE_NAME_ENUM.CATEGORY_CONSTRUCTION,
+                          )?.value,
+                      )?.name
+                    }`}
                   />
                 </Grid>
               ) : isEdit &&
@@ -517,27 +487,15 @@ const displayFollowBusinessTypeManagement = (
                   <LV
                     label={<Typography>{item?.fieldName}</Typography>}
                     value={
-                      !isEmpty(
-                        attributesBusinessTypeDetails[item.tableName]?.find(
-                          (itemDetail) =>
-                            `${itemDetail.id}` ===
-                            warehouseExportReceiptDetails?.attributes?.find(
-                              (item) =>
-                                item?.tableName ===
-                                TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
-                            )?.value,
-                        ),
-                      )
-                        ? attributesBusinessTypeDetails[item.tableName]?.find(
-                            (itemDetail) =>
-                              `${itemDetail.id}` ===
-                              warehouseExportReceiptDetails?.attributes?.find(
-                                (item) =>
-                                  item?.tableName ===
-                                  TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
-                              )?.value,
-                          )?.code
-                        : ''
+                      attributesBusinessTypeDetails[item.tableName]?.find(
+                        (itemDetail) =>
+                          `${itemDetail.id}` ===
+                          warehouseExportReceiptDetails?.attributes?.find(
+                            (item) =>
+                              item?.tableName ===
+                              TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
+                          )?.value,
+                      )?.code
                     }
                   />
                 </Grid>
@@ -688,40 +646,25 @@ const displayFollowBusinessTypeManagement = (
                 <Grid item lg={6} xs={12}>
                   <LV
                     label={<Typography>{item?.fieldName}</Typography>}
-                    value={
-                      !isEmpty(
-                        attributesBusinessTypeDetails[item.tableName]?.find(
-                          (itemDetail) =>
-                            `${itemDetail.id}` ===
-                            warehouseExportReceiptDetails?.attributes?.find(
-                              (item) =>
-                                item?.tableName === TABLE_NAME_ENUM.COST_TYPE,
-                            )?.value,
-                        ),
-                      )
-                        ? `${
-                            attributesBusinessTypeDetails[item.tableName]?.find(
-                              (itemDetail) =>
-                                `${itemDetail.id}` ===
-                                warehouseExportReceiptDetails?.attributes?.find(
-                                  (item) =>
-                                    item?.tableName ===
-                                    TABLE_NAME_ENUM.COST_TYPE,
-                                )?.value,
-                            )?.code
-                          } - ${
-                            attributesBusinessTypeDetails[item.tableName]?.find(
-                              (itemDetail) =>
-                                `${itemDetail.id}` ===
-                                warehouseExportReceiptDetails?.attributes?.find(
-                                  (item) =>
-                                    item?.tableName ===
-                                    TABLE_NAME_ENUM.COST_TYPE,
-                                )?.value,
-                            )?.name
-                          }`
-                        : ''
-                    }
+                    value={`${
+                      attributesBusinessTypeDetails[item.tableName]?.find(
+                        (itemDetail) =>
+                          `${itemDetail.id}` ===
+                          warehouseExportReceiptDetails?.attributes?.find(
+                            (item) =>
+                              item?.tableName === TABLE_NAME_ENUM.COST_TYPE,
+                          )?.value,
+                      )?.code
+                    } - ${
+                      attributesBusinessTypeDetails[item.tableName]?.find(
+                        (itemDetail) =>
+                          `${itemDetail.id}` ===
+                          warehouseExportReceiptDetails?.attributes?.find(
+                            (item) =>
+                              item?.tableName === TABLE_NAME_ENUM.COST_TYPE,
+                          )?.value,
+                      )?.name
+                    }`}
                   />
                 </Grid>
               ) : isEdit &&
@@ -780,40 +723,25 @@ const displayFollowBusinessTypeManagement = (
                 <Grid item lg={6} xs={12}>
                   <LV
                     label={<Typography>{item?.fieldName}</Typography>}
-                    value={
-                      !isEmpty(
-                        attributesBusinessTypeDetails[item.tableName]?.find(
-                          (itemDetail) =>
-                            `${itemDetail.id}` ===
-                            warehouseExportReceiptDetails?.attributes?.find(
-                              (item) =>
-                                item?.tableName === TABLE_NAME_ENUM.COST_TYPE,
-                            )?.value,
-                        ),
-                      )
-                        ? `${
-                            attributesBusinessTypeDetails[item.tableName]?.find(
-                              (itemDetail) =>
-                                `${itemDetail.id}` ===
-                                warehouseExportReceiptDetails?.attributes?.find(
-                                  (item) =>
-                                    item?.tableName ===
-                                    TABLE_NAME_ENUM.COST_TYPE,
-                                )?.value,
-                            )?.code
-                          } - ${
-                            attributesBusinessTypeDetails[item.tableName]?.find(
-                              (itemDetail) =>
-                                `${itemDetail.id}` ===
-                                warehouseExportReceiptDetails?.attributes?.find(
-                                  (item) =>
-                                    item?.tableName ===
-                                    TABLE_NAME_ENUM.COST_TYPE,
-                                )?.value,
-                            )?.name
-                          }`
-                        : ''
-                    }
+                    value={`${
+                      attributesBusinessTypeDetails[item.tableName]?.find(
+                        (itemDetail) =>
+                          `${itemDetail.id}` ===
+                          warehouseExportReceiptDetails?.attributes?.find(
+                            (item) =>
+                              item?.tableName === TABLE_NAME_ENUM.COST_TYPE,
+                          )?.value,
+                      )?.code
+                    } - ${
+                      attributesBusinessTypeDetails[item.tableName]?.find(
+                        (itemDetail) =>
+                          `${itemDetail.id}` ===
+                          warehouseExportReceiptDetails?.attributes?.find(
+                            (item) =>
+                              item?.tableName === TABLE_NAME_ENUM.COST_TYPE,
+                          )?.value,
+                      )?.name
+                    }`}
                   />
                 </Grid>
               ) : isEdit &&
@@ -873,27 +801,15 @@ const displayFollowBusinessTypeManagement = (
                   <LV
                     label={<Typography>{item?.fieldName}</Typography>}
                     value={
-                      !isEmpty(
-                        attributesBusinessTypeDetails[item.tableName]?.find(
-                          (itemDetail) =>
-                            `${itemDetail.id}` ===
-                            warehouseExportReceiptDetails?.attributes?.find(
-                              (item) =>
-                                item?.tableName ===
-                                TABLE_NAME_ENUM.PURCHASED_ODER_IMPORT,
-                            )?.value,
-                        ),
-                      )
-                        ? attributesBusinessTypeDetails[item.tableName]?.find(
-                            (itemDetail) =>
-                              `${itemDetail.id}` ===
-                              warehouseExportReceiptDetails?.attributes?.find(
-                                (item) =>
-                                  item?.tableName ===
-                                  TABLE_NAME_ENUM.PURCHASED_ODER_IMPORT,
-                              )?.value,
-                          )?.code
-                        : ''
+                      attributesBusinessTypeDetails[item.tableName]?.find(
+                        (itemDetail) =>
+                          `${itemDetail.id}` ===
+                          warehouseExportReceiptDetails?.attributes?.find(
+                            (item) =>
+                              item?.tableName ===
+                              TABLE_NAME_ENUM.PURCHASED_ODER_IMPORT,
+                          )?.value,
+                      )?.code
                     }
                   />
                 </Grid>

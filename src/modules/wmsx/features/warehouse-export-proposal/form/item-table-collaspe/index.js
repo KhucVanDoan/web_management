@@ -573,7 +573,8 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
             options={lotNumberlist?.filter(
               (item) =>
                 item?.lotNumber &&
-                item?.itemId === params?.row?.exportSuppliesCode?.id,
+                item?.itemId === params?.row?.exportSuppliesCode?.id &&
+                item?.warehouseId === params?.row?.warehouseExport?.id,
             )}
             disabled={
               !Boolean(

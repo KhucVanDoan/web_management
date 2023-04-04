@@ -37,6 +37,15 @@ const ItemSettingTable = ({
   const {
     data: { itemWarehouseStockList },
   } = useWarehouseTransfer()
+  // const itemWarehouseExportProposalList = []
+  // itemWarehouseExportProposal?.forEach((item) => {
+  //   const findItem = itemWarehouseExportProposalList?.find(
+  //     (e) => e?.itemId === item?.itemId,
+  //   )
+  //   if (isEmpty(findItem)) {
+  //     itemWarehouseExportProposalList.push({ ...item })
+  //   }
+  // })
   const handleChangeItem = async (val, index) => {
     setFieldValue(`items[${index}].lotNumber`, '')
     if (!isEmpty(val)) {
@@ -144,15 +153,19 @@ const ItemSettingTable = ({
               isOptionEqualToValue={(opt, val) =>
                 opt?.item?.itemId === val?.itemId
               }
-              getOptionDisabled={(opt) =>
-                itemIdCodeList.some(
-                  (id) => id === (opt?.itemId || opt?.itemCode?.itemId),
-                ) &&
-                (opt?.itemId || opt?.itemCode?.itemId) !==
-                  (items[index]?.itemId ||
-                    items[index]?.itemCode?.itemId ||
-                    items[index]?.itemCode?.id)
-              }
+              getOptionDisabled={(opt) => {
+                if (!hiden) {
+                  return (
+                    itemIdCodeList.some(
+                      (id) => id === (opt?.itemId || opt?.itemCode?.itemId),
+                    ) &&
+                    (opt?.itemId || opt?.itemCode?.itemId) !==
+                      (items[index]?.itemId ||
+                        items[index]?.itemCode?.itemId ||
+                        items[index]?.itemCode?.id)
+                  )
+                }
+              }}
               disabled={isEmpty(values?.warehouseId)}
             />
           ) : itemList?.length > 0 ? (
@@ -168,15 +181,19 @@ const ItemSettingTable = ({
               isOptionEqualToValue={(opt, val) =>
                 opt?.itemId === (val?.itemId || val?.id)
               }
-              getOptionDisabled={(opt) =>
-                itemIdCodeList.some(
-                  (id) => id === (opt?.itemId || opt?.itemCode?.itemId),
-                ) &&
-                (opt?.itemId || opt?.itemCode?.itemId) !==
-                  (items[index]?.itemId ||
-                    items[index]?.itemCode?.itemId ||
-                    items[index]?.itemCode?.id)
-              }
+              getOptionDisabled={(opt) => {
+                if (!hiden) {
+                  return (
+                    itemIdCodeList.some(
+                      (id) => id === (opt?.itemId || opt?.itemCode?.itemId),
+                    ) &&
+                    (opt?.itemId || opt?.itemCode?.itemId) !==
+                      (items[index]?.itemId ||
+                        items[index]?.itemCode?.itemId ||
+                        items[index]?.itemCode?.id)
+                  )
+                }
+              }}
               disabled={isEmpty(values?.warehouseId)}
             />
           ) : (
@@ -310,6 +327,17 @@ const ItemSettingTable = ({
                   if (!val) {
                     return t('general:form.required')
                   }
+                  // const findItem = items?.find(
+                  //   (item) =>
+                  //     item?.id !== params?.row?.id &&
+                  //     (item?.itemCode?.id || item?.itemCode?.itemId) ===
+                  //       (params?.row?.itemCode?.id ||
+                  //         params?.row?.itemCode?.itemId) &&
+                  //     item?.lotNumber === val,
+                  // )
+                  // if (!isEmpty(findItem)) {
+                  //   return t('wmsx:warehouseTransfer.duplicateItem')
+                  // }
                 }
               }}
             />
