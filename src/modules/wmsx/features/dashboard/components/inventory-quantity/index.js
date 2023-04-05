@@ -28,17 +28,17 @@ const InventoryQuantity = ({ fromDate, toDate }) => {
       reportType: groupBy,
       from: fromDate?.toISOString()?.substring(0, 10),
       to: toDate?.toISOString()?.substring(0, 10),
-      itemCode: itemCode,
-      warehouseCode: warehouseCode,
+      itemCode: itemCode?.code,
+      warehouseCode: warehouseCode?.code,
     })
   }, [itemCode, warehouseCode, fromDate, toDate, groupBy])
 
   const handleChangeWarehouse = (value) => {
-    setWarehouseCode(value?.code)
+    setWarehouseCode(value)
   }
 
   const handleChangeItem = (value) => {
-    setItemCode(value?.code)
+    setItemCode(value)
   }
   const data = itemStockHistories?.map((item) => ({
     time: item?.rangeDate,
@@ -148,6 +148,7 @@ const InventoryQuantity = ({ fromDate, toDate }) => {
               limit: ASYNC_SEARCH_LIMIT,
             })
           }
+          value={warehouseCode}
           asyncRequestHelper={(res) => res?.data?.items}
           getOptionLabel={(opt) => opt?.name}
           getOptionSubLabel={(opt) => opt?.code}
@@ -163,6 +164,7 @@ const InventoryQuantity = ({ fromDate, toDate }) => {
               limit: ASYNC_SEARCH_LIMIT,
             })
           }
+          value={itemCode}
           asyncRequestHelper={(res) => res?.data?.items}
           getOptionLabel={(opt) => opt?.name}
           getOptionSubLabel={(opt) => opt?.code}
