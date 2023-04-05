@@ -2868,7 +2868,7 @@
     "warehouseExport": "Kho xuất",
     "status": "Xuất kho WMS",
     "syncStatus": "Xuất kho EBS",
-    "createdAt": "Ngày lập phiếu",
+    "receiptDate": "Ngày lập phiếu",
     "numberReceiptEBS": "Số phiếu EBS",
     "warehouseExportEBS": "Xuất kho EBS",
     "suorceAccountant": "Nguồn tài khoản kế toán(Source)",
@@ -2876,6 +2876,7 @@
     "number": "Số phiếu giao hàng EBS",
     "numberOld": "Số phiếu giao hàng EBS cũ",
     "explain": "Diễn giải",
+    "createdAt": "Ngày tạo phiếu",
     "itemName": "Sản phẩm hàng hóa yêu cầu(Tên vật tư và quy cách)",
     "placeholderExplain": "Nhập diễn giải",
     "warehouseExportReceipt": "Phiếu xuất kho EBS",
@@ -2986,6 +2987,7 @@
     "contractNumber": "Số hợp đồng",
     "receiptEBS": "Số phiếu EBS",
     "receiptEBSOld": "Số phiếu EBS cũ",
+    "createdAt": "Ngày tạo phiếu",
     "dowload": "Tải phiếu",
     "task": "Hạng mục",
     "receiptNo": "Số receipt",
@@ -2994,7 +2996,6 @@
     "contractNo": "Số hợp đồng",
     "unit": "Phòng ban nhận",
     "expenditureType": "Loại nghiệp vụ",
-    "createdAt": "Ngày lập phiếu",
     "warehouseExportReceipt": "ID phiếu xuất WMS",
     "deleteTitlePopup": "Xóa phiếu nhập kho",
     "confirmTitlePopup": "Xác nhận phiếu nhập kho",
@@ -3221,7 +3222,7 @@
     "status": "Chuyển kho WMS",
     "syncStatus": "Chuyển kho EBS",
     "transactions": "Các giao dịch",
-    "receiptDate": "Ngày dự kiến",
+    "receiptDate": "Ngày tạo phiếu",
     "warehouseTransferCode": "Tên lệnh chuyển kho",
     "businessType": "Loại nghiệp vụ",
     "source": "Nguồn Tài khoản kế toán(Source)",
@@ -3533,5 +3534,14 @@
     },
     "copyright": "Bản quyền được cấp cho Tổng công ty Phát Điện 3 - CTCP (EVNGENCO3) và được sử dụng tại Tổng công ty và các đơn vị thuộc phạm vi triển khai. EVNGENCO3 không được sử dụng cho các đơn vị khác hoặc cung cấp cho bên thứ ba khi chưa được sự đồng ý bằng văn bản của Avenue.",
     "connectWMS": "Truy cập WMS"
+  },
+  "iconButtonHover": {
+    "view": "Xem chi tiết",
+    "update": "Sửa",
+    "delete": "Xóa",
+    "confirm": "Xác nhận",
+    "reject": "Từ chối",
+    "cancel": "Huỷ đồng bộ",
+    "updateHeader": "Sửa header"
   }
 }

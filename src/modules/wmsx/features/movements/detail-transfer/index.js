@@ -143,7 +143,7 @@ const MovementTransferDetail = ({ breadcrumbs, onBack }) => {
                 value={t(`${WAREHOUSE_TRANSFER_MAP[receiptDetail?.type]}`)}
               />
             </Grid>
-            <Grid item lg={6} xs={12}>
+            {/* <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseTransfer.source')}
                 value={
@@ -152,7 +152,7 @@ const MovementTransferDetail = ({ breadcrumbs, onBack }) => {
                     : ''
                 }
               />
-            </Grid>
+            </Grid> */}
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseTransfer.reason')}

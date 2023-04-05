@@ -16,24 +16,24 @@ import { convertNumberWithThousandSeparator } from '~/utils'
 
 const StockItemReport = () => {
   const { t } = useTranslation(['wmsx'])
-  const [itemId, setItemId] = useState('')
-  const [warehouseId, setWarehouseId] = useState('')
+  const [itemId, setItemId] = useState(null)
+  const [warehouseId, setWarehouseId] = useState(null)
 
   const { data: itemGroupStockSummary, actions } =
     useDashboardItemGroupStockSummary()
 
   const handleChangeWarehouse = (value) => {
-    setWarehouseId(value?.id)
+    setWarehouseId(value)
   }
 
   const handleChangeItem = (value) => {
-    setItemId(value?.id)
+    setItemId(value)
   }
 
   useEffect(() => {
     actions.getItemGroupStockSummary({
-      itemId: itemId,
-      warehouseId: warehouseId,
+      itemId: itemId?.id,
+      warehouseId: warehouseId?.id,
     })
   }, [itemId, warehouseId])
 
@@ -43,7 +43,6 @@ const StockItemReport = () => {
 
   let piePlanningAmount = BigNumber(rawPlanningAmount)
   let pieStockAmount = BigNumber(rawStockAmount)
-
   if (piePlanningAmount.gt(pieStockAmount)) {
     const actualProportion = piePlanningAmount.div(pieStockAmount)
     if (actualProportion.gt(maxProportion)) {
@@ -57,13 +56,11 @@ const StockItemReport = () => {
       pieStockAmount = BigNumber(maxProportion)
     }
   }
-
   const data = [
     {
       type: 'Giá trị VT bị giữ (VNĐ)',
-      data: 1,
       value: piePlanningAmount.toNumber(),
-      formattedValue: convertNumberWithThousandSeparator(rawPlanningAmount, 0),
+      formattedValue: convertNumberWithThousandSeparator(rawPlanningAmount),
       rawValue: rawPlanningAmount,
       available: convertNumberWithThousandSeparator(
         itemGroupStockSummary.totalItemPlanning || 0,
@@ -72,9 +69,8 @@ const StockItemReport = () => {
     },
     {
       type: 'Giá trị VT có thể xuất (VNĐ) ',
-      data: 2,
       value: pieStockAmount.toNumber(),
-      formattedValue: convertNumberWithThousandSeparator(rawStockAmount, 0),
+      formattedValue: convertNumberWithThousandSeparator(rawStockAmount),
       rawValue: rawStockAmount,
       available: convertNumberWithThousandSeparator(
         itemGroupStockSummary.totalItemStockAvaiable || 0,
@@ -82,7 +78,6 @@ const StockItemReport = () => {
       ),
     },
   ]
-
   const config = {
     appendPadding: 10,
     data,
@@ -137,7 +132,7 @@ const StockItemReport = () => {
           const total = items.reduce((acc, cur) => {
             return BigNumber(acc).plus(BigNumber(cur?.rawValue || 0))
           }, 0)
-          return convertNumberWithThousandSeparator(total.toString(), 0)
+          return convertNumberWithThousandSeparator(total.toString())
         },
       },
     },
@@ -175,6 +170,7 @@ const StockItemReport = () => {
                 limit: ASYNC_SEARCH_LIMIT,
               })
             }
+            value={warehouseId}
             asyncRequestHelper={(res) => res?.data?.items}
             getOptionLabel={(opt) => opt?.name}
             getOptionSubLabel={(opt) => opt?.code}
@@ -190,6 +186,7 @@ const StockItemReport = () => {
                 limit: ASYNC_SEARCH_LIMIT,
               })
             }
+            value={itemId}
             asyncRequestDeps={warehouseId}
             asyncRequestHelper={(res) => res?.data?.items}
             getOptionLabel={(opt) => opt?.name}

@@ -494,6 +494,7 @@ function WarehouseImportReceiptForm() {
       items: JSON.stringify(
         values?.items?.map((item) => ({
           itemId: item?.itemId,
+          lotNumber: item?.lotNumber,
           creditAccount: item?.creditAccount,
         })),
       ),
@@ -724,7 +725,7 @@ function WarehouseImportReceiptForm() {
                         <LV
                           label={
                             <Typography>
-                              {t('warehouseImportReceipt.createdAt')}
+                              {t('warehouseImportReceipt.receiptDate')}
                             </Typography>
                           }
                           value={convertUtcDateToLocalTz(
@@ -761,7 +762,35 @@ function WarehouseImportReceiptForm() {
                         />
                       </Grid>
                     )}
-
+                    {(isUpdate || isUpdateHeader) && (
+                      <Grid item lg={6} xs={12}>
+                        <LV
+                          label={
+                            <Typography>
+                              {t('warehouseImportReceipt.createdAt')}
+                            </Typography>
+                          }
+                          value={convertUtcDateToLocalTz(
+                            warehouseImportReceiptDetails.createdAt,
+                          )}
+                        />
+                      </Grid>
+                    )}
+                    {(isUpdate || isUpdateHeader) && (
+                      <Grid item lg={6} xs={12}>
+                        <LV
+                          label={
+                            <Typography>
+                              {t('warehouseImportReceipt.createdByUser')}
+                            </Typography>
+                          }
+                          value={convertUtcDateToLocalTz(
+                            warehouseImportReceiptDetails.createdByUser
+                              ?.fullName,
+                          )}
+                        />
+                      </Grid>
+                    )}
                     {isEdit && (
                       <Grid item lg={6} xs={12}>
                         <Field.TextField
@@ -927,7 +956,8 @@ function WarehouseImportReceiptForm() {
                         asyncRequest={(s) =>
                           searchApi({
                             keyword: s,
-                            limit: ASYNC_SEARCH_LIMIT,
+                            // limit: ASYNC_SEARCH_LIMIT,
+                            isGetAll: 1,
                             filter: convertFilterParams({
                               status: ACTIVE_STATUS.ACTIVE,
                             }),

@@ -46,6 +46,7 @@ import { ROUTE } from '~/modules/wmsx/routes/config'
 import {
   convertFilterParams,
   convertSortParams,
+  convertUtcDateTimeToLocalTz,
   convertUtcDateToLocalTz,
 } from '~/utils'
 
@@ -145,34 +146,16 @@ function WarehouseExportReceiptForm() {
       warehouseExportReceiptEBS: warehouseExportReceiptDetails?.ebsId || '',
       numberEBS: warehouseExportReceiptDetails?.transactionNumberCreated || '',
       items:
-        warehouseExportReceiptDetails?.itemsSync?.map((item) => ({
-          itemId: item?.itemId || item?.id,
-          itemName: item?.name || item?.item?.name,
-          unit: item?.item?.itemUnit,
-          price: item?.price,
-          money: item?.amount,
-          lotNumber: item?.lots[0]?.lotNumber,
-          quantityExport: item?.quantity,
-          quantityRequest: warehouseExportReceiptDetails?.attributes?.find(
-            (item) =>
-              item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL &&
-              item?.value,
-          )
-            ? Math.round(item?.requestedQuantityWarehouseExportProposal * 100) /
-              100
-            : '',
-          planExportedQuantity: item?.exportableQuantity,
-          debitAccount:
-            isEdit && warehouseExportReceiptDetails?.ebsId
-              ? item?.debitAccount?.toString()?.slice(18, 43)
-              : item?.debitAccount,
-          creditAccount: item?.creditAccount,
-          itemCode: {
-            ...item?.item,
+        warehouseExportReceiptDetails?.saleOrderExportWarehouseLots?.map(
+          (item) => ({
             itemId: item?.itemId || item?.id,
-            id: item?.itemId || item?.id,
-            item: { ...item?.item },
-            requestedQuantity: warehouseExportReceiptDetails?.attributes?.find(
+            itemName: item?.name || item?.item?.name,
+            unit: item?.item?.itemUnit,
+            price: item?.price,
+            money: item?.amount,
+            lotNumber: item?.lotNumber,
+            quantityExport: item?.quantity,
+            quantityRequest: warehouseExportReceiptDetails?.attributes?.find(
               (item) =>
                 item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL &&
                 item?.value,
@@ -181,8 +164,30 @@ function WarehouseExportReceiptForm() {
                   item?.requestedQuantityWarehouseExportProposal * 100,
                 ) / 100
               : '',
-          },
-        })) || DEFAULT_ITEMS,
+            planExportedQuantity: item?.exportableQuantity || 0,
+            debitAccount:
+              isEdit && warehouseExportReceiptDetails?.ebsId
+                ? item?.debitAccount?.toString()?.slice(18, 43)
+                : item?.debitAccount,
+            creditAccount: item?.creditAccount,
+            itemCode: {
+              ...item?.item,
+              itemId: item?.itemId || item?.id,
+              id: item?.itemId || item?.id,
+              item: { ...item?.item },
+              requestedQuantity:
+                warehouseExportReceiptDetails?.attributes?.find(
+                  (item) =>
+                    item?.tableName ===
+                      TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL && item?.value,
+                )
+                  ? Math.round(
+                      item?.requestedQuantityWarehouseExportProposal * 100,
+                    ) / 100
+                  : '',
+            },
+          }),
+        ) || DEFAULT_ITEMS,
     }),
     [warehouseExportReceiptDetails, attributesBusinessTypeDetails],
   )
@@ -548,6 +553,7 @@ function WarehouseExportReceiptForm() {
           items: JSON.stringify(
             values?.items?.map((item) => ({
               itemId: item?.itemId,
+              lotNumber: item?.lotNumber,
               debitAccount: item?.debitAccount || '',
             })),
           ),
@@ -595,6 +601,7 @@ function WarehouseExportReceiptForm() {
       items: JSON.stringify(
         values?.items?.map((item) => ({
           itemId: item?.itemId,
+          lotNumber: item?.lotNumber,
           debitAccount: item?.debitAccount || '',
         })),
       ),
@@ -919,7 +926,7 @@ function WarehouseExportReceiptForm() {
                         <LV
                           label={
                             <Typography>
-                              {t('warehouseExportReceipt.createdAt')}
+                              {t('warehouseExportReceipt.receiptDate')}
                             </Typography>
                           }
                           value={convertUtcDateToLocalTz(
@@ -954,7 +961,35 @@ function WarehouseExportReceiptForm() {
                         />
                       </Grid>
                     )}
-
+                    {(isEdit || isUpdateHeader) && (
+                      <Grid item lg={6} xs={12}>
+                        <LV
+                          label={
+                            <Typography>
+                              {t('warehouseExportReceipt.createdAt')}
+                            </Typography>
+                          }
+                          value={convertUtcDateTimeToLocalTz(
+                            warehouseExportReceiptDetails?.createdAt,
+                          )}
+                        />
+                      </Grid>
+                    )}
+                    {(isEdit || isUpdateHeader) && (
+                      <Grid item lg={6} xs={12}>
+                        <LV
+                          label={
+                            <Typography>
+                              {t('warehouseExportReceipt.createdByUser')}
+                            </Typography>
+                          }
+                          value={
+                            warehouseExportReceiptDetails?.createdByUser
+                              ?.fullName
+                          }
+                        />
+                      </Grid>
+                    )}
                     <Grid item lg={6} xs={12}>
                       <Field.TextField
                         name="deliver"
@@ -1171,7 +1206,8 @@ function WarehouseExportReceiptForm() {
                         asyncRequest={(s) =>
                           searchApi({
                             keyword: s,
-                            limit: ASYNC_SEARCH_LIMIT,
+                            // limit: ASYNC_SEARCH_LIMIT,
+                            isGetAll: 1,
                             filter: convertFilterParams({
                               status: ACTIVE_STATUS.ACTIVE,
                             }),

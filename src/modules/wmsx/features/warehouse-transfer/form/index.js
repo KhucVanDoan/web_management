@@ -32,9 +32,13 @@ import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfe
 import { searchBusinessTypesApi } from '~/modules/wmsx/redux/sagas/business-type-management/search-business-types'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { searchApi } from '~/modules/wmsx/redux/sagas/reason-management/search'
-import { searchSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-management/search'
+// import { searchSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-management/search'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import { convertFilterParams, convertSortParams } from '~/utils'
+import {
+  convertFilterParams,
+  convertSortParams,
+  convertUtcDateTimeToLocalTz,
+} from '~/utils'
 
 import DisplayFollowBusinessTypeManagement from './display-field'
 import ItemSettingTable from './items-setting-table'
@@ -104,7 +108,7 @@ const WarehouseTransferForm = () => {
         : null,
       type: warehouseTransferDetails?.type || '',
       reasonId: warehouseTransferDetails?.reason || null,
-      sourceId: warehouseTransferDetails?.source || null,
+      // sourceId: warehouseTransferDetails?.source || null,
       destinationWarehouseId:
         warehouseTransferDetails?.destinationWarehouse || null,
       sourceWarehouseId: warehouseTransferDetails?.sourceWarehouse || null,
@@ -165,7 +169,7 @@ const WarehouseTransferForm = () => {
       bussinessTypeId: values?.businessTypeId?.id,
       sourceWarehouseId: +values?.sourceWarehouseId?.id,
       receiptDate: values?.receiptDate.toISOString(),
-      sourceId: !isEmpty(values?.sourceId) ? values?.sourceId?.id : '',
+      // sourceId: !isEmpty(values?.sourceId) ? values?.sourceId?.id : '',
       reasonId: values?.reasonId?.id,
       type: +values?.type,
       receiver: values?.deliver,
@@ -363,6 +367,21 @@ const WarehouseTransferForm = () => {
                       />
                     </Grid>
                     {isUpdate && (
+                      <Grid item lg={6} xs={12}>
+                        <LV
+                          label={
+                            <Typography>
+                              {t('warehouseTransfer.receiptDate')}
+                            </Typography>
+                          }
+                          value={convertUtcDateTimeToLocalTz(
+                            warehouseTransferDetails?.receiptDate,
+                          )}
+                        />
+                      </Grid>
+                    )}
+
+                    {isUpdate && (
                       <Grid item xs={12} lg={6}>
                         <Field.TextField
                           label={t('warehouseTransfer.code')}
@@ -370,6 +389,20 @@ const WarehouseTransferForm = () => {
                           placeholder={t('warehouseTransfer.code')}
                           disabled
                           required
+                        />
+                      </Grid>
+                    )}
+                    {isUpdate && (
+                      <Grid item lg={6} xs={12}>
+                        <LV
+                          label={
+                            <Typography>
+                              {t('warehouseTransfer.createdByUser')}
+                            </Typography>
+                          }
+                          value={
+                            warehouseTransferDetails?.createdByUser?.fullName
+                          }
                         />
                       </Grid>
                     )}
@@ -498,7 +531,7 @@ const WarehouseTransferForm = () => {
                         required
                       />
                     </Grid>
-                    <Grid item lg={6} xs={12}>
+                    {/* <Grid item lg={6} xs={12}>
                       <Field.Autocomplete
                         name="sourceId"
                         label={t('warehouseTransfer.source')}
@@ -524,7 +557,7 @@ const WarehouseTransferForm = () => {
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                         disabled={isEmpty(values?.sourceWarehouseId)}
                       />
-                    </Grid>
+                    </Grid> */}
                     <Grid item lg={6} xs={12}>
                       <Field.Autocomplete
                         name="reasonId"
@@ -533,7 +566,8 @@ const WarehouseTransferForm = () => {
                         asyncRequest={(s) =>
                           searchApi({
                             keyword: s,
-                            limit: ASYNC_SEARCH_LIMIT,
+                            // limit: ASYNC_SEARCH_LIMIT,
+                            isGetAll: 1,
                             filter: convertFilterParams({
                               status: ACTIVE_STATUS.ACTIVE,
                             }),

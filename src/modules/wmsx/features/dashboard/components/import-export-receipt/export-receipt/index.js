@@ -16,9 +16,9 @@ const ExportReceipt = ({ fromDate, toDate }) => {
   const { data: saleOrderExports, actions } = useDashboardSaleOrderExports()
 
   useEffect(() => {
-    if (warehouseId) {
+    if (!isEmpty(warehouseId)) {
       actions.getSaleOrderExports({
-        warehouseId: warehouseId,
+        warehouseId: warehouseId?.id,
         from: fromDate?.toISOString(),
         to: toDate?.toISOString(),
       })
@@ -39,7 +39,7 @@ const ExportReceipt = ({ fromDate, toDate }) => {
 
   const handleChangeWarehouse = (value) => {
     if (!isEmpty(value)) {
-      setWarehouseId(value?.id)
+      setWarehouseId(value)
     } else {
       setWarehouseId('')
     }
@@ -93,6 +93,7 @@ const ExportReceipt = ({ fromDate, toDate }) => {
               limit: ASYNC_SEARCH_LIMIT,
             })
           }
+          value={warehouseId}
           asyncRequestHelper={(res) => res?.data?.items}
           getOptionLabel={(opt) => opt?.name}
           getOptionSubLabel={(opt) => opt?.code}

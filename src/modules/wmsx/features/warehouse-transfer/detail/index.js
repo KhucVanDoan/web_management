@@ -27,7 +27,7 @@ import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseIm
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { api } from '~/services/api'
-import { convertUtcDateToLocalTz } from '~/utils'
+import { convertUtcDateTimeToLocalTz, convertUtcDateToLocalTz } from '~/utils'
 import { getFileNameFromHeader } from '~/utils/api'
 import addNotification from '~/utils/toast'
 
@@ -258,7 +258,7 @@ const WarehouseTransferDetail = () => {
                 )}
               />
             </Grid>
-            <Grid item lg={6} xs={12}>
+            {/* <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseTransfer.source')}
                 value={
@@ -267,7 +267,7 @@ const WarehouseTransferDetail = () => {
                     : ''
                 }
               />
-            </Grid>
+            </Grid> */}
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseTransfer.reason')}
@@ -304,6 +304,20 @@ const WarehouseTransferDetail = () => {
                 value={convertUtcDateToLocalTz(
                   warehouseTransferDetails?.receiptDate,
                 )}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseTransfer.receiptDate')}
+                value={convertUtcDateTimeToLocalTz(
+                  warehouseTransferDetails?.createdAt,
+                )}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseTransfer.createdByUser')}
+                value={warehouseTransferDetails?.createdByUser?.fullName}
               />
             </Grid>
             <Grid item lg={6} xs={12}>

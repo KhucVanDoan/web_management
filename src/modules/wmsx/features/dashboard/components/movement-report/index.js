@@ -23,18 +23,18 @@ const MovementReport = ({ fromDate, toDate }) => {
   const [itemId, setItemId] = useState('')
 
   const handleChangeWarehouse = (value) => {
-    setWarehouseId(value?.id)
+    setWarehouseId(value)
   }
 
   const handleChangeItem = (value) => {
-    setItemId(value?.id)
+    setItemId(value)
   }
 
   useEffect(() => {
     const payload = {
       reportType: groupBy,
-      itemId: itemId,
-      warehouseId: warehouseId,
+      itemId: itemId?.id,
+      warehouseId: warehouseId?.id,
       from: fromDate?.toISOString(),
       to: toDate?.toISOString(),
     }
@@ -186,6 +186,7 @@ const MovementReport = ({ fromDate, toDate }) => {
               limit: ASYNC_SEARCH_LIMIT,
             })
           }
+          value={warehouseId}
           asyncRequestHelper={(res) => res?.data?.items}
           getOptionLabel={(opt) => opt?.name}
           getOptionSubLabel={(opt) => opt?.code}
@@ -201,6 +202,7 @@ const MovementReport = ({ fromDate, toDate }) => {
               limit: ASYNC_SEARCH_LIMIT,
             })
           }
+          value={itemId}
           asyncRequestHelper={(res) => res?.data?.items}
           getOptionLabel={(opt) => opt?.name}
           getOptionSubLabel={(opt) => opt?.code}

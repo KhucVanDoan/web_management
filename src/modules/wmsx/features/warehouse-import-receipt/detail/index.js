@@ -24,7 +24,7 @@ import {
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { api } from '~/services/api'
-import { convertUtcDateToLocalTz } from '~/utils'
+import { convertUtcDateTimeToLocalTz, convertUtcDateToLocalTz } from '~/utils'
 import { getFileNameFromHeader } from '~/utils/api'
 import { downloadFile } from '~/utils/file'
 import addNotification from '~/utils/toast'
@@ -220,9 +220,25 @@ function WarehouseImportReceiptDetail() {
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('warehouseImportReceipt.createdAt')}
+                label={t('warehouseImportReceipt.receiptDate')}
                 value={convertUtcDateToLocalTz(
                   warehouseImportReceiptDetails.receiptDate,
+                )}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseImportReceipt.createdAt')}
+                value={convertUtcDateTimeToLocalTz(
+                  warehouseImportReceiptDetails.createdAt,
+                )}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseImportReceipt.createdByUser')}
+                value={convertUtcDateToLocalTz(
+                  warehouseImportReceiptDetails.createdByUser?.fullName,
                 )}
               />
             </Grid>
