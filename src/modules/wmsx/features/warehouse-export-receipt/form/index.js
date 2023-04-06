@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { Box, Grid, Typography } from '@mui/material'
 import { sub } from 'date-fns'
 import { Formik, Form, FieldArray } from 'formik'
-import { uniq, map, isEmpty, isNil } from 'lodash'
+import { uniq, map, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
@@ -28,7 +28,11 @@ import {
   WAREHOUSE_EXPORT_RECEIPT_STATUS_OPTIONS,
   WAREHOUSE_EXPORT_RECEIPT_STATUS,
   ruleEBS,
+  ENVIRONMENT,
+  CODE_RECEIPT_DEPARTMENT_DEFAULT,
 } from '~/modules/wmsx/constants'
+import useDefineExpenditureOrg from '~/modules/wmsx/redux/hooks/useDefineExpenditureOrg'
+import useReceiptDepartmentManagement from '~/modules/wmsx/redux/hooks/useReceiptDepartmentManagement'
 import useSourceManagement from '~/modules/wmsx/redux/hooks/useSourceManagement'
 import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
@@ -48,6 +52,7 @@ import {
   convertSortParams,
   convertUtcDateTimeToLocalTz,
   convertUtcDateToLocalTz,
+  getLocalItem,
 } from '~/utils'
 
 import ItemSettingTableDetail from '../detail/item-setting-table'
@@ -90,6 +95,16 @@ function WarehouseExportReceiptForm() {
     data: { attributesBusinessTypeDetails },
     actions: warehouseImportRecipt,
   } = useWarehouseImportReceipt()
+  const loggedInUserInfo = getLocalItem('userInfo')
+  const {
+    data: { receiptDepartmentList },
+    actions: receiptDepartmentListAction,
+  } = useReceiptDepartmentManagement()
+  const {
+    data: { expenditureOrgList },
+    actions: expenditureOrgListAction,
+  } = useDefineExpenditureOrg()
+
   const MODE_MAP = {
     [ROUTE.WAREHOUSE_EXPORT_RECEIPT.CREATE.PATH]: MODAL_MODE.CREATE,
     [ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT.PATH]: MODAL_MODE.UPDATE,
@@ -110,6 +125,22 @@ function WarehouseExportReceiptForm() {
       WAREHOUSE_EXPORT_RECEIPT_STATUS.IN_COLLECTING ||
     warehouseExportReceiptDetails?.status ===
       WAREHOUSE_EXPORT_RECEIPT_STATUS.COLLECTED
+  const codereceiptDepartment = () => {
+    switch (process.env.REACT_APP_ENVIRONMENT) {
+      case ENVIRONMENT.VTA:
+        return CODE_RECEIPT_DEPARTMENT_DEFAULT.VTA
+      case ENVIRONMENT.BKU:
+        return CODE_RECEIPT_DEPARTMENT_DEFAULT.BKU
+      case ENVIRONMENT.MDU:
+        return CODE_RECEIPT_DEPARTMENT_DEFAULT.MDU
+      case ENVIRONMENT.PMY:
+        return CODE_RECEIPT_DEPARTMENT_DEFAULT.PMY
+      case ENVIRONMENT.EPS:
+        return CODE_RECEIPT_DEPARTMENT_DEFAULT.EPS
+      default:
+        return CODE_RECEIPT_DEPARTMENT_DEFAULT.VTA
+    }
+  }
   const initialValues = useMemo(
     () => ({
       code: warehouseExportReceiptDetails?.code,
@@ -127,7 +158,9 @@ function WarehouseExportReceiptForm() {
         warehouseExportReceiptDetails?.departmentReceipt,
       )
         ? warehouseExportReceiptDetails?.departmentReceipt
-        : null,
+        : receiptDepartmentList?.find(
+            (e) => e?.code === codereceiptDepartment(),
+          ) || null,
       warehouseId: warehouseExportReceiptDetails?.warehouse || null,
       reasonId: warehouseExportReceiptDetails?.reason || null,
       sourceId: warehouseExportReceiptDetails?.source || null,
@@ -204,7 +237,20 @@ function WarehouseExportReceiptForm() {
       initialValues[`${item.id}`] = item.value || null
     }
   })
+  useEffect(() => {
+    const params = {
+      filter: convertFilterParams({
+        code: codereceiptDepartment(),
+      }),
+    }
+    receiptDepartmentListAction.searchReceiptDepartment(params)
 
+    expenditureOrgListAction.searchExpenditureOrg({
+      filter: convertFilterParams({
+        code: loggedInUserInfo?.company?.code,
+      }),
+    })
+  }, [])
   const getBreadcrumb = () => {
     const breadcrumbs = [
       {
@@ -734,8 +780,17 @@ function WarehouseExportReceiptForm() {
     setFieldValue('explanation', explaination)
     if (!isEmpty(val)) {
       val?.bussinessTypeAttributes?.forEach((item) => {
-        if (!isNil(item?.id)) {
+        const expenditureOrgDefault =
+          expenditureOrgList?.find(
+            (e) => e?.code === loggedInUserInfo?.company?.code,
+          ) || null
+        if (
+          item?.id &&
+          item?.tableName !== TABLE_NAME_ENUM.ORGANIZATION_PAYMENT
+        ) {
           setFieldValue(item?.id, null)
+        } else {
+          setFieldValue(item?.id, expenditureOrgDefault)
         }
       })
     }

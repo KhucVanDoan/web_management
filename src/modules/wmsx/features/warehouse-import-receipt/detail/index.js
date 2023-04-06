@@ -237,9 +237,7 @@ function WarehouseImportReceiptDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseImportReceipt.createdByUser')}
-                value={convertUtcDateToLocalTz(
-                  warehouseImportReceiptDetails.createdByUser?.fullName,
-                )}
+                value={warehouseImportReceiptDetails.createdByUser?.fullName}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
