@@ -31,15 +31,14 @@ const MovementWarehouseExportDetail = () => {
     actions: useWarehouseImportReceiptAction,
   } = useWarehouseImportReceipt()
   const history = useHistory()
-  const items = warehouseExportReceiptDetails?.itemsSync?.map((item) => ({
-    ...item,
-    price: warehouseExportReceiptDetails?.saleOrderExportWarehouseLots?.find(
-      (e) => e?.itemId === item?.id,
-    )?.price,
-    amount: warehouseExportReceiptDetails?.saleOrderExportWarehouseLots?.find(
-      (e) => e?.itemId === item?.id,
-    )?.amount,
-  }))
+  const items =
+    warehouseExportReceiptDetails?.saleOrderExportWarehouseLots?.map(
+      (item) => ({
+        ...item,
+        price: item?.price || 0,
+        amount: item?.amount || 0,
+      }),
+    )
   useEffect(() => {
     actions.getWarehouseExportReceiptDetailsById(id, (data) => {
       const attributes = data?.attributes?.filter(
@@ -119,7 +118,7 @@ const MovementWarehouseExportDetail = () => {
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('warehouseExportReceipt.createdAt')}
+                label={t('warehouseExportReceipt.receiptDate')}
                 value={convertUtcDateToLocalTz(
                   warehouseExportReceiptDetails?.receiptDate,
                 )}

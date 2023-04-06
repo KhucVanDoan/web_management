@@ -234,9 +234,17 @@ function WarehouseImportReceiveAndStorage() {
                     </Grid>
                     <Grid item lg={6} xs={12}>
                       <LV
-                        label={t('warehouseImportReceipt.createdAt')}
+                        label={t('warehouseImportReceipt.receiptDate')}
                         value={convertUtcDateToLocalTz(
                           warehouseImportReceiptDetails.receiptDate,
+                        )}
+                      />
+                    </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <LV
+                        label={t('warehouseImportReceipt.createdAt')}
+                        value={convertUtcDateToLocalTz(
+                          warehouseImportReceiptDetails.createdAt,
                         )}
                       />
                     </Grid>

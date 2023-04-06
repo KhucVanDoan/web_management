@@ -76,9 +76,9 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
               asyncRequestHelper={(res) => res?.data?.items}
               getOptionLabel={(opt) => opt?.name}
-              getOptionSubLabel={(opt) => opt?.code}
+              getOptionSubLabel={(opt) => (opt?.code ? opt?.code : null)}
               freeSolo
-              onBlur={(e) => {
+              onInputChange={(e) => {
                 const newVal = e?.target?.value
                 if (newVal) {
                   setFieldValue(`items[${index}].suppliesName`, {

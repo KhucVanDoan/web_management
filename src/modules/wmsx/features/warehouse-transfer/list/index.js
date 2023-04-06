@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
 
-import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
@@ -14,6 +13,7 @@ import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
+import IconButton from '~/components/IconButton'
 import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -30,6 +30,7 @@ import { ROUTE } from '~/modules/wmsx/routes/config'
 import {
   convertFilterParams,
   convertSortParams,
+  convertUtcDateTimeToLocalTz,
   convertUtcDateToLocalTz,
 } from '~/utils'
 
@@ -109,7 +110,7 @@ const WarehouseTransfer = () => {
         headerName: t('warehouseTransfer.warehouseImport'),
         width: 150,
         renderCell: (params) => {
-          return params?.row?.destinationWarehouse?.name
+          return params?.row?.destinationWarehouse?.code
         },
       },
       {
@@ -117,15 +118,25 @@ const WarehouseTransfer = () => {
         headerName: t('warehouseTransfer.warehouseExport'),
         width: 150,
         renderCell: (params) => {
-          return params?.row?.sourceWarehouse?.name
+          return params?.row?.sourceWarehouse?.code
         },
       },
       {
         field: 'receiptDate',
         headerName: t('warehouseTransfer.createdAt'),
         width: 150,
+        filterFormat: 'date',
         renderCell: (params) => {
           return convertUtcDateToLocalTz(params?.row?.receiptDate)
+        },
+      },
+      {
+        field: 'createdAt',
+        headerName: t('warehouseTransfer.receiptDate'),
+        width: 150,
+        filterFormat: 'date',
+        renderCell: (params) => {
+          return convertUtcDateTimeToLocalTz(params?.row?.createdAt)
         },
       },
       {
@@ -219,6 +230,7 @@ const WarehouseTransfer = () => {
             <div>
               <Guard code={FUNCTION_CODE.WAREHOUSE_DETAIL_WAREHOUSE_TRANSFER}>
                 <IconButton
+                  title={t('iconButtonHover.view')}
                   onClick={() =>
                     history.push(
                       ROUTE.WAREHOUSE_TRANSFER.DETAIL.PATH.replace(
@@ -235,7 +247,10 @@ const WarehouseTransfer = () => {
                 <Guard
                   code={FUNCTION_CODE.WAREHOUSE_CANCEL_SYNC_WAREHOUSE_TRANSFER}
                 >
-                  <IconButton onClick={() => onClickCancelSyncEBS(params?.row)}>
+                  <IconButton
+                    title={t('iconButtonHover.cancel')}
+                    onClick={() => onClickCancelSyncEBS(params?.row)}
+                  >
                     <Icon name="cancelSync" />
                   </IconButton>
                 </Guard>
@@ -243,6 +258,7 @@ const WarehouseTransfer = () => {
               {isEdit && (
                 <Guard code={FUNCTION_CODE.WAREHOUSE_UPDATE_WAREHOUSE_TRANSFER}>
                   <IconButton
+                    title={t('iconButtonHover.update')}
                     onClick={() =>
                       history.push(
                         ROUTE.WAREHOUSE_TRANSFER.EDIT.PATH.replace(
@@ -258,7 +274,10 @@ const WarehouseTransfer = () => {
               )}
               {isDelete && (
                 <Guard code={FUNCTION_CODE.WAREHOUSE_DELETE_WAREHOUSE_TRANSFER}>
-                  <IconButton onClick={() => onClickDelete(params.row)}>
+                  <IconButton
+                    title={t('iconButtonHover.delete')}
+                    onClick={() => onClickDelete(params.row)}
+                  >
                     <Icon name="delete" />
                   </IconButton>
                 </Guard>
@@ -274,7 +293,10 @@ const WarehouseTransfer = () => {
               )}
               {isRejected && (
                 <Guard code={FUNCTION_CODE.WAREHOUSE_REJECT_WAREHOUSE_TRANSFER}>
-                  <IconButton onClick={() => onClickRejected(params.row)}>
+                  <IconButton
+                    title={t('iconButtonHover.reject')}
+                    onClick={() => onClickRejected(params.row)}
+                  >
                     <Icon name="remove" />
                   </IconButton>
                 </Guard>

@@ -197,7 +197,7 @@ const ReceiveAndStored = () => {
                         )}
                       />
                     </Grid>
-                    <Grid item lg={6} xs={12}>
+                    {/* <Grid item lg={6} xs={12}>
                       <LV
                         label={t('warehouseTransfer.source')}
                         value={
@@ -206,7 +206,7 @@ const ReceiveAndStored = () => {
                             : ''
                         }
                       />
-                    </Grid>
+                    </Grid> */}
                     <Grid item lg={6} xs={12}>
                       <LV
                         label={t('warehouseTransfer.reason')}
