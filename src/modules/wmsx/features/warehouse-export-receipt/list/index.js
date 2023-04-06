@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 
-import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
@@ -14,6 +13,7 @@ import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
+import IconButton from '~/components/IconButton'
 import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -34,7 +34,7 @@ import { ROUTE } from '~/modules/wmsx/routes/config'
 import {
   convertFilterParams,
   convertSortParams,
-  convertUtcDateToLocalTz,
+  convertUtcDateTimeToLocalTz,
 } from '~/utils'
 
 import FilterForm from './filter-form'
@@ -127,16 +127,25 @@ function WarehouseExportReceipt() {
       width: 120,
       sortable: true,
       renderCell: (params) => {
-        return params?.row?.warehouseId?.name
+        return params?.row?.warehouseId?.code
       },
     },
     {
       field: 'receiptDate',
+      headerName: t('warehouseExportReceipt.receiptDate'),
+      width: 120,
+      filterFormat: 'date',
+      renderCell: (params) => {
+        return convertUtcDateTimeToLocalTz(params?.row?.receiptDate)
+      },
+    },
+    {
+      field: 'createdAt',
       headerName: t('warehouseExportReceipt.createdAt'),
       width: 120,
       filterFormat: 'date',
       renderCell: (params) => {
-        return convertUtcDateToLocalTz(params?.row?.receiptDate)
+        return convertUtcDateTimeToLocalTz(params?.row?.createdAt)
       },
     },
     {
@@ -236,6 +245,7 @@ function WarehouseExportReceipt() {
           <div>
             <Guard code={FUNCTION_CODE.SALE_DETAIL_SALE_ORDER_EXPORT}>
               <IconButton
+                title={t('iconButtonHover.view')}
                 onClick={() =>
                   history.push(
                     ROUTE.WAREHOUSE_EXPORT_RECEIPT.DETAIL.PATH.replace(
@@ -249,13 +259,19 @@ function WarehouseExportReceipt() {
               </IconButton>
             </Guard>
             {isCancelSync && (
-              <IconButton onClick={() => onClickCancelSyncEBS(params?.row)}>
-                <Icon name="cancelSync" />
-              </IconButton>
+              <Guard code={FUNCTION_CODE.SALE_CANCEL_SYNC_SALE_ORDER_EXPORT}>
+                <IconButton
+                  title={t('iconButtonHover.cancel')}
+                  onClick={() => onClickCancelSyncEBS(params?.row)}
+                >
+                  <Icon name="cancelSync" />
+                </IconButton>
+              </Guard>
             )}
             {isEdit && (
               <Guard code={FUNCTION_CODE.SALE_UPDATE_SALE_ORDER_EXPORT}>
                 <IconButton
+                  title={t('iconButtonHover.update')}
                   onClick={() =>
                     history.push(
                       ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT.PATH.replace(
@@ -272,6 +288,7 @@ function WarehouseExportReceipt() {
             {isEditHeader && (
               <Guard code={FUNCTION_CODE.SALE_UPDATE_HEADER_SALE_ORDER_EXPORT}>
                 <IconButton
+                  title={t('iconButtonHover.updateHeader')}
                   onClick={() =>
                     history.push(
                       ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT_HEADER.PATH.replace(
@@ -287,21 +304,30 @@ function WarehouseExportReceipt() {
             )}
             {isDelete && (
               <Guard code={FUNCTION_CODE.SALE_DELETE_SALE_ORDER_EXPORT}>
-                <IconButton onClick={() => onClickDelete(params.row)}>
+                <IconButton
+                  title={t('iconButtonHover.delete')}
+                  onClick={() => onClickDelete(params.row)}
+                >
                   <Icon name="delete" />
                 </IconButton>
               </Guard>
             )}
             {isConfirmed && (
               <Guard code={FUNCTION_CODE.SALE_CONFIRM_SALE_ORDER_EXPORT}>
-                <IconButton onClick={() => onClickConfirm(params.row)}>
+                <IconButton
+                  title={t('iconButtonHover.confirm')}
+                  onClick={() => onClickConfirm(params.row)}
+                >
                   <Icon name="tick" />
                 </IconButton>
               </Guard>
             )}
             {isRejected && (
               <Guard code={FUNCTION_CODE.SALE_REJECT_SALE_ORDER_EXPORT}>
-                <IconButton onClick={() => onClickRejected(params.row)}>
+                <IconButton
+                  title={t('iconButtonHover.reject')}
+                  onClick={() => onClickRejected(params.row)}
+                >
                   <Icon name="remove" />
                 </IconButton>
               </Guard>

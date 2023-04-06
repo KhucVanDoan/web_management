@@ -24,7 +24,7 @@ import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseEx
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { api } from '~/services/api'
-import { convertUtcDateToLocalTz } from '~/utils'
+import { convertUtcDateTimeToLocalTz, convertUtcDateToLocalTz } from '~/utils'
 import { getFileNameFromHeader } from '~/utils/api'
 import addNotification from '~/utils/toast'
 
@@ -63,15 +63,14 @@ function WarehouseExportReceiptDetail() {
     actions: useWarehouseImportReceiptAction,
   } = useWarehouseImportReceipt()
 
-  const items = warehouseExportReceiptDetails?.itemsSync?.map((item) => ({
-    ...item,
-    price: warehouseExportReceiptDetails?.saleOrderExportWarehouseLots?.find(
-      (e) => e?.itemId === item?.id,
-    )?.price,
-    amount: warehouseExportReceiptDetails?.saleOrderExportWarehouseLots?.find(
-      (e) => e?.itemId === item?.id,
-    )?.amount,
-  }))
+  const items =
+    warehouseExportReceiptDetails?.saleOrderExportWarehouseLots?.map(
+      (item) => ({
+        ...item,
+        price: item?.price,
+        amount: item?.amount,
+      }),
+    )
   const dowFile = async (params) => {
     setLoadingDowFile(true)
     const uri = `/v1/sales/sale-order-exports/export-delivery-ticket/${params}`
@@ -260,10 +259,24 @@ function WarehouseExportReceiptDetail() {
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('warehouseExportReceipt.createdAt')}
+                label={t('warehouseExportReceipt.receiptDate')}
                 value={convertUtcDateToLocalTz(
                   warehouseExportReceiptDetails?.receiptDate,
                 )}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseExportReceipt.createdAt')}
+                value={convertUtcDateTimeToLocalTz(
+                  warehouseExportReceiptDetails?.createdAt,
+                )}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseExportReceipt.createdByUser')}
+                value={warehouseExportReceiptDetails?.user?.fullName}
               />
             </Grid>
             {/* <Grid item lg={6} xs={12}>

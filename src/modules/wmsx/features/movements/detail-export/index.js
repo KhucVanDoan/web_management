@@ -105,7 +105,7 @@ const MovementExportDetail = ({ breadcrumbs, onBack }) => {
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('warehouseExportReceipt.createdAt')}
+                label={t('warehouseExportReceipt.receiptDate')}
                 value={convertUtcDateToLocalTz(receiptDetail.receiptDate)}
               />
             </Grid>
@@ -292,7 +292,7 @@ const MovementExportDetail = ({ breadcrumbs, onBack }) => {
       {movementDetail?.movementType !== MOVEMENT_TYPE.SO_EXPORT && (
         <Box sx={{ mt: 3 }}>
           <ItemSettingTableDetail
-            items={receiptDetail?.saleOrderExportDetails || []}
+            items={receiptDetail?.saleOrderExportWarehouseLots || []}
             mode={MODAL_MODE.DETAIL}
           />
         </Box>

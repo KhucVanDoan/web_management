@@ -834,7 +834,11 @@ const displayFollowBusinessTypeManagement = (
                     }}
                     asyncRequestHelper={(res) => res?.data?.items}
                     asyncRequestDeps={values?.businessTypeId}
-                    getOptionLabel={(opt) => opt?.code}
+                    getOptionLabel={(opt) =>
+                      opt?.code && opt?.name
+                        ? `${opt?.code} - ${opt?.name}`
+                        : null
+                    }
                     getOptionSubLabel={(opt) => opt?.name}
                     isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                     required={Boolean(item?.required)}
@@ -857,7 +861,11 @@ const displayFollowBusinessTypeManagement = (
                     }}
                     asyncRequestHelper={(res) => res?.data?.items}
                     asyncRequestDeps={values?.businessTypeId}
-                    getOptionLabel={(opt) => opt?.code}
+                    getOptionLabel={(opt) =>
+                      opt?.code && opt?.name
+                        ? `${opt?.code} - ${opt?.name}`
+                        : null
+                    }
                     getOptionSubLabel={(opt) => opt?.name}
                     isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                     required={Boolean(item?.required)}

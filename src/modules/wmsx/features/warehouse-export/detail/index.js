@@ -119,7 +119,7 @@ const WarehouseExportDetail = () => {
           <>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('warehouseExportReceipt.createdAt')}
+                label={t('warehouseExportReceipt.receiptDate')}
                 value={convertUtcDateToLocalTz(receiptDetail?.receiptDate)}
               />
             </Grid>
@@ -339,7 +339,7 @@ const WarehouseExportDetail = () => {
                 value={t(`${WAREHOUSE_TRANSFER_MAP[receiptDetail?.type]}`)}
               />
             </Grid>
-            <Grid item lg={6} xs={12}>
+            {/* <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseTransfer.source')}
                 value={
@@ -348,7 +348,7 @@ const WarehouseExportDetail = () => {
                     : ''
                 }
               />
-            </Grid>
+            </Grid> */}
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseTransfer.reason')}

@@ -1,12 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 
-import {
-  Button,
-  Checkbox,
-  FormControlLabel,
-  IconButton,
-  Typography,
-} from '@mui/material'
+import { Button, IconButton, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { add } from 'date-fns'
 import { flatMap, isEmpty } from 'lodash'
@@ -25,7 +19,6 @@ import {
 } from '~/modules/wmsx/constants'
 import { getItemWarehouseStockAvailableApi } from '~/modules/wmsx/redux/sagas/warehouse-transfer/get-item-warehouse-stock-available'
 import {
-  checkItemWarehouseImport,
   getListItemWarehouseStockApi,
   getListStorageDateApi,
 } from '~/modules/wmsx/redux/sagas/warehouse-transfer/get-list-item'
@@ -85,17 +78,17 @@ const ItemSettingTable = (props) => {
           )?.accounting,
         )
       }
-      const checkItem = await checkItemWarehouseImport({
-        itemId: val?.itemId || val?.id,
-        warehouseId: values?.destinationWarehouseId?.id,
-      })
-      if (checkItem?.statusCode === 200) {
-        if (checkItem?.data?.length > 0) {
-          setFieldValue(`items[${index}].itemCodeWarehouseImp`, true)
-        } else {
-          setFieldValue(`items[${index}].itemCodeWarehouseImp`, false)
-        }
-      }
+      // const checkItem = await checkItemWarehouseImport({
+      //   itemId: val?.itemId || val?.id,
+      //   warehouseId: values?.destinationWarehouseId?.id,
+      // })
+      // if (checkItem?.statusCode === 200) {
+      //   if (checkItem?.data?.length > 0) {
+      //     setFieldValue(`items[${index}].itemCodeWarehouseImp`, true)
+      //   } else {
+      //     setFieldValue(`items[${index}].itemCodeWarehouseImp`, false)
+      //   }
+      // }
       setFieldValue(`items[${index}].debitAcc`, '1519')
       if (values?.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG) {
         // const storageDate = await getListStorageDateApi(val?.itemId || val?.id)
@@ -118,7 +111,7 @@ const ItemSettingTable = (props) => {
       setFieldValue(`items[${index}].planExportedQuantity`, '')
       setFieldValue(`items[${index}].transferQuantity`, '')
       setFieldValue(`items[${index}].creditAcc`, '')
-      setFieldValue(`items[${index}].itemCodeWarehouseImp`, false)
+      // setFieldValue(`items[${index}].itemCodeWarehouseImp`, false)
     }
   }
   const handleChangeLotnumber = async (val, index, payload) => {
@@ -540,26 +533,26 @@ const ItemSettingTable = (props) => {
           )
         },
       },
-      {
-        field: 'itemCodeWarehouseImp',
-        headerName: t('warehouseTransfer.table.itemCodeWarehouseImp'),
-        width: 100,
-        renderCell: (params, index) => {
-          return isView ? (
-            <Checkbox checked={params?.row?.itemCodeWarehouseImp} disabled />
-          ) : (
-            <FormControlLabel
-              control={
-                <Field.Checkbox
-                  name={`items[${index}].itemCodeWarehouseImp`}
-                  disabled
-                />
-              }
-              label=""
-            />
-          )
-        },
-      },
+      // {
+      //   field: 'itemCodeWarehouseImp',
+      //   headerName: t('warehouseTransfer.table.itemCodeWarehouseImp'),
+      //   width: 100,
+      //   renderCell: (params, index) => {
+      //     return isView ? (
+      //       <Checkbox checked={params?.row?.itemCodeWarehouseImp} disabled />
+      //     ) : (
+      //       <FormControlLabel
+      //         control={
+      //           <Field.Checkbox
+      //             name={`items[${index}].itemCodeWarehouseImp`}
+      //             disabled
+      //           />
+      //         }
+      //         label=""
+      //       />
+      //     )
+      //   },
+      // },
       {
         field: 'price',
         headerName: t('warehouseTransfer.table.price'),
@@ -699,7 +692,7 @@ const ItemSettingTable = (props) => {
                 arrayHelpers.push({
                   ids: new Date().getTime(),
                   itemcode: null,
-                  itemCodeWarehouseImp: false,
+                  // itemCodeWarehouseImp: false,
                   locator: '',
                   lotNumber: '',
                   planQuantity: 1,

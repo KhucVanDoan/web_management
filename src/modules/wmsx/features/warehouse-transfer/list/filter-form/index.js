@@ -141,8 +141,8 @@ const FilterForm = () => {
       <Grid item xs={12}>
         <Field.DateRangePicker
           name="createdAt"
-          label={t('warehouseTransfer.table.createdAt')}
-          placeholder={t('warehouseTransfer.table.createdAt')}
+          label={t('warehouseTransfer.receiptDate')}
+          placeholder={t('warehouseTransfer.receiptDate')}
         />
       </Grid>
     </Grid>
