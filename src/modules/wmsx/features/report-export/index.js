@@ -140,7 +140,7 @@ const ReportExport = () => {
       REPORT_TYPE.SITUATION_INVENTORY_PERIOD,
       REPORT_TYPE.SITUATION_IMPORT_PERIOD,
       REPORT_TYPE.SITUATION_EXPORT_PERIOD,
-      REPORT_TYPE.STORED,
+      // REPORT_TYPE.STORED,
     ].includes(type)
 
   const handleChangeReportType = (type, setFieldValue) => {

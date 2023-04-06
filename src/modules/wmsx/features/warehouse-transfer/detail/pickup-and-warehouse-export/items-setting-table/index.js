@@ -213,7 +213,8 @@ const ItemSettingTable = (props) => {
                   .filter(
                     (item) =>
                       item.itemCode?.itemId === params?.row?.itemCode?.itemId &&
-                      item?.id !== params?.row?.id,
+                      item?.id !== params?.row?.id &&
+                      item?.lotNumber === params?.row?.lotNumber,
                   )
                   .reduce((prev, cur) => prev + Number(cur.ExportedQuantity), 0)
                 if (

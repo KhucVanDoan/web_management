@@ -2578,3 +2578,17 @@ export const ruleEBS = {
   reason: 'Lý do không hợp lệ',
   warehouse: 'Kho không hợp lệ',
 }
+export const ENVIRONMENT = {
+  VTA: 'VTA',
+  BKU: 'BKU',
+  MDU: 'MDU',
+  PMY: 'PMY',
+  EPS: 'EPS',
+}
+export const CODE_RECEIPT_DEPARTMENT_DEFAULT = {
+  VTA: '30800PVT',
+  BKU: '30400KVT',
+  MDU: '030700KHV',
+  PMY: '030600KHV',
+  EPS: '031300KHV',
+}
