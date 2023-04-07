@@ -230,6 +230,8 @@ function WarehouseImportReceipt() {
       headerName: t('general:common.action'),
       width: 200,
       align: 'center',
+      sticky: { right: 0 },
+      resizable: false,
       fixed: true,
       renderCell: (params) => {
         const { id, status, syncStatus } = params?.row
