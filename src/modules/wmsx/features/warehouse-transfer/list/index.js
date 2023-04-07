@@ -207,6 +207,8 @@ const WarehouseTransfer = () => {
         width: 250,
         align: 'center',
         fixed: true,
+        sticky: { right: 0 },
+        resizable: false,
         renderCell: (params) => {
           const { id, status, syncStatus } = params?.row
           const isEdit =

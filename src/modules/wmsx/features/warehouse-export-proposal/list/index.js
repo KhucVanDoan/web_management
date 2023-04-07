@@ -178,6 +178,8 @@ function WarehouseExportProposal() {
       width: 150,
       align: 'center',
       fixed: true,
+      sticky: { right: 0 },
+      resizable: false,
       renderCell: (params) => {
         const { id, status } = params?.row
         const canEdit =
