@@ -2919,6 +2919,9 @@
     "messageWarningCreate": "Cảnh báo ",
     "returnReceipt": "Trả phiếu",
     "createdByUser": "Người tạo",
+    "deleted": "Xóa",
+    "update": "Chỉnh sửa",
+    "cancelEbs": "Hủy đồng bộ EBS",
     "statusSync": {
       "pending": "chờ BOT xử lý",
       "error": "Lỗi xuất kho EBS",
@@ -3026,6 +3029,9 @@
     "received": "Đã nhập kho",
     "returnReceipt": "Trả phiếu",
     "createdByUser": "Người tạo",
+    "deleted": "Xóa",
+    "update": "Chỉnh sửa",
+    "cancelEbs": "Hủy đồng bộ EBS",
     "table": {
       "title": "Danh sách vật tư",
       "addButton": "Thêm vật tư",
@@ -3268,6 +3274,11 @@
     "confirmTitlePopupEBS": "Xác nhận hoàn thành chuyển kho",
     "Confirm": "Bạn có chắc chắn muốn xác nhận không?",
     "ConfirmEBS": "Xác nhận chuyển kho đồng nghĩa với việc bạn sẽ đồng bộ dữ liệu này sang hệ thống EBS.",
+    "deleted": "Xóa",
+    "update": "Chỉnh sửa",
+    "cancelEbs": "Hủy đồng bộ EBS",
+    "rejected": "Từ chối",
+    "confirmed": "Xác nhận",
     "statusSync": {
       "pending": "chờ BOT xử lý",
       "error": "Lỗi chuyển kho EBS",

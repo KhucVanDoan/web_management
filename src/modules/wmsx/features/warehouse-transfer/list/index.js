@@ -558,6 +558,9 @@ const WarehouseTransfer = () => {
         onSubmit={submitReject}
         submitLabel={t('general:common.yes')}
         noBorderBottom
+        submitProps={{
+          color: 'error',
+        }}
       >
         {t('general:common.confirmMessage.reject')}
         <LV
@@ -579,6 +582,9 @@ const WarehouseTransfer = () => {
         onSubmit={onSubmitCancelEBS}
         submitLabel={t('general:common.yes')}
         noBorderBottom
+        submitProps={{
+          color: 'error',
+        }}
       >
         {t('warehouseExportReceipt.cancelEBS')}
       </Dialog>

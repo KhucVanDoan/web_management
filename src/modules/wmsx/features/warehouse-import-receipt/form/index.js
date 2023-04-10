@@ -839,10 +839,10 @@ function WarehouseImportReceiptForm() {
                               {t('warehouseImportReceipt.createdByUser')}
                             </Typography>
                           }
-                          value={convertUtcDateToLocalTz(
+                          value={
                             warehouseImportReceiptDetails.createdByUser
-                              ?.fullName,
-                          )}
+                              ?.fullName
+                          }
                         />
                       </Grid>
                     )}
