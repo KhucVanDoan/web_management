@@ -6,7 +6,7 @@ import { PropTypes } from 'prop-types'
 
 const IconButton = ({ title, onClick, children }) => {
   return (
-    <Tooltip title={title} sx={{ fontSize: 12 }}>
+    <Tooltip title={<div style={{ fontSize: '14px' }}>{title}</div>}>
       <IconButtonHover onClick={onClick}>{children}</IconButtonHover>
     </Tooltip>
   )

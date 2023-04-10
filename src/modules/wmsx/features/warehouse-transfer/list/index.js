@@ -207,6 +207,8 @@ const WarehouseTransfer = () => {
         width: 250,
         align: 'center',
         fixed: true,
+        sticky: { right: 0 },
+        resizable: false,
         renderCell: (params) => {
           const { id, status, syncStatus } = params?.row
           const isEdit =
@@ -556,6 +558,9 @@ const WarehouseTransfer = () => {
         onSubmit={submitReject}
         submitLabel={t('general:common.yes')}
         noBorderBottom
+        submitProps={{
+          color: 'error',
+        }}
       >
         {t('general:common.confirmMessage.reject')}
         <LV
@@ -577,6 +582,9 @@ const WarehouseTransfer = () => {
         onSubmit={onSubmitCancelEBS}
         submitLabel={t('general:common.yes')}
         noBorderBottom
+        submitProps={{
+          color: 'error',
+        }}
       >
         {t('warehouseExportReceipt.cancelEBS')}
       </Dialog>

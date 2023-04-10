@@ -117,7 +117,7 @@ const style = (theme) => ({
     borderRight: `2px solid ${theme.palette.primary.a3} !important`,
   },
   firstStickyRight: {
-    borderLeft: `2px solid ${theme.palette.primary.a3} !important`,
+    borderLeft: `2px solid ${theme.palette.text.a1} !important`,
   },
 })
 
