@@ -9,6 +9,7 @@ import { MODAL_MODE, NOTIFICATION_TYPE } from '~/common/constants'
 import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
+import Dialog from '~/components/Dialog'
 import Guard from '~/components/Guard'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -16,6 +17,8 @@ import Status from '~/components/Status'
 import TextField from '~/components/TextField'
 import {
   DATA_TYPE,
+  STATUS_SYNC_ORDER_TO_EBS,
+  SYNC_STATUS_CAN_UPDATE_HEADER_POI,
   TABLE_NAME_ENUM,
   WAREHOUSE_EXPORT_RECEIPT_STATUS,
   WAREHOUSE_EXPORT_RECEIPT_STATUS_OPTIONS,
@@ -24,6 +27,7 @@ import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseEx
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { api } from '~/services/api'
+import theme from '~/themes'
 import { convertUtcDateTimeToLocalTz, convertUtcDateToLocalTz } from '~/utils'
 import { getFileNameFromHeader } from '~/utils/api'
 import addNotification from '~/utils/toast'
@@ -63,6 +67,13 @@ function WarehouseExportReceiptDetail() {
     actions: useWarehouseImportReceiptAction,
   } = useWarehouseImportReceipt()
 
+  const [modal, setModal] = useState({
+    isOpenDeleteModal: false,
+    isOpenConfirmModal: false,
+    isOpenConfirmEBSModal: false,
+    isOpenRejectedModal: false,
+    isOpenCancelSyncEMSModal: false,
+  })
   const items =
     warehouseExportReceiptDetails?.saleOrderExportWarehouseLots?.map(
       (item) => ({
@@ -182,8 +193,165 @@ function WarehouseExportReceiptDetail() {
   }
 
   const renderHeaderRight = () => {
+    const isEdit =
+      warehouseExportReceiptDetails?.status ===
+        WAREHOUSE_EXPORT_RECEIPT_STATUS.PENDING ||
+      warehouseExportReceiptDetails?.status ===
+        WAREHOUSE_EXPORT_RECEIPT_STATUS.REJECTED ||
+      warehouseExportReceiptDetails?.status ===
+        WAREHOUSE_EXPORT_RECEIPT_STATUS.CONFIRMED
+    const isDelete =
+      warehouseExportReceiptDetails?.status ===
+        WAREHOUSE_EXPORT_RECEIPT_STATUS.PENDING ||
+      warehouseExportReceiptDetails?.status ===
+        WAREHOUSE_EXPORT_RECEIPT_STATUS.REJECTED
+    const isConfirmed =
+      warehouseExportReceiptDetails?.status ===
+      WAREHOUSE_EXPORT_RECEIPT_STATUS.PENDING
+    const isRejected =
+      warehouseExportReceiptDetails?.status ===
+      WAREHOUSE_EXPORT_RECEIPT_STATUS.PENDING
+    const isCancelSync =
+      warehouseExportReceiptDetails?.syncStatus ===
+      STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR
+    const isEditHeader =
+      (warehouseExportReceiptDetails?.status ===
+        WAREHOUSE_EXPORT_RECEIPT_STATUS.IN_COLLECTING &&
+        SYNC_STATUS_CAN_UPDATE_HEADER_POI.includes(
+          warehouseExportReceiptDetails?.syncStatus,
+        )) ||
+      (warehouseExportReceiptDetails?.status ===
+        WAREHOUSE_EXPORT_RECEIPT_STATUS.COMPLETED &&
+        SYNC_STATUS_CAN_UPDATE_HEADER_POI.includes(
+          warehouseExportReceiptDetails?.syncStatus,
+        )) ||
+      (warehouseExportReceiptDetails?.status ===
+        WAREHOUSE_EXPORT_RECEIPT_STATUS.COLLECTED &&
+        SYNC_STATUS_CAN_UPDATE_HEADER_POI.includes(
+          warehouseExportReceiptDetails?.syncStatus,
+        ))
+    const isConfirmWarehouseExport =
+      warehouseExportReceiptDetails?.status ===
+        WAREHOUSE_EXPORT_RECEIPT_STATUS.COMPLETED &&
+      warehouseExportReceiptDetails?.syncStatus ===
+        STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC
     return (
       <>
+        {isRejected && (
+          <Guard code={FUNCTION_CODE.SALE_REJECT_SALE_ORDER_EXPORT}>
+            <Button
+              onClick={() => setModal({ isOpenRejectedModal: true })}
+              sx={{
+                ml: 4 / 3,
+                borderColor: theme.palette.borderButtonRemove,
+                color: theme.palette.borderButtonRemove,
+              }}
+              variant="outlined"
+              // icon="add"
+            >
+              {t('warehouseExportReceipt.rejected')}
+            </Button>
+          </Guard>
+        )}
+        {isConfirmed && (
+          <Guard code={FUNCTION_CODE.SALE_CONFIRM_SALE_ORDER_EXPORT}>
+            <Button
+              onClick={() => setModal({ isOpenConfirmModal: true })}
+              sx={{
+                ml: 4 / 3,
+              }}
+
+              // icon="add"
+            >
+              {t('warehouseExportReceipt.confirmed')}
+            </Button>
+          </Guard>
+        )}
+        {isDelete && (
+          <Guard code={FUNCTION_CODE.SALE_DELETE_SALE_ORDER_EXPORT}>
+            <Button
+              onClick={() => setModal({ isOpenDeleteModal: true })}
+              sx={{
+                ml: 4 / 3,
+              }}
+              color="error"
+              // icon="add"
+            >
+              {t('warehouseExportReceipt.deleted')}
+            </Button>
+          </Guard>
+        )}
+        {isEdit && (
+          <Guard code={FUNCTION_CODE.SALE_UPDATE_SALE_ORDER_EXPORT}>
+            <Button
+              onClick={() =>
+                history.push(
+                  ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT.PATH.replace(
+                    ':id',
+                    `${id}`,
+                  ),
+                )
+              }
+              sx={{
+                ml: 4 / 3,
+              }}
+              color="grayEE"
+              // icon="add"
+            >
+              {t('warehouseExportReceipt.update')}
+            </Button>
+          </Guard>
+        )}
+        {isEditHeader && (
+          <Guard code={FUNCTION_CODE.SALE_UPDATE_HEADER_SALE_ORDER_EXPORT}>
+            <Button
+              onClick={() =>
+                history.push(
+                  ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT_HEADER.PATH.replace(
+                    ':id',
+                    `${id}`,
+                  ),
+                )
+              }
+              sx={{
+                ml: 4 / 3,
+              }}
+              color="grayEE"
+              // icon="add"
+            >
+              {t('warehouseExportReceipt.update')}
+            </Button>
+          </Guard>
+        )}
+        {isConfirmWarehouseExport && (
+          <Guard code={FUNCTION_CODE.SALE_SYNC_PURCHASED_ORDER_IMPORT_TO_EBS}>
+            <Button
+              onClick={() => setModal({ isOpenConfirmEBSModal: true })}
+              sx={{
+                ml: 4 / 3,
+              }}
+              // icon="add"
+            >
+              {t('warehouseExportReceipt.confirmWarehouseExport')}
+            </Button>
+          </Guard>
+        )}
+        {isCancelSync && (
+          <Guard code={FUNCTION_CODE.SALE_CANCEL_SYNC_SALE_ORDER_EXPORT}>
+            <Button
+              onClick={() => setModal({ isOpenCancelSyncEMSModal: true })}
+              sx={{
+                ml: 4 / 3,
+                borderColor: theme.palette.borderButtonRemove,
+                color: theme.palette.borderButtonRemove,
+              }}
+              // icon="add"
+              variant="outlined"
+            >
+              {t('warehouseExportReceipt.cancelEbs')}
+            </Button>
+          </Guard>
+        )}
         {warehouseExportReceiptDetails?.status ===
           WAREHOUSE_EXPORT_RECEIPT_STATUS.CONFIRMED && (
           <Guard code={FUNCTION_CODE.SALE_RETURN_SALE_ORDER_EXPORT}>
@@ -206,6 +374,7 @@ function WarehouseExportReceiptDetail() {
             </Button>
           </Guard>
         )}
+
         {warehouseExportReceiptDetails?.status ===
           WAREHOUSE_EXPORT_RECEIPT_STATUS.CONFIRMED && (
           <Guard code={FUNCTION_CODE.SALE_COLLECT_SALE_ORDER_EXPORT}>
@@ -229,6 +398,62 @@ function WarehouseExportReceiptDetail() {
     )
   }
 
+  const onSubmitDelete = () => {
+    actions.deleteWarehouseExportReceipt(
+      warehouseExportReceiptDetails?.id,
+      () => {
+        window.location.reload()
+      },
+    )
+    setModal({ isOpenDeleteModal: false })
+  }
+  const onSubmitConfirm = () => {
+    actions.confirmWarehouseExportReceiptById(
+      warehouseExportReceiptDetails?.id,
+      () => {
+        window.location.reload()
+      },
+    )
+
+    setModal({ isOpenConfirmModal: false })
+  }
+  const onSubmitConfirmEBS = () => {
+    actions.confirmWarehouseExportEBSById(
+      warehouseExportReceiptDetails?.id,
+      () => {
+        window.location.reload()
+      },
+    )
+    setModal({ isOpenConfirmEBSModal: false })
+  }
+  const onSubmitRejected = () => {
+    actions.rejectWarehouseExportReceiptById(
+      warehouseExportReceiptDetails?.id,
+      () => {
+        window.location.reload()
+      },
+    )
+    setModal({ isOpenRejectedModal: false })
+  }
+  const onCloseDeleteModal = () => {
+    setModal({
+      isOpenDeleteModal: false,
+      tempItem: null,
+      isOpenConfirmModal: false,
+      isOpenRejectedModal: false,
+      isOpenConfirmEBSModal: false,
+    })
+  }
+
+  const onSubmitCancelEBS = () => {
+    actions.cancelWarehouseExportEBSById(
+      warehouseExportReceiptDetails?.id,
+      () => {
+        window.location.reload()
+      },
+    )
+    setModal({ isOpenCancelSyncEMSModal: false })
+  }
   return (
     <Page
       breadcrumbs={breadcrumbs}
@@ -498,6 +723,68 @@ function WarehouseExportReceiptDetail() {
           />
         </Grid>
       </Grid>
+      <Dialog
+        open={modal.isOpenDeleteModal}
+        title={t('warehouseExportReceipt.deleteTitlePopup')}
+        onCancel={onCloseDeleteModal}
+        cancelLabel={t('general:common.no')}
+        onSubmit={onSubmitDelete}
+        submitLabel={t('general:common.yes')}
+        submitProps={{
+          color: 'error',
+        }}
+        noBorderBottom
+      >
+        {t('warehouseExportReceipt.deleteConfirm')}
+      </Dialog>
+      <Dialog
+        open={modal.isOpenConfirmModal}
+        title={t('warehouseExportReceipt.confirmTitlePopup')}
+        onCancel={onCloseDeleteModal}
+        cancelLabel={t('general:common.no')}
+        onSubmit={onSubmitConfirm}
+        submitLabel={t('general:common.yes')}
+        noBorderBottom
+      >
+        {t('warehouseExportReceipt.Confirm')}
+      </Dialog>
+      <Dialog
+        open={modal.isOpenConfirmEBSModal}
+        title={t('warehouseExportReceipt.confirmTitlePopupEBS')}
+        onCancel={onCloseDeleteModal}
+        cancelLabel={t('general:common.no')}
+        onSubmit={onSubmitConfirmEBS}
+        submitLabel={t('general:common.yes')}
+        noBorderBottom
+      >
+        <div>{t('warehouseExportReceipt.ConfirmEBS')}</div>
+        {t('warehouseExportReceipt.Confirm')}
+      </Dialog>
+      <Dialog
+        open={modal.isOpenCancelSyncEMSModal}
+        title={t('warehouseExportReceipt.cancelSyncTitlePopupEBS')}
+        onCancel={onCloseDeleteModal}
+        cancelLabel={t('general:common.no')}
+        onSubmit={onSubmitCancelEBS}
+        submitLabel={t('general:common.yes')}
+        noBorderBottom
+      >
+        {t('warehouseExportReceipt.cancelEBS')}
+      </Dialog>
+      <Dialog
+        open={modal.isOpenRejectedModal}
+        title={t('warehouseExportReceipt.rejectTitlePopup')}
+        onCancel={onCloseDeleteModal}
+        cancelLabel={t('general:common.no')}
+        onSubmit={onSubmitRejected}
+        submitLabel={t('general:common.yes')}
+        submitProps={{
+          color: 'error',
+        }}
+        noBorderBottom
+      >
+        {t('warehouseExportReceipt.rejectConfirm')}
+      </Dialog>
     </Page>
   )
 }

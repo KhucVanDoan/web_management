@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Grid } from '@mui/material'
 import { Box } from '@mui/system'
@@ -10,6 +10,7 @@ import { MODAL_MODE, NOTIFICATION_TYPE } from '~/common/constants'
 import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
+import Dialog from '~/components/Dialog'
 import Guard from '~/components/Guard'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -17,6 +18,7 @@ import Status from '~/components/Status'
 import TextField from '~/components/TextField'
 import {
   DATA_TYPE,
+  STATUS_SYNC_ORDER_TO_EBS,
   TABLE_NAME_ENUM,
   TRANSFER_STATUS,
   TRANSFER_STATUS_OPTIONS,
@@ -27,6 +29,7 @@ import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseIm
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { api } from '~/services/api'
+import theme from '~/themes'
 import { convertUtcDateTimeToLocalTz, convertUtcDateToLocalTz } from '~/utils'
 import { getFileNameFromHeader } from '~/utils/api'
 import addNotification from '~/utils/toast'
@@ -49,6 +52,11 @@ const WarehouseTransferDetail = () => {
   const history = useHistory()
   const { id } = useParams()
   const mode = MODAL_MODE.DETAIL
+  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
+  const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
+  const [isOpenRejectModal, setIsOpenRejectModal] = useState(false)
+  const [isOpenConfirmEBSModal, setIsOpenConfirmEBSModal] = useState(false)
+  const [isOpenCancelEBSModal, setIsOpenCancelEBSModal] = useState(false)
   const {
     data: { warehouseTransferDetails, isLoading },
     actions,
@@ -116,9 +124,119 @@ const WarehouseTransferDetail = () => {
       price: +item?.price,
     }))
   const renderHeaderRight = () => {
-    switch (warehouseTransferDetails?.status) {
-      case TRANSFER_STATUS.CONFIRMED:
-        return (
+    const isEdit =
+      warehouseTransferDetails?.status === TRANSFER_STATUS.PENDING ||
+      warehouseTransferDetails?.status === TRANSFER_STATUS.CONFIRMED ||
+      warehouseTransferDetails?.status === TRANSFER_STATUS.REJECTED
+    const isConfirmed =
+      warehouseTransferDetails?.status === TRANSFER_STATUS.PENDING
+    const isRejected =
+      warehouseTransferDetails?.status === TRANSFER_STATUS.PENDING
+    const isDelete =
+      warehouseTransferDetails?.status === TRANSFER_STATUS.PENDING ||
+      warehouseTransferDetails?.status === TRANSFER_STATUS.REJECTED
+    const isConfirmWarehouseTransfer =
+      warehouseTransferDetails?.syncStatus ===
+      STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC
+    const isCancelSync =
+      warehouseTransferDetails?.status === TRANSFER_STATUS.COMPLETED &&
+      warehouseTransferDetails?.syncStatus ===
+        STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR
+    return (
+      <>
+        {isRejected && (
+          <Guard code={FUNCTION_CODE.WAREHOUSE_REJECT_WAREHOUSE_TRANSFER}>
+            <Button
+              onClick={() => setIsOpenRejectModal(true)}
+              sx={{
+                ml: 4 / 3,
+                borderColor: theme.palette.borderButtonRemove,
+                color: theme.palette.borderButtonRemove,
+              }}
+              variant="outlined"
+              // icon="add"
+            >
+              {t('warehouseTransfer.rejected')}
+            </Button>
+          </Guard>
+        )}
+        {isConfirmed && (
+          <Guard code={FUNCTION_CODE.WAREHOUSE_CONFIRM_WAREHOUSE_TRANSFER}>
+            <Button
+              onClick={() => setIsOpenConfirmModal(true)}
+              sx={{
+                ml: 4 / 3,
+              }}
+
+              // icon="add"
+            >
+              {t('warehouseTransfer.confirmed')}
+            </Button>
+          </Guard>
+        )}
+        {isDelete && (
+          <Guard code={FUNCTION_CODE.WAREHOUSE_DELETE_WAREHOUSE_TRANSFER}>
+            <Button
+              onClick={() => setIsOpenDeleteModal(true)}
+              sx={{
+                ml: 4 / 3,
+              }}
+              color="error"
+              // icon="add"
+            >
+              {t('warehouseTransfer.deleted')}
+            </Button>
+          </Guard>
+        )}
+        {isEdit && (
+          <Guard code={FUNCTION_CODE.WAREHOUSE_UPDATE_WAREHOUSE_TRANSFER}>
+            <Button
+              onClick={() =>
+                history.push(
+                  ROUTE.WAREHOUSE_TRANSFER.EDIT.PATH.replace(':id', `${id}`),
+                )
+              }
+              sx={{
+                ml: 4 / 3,
+              }}
+              color="grayEE"
+              // icon="add"
+            >
+              {t('warehouseTransfer.update')}
+            </Button>
+          </Guard>
+        )}
+
+        {isConfirmWarehouseTransfer && (
+          <Guard code={FUNCTION_CODE.SALE_SYNC_PURCHASED_ORDER_IMPORT_TO_EBS}>
+            <Button
+              onClick={() => setIsOpenConfirmEBSModal(true)}
+              sx={{
+                ml: 4 / 3,
+              }}
+              // icon="add"
+            >
+              {t('warehouseTransfer.confirmWarehouseExport')}
+            </Button>
+          </Guard>
+        )}
+        {isCancelSync && (
+          <Guard code={FUNCTION_CODE.WAREHOUSE_CANCEL_SYNC_WAREHOUSE_TRANSFER}>
+            <Button
+              onClick={() => setIsOpenCancelEBSModal(true)}
+              sx={{
+                ml: 4 / 3,
+                borderColor: theme.palette.borderButtonRemove,
+                color: theme.palette.borderButtonRemove,
+              }}
+              // icon="add"
+              variant="outlined"
+            >
+              {t('warehouseTransfer.cancelEbs')}
+            </Button>
+          </Guard>
+        )}
+        {warehouseTransferDetails?.status === TRANSFER_STATUS.CONFIRMED && (
           <>
             <Guard code={FUNCTION_CODE.WAREHOUSE_RETURN_WAREHOUSE_TRANSFER}>
               <Button
@@ -158,9 +276,8 @@ const WarehouseTransferDetail = () => {
               </Button>
             </Guard>
           </>
-        )
-      case TRANSFER_STATUS.EXPORTED:
-        return (
+        )}
+        {warehouseTransferDetails?.status === TRANSFER_STATUS.EXPORTED && (
           <Guard
             code={FUNCTION_CODE.WAREHOUSE_CONFIRM_IMPORT_WAREHOUSE_TRANSFER}
           >
@@ -176,9 +293,9 @@ const WarehouseTransferDetail = () => {
               {t('warehouseTransfer.receiveAndStored')}
             </Button>
           </Guard>
-        )
-      default:
-    }
+        )}
+      </>
+    )
   }
   const dowFile = async (params) => {
     const uri = `/v1/warehouses/transfers/export-warehouse-transfer/${params}?type=1`
@@ -205,6 +322,39 @@ const WarehouseTransferDetail = () => {
       link.click()
       URL.revokeObjectURL(url)
     }
+  }
+
+  const onSubmitDelete = () => {
+    actions.deleteWarehouseTransfer(warehouseTransferDetails?.id, () => {
+      window.location.reload()
+    })
+    setIsOpenDeleteModal(false)
+  }
+
+  const submitConfirm = () => {
+    actions.confirmWarehouseTransferById(warehouseTransferDetails?.id, () => {
+      window.location.reload()
+    })
+    setIsOpenConfirmModal(false)
+  }
+  const onSubmitConfirmEBS = () => {
+    actions.confirmWarehouseTransferEBS(warehouseTransferDetails?.id, () => {
+      window.location.reload()
+    })
+    setIsOpenConfirmEBSModal(false)
+  }
+
+  const submitReject = () => {
+    actions.rejectWarehouseTransferById(warehouseTransferDetails?.id, () => {
+      window.location.reload()
+    })
+    setIsOpenRejectModal(false)
+  }
+  const onSubmitCancelEBS = () => {
+    actions.cancelWarehouseTransferEBS(warehouseTransferDetails?.id, () => {
+      window.location.reload()
+    })
+    setIsOpenCancelEBSModal(false)
   }
   return (
     <Page
@@ -437,6 +587,101 @@ const WarehouseTransferDetail = () => {
           </Button>
         }
       />
+      <Dialog
+        open={isOpenDeleteModal}
+        title={t('warehouseTransfer.deleteTitlePopup')}
+        onCancel={() => setIsOpenDeleteModal(false)}
+        cancelLabel={t('general:common.no')}
+        onSubmit={onSubmitDelete}
+        submitLabel={t('general:common.yes')}
+        submitProps={{
+          color: 'error',
+        }}
+        noBorderBottom
+      >
+        {t('warehouseTransfer.deleteConfirm')}
+        <LV
+          label={t('warehouseTransfer.code')}
+          value={warehouseTransferDetails?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('warehouseTransfer.name')}
+          value={warehouseTransferDetails?.name}
+          sx={{ mt: 4 / 3 }}
+        />
+      </Dialog>
+      <Dialog
+        open={isOpenConfirmModal}
+        title={t('general:common.notify')}
+        onCancel={() => setIsOpenConfirmModal(false)}
+        cancelLabel={t('general:common.no')}
+        onSubmit={submitConfirm}
+        submitLabel={t('general:common.yes')}
+        noBorderBottom
+      >
+        {t('general:common.confirmMessage.confirm')}
+        <LV
+          label={t('warehouseTransfer.code')}
+          value={warehouseTransferDetails?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('warehouseTransfer.name')}
+          value={warehouseTransferDetails?.name}
+          sx={{ mt: 4 / 3 }}
+        />
+      </Dialog>
+      <Dialog
+        open={isOpenConfirmEBSModal}
+        title={t('warehouseTransfer.confirmTitlePopupEBS')}
+        onCancel={() => setIsOpenConfirmEBSModal(false)}
+        cancelLabel={t('general:common.no')}
+        onSubmit={onSubmitConfirmEBS}
+        submitLabel={t('general:common.yes')}
+        noBorderBottom
+      >
+        <div>{t('warehouseTransfer.ConfirmEBS')}</div>
+        {t('warehouseTransfer.Confirm')}
+      </Dialog>
+      <Dialog
+        open={isOpenRejectModal}
+        title={t('general:common.reject')}
+        onCancel={() => setIsOpenRejectModal(false)}
+        cancelLabel={t('general:common.no')}
+        onSubmit={submitReject}
+        submitLabel={t('general:common.yes')}
+        noBorderBottom
+        submitProps={{
+          color: 'error',
+        }}
+      >
+        {t('general:common.confirmMessage.reject')}
+        <LV
+          label={t('warehouseTransfer.code')}
+          value={warehouseTransferDetails?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('warehouseTransfer.name')}
+          value={warehouseTransferDetails?.name}
+          sx={{ mt: 4 / 3 }}
+        />
+      </Dialog>
+      <Dialog
+        open={isOpenCancelEBSModal}
+        title={t('warehouseTransfer.cancelSyncTitlePopupEBS')}
+        onCancel={() => setIsOpenCancelEBSModal(false)}
+        cancelLabel={t('general:common.no')}
+        onSubmit={onSubmitCancelEBS}
+        submitLabel={t('general:common.yes')}
+        submitProps={{
+          color: 'error',
+        }}
+        noBorderBottom
+      >
+        {t('warehouseExportReceipt.cancelEBS')}
+      </Dialog>
     </Page>
   )
 }

@@ -576,6 +576,9 @@ function WarehouseImportReceipt() {
         cancelLabel={t('general:common.no')}
         onSubmit={onSubmitCancelEBS}
         submitLabel={t('general:common.yes')}
+        submitProps={{
+          color: 'error',
+        }}
         noBorderBottom
       >
         {t('warehouseExportReceipt.cancelEBS')}

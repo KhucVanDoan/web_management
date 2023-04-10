@@ -2919,6 +2919,9 @@
     "messageWarningCreate": "Cảnh báo ",
     "returnReceipt": "Trả phiếu",
     "createdByUser": "Người tạo",
+    "deleted": "Xóa",
+    "update": "Chỉnh sửa",
+    "cancelEbs": "Hủy đồng bộ EBS",
     "statusSync": {
       "pending": "chờ BOT xử lý",
       "error": "Lỗi xuất kho EBS",
@@ -3024,6 +3027,9 @@
     "completed": "Hoàn thành",
     "rejected": "Từ chối",
     "received": "Đã nhập kho",
+    "deleted": "Xóa",
+    "update": "Chỉnh sửa",
+    "cancelEbs": "Hủy đồng bộ EBS",
     "returnReceipt": "Trả phiếu",
     "createdByUser": "Người tạo",
     "table": {
@@ -3269,6 +3275,11 @@
     "Confirm": "Bạn có chắc chắn muốn xác nhận không?",
     "ConfirmEBS": "Xác nhận chuyển kho đồng nghĩa với việc bạn sẽ đồng bộ dữ liệu này sang hệ thống EBS.",
     "cancelSyncTitlePopupEBS": "Xác nhận hủy đồng bộ",
+    "deleted": "Xóa",
+    "update": "Chỉnh sửa",
+    "cancelEbs": "Hủy đồng bộ EBS",
+    "rejected": "Từ chối",
+    "confirmed": "Xác nhận",
     "statusSync": {
       "pending": "chờ BOT xử lý",
       "error": "Lỗi chuyển kho EBS",

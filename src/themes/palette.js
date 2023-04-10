@@ -208,6 +208,7 @@ const palette = {
     },
   },
   borderField: '#0761AD',
+  borderButtonRemove: '#FF0909',
   bgPrimaryOpacity: '#DAE7F3',
   bgSecondaryOpacity: '#F7D7C5',
 }
