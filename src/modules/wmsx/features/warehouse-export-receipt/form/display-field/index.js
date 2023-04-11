@@ -122,30 +122,30 @@ const displayFollowBusinessTypeManagement = (
       const items = []
       warehouseExportProposalDetail?.data?.items?.forEach((item) => {
         item?.childrens?.forEach((chil) => {
-          const findItem = items?.find(
-            (w) =>
-              w?.itemId === chil?.itemId &&
-              w?.warehouseExport?.id === chil?.warehouseExport?.id,
-          )
-          if (isEmpty(findItem)) {
-            items.push({
-              item: {
-                itemId: chil?.itemId,
-                code: chil?.itemResponse?.code || chil?.itemCode,
-                name: chil?.itemResponse?.name || chil?.itemName,
-                itemUnit: chil?.itemResponse?.itemUnit?.name,
-                exportedQuantity: chil?.exportedQuantity,
-                requestedQuantity: chil?.requestedQuantity,
-              },
-              itemUnit: chil?.itemResponse?.itemUnit,
+          // const findItem = items?.find(
+          //   (w) =>
+          //     w?.itemId === chil?.itemId &&
+          //     w?.warehouseExport?.id === chil?.warehouseExport?.id,
+          // )
+          // if (isEmpty(findItem)) {
+          items.push({
+            item: {
               itemId: chil?.itemId,
               code: chil?.itemResponse?.code || chil?.itemCode,
               name: chil?.itemResponse?.name || chil?.itemName,
-              warehouseExport: chil?.warehouseExport,
+              itemUnit: chil?.itemResponse?.itemUnit?.name,
+              exportedQuantity: chil?.exportedQuantity,
               requestedQuantity: chil?.requestedQuantity,
-              lotNumber: chil?.lotNumber,
-            })
-          }
+            },
+            itemUnit: chil?.itemResponse?.itemUnit,
+            itemId: chil?.itemId,
+            code: chil?.itemResponse?.code || chil?.itemCode,
+            name: chil?.itemResponse?.name || chil?.itemName,
+            warehouseExport: chil?.warehouseExport,
+            requestedQuantity: chil?.requestedQuantity,
+            lotNumber: chil?.lotNumber,
+          })
+          // }
         })
       })
       setItemWarehouseExportProposal(items)

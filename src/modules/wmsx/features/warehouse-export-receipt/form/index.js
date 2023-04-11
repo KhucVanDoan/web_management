@@ -1016,7 +1016,7 @@ function WarehouseExportReceiptForm() {
                         />
                       </Grid>
                     )}
-                    {(isEdit || isUpdateHeader) && (
+                    {(isUpdate || isUpdateHeader) && (
                       <Grid item lg={6} xs={12}>
                         <LV
                           label={
@@ -1030,7 +1030,7 @@ function WarehouseExportReceiptForm() {
                         />
                       </Grid>
                     )}
-                    {(isEdit || isUpdateHeader) && (
+                    {(isUpdate || isUpdateHeader) && (
                       <Grid item lg={6} xs={12}>
                         <LV
                           label={

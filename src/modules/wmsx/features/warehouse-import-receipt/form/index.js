@@ -568,6 +568,7 @@ function WarehouseImportReceiptForm() {
           setFieldError('receiptEBS', ' ')
         } else if (val?.message === ruleEBS.reason) {
           setFieldError('reasonId', ' ')
+          setFieldError('receiptEBS', ' ')
         } else if (val?.message === ruleEBS.warehouse) {
           setFieldError('receiptEBS', ' ')
         }
