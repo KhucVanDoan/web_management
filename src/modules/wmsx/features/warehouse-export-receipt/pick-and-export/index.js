@@ -71,35 +71,37 @@ function WarehouseExportReceiptPickAndExport() {
   } = useWarehouseImportReceipt()
   const initialValues = useMemo(
     () => ({
-      items: warehouseExportReceiptDetails?.itemsSync?.map((item, index) => {
-        return {
-          id: `${item?.id}-${index}`,
-          quantity: item?.quantity,
-          requestedQuantityWarehouseExportProposal:
-            item?.requestedQuantityWarehouseExportProposal,
-          exportedQuantity: item?.quantity,
-          itemCode:
-            {
-              id: item?.id,
-              ...item?.item,
-            } || null,
-          lotNumber: {
-            lotNumber: item?.lots[0]?.lotNumber,
-            itemId: item?.id,
-          },
-          receivedQuantity: '',
-          planQuantity: minBy(
-            itemStockAvailabe?.find((e) => e?.itemId === item?.id)
-              ?.itemAvailables,
-            'quantity',
-          )?.quantity,
-          locator: minBy(
-            itemStockAvailabe?.find((e) => e?.itemId === item?.id)
-              ?.itemAvailables,
-            'quantity',
-          )?.locator,
-        }
-      }),
+      items: warehouseExportReceiptDetails?.saleOrderExportWarehouseLots?.map(
+        (item, index) => {
+          return {
+            id: `${item?.id}-${index}`,
+            quantity: item?.quantity,
+            requestedQuantityWarehouseExportProposal:
+              item?.requestedQuantityWarehouseExportProposal,
+            exportedQuantity: item?.quantity,
+            itemCode:
+              {
+                id: item?.itemId,
+                ...item?.item,
+              } || null,
+            lotNumber: {
+              lotNumber: item?.lotNumber,
+              itemId: item?.itemId,
+            },
+            receivedQuantity: '',
+            planQuantity: minBy(
+              itemStockAvailabe?.find((e) => e?.itemId === item?.itemId)
+                ?.itemAvailables,
+              'quantity',
+            )?.quantity,
+            locator: minBy(
+              itemStockAvailabe?.find((e) => e?.itemId === item?.itemId)
+                ?.itemAvailables,
+              'quantity',
+            )?.locator,
+          }
+        },
+      ),
     }),
     [warehouseExportReceiptDetails, itemStockAvailabe],
   )

@@ -35,6 +35,7 @@ import {
   convertFilterParams,
   convertSortParams,
   convertUtcDateTimeToLocalTz,
+  convertUtcDateToLocalTz,
 } from '~/utils'
 
 import FilterForm from './filter-form'
@@ -136,7 +137,7 @@ function WarehouseExportReceipt() {
       width: 120,
       filterFormat: 'date',
       renderCell: (params) => {
-        return convertUtcDateTimeToLocalTz(params?.row?.receiptDate)
+        return convertUtcDateToLocalTz(params?.row?.receiptDate)
       },
     },
     {
