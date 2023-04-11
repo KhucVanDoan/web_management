@@ -153,10 +153,19 @@ const ItemSettingTable = (props) => {
               item?.itemId === params?.row?.itemCode?.itemId ||
               item?.itemId === params?.row?.itemCode?.id,
           )
+          const lotsSelected = items
+            ?.filter(
+              (selectedItem) =>
+                selectedItem?.itemCode?.code === params?.row?.itemCode?.code &&
+                selectedItem?.id !== params?.row?.id,
+            )
+            ?.map((selectedItem) => selectedItem.lotNumber)
           return (
             <Field.Autocomplete
               name={`items[${index}].lotNumber`}
-              options={lotNumberList}
+              options={lotNumberList?.filter(
+                (lot) => !lotsSelected.includes(lot.lotNumber),
+              )}
               getOptionLabel={(opt) => opt.lotNumber}
               getOptionValue={(option) => option?.lotNumber}
               onChange={(val) => handleChangLotNumber(val, params, index)}

@@ -288,7 +288,10 @@ const WarehouseTransfer = () => {
                 <Guard
                   code={FUNCTION_CODE.WAREHOUSE_CONFIRM_WAREHOUSE_TRANSFER}
                 >
-                  <IconButton onClick={() => onClickConfirmed(params.row)}>
+                  <IconButton
+                    title={t('iconButtonHover.confirm')}
+                    onClick={() => onClickConfirmed(params.row)}
+                  >
                     <Icon name="tick" />
                   </IconButton>
                 </Guard>
