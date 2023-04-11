@@ -185,7 +185,7 @@ function ConstructionManagementForm() {
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
                       }}
-                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC_SPECIALS}
+                      allow={TEXTFIELD_ALLOW.REGEX_CODE_VIETNAMESE}
                       disabled={isUpdate}
                       required
                     />

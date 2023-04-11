@@ -141,6 +141,7 @@ function WarehouseExportReceiptForm() {
         return CODE_RECEIPT_DEPARTMENT_DEFAULT.VTA
     }
   }
+
   const initialValues = useMemo(
     () => ({
       code: warehouseExportReceiptDetails?.code,
@@ -200,8 +201,8 @@ function WarehouseExportReceiptForm() {
             planExportedQuantity: item?.exportableQuantity || 0,
             debitAccount:
               isEdit && warehouseExportReceiptDetails?.ebsId
-                ? item?.debitAccount?.toString()?.slice(18, 43)
-                : item?.debitAccount,
+                ? item?.debitAccount
+                : item?.debitAccount?.toString()?.slice(18, 43),
             creditAccount: item?.creditAccount,
             itemCode: {
               ...item?.item,
@@ -993,8 +994,8 @@ function WarehouseExportReceiptForm() {
                       <Grid item lg={6} xs={12}>
                         <Field.DatePicker
                           name="receiptDate"
-                          label={t('warehouseExportReceipt.createdAt')}
-                          placeholder={t('warehouseExportReceipt.createdAt')}
+                          label={t('warehouseExportReceipt.receiptDate')}
+                          placeholder={t('warehouseExportReceipt.receiptDate')}
                           maxDate={new Date()}
                           minDate={
                             new Date(

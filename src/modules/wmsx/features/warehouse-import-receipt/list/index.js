@@ -141,7 +141,7 @@ function WarehouseImportReceipt() {
       filterFormat: 'date',
       sortable: true,
       renderCell: (params) => {
-        return convertUtcDateTimeToLocalTz(params?.row?.receiptDate)
+        return convertUtcDateTimeToLocalTz(params?.row?.createdAt)
       },
     },
     {

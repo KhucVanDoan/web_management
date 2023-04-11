@@ -182,7 +182,9 @@ const ItemSettingTableDetail = ({ items, isEdit, setFieldValue }) => {
         headerName: t('warehouseExportReceipt.items.creditAccount'),
         width: 250,
         renderCell: (params) => {
-          return params?.row?.creditAccount?.length === LENGTH_DEBITACCOUNT
+          return isEdit
+            ? params?.row?.creditAccount
+            : params?.row?.creditAccount?.length === LENGTH_DEBITACCOUNT
             ? params?.row?.creditAccount
                 .toString()
                 .slice(18, 29)

@@ -242,9 +242,9 @@ const SourceManagementForm = () => {
                       placeholder={t('sourceManagement.code')}
                       disabled={mode === MODAL_MODE.UPDATE}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
                       }}
-                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC_SPECIALS}
+                      allow={TEXTFIELD_ALLOW.REGEX_CODE_VIETNAMESE}
                       required
                     />
                   </Grid>

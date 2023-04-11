@@ -1961,7 +1961,8 @@ export const REPORT_TYPE = {
   SITUATION_IMPORT_PERIOD: 14,
   SITUATION_EXPORT_PERIOD: 15,
   AGE_OF_ITEM_STOCK: 16,
-  STORED: 17,
+  STORED: 18,
+  RE_ORDER: 17,
 }
 
 export const REPORT_TYPE_MAP = {
@@ -1989,6 +1990,7 @@ export const REPORT_TYPE_MAP = {
   [REPORT_TYPE.SITUATION_EXPORT_PERIOD]: 'reportType.situationExportPeriod',
   [REPORT_TYPE.AGE_OF_ITEM_STOCK]: 'reportType.ageOfItemStock',
   [REPORT_TYPE.STORED]: 'reportType.stored',
+  [REPORT_TYPE.RE_ORDER]: 'reportType.reOrder',
 }
 
 export const REPORT_TYPE_OPTIONS = [
@@ -2073,9 +2075,14 @@ export const REPORT_TYPE_OPTIONS = [
     code: 'W016',
   },
   {
-    id: 17,
+    id: 18,
     text: 'reportType.stored',
     code: 'W017',
+  },
+  {
+    id: 17,
+    text: 'reportType.reOrder',
+    code: 'W018',
   },
 ]
 

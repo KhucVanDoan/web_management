@@ -3409,7 +3409,8 @@
     "situationImportPeriod": "Bảng liệt kê chứng từ nhập",
     "situationExportPeriod": "Bảng liệt kê phiếu xuất vật tư",
     "ageOfItemStock": "Báo cáo tuổi hàng tồn kho",
-    "stored": "Thống kê giao dịch chi tiết"
+    "stored": "Thống kê giao dịch chi tiết",
+    "reOrder": "Thống kê lượng hàng cần đặt (re-order)"
   },
   "inventoryAdjust": {
     "list": "Danh sách phiếu điều chỉnh",
