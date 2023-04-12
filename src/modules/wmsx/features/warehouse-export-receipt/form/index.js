@@ -28,8 +28,8 @@ import {
   WAREHOUSE_EXPORT_RECEIPT_STATUS_OPTIONS,
   WAREHOUSE_EXPORT_RECEIPT_STATUS,
   ruleEBS,
-  ENVIRONMENT,
   CODE_RECEIPT_DEPARTMENT_DEFAULT,
+  COMPANY_CODE,
 } from '~/modules/wmsx/constants'
 import useDefineExpenditureOrg from '~/modules/wmsx/redux/hooks/useDefineExpenditureOrg'
 import useReceiptDepartmentManagement from '~/modules/wmsx/redux/hooks/useReceiptDepartmentManagement'
@@ -126,21 +126,22 @@ function WarehouseExportReceiptForm() {
     warehouseExportReceiptDetails?.status ===
       WAREHOUSE_EXPORT_RECEIPT_STATUS.COLLECTED
   const codereceiptDepartment = () => {
-    switch (process.env.REACT_APP_ENVIRONMENT) {
-      case ENVIRONMENT.VTA:
+    switch (loggedInUserInfo?.company?.code) {
+      case COMPANY_CODE.VTA:
         return CODE_RECEIPT_DEPARTMENT_DEFAULT.VTA
-      case ENVIRONMENT.BKU:
+      case COMPANY_CODE.BKU:
         return CODE_RECEIPT_DEPARTMENT_DEFAULT.BKU
-      case ENVIRONMENT.MDU:
+      case COMPANY_CODE.MDU:
         return CODE_RECEIPT_DEPARTMENT_DEFAULT.MDU
-      case ENVIRONMENT.PMY:
+      case COMPANY_CODE.PMY:
         return CODE_RECEIPT_DEPARTMENT_DEFAULT.PMY
-      case ENVIRONMENT.EPS:
+      case COMPANY_CODE.EPS:
         return CODE_RECEIPT_DEPARTMENT_DEFAULT.EPS
       default:
         return CODE_RECEIPT_DEPARTMENT_DEFAULT.VTA
     }
   }
+
   const initialValues = useMemo(
     () => ({
       code: warehouseExportReceiptDetails?.code,
@@ -200,8 +201,8 @@ function WarehouseExportReceiptForm() {
             planExportedQuantity: item?.exportableQuantity || 0,
             debitAccount:
               isEdit && warehouseExportReceiptDetails?.ebsId
-                ? item?.debitAccount?.toString()?.slice(18, 43)
-                : item?.debitAccount,
+                ? item?.debitAccount
+                : item?.debitAccount?.toString()?.slice(18, 43),
             creditAccount: item?.creditAccount,
             itemCode: {
               ...item?.item,
@@ -993,8 +994,8 @@ function WarehouseExportReceiptForm() {
                       <Grid item lg={6} xs={12}>
                         <Field.DatePicker
                           name="receiptDate"
-                          label={t('warehouseExportReceipt.createdAt')}
-                          placeholder={t('warehouseExportReceipt.createdAt')}
+                          label={t('warehouseExportReceipt.receiptDate')}
+                          placeholder={t('warehouseExportReceipt.receiptDate')}
                           maxDate={new Date()}
                           minDate={
                             new Date(
@@ -1016,7 +1017,7 @@ function WarehouseExportReceiptForm() {
                         />
                       </Grid>
                     )}
-                    {(isEdit || isUpdateHeader) && (
+                    {(isUpdate || isUpdateHeader) && (
                       <Grid item lg={6} xs={12}>
                         <LV
                           label={
@@ -1030,7 +1031,7 @@ function WarehouseExportReceiptForm() {
                         />
                       </Grid>
                     )}
-                    {(isEdit || isUpdateHeader) && (
+                    {(isUpdate || isUpdateHeader) && (
                       <Grid item lg={6} xs={12}>
                         <LV
                           label={

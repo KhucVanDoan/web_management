@@ -94,7 +94,7 @@ const ItemSettingTable = ({ items, lots, arrayHelpers, setFieldValue }) => {
       {
         field: 'itemCode',
         headerName: t('warehouseExportReceipt.items.suppliesCode'),
-        width: 250,
+        width: 400,
         renderCell: (params, index) => {
           return (
             <Field.Autocomplete
@@ -113,7 +113,7 @@ const ItemSettingTable = ({ items, lots, arrayHelpers, setFieldValue }) => {
       {
         field: 'itemName',
         headerName: t('warehouseExportReceipt.items.suppliesName'),
-        width: 250,
+        width: 300,
         renderCell: (params) => {
           return params?.row?.itemCode?.name
         },
