@@ -180,6 +180,7 @@
     "inventoryAdjustEdit": "Sửa phiếu điều chỉnh",
     "inventoryAdjustDetail": "Chi tiết phiếu điều chỉnh",
     "license": "Thông tin license",
+    "deliveryRecord": "Phiếu giao hàng",
     "____menu___": "Viết lên trên",
     "importExportData": "Nhập/Xuất dữ liệu",
     "defineCategory": "Định nghĩa danh mục",
@@ -3409,7 +3410,8 @@
     "situationImportPeriod": "Bảng liệt kê chứng từ nhập",
     "situationExportPeriod": "Bảng liệt kê phiếu xuất vật tư",
     "ageOfItemStock": "Báo cáo tuổi hàng tồn kho",
-    "stored": "Thống kê giao dịch chi tiết"
+    "stored": "Thống kê giao dịch chi tiết",
+    "reOrder": "Thống kê lượng hàng cần đặt (re-order)"
   },
   "inventoryAdjust": {
     "list": "Danh sách phiếu điều chỉnh",

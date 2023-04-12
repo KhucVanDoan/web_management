@@ -63,6 +63,7 @@ const SignatureConfiguration = () => {
 
   const onSubmit = (values) => {
     const convertValues = {
+      typeObject: values.typeObject,
       signatures: values.items?.map((item) => ({
         typeObject: values.typeObject,
         roleId: item?.role.trim(),

@@ -207,6 +207,8 @@ export const TEXTFIELD_ALLOW = {
   EXCEPT_SPECIALS: /[._!"`'#%&,:;<>=@{}~\$\(\)\*\+\/\\\?\[\]\^\|]/g,
   EXCEPT_SPACES: /[\s]/g,
   ALPHANUMERIC_DOT_UNDERSCORE: /[^0-9a-zA-Z._]/g,
+  REGEX_CODE_VIETNAMESE:
+    /[^a-zA-Z0-9ÀÁÂÃÈÉÊẾÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêếìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s&,\/._]+$/g,
 }
 
 export const TEXTFIELD_PREVENT = {

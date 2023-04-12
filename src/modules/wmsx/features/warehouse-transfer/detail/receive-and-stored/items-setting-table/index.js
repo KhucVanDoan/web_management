@@ -22,12 +22,16 @@ const ItemSettingTable = (props) => {
   const {
     data: { warehouseTransferDetails },
   } = useWarehouseTransfer()
-  const itemList = warehouseTransferDetails?.warehouseTransferDetailLots?.map(
-    (item) => ({
-      ...item?.item,
-      itemId: item?.itemId,
-    }),
-  )
+  const itemList = []
+  warehouseTransferDetails?.warehouseTransferDetailLots?.forEach((item) => {
+    const findItem = itemList?.find((e) => e?.itemId === item?.itemId)
+    if (isEmpty(findItem)) {
+      itemList.push({
+        ...item?.item,
+        itemId: item?.itemId,
+      })
+    }
+  })
   const lots = warehouseTransferDetails?.warehouseTransferDetailLots?.map(
     (item) => ({
       lotNumber: item?.lotNumber,
@@ -88,7 +92,7 @@ const ItemSettingTable = (props) => {
       {
         field: 'itemCode',
         headerName: t('warehouseTransfer.table.itemCode'),
-        width: 150,
+        width: 400,
         renderCell: (params, index) => {
           return (
             <Field.Autocomplete
@@ -105,7 +109,7 @@ const ItemSettingTable = (props) => {
       {
         field: 'itemName',
         headerName: t('warehouseTransfer.table.itemName'),
-        width: 200,
+        width: 300,
         renderCell: (params, index) => {
           return (
             <Field.TextField
@@ -138,10 +142,19 @@ const ItemSettingTable = (props) => {
               item?.itemId === params?.row?.itemCode?.itemId ||
               item?.itemId === params?.row?.itemCode?.id,
           )
+          const lotsSelected = items
+            ?.filter(
+              (selectedItem) =>
+                selectedItem?.itemCode?.code === params?.row?.itemCode?.code &&
+                selectedItem?.id !== params?.row?.id,
+            )
+            ?.map((selectedItem) => selectedItem.lotNumber)
           return (
             <Field.Autocomplete
               name={`items[${index}].lotNumber`}
-              options={lotNumberList}
+              options={lotNumberList?.filter(
+                (lot) => !lotsSelected.includes(lot.lotNumber),
+              )}
               getOptionLabel={(opt) => opt.lotNumber}
               getOptionValue={(option) => option?.lotNumber}
               isOptionEqualToValue={(opt, val) => opt?.lotNumber === val}
@@ -243,7 +256,8 @@ const ItemSettingTable = (props) => {
                   .filter(
                     (item) =>
                       item.itemCode?.itemId === params?.row?.itemCode?.itemId &&
-                      item?.id !== params?.row?.id,
+                      item?.id !== params?.row?.id &&
+                      item?.lotNumber === params?.row?.lotNumber,
                   )
                   .reduce((prev, cur) => prev + Number(cur.inputedQuantity), 0)
                 if (

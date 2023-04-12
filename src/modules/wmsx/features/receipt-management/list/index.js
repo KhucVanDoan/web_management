@@ -201,7 +201,6 @@ function ReceiptManagement() {
   useEffect(() => {
     refreshData()
   }, [page, pageSize, filters, sort, keyword, quickFilters])
-
   return (
     <Page
       breadcrumbs={breadcrumbs}

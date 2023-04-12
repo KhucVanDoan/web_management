@@ -130,7 +130,7 @@ const ItemSettingTable = ({
       {
         field: 'itemCode',
         headerName: t('warehouseExportReceipt.items.suppliesCode'),
-        width: 250,
+        width: 400,
         renderCell: (params, index) => {
           const itemIdCodeList = items.map(
             (item) =>
@@ -228,7 +228,7 @@ const ItemSettingTable = ({
       {
         field: 'itemName',
         headerName: t('warehouseExportReceipt.items.suppliesName'),
-        width: 250,
+        width: 300,
         renderCell: (params, index) => {
           return isView ? (
             params?.row?.suppliesName
@@ -275,6 +275,16 @@ const ItemSettingTable = ({
               item?.itemId === params?.row?.itemCode?.id ||
               item?.itemId === params?.row?.itemCode?.itemId,
           )
+          const lotNumberFreeItem = []
+          flatMap(locationList?.locations, 'lots')?.forEach((e) => {
+            const findLotNumber = lotNumberFreeItem?.find(
+              (lot) => lot?.lotNumber === e?.lotNumber,
+            )
+            if (isEmpty(findLotNumber)) {
+              lotNumberFreeItem.push(e)
+            }
+          })
+
           const lotNumber = []
           itemWarehouseExportProposal?.forEach((item) => {
             if (
@@ -316,7 +326,10 @@ const ItemSettingTable = ({
           ) : itemWarehouseExportProposal?.length > 0 ? (
             <Field.Autocomplete
               name={`items[${index}].lotNumber`}
-              options={lotNumber}
+              options={lotNumber?.filter(
+                (lot) =>
+                  !lotsSelected.includes(lot.lotNumber) && lot?.lotNumber,
+              )}
               getOptionLabel={(opt) => opt.lotNumber}
               getOptionValue={(option) => option?.lotNumber}
               isOptionEqualToValue={(opt, val) => opt?.lotNumber === val}
@@ -344,7 +357,7 @@ const ItemSettingTable = ({
           ) : (
             <Field.Autocomplete
               name={`items[${index}].lotNumber`}
-              options={flatMap(locationList?.locations, 'lots')?.filter(
+              options={lotNumberFreeItem?.filter(
                 (lot) =>
                   !lotsSelected.includes(lot.lotNumber) && lot?.lotNumber,
               )}

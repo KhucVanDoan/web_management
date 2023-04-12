@@ -103,7 +103,7 @@ const ItemSettingTable = (props) => {
       {
         field: 'itemCode',
         headerName: t('warehouseTransfer.table.itemCode'),
-        width: 150,
+        width: 400,
         renderCell: (params, index) => {
           return (
             <Field.Autocomplete
@@ -120,7 +120,7 @@ const ItemSettingTable = (props) => {
       {
         field: 'itemName',
         headerName: t('warehouseTransfer.table.itemName'),
-        width: 200,
+        width: 300,
         renderCell: (params, index) => {
           return (
             <Field.TextField
@@ -153,10 +153,19 @@ const ItemSettingTable = (props) => {
               item?.itemId === params?.row?.itemCode?.itemId ||
               item?.itemId === params?.row?.itemCode?.id,
           )
+          const lotsSelected = items
+            ?.filter(
+              (selectedItem) =>
+                selectedItem?.itemCode?.code === params?.row?.itemCode?.code &&
+                selectedItem?.id !== params?.row?.id,
+            )
+            ?.map((selectedItem) => selectedItem.lotNumber)
           return (
             <Field.Autocomplete
               name={`items[${index}].lotNumber`}
-              options={lotNumberList}
+              options={lotNumberList?.filter(
+                (lot) => !lotsSelected.includes(lot.lotNumber),
+              )}
               getOptionLabel={(opt) => opt.lotNumber}
               getOptionValue={(option) => option?.lotNumber}
               onChange={(val) => handleChangLotNumber(val, params, index)}

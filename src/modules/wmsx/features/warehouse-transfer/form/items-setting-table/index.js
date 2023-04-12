@@ -250,7 +250,7 @@ const ItemSettingTable = (props) => {
       {
         field: 'itemCode',
         headerName: t('warehouseTransfer.table.itemCode'),
-        width: 150,
+        width: 400,
         renderCell: (params, index) => {
           const itemIdCodeList = items?.map(
             (item) => item?.itemCode?.id || item?.itemCode?.itemId,
@@ -297,7 +297,7 @@ const ItemSettingTable = (props) => {
       {
         field: 'itemName',
         headerName: t('warehouseTransfer.table.itemName'),
-        width: 200,
+        width: 300,
         renderCell: (params, index) => {
           return isView ? (
             <>{params?.row?.itemName}</>
