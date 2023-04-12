@@ -28,8 +28,8 @@ import {
   WAREHOUSE_EXPORT_RECEIPT_STATUS_OPTIONS,
   WAREHOUSE_EXPORT_RECEIPT_STATUS,
   ruleEBS,
-  ENVIRONMENT,
   CODE_RECEIPT_DEPARTMENT_DEFAULT,
+  COMPANY_CODE,
 } from '~/modules/wmsx/constants'
 import useDefineExpenditureOrg from '~/modules/wmsx/redux/hooks/useDefineExpenditureOrg'
 import useReceiptDepartmentManagement from '~/modules/wmsx/redux/hooks/useReceiptDepartmentManagement'
@@ -126,16 +126,16 @@ function WarehouseExportReceiptForm() {
     warehouseExportReceiptDetails?.status ===
       WAREHOUSE_EXPORT_RECEIPT_STATUS.COLLECTED
   const codereceiptDepartment = () => {
-    switch (process.env.REACT_APP_ENVIRONMENT) {
-      case ENVIRONMENT.VTA:
+    switch (loggedInUserInfo?.company?.code) {
+      case COMPANY_CODE.VTA:
         return CODE_RECEIPT_DEPARTMENT_DEFAULT.VTA
-      case ENVIRONMENT.BKU:
+      case COMPANY_CODE.BKU:
         return CODE_RECEIPT_DEPARTMENT_DEFAULT.BKU
-      case ENVIRONMENT.MDU:
+      case COMPANY_CODE.MDU:
         return CODE_RECEIPT_DEPARTMENT_DEFAULT.MDU
-      case ENVIRONMENT.PMY:
+      case COMPANY_CODE.PMY:
         return CODE_RECEIPT_DEPARTMENT_DEFAULT.PMY
-      case ENVIRONMENT.EPS:
+      case COMPANY_CODE.EPS:
         return CODE_RECEIPT_DEPARTMENT_DEFAULT.EPS
       default:
         return CODE_RECEIPT_DEPARTMENT_DEFAULT.VTA

@@ -100,7 +100,7 @@ function ItemsSettingTable(props) {
       {
         field: 'itemCode',
         headerName: t('warehouseImportReceipt.table.itemCode'),
-        width: 200,
+        width: 400,
         renderCell: (_, index) => {
           return (
             <Field.Autocomplete
@@ -117,7 +117,7 @@ function ItemsSettingTable(props) {
       {
         field: 'itemName',
         headerName: t('warehouseImportReceipt.table.itemName'),
-        width: 180,
+        width: 400,
         renderCell: (params) => {
           return params?.row?.itemCode?.name
         },

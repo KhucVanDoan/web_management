@@ -130,7 +130,7 @@ const ItemSettingTable = ({
       {
         field: 'itemCode',
         headerName: t('warehouseExportReceipt.items.suppliesCode'),
-        width: 250,
+        width: 400,
         renderCell: (params, index) => {
           const itemIdCodeList = items.map(
             (item) =>
@@ -228,7 +228,7 @@ const ItemSettingTable = ({
       {
         field: 'itemName',
         headerName: t('warehouseExportReceipt.items.suppliesName'),
-        width: 250,
+        width: 300,
         renderCell: (params, index) => {
           return isView ? (
             params?.row?.suppliesName

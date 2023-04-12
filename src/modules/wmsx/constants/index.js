@@ -2255,12 +2255,14 @@ export const TYPE_OBJECT_ENUM = {
   PURCHASED_ORDER_IMPORT: 2,
   SALE_ORDER_EXPORT: 3,
   EXPORT_WAREHOUSE_TRANSFER: 4,
+  EXPORT_DELIVERY_RECORD: 5,
 }
 
 export const TYPE_OBJECT_MAP = {
   [TYPE_OBJECT_ENUM.PURCHASED_ORDER_IMPORT]: 'menu.warehouseImportReceipt',
   [TYPE_OBJECT_ENUM.SALE_ORDER_EXPORT]: 'menu.warehouseExportReceipt',
   [TYPE_OBJECT_ENUM.EXPORT_WAREHOUSE_TRANSFER]: 'menu.warehouseTransfer',
+  [TYPE_OBJECT_ENUM.EXPORT_DELIVERY_RECORD]: 'menu.deliveryRecord',
 }
 
 export const TYPE_OBJECT_OPTIONS = [
@@ -2275,6 +2277,10 @@ export const TYPE_OBJECT_OPTIONS = [
   {
     id: TYPE_OBJECT_ENUM.EXPORT_WAREHOUSE_TRANSFER,
     text: 'menu.warehouseTransfer',
+  },
+  {
+    id: TYPE_OBJECT_ENUM.EXPORT_DELIVERY_RECORD,
+    text: 'menu.deliveryRecord',
   },
 ]
 export const OrderTypeEnum = {
@@ -2585,12 +2591,12 @@ export const ruleEBS = {
   reason: 'Lý do không hợp lệ',
   warehouse: 'Kho không hợp lệ',
 }
-export const ENVIRONMENT = {
-  VTA: 'VTA',
-  BKU: 'BKU',
-  MDU: 'MDU',
-  PMY: 'PMY',
-  EPS: 'EPS',
+export const COMPANY_CODE = {
+  VTA: '30400',
+  BKU: '030700',
+  MDU: '30800',
+  PMY: '030600',
+  EPS: '031300',
 }
 export const CODE_RECEIPT_DEPARTMENT_DEFAULT = {
   VTA: '30800PVT',

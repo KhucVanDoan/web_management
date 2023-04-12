@@ -60,7 +60,7 @@ const ItemSettingTableDetail = ({ items, isEdit, setFieldValue }) => {
       {
         field: 'itemName',
         headerName: t('warehouseExportReceipt.itemName'),
-        width: 250,
+        width: 300,
         renderCell: (params) => {
           return params?.row?.item?.name
         },
@@ -68,7 +68,7 @@ const ItemSettingTableDetail = ({ items, isEdit, setFieldValue }) => {
       {
         field: 'suppliesCode',
         headerName: t('warehouseExportReceipt.items.suppliesCode'),
-        width: 250,
+        width: 400,
         renderCell: (params) => {
           return params?.row?.item?.code
         },

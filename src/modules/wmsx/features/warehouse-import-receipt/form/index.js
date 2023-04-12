@@ -24,7 +24,7 @@ import {
   ACTIVE_STATUS,
   CODE_RECEIPT_DEPARTMENT_DEFAULT,
   CODE_TYPE_DATA_FATHER_JOB,
-  ENVIRONMENT,
+  COMPANY_CODE,
   PARENT_BUSINESS_TYPE,
   ruleEBS,
   TABLE_NAME_ENUM,
@@ -120,16 +120,16 @@ function WarehouseImportReceiptForm() {
   const isUpdate = mode === MODAL_MODE.UPDATE
   const isUpdateHeader = mode === MODAL_MODE.UPDATE_HEADER
   const codereceiptDepartment = () => {
-    switch (process.env.REACT_APP_ENVIRONMENT) {
-      case ENVIRONMENT.VTA:
+    switch (loggedInUserInfo?.company?.code) {
+      case COMPANY_CODE.VTA:
         return CODE_RECEIPT_DEPARTMENT_DEFAULT.VTA
-      case ENVIRONMENT.BKU:
+      case COMPANY_CODE.BKU:
         return CODE_RECEIPT_DEPARTMENT_DEFAULT.BKU
-      case ENVIRONMENT.MDU:
+      case COMPANY_CODE.MDU:
         return CODE_RECEIPT_DEPARTMENT_DEFAULT.MDU
-      case ENVIRONMENT.PMY:
+      case COMPANY_CODE.PMY:
         return CODE_RECEIPT_DEPARTMENT_DEFAULT.PMY
-      case ENVIRONMENT.EPS:
+      case COMPANY_CODE.EPS:
         return CODE_RECEIPT_DEPARTMENT_DEFAULT.EPS
       default:
         return CODE_RECEIPT_DEPARTMENT_DEFAULT.VTA
