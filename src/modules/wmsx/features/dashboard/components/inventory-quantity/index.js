@@ -108,12 +108,12 @@ const InventoryQuantity = ({ fromDate, toDate }) => {
           return {
             ...datum,
             name: datum.type,
-            value: convertNumberWithThousandSeparator(datum.quantity, 5),
+            value: convertNumberWithThousandSeparator(datum.quantity),
           }
 
         return {
           ...datum,
-          value: convertNumberWithThousandSeparator(datum.amount, 2),
+          value: convertNumberWithThousandSeparator(datum.amount),
         }
       },
     },
