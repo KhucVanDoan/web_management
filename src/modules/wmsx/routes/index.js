@@ -122,7 +122,9 @@ import WarehouseExportDetail from '../features/warehouse-export/detail'
 import MovementWarehouseExportDetail from '../features/warehouse-export/detail/detail_warehouse_export'
 import WarehouseExport from '../features/warehouse-export/list'
 import WarehouseImportReceiptDetail from '../features/warehouse-import-receipt/detail'
+import WarehouseImportReceive from '../features/warehouse-import-receipt/detail/receive'
 import WarehouseImportReceiveAndStorage from '../features/warehouse-import-receipt/detail/receive-and-storage'
+import WarehouseImportStorage from '../features/warehouse-import-receipt/detail/storaged'
 import WarehouseImportReceiptForm from '../features/warehouse-import-receipt/form'
 import WarehouseImportReceipt from '../features/warehouse-import-receipt/list'
 import {
@@ -486,6 +488,20 @@ const routes = [
             name: ROUTE.WAREHOUSE_IMPORT_RECEIPT.RECEIVE_AND_STORAGE.TITLE,
             path: ROUTE.WAREHOUSE_IMPORT_RECEIPT.RECEIVE_AND_STORAGE.PATH,
             component: WarehouseImportReceiveAndStorage,
+            code: FUNCTION_CODE.SALE_RECEIVE_PURCHASED_ORDER_IMPORT,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.WAREHOUSE_IMPORT_RECEIPT.RECEIVE.TITLE,
+            path: ROUTE.WAREHOUSE_IMPORT_RECEIPT.RECEIVE.PATH,
+            component: WarehouseImportReceive,
+            code: FUNCTION_CODE.SALE_RECEIVE_PURCHASED_ORDER_IMPORT,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.WAREHOUSE_IMPORT_RECEIPT.STORAGE.TITLE,
+            path: ROUTE.WAREHOUSE_IMPORT_RECEIPT.STORAGE.PATH,
+            component: WarehouseImportStorage,
             code: FUNCTION_CODE.SALE_RECEIVE_PURCHASED_ORDER_IMPORT,
             isInSidebar: false,
           },

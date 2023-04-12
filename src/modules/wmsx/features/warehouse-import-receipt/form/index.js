@@ -48,6 +48,7 @@ import { ROUTE } from '~/modules/wmsx/routes/config'
 import {
   convertFilterParams,
   convertSortParams,
+  convertUtcDateTimeToLocalTz,
   convertUtcDateToLocalTz,
   getLocalItem,
 } from '~/utils'
@@ -618,7 +619,7 @@ function WarehouseImportReceiptForm() {
         if (!isEmpty(receipt)) {
           const itemReceiptList = values?.items?.map((item) => ({
             ...item,
-            creditAcc: data?.accountant.replace(/^(\d*?[1-9])0+$/, '$1'),
+            creditAccount: data?.accountant.replace(/^(\d*?[1-9])0+$/, '$1'),
           }))
           setFieldValue('items', itemReceiptList)
         }
@@ -826,7 +827,7 @@ function WarehouseImportReceiptForm() {
                               {t('warehouseImportReceipt.createdAt')}
                             </Typography>
                           }
-                          value={convertUtcDateToLocalTz(
+                          value={convertUtcDateTimeToLocalTz(
                             warehouseImportReceiptDetails.createdAt,
                           )}
                         />

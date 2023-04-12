@@ -134,11 +134,20 @@ const ItemSettingTable = ({ items, lots, arrayHelpers, setFieldValue }) => {
           const lotNumbersOfItem = lots?.filter(
             (lot) => lot.itemId === params?.row?.itemCode?.id,
           )
+          const lotsSelected = items
+            ?.filter(
+              (selectedItem) =>
+                selectedItem?.itemCode?.code === params?.row?.itemCode?.code &&
+                selectedItem?.id !== params?.row?.id,
+            )
+            ?.map((selectedItem) => selectedItem.lotNumber)
           return (
             <Field.Autocomplete
               name={`items[${index}].lotNumber`}
               dropdownWidth={250}
-              options={lotNumbersOfItem}
+              options={lotNumbersOfItem?.filter(
+                (lot) => !lotsSelected.includes(lot.lotNumber),
+              )}
               getOptionLabel={(opt) => opt?.lotNumber || ''}
               required
               // disabled={lotNumbersOfItem.some((lot) => !lot.lotNumber)}

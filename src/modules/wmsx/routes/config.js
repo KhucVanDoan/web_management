@@ -574,6 +574,14 @@ export const ROUTE = {
       PATH: '/wms/warehouse-import-receipt/:id/receive-and-storage',
       TITLE: 'warehouseImportReceiveAndStorage',
     },
+    RECEIVE: {
+      PATH: '/wms/warehouse-import-receipt/:id/receive',
+      TITLE: 'warehouseImportReceive',
+    },
+    STORAGE: {
+      PATH: '/wms/warehouse-import-receipt/:id/store',
+      TITLE: 'warehouseImportStore',
+    },
     TRANSACTIONS: {
       LIST: {
         PATH: '/wms/warehouse-import-receipt/:parentId/transactions',
