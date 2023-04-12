@@ -92,7 +92,7 @@ const ItemSettingTable = (props) => {
       {
         field: 'itemCode',
         headerName: t('warehouseTransfer.table.itemCode'),
-        width: 150,
+        width: 400,
         renderCell: (params, index) => {
           return (
             <Field.Autocomplete
@@ -109,7 +109,7 @@ const ItemSettingTable = (props) => {
       {
         field: 'itemName',
         headerName: t('warehouseTransfer.table.itemName'),
-        width: 200,
+        width: 300,
         renderCell: (params, index) => {
           return (
             <Field.TextField
