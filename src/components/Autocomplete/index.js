@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react'
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
 import BoltOutlinedIcon from '@mui/icons-material/BoltOutlined'
@@ -12,6 +12,7 @@ import {
   Paper as MuiPaper,
   Typography,
   Divider,
+  createFilterOptions,
 } from '@mui/material'
 import Chip from '@mui/material/Chip'
 import Tooltip from '@mui/material/Tooltip'
@@ -56,6 +57,8 @@ const Autocomplete = ({
   dropdownWidth,
   dropdownHeader,
   quickCreate,
+  autoHighlight,
+  tabToSelect,
   ...props
 }) => {
   const classes = useClasses(style)
@@ -65,6 +68,7 @@ const Autocomplete = ({
   const [persistedOptions, setPersistedOptions] = useState([])
   const [isShowFullTags, setIsShowFullTags] = useState(false)
   const [isSearchingMode, setIsSearchingMode] = useState(false)
+  const filteredOptsCountRef = useRef(0)
 
   const isAsync = typeof asyncRequest === 'function'
   const hasSubLabel = typeof getOptionSubLabel === 'function'
@@ -80,6 +84,22 @@ const Autocomplete = ({
       : qs.stringify(asyncRequestDeps),
     200,
   )
+
+  const _filterOptions = useCallback((options, state) => {
+    let result = []
+
+    if (typeof props.filterOptions === 'function') {
+      result = props.filterOptions(options, state)
+    } else {
+      result = createFilterOptions()(options, state)
+    }
+
+    if (filteredOptsCountRef.current !== result?.length) {
+      filteredOptsCountRef.current = result?.length || 0
+    }
+
+    return result
+  }, [])
 
   const isOptEqual = (opt, v) =>
     typeof isOptionEqualToValue === 'function'
@@ -163,6 +183,18 @@ const Autocomplete = ({
     }
 
     return reverse(uniqWith(reverse(arr), isOptEqual))
+  }
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Tab' && tabToSelect && !multiple) {
+      if (isAsync && getDisplayedAsyncOptions()?.length === 1) {
+        onChange(getDisplayedAsyncOptions()?.[0])
+      }
+
+      if (!isAsync && filteredOptsCountRef.current === 1) {
+        onChange(getOptionValue(options?.[0]))
+      }
+    }
   }
 
   const dropdownMinWidth = useMemo(() => {
@@ -355,6 +387,7 @@ const Autocomplete = ({
         paper: classes.paper,
       }}
       multiple={multiple}
+      autoHighlight={autoHighlight}
       renderTags={renderTags}
       {...(dropdownMinWidth ? { PopperComponent: Popper } : {})}
       {...(!!dropdownHeader || typeof quickCreate === 'function'
@@ -401,6 +434,7 @@ const Autocomplete = ({
                 },
               }
             : {})}
+          onKeyDown={handleKeyDown}
         />
       )}
       {...props}
@@ -464,6 +498,7 @@ const Autocomplete = ({
         : {
             ...(uncontrolled ? {} : { value: parseValue(value, options) }),
             options,
+            filterOptions: _filterOptions,
             onChange: (_, newVal) => {
               if (multiple) {
                 onChange(newVal?.map((v) => getOptionValue(v)))
@@ -498,6 +533,8 @@ Autocomplete.defaultProps = {
   uncontrolled: false,
   dropdownLarger: false,
   dropdownHeader: null,
+  autoHighlight: true,
+  tabToSelect: true,
 }
 
 Autocomplete.propTypes = {
@@ -531,6 +568,8 @@ Autocomplete.propTypes = {
   dropdownWidth: PropTypes.number,
   dropdownHeader: PropTypes.node,
   quickCreate: PropTypes.func,
+  autoHighlight: PropTypes.bool,
+  tabToSelect: PropTypes.bool,
 }
 
 export default Autocomplete
