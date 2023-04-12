@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { isNil } from 'lodash'
 
 export const convertNumberWithSISymbol = (num, digits = 2) => {
   if (!num) return 0
@@ -24,13 +25,14 @@ export const convertNumberWithSISymbol = (num, digits = 2) => {
 }
 
 export const convertNumberWithThousandSeparator = (num, digits = 2) => {
-  if (num === 0) return 0
-  if (!num) return ''
+  if (isNil(num)) return ''
 
-  return BigNumber(num)
-    .toFixed(digits)
-    .toString()
-    .replace(/\d(?=(\d{3})+(?!\d))/g, '$& ')
-    .replace(/\.?0+$/, '')
-    .replace('.', ',')
+  return (
+    BigNumber(num)
+      .toFixed(digits)
+      .toString()
+      // .replace(/\.?0+$/, '')
+      .replace(/\d(?=(\d{3})+(?!\d))/g, '$& ')
+      .replace('.', ',')
+  )
 }

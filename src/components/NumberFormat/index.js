@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import { isNil } from 'lodash'
 import PropTypes from 'prop-types'
 import NumberFormat from 'react-number-format'
 
@@ -64,10 +65,10 @@ NumberFormatInput.propTypes = {
 }
 
 export const NumberFormatText = ({ value, numberProps, formatter }) => {
+  if (isNil(value)) return ''
+
   const convertedValue = formatter
-    ? (+Number(value || 0).toFixed(
-        config(formatter)?.decimalScale || 0,
-      )).toString()
+    ? Number(value || 0).toFixed(config(formatter)?.decimalScale || 0)
     : value
 
   return (
@@ -76,6 +77,7 @@ export const NumberFormatText = ({ value, numberProps, formatter }) => {
       displayType="text"
       isNumericString
       {...config(formatter)}
+      {...(formatter === 'quantity' ? { decimalScale: 2 } : {})}
       {...numberProps}
     />
   )
