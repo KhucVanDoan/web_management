@@ -242,7 +242,8 @@ const ItemSettingTable = (props) => {
       {
         field: 'id',
         headerName: '#',
-        width: 80,
+        width: 50,
+        align: 'center',
         renderCell: (_, index) => {
           return index + 1
         },
@@ -312,7 +313,7 @@ const ItemSettingTable = (props) => {
       {
         field: 'itemUnit',
         headerName: t('warehouseTransfer.table.unit'),
-        width: 150,
+        width: 100,
         renderCell: (params, index) => {
           return isView ? (
             <>{params?.row?.itemCode?.itemUnit?.name}</>
@@ -327,7 +328,7 @@ const ItemSettingTable = (props) => {
       {
         field: 'locator',
         headerName: t('warehouseTransfer.table.locator'),
-        width: 150,
+        width: 250,
         hide: type !== WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG,
         renderCell: (params, index) => {
           const { itemCode } = params?.row
@@ -443,7 +444,7 @@ const ItemSettingTable = (props) => {
       {
         field: 'planExportedQuantity',
         headerName: t('warehouseTransfer.table.planExportedQuantity'),
-        width: 180,
+        width: 150,
         hide: isView,
         align: 'right',
         headerAlign: 'left',
@@ -465,7 +466,7 @@ const ItemSettingTable = (props) => {
       {
         field: 'transferQuantity',
         headerName: t('warehouseTransfer.table.transferQuantity'),
-        width: 180,
+        width: 150,
         align: 'right',
         headerAlign: 'left',
         renderCell: (params, index) => {
@@ -494,7 +495,7 @@ const ItemSettingTable = (props) => {
       {
         field: 'actualExportedQuantity',
         headerName: t('warehouseTransfer.table.actualExportedQuantity'),
-        width: 180,
+        width: 150,
         headerAlign: 'left',
         align: 'right',
         hide:

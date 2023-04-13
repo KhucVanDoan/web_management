@@ -359,7 +359,9 @@ function WarehouseImportReceiptDetail() {
         )}
         {warehouseImportReceiptDetails?.status ===
           WAREHOUSE_IMPORT_RECEIPT_STATUS.RECEIVED && (
-          <Guard code={FUNCTION_CODE.SALE_RETURN_PURCHASED_ORDER_IMPORT}>
+          <Guard
+            code={FUNCTION_CODE.SALE_CREATE_PURCHASED_ORDER_IMPORT_RECEIVE}
+          >
             <Button
               onClick={() =>
                 history.push(

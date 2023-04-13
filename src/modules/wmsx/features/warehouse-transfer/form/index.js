@@ -241,7 +241,7 @@ const WarehouseTransferForm = () => {
           <ActionBar
             onBack={backToList}
             onCancel={handleReset}
-            mode={MODAL_MODE.CREATE}
+            mode={MODAL_MODE.UPDATE}
             // elBefore={
             //   <Button sx={{ mr: 'auto' }}>
             //     <Icon name="print" mr={1} />
@@ -375,7 +375,7 @@ const WarehouseTransferForm = () => {
                             </Typography>
                           }
                           value={convertUtcDateTimeToLocalTz(
-                            warehouseTransferDetails?.receiptDate,
+                            warehouseTransferDetails?.createdAt,
                           )}
                         />
                       </Grid>

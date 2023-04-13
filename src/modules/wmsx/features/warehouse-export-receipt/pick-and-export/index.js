@@ -127,10 +127,10 @@ function WarehouseExportReceiptPickAndExport() {
           orderType: OrderTypeEnum.SO,
           orderId: +data?.id,
         },
-        items: data?.itemsSync?.map((item) => ({
-          itemId: item?.id,
+        items: data?.saleOrderExportWarehouseLots?.map((item) => ({
+          itemId: item?.itemId,
           warehouseId: data?.warehouse?.id,
-          lotNumber: item?.lots[0]?.lotNumber || null,
+          lotNumber: item?.lotNumber || null,
         })),
       }
       GetItemStockAvailable.getItemWarehouseStockAvailable(payload)

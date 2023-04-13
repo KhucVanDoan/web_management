@@ -135,6 +135,7 @@ function WarehouseImportReceive() {
         return {
           actualQuantity: itemByIds[itemId][0]?.receivedQuantity,
           itemId: itemByIds[itemId][0]?.itemId,
+          lotNumber: itemByIds[itemId][0]?.lotNumber || null,
         }
       })
       const payload = {
@@ -168,7 +169,7 @@ function WarehouseImportReceive() {
           }),
         ),
     }),
-    [warehouseImportReceiptDetails],
+    [warehouseImportReceiptDetails, id],
   )
   const receiptRequired = warehouseImportReceiptDetails?.attributes?.find(
     (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT,

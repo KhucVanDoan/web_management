@@ -123,6 +123,7 @@ const ItemSettingTable = ({
         field: '#',
         headerName: t('warehouseExportReceipt.items.STT'),
         width: 50,
+        align: 'center',
         renderCell: (_, index) => {
           return index + 1
         },
@@ -255,7 +256,7 @@ const ItemSettingTable = ({
       {
         field: 'unit',
         headerName: t('warehouseExportReceipt.unit'),
-        width: 150,
+        width: 100,
         renderCell: (params, index) => {
           return isView ? (
             params?.row?.unit
@@ -267,7 +268,7 @@ const ItemSettingTable = ({
       {
         field: 'lotNumber',
         headerName: t('warehouseExportReceipt.items.lotNumber'),
-        width: 250,
+        width: 200,
         renderCell: (params, index) => {
           const lotsSelected = items
             ?.filter(
@@ -391,7 +392,7 @@ const ItemSettingTable = ({
       {
         field: 'quantityRequest',
         headerName: t('warehouseExportReceipt.items.quantityRequest'),
-        width: 150,
+        width: 100,
         headerAlign: 'left',
         align: 'right',
         renderCell: (params, index) => {
@@ -408,7 +409,7 @@ const ItemSettingTable = ({
       {
         field: 'planExportedQuantity',
         headerName: t('warehouseExportReceipt.items.planExportedQuantity'),
-        width: 150,
+        width: 100,
         align: 'right',
         headerAlign: 'left',
         renderCell: (params, index) => {
@@ -430,7 +431,7 @@ const ItemSettingTable = ({
       {
         field: 'quantityExport',
         headerName: t('warehouseExportReceipt.items.quantityExport'),
-        width: 150,
+        width: 200,
         align: 'right',
         headerAlign: 'left',
         renderCell: (params, index) => {

@@ -495,7 +495,7 @@ const routes = [
             name: ROUTE.WAREHOUSE_IMPORT_RECEIPT.RECEIVE.TITLE,
             path: ROUTE.WAREHOUSE_IMPORT_RECEIPT.RECEIVE.PATH,
             component: WarehouseImportReceive,
-            code: FUNCTION_CODE.SALE_RECEIVE_PURCHASED_ORDER_IMPORT,
+            code: FUNCTION_CODE.SALE_CREATE_PURCHASED_ORDER_IMPORT_RECEIVE,
             isInSidebar: false,
           },
           {

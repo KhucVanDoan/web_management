@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { Box, Grid, Typography } from '@mui/material'
 import { sub } from 'date-fns'
@@ -120,7 +120,8 @@ function WarehouseImportReceiptForm() {
   const mode = MODE_MAP[routeMatch.path]
   const isUpdate = mode === MODAL_MODE.UPDATE
   const isUpdateHeader = mode === MODAL_MODE.UPDATE_HEADER
-  const codereceiptDepartment = () => {
+
+  const codereceiptDepartment = useCallback(() => {
     switch (loggedInUserInfo?.company?.code) {
       case COMPANY_CODE.VTA:
         return CODE_RECEIPT_DEPARTMENT_DEFAULT.VTA
@@ -135,7 +136,7 @@ function WarehouseImportReceiptForm() {
       default:
         return CODE_RECEIPT_DEPARTMENT_DEFAULT.VTA
     }
-  }
+  }, [warehouseImportReceiptDetails])
   const initialValues = useMemo(
     () => ({
       receiptDate: !isEmpty(warehouseImportReceiptDetails)
@@ -186,7 +187,7 @@ function WarehouseImportReceiptForm() {
             debitAccount: item?.debitAccount,
             creditAccount:
               isEdit && warehouseImportReceiptDetails?.ebsId
-                ? warehouseImportReceiptDetails?.source?.accountant
+                ? item?.creditAccount.slice(18, 29)
                 : item?.creditAccount?.replace(/^(\d*?[1-9])0+$/, '$1'),
             importQuantity: item?.quantity,
             quantity: item?.quantity,
@@ -204,9 +205,13 @@ function WarehouseImportReceiptForm() {
           }),
         ) || [{ ...DEFAULT_ITEMS }],
     }),
-    [warehouseImportReceiptDetails, attributesBusinessTypeDetails],
+    [
+      warehouseImportReceiptDetails,
+      attributesBusinessTypeDetails,
+      receiptDepartmentList,
+      expenditureOrgList,
+    ],
   )
-
   warehouseImportReceiptDetails?.attributes?.forEach((item) => {
     if (
       item.tableName &&
@@ -237,7 +242,7 @@ function WarehouseImportReceiptForm() {
         code: loggedInUserInfo?.company?.code,
       }),
     })
-  }, [])
+  }, [warehouseImportReceiptDetails])
   const getBreadcrumb = () => {
     const breadcrumbs = [
       {
@@ -433,7 +438,7 @@ function WarehouseImportReceiptForm() {
             +item?.itemCode?.id ||
             +item?.itemCode?.itemCode?.itemId,
           requestedItemIdImportActual: item?.itemCode?.item?.code,
-          lotNumber: '',
+          lotNumber: item?.lotNumber || '',
           quantity: +item?.importQuantity || item?.quantity,
           price: item?.price || (item?.money / item?.quantity).toFixed(2),
           amount: item?.money,
@@ -487,7 +492,7 @@ function WarehouseImportReceiptForm() {
               +item?.itemCode?.id ||
               +item?.itemCode?.itemCode?.itemId,
             requestedItemIdImportActual: item?.itemCode?.item?.code,
-            lotNumber: '',
+            lotNumber: item?.lotNumber || '',
             quantity: +item?.importQuantity || item?.quantity,
             price: item?.price || (item?.money / item?.quantity).toFixed(2),
             amount: item?.money,
@@ -583,7 +588,7 @@ function WarehouseImportReceiptForm() {
           <ActionBar
             onBack={backToList}
             onCancel={handleReset}
-            mode={MODAL_MODE.CREATE}
+            mode={MODAL_MODE.UPDATE}
           />
         )
       case MODAL_MODE.UPDATE:

@@ -205,7 +205,7 @@ function WarehouseImportReceiveAndStorage() {
           }),
         ),
     }),
-    [warehouseImportReceiptDetails],
+    [warehouseImportReceiptDetails, locationList],
   )
   const receiptRequired = warehouseImportReceiptDetails?.attributes?.find(
     (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT,
