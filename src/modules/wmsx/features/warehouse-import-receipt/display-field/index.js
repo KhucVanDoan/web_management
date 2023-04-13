@@ -125,7 +125,7 @@ const displayFollowBusinessTypeManagement = (
             importQuantity: item?.quantity,
             quantity: item?.quantity,
             money: item?.amount,
-            debitAcc: item?.item?.itemWarehouseSources?.find(
+            debitAccount: item?.item?.itemWarehouseSources?.find(
               (e) => e?.warehouseId === data?.warehouse?.id,
             )?.accounting,
             // creditAcc: item?.creditAccount,

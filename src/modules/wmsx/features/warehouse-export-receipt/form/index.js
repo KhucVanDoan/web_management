@@ -223,7 +223,12 @@ function WarehouseExportReceiptForm() {
           }),
         ) || DEFAULT_ITEMS,
     }),
-    [warehouseExportReceiptDetails, attributesBusinessTypeDetails],
+    [
+      warehouseExportReceiptDetails,
+      attributesBusinessTypeDetails,
+      receiptDepartmentList,
+      expenditureOrgList,
+    ],
   )
   warehouseExportReceiptDetails?.attributes?.forEach((item) => {
     if (
@@ -697,7 +702,7 @@ function WarehouseExportReceiptForm() {
           <ActionBar
             onBack={backToList}
             onCancel={handleReset}
-            mode={MODAL_MODE.CREATE}
+            mode={MODAL_MODE.UPDATE}
             // elBefore={
             //   <Button sx={{ mr: 'auto' }}>
             //     <Icon name="print" mr={1} />

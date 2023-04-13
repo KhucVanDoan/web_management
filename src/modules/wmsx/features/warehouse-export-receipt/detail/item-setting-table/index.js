@@ -52,6 +52,7 @@ const ItemSettingTableDetail = ({ items, isEdit, setFieldValue }) => {
         field: '#',
         headerName: t('warehouseExportReceipt.items.STT'),
         width: 50,
+        align: 'center',
         renderCell: (_, index) => {
           return index + 1
         },
@@ -77,7 +78,7 @@ const ItemSettingTableDetail = ({ items, isEdit, setFieldValue }) => {
       {
         field: 'unit',
         headerName: t('warehouseExportReceipt.unit'),
-        width: 150,
+        width: 100,
         renderCell: (params) => {
           return params?.row?.item?.itemUnit
         },

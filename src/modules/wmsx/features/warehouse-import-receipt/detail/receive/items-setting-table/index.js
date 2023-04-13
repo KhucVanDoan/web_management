@@ -36,7 +36,8 @@ function ItemsSettingTable(props) {
       {
         field: 'id',
         headerName: t('warehouseImportReceipt.table.number'),
-        width: 80,
+        width: 50,
+        align: 'center',
         renderCell: (_, index) => {
           return index + 1
         },
@@ -68,7 +69,7 @@ function ItemsSettingTable(props) {
       {
         field: 'lotNumber',
         headerName: t('warehouseImportReceipt.table.lotNumber'),
-        width: 180,
+        width: 200,
         hide: !warehouse?.manageByLot,
         renderCell: (params) => {
           return params?.row?.lotNumber
@@ -87,7 +88,7 @@ function ItemsSettingTable(props) {
       {
         field: 'receivedQuantity',
         headerName: t('warehouseImportReceipt.table.receivedQuantity'),
-        width: 180,
+        width: 100,
         headerAlign: 'left',
         align: 'right',
         renderCell: (params) => {

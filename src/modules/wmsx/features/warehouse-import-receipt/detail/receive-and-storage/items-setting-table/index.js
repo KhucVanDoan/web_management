@@ -78,7 +78,8 @@ function ItemsSettingTable(props) {
       {
         field: 'id',
         headerName: t('warehouseImportReceipt.table.number'),
-        width: 80,
+        width: 50,
+        align: 'center',
         renderCell: (_, index) => {
           return index + 1
         },
@@ -111,7 +112,7 @@ function ItemsSettingTable(props) {
       {
         field: 'unit',
         headerName: t('warehouseImportReceipt.table.unit'),
-        width: 180,
+        width: 100,
         renderCell: (params) => {
           return params?.row?.itemCode?.itemUnit
         },
@@ -141,7 +142,7 @@ function ItemsSettingTable(props) {
       {
         field: 'lotNumber',
         headerName: t('warehouseImportReceipt.table.lotNumber'),
-        width: 180,
+        width: 200,
         hide: !warehouse?.manageByLot,
         renderCell: (params, index) => {
           const lotNumberList = lotNumberLists?.filter(
@@ -168,7 +169,7 @@ function ItemsSettingTable(props) {
       {
         field: 'importQuantity',
         headerName: t('warehouseImportReceipt.table.importQuantity'),
-        width: 180,
+        width: 100,
         align: 'right',
         headerAlign: 'left',
         renderCell: (params, index) => {
@@ -184,7 +185,7 @@ function ItemsSettingTable(props) {
       {
         field: 'receivedQuantity',
         headerName: t('warehouseImportReceipt.table.receivedQuantity'),
-        width: 180,
+        width: 100,
         headerAlign: 'left',
         align: 'right',
         renderCell: (params, index) => {
@@ -199,7 +200,7 @@ function ItemsSettingTable(props) {
       {
         field: 'locator',
         headerName: t('warehouseTransfer.table.locatorStored'),
-        width: 150,
+        width: 200,
         renderCell: (params, index) => {
           const selectedLocators = items
             .filter(
