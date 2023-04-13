@@ -23,14 +23,21 @@ const ItemSettingTable = ({ items, lots, arrayHelpers, setFieldValue }) => {
   const {
     data: { itemStockAvailabe },
   } = useWarehouseTransfer()
-  const itemList = warehouseExportReceiptDetails?.itemsSync?.map((item) => ({
-    ...item?.item,
-    quantity: item?.quantity,
-    exportedQuantity: item?.quantity,
-    requestedQuantityWarehouseExportProposal:
-      item?.requestedQuantityWarehouseExportProposal,
-    id: item?.id,
-  }))
+  const itemList =
+    warehouseExportReceiptDetails?.saleOrderExportWarehouseLots?.map(
+      (item) => ({
+        ...item?.item,
+        quantity: item?.quantity,
+        exportedQuantity: item?.quantity,
+        requestedQuantityWarehouseExportProposal:
+          item?.requestedQuantityWarehouseExportProposal,
+        lotNumber: item?.lotNumber,
+        id: item?.itemId,
+        planQuantity: itemStockAvailabe?.find(
+          (e) => e?.itemId === item?.itemId && e?.lotNumber === item?.lotNumber,
+        )?.quantity,
+      }),
+    )
   // useEffect(() => {
   //   if (!isEmpty(lots)) {
   //     const params = {
@@ -202,11 +209,13 @@ const ItemSettingTable = ({ items, lots, arrayHelpers, setFieldValue }) => {
         align: 'right',
         headerAlign: 'left',
         renderCell: (params) => {
+          const findItem = itemList?.find(
+            (e) =>
+              e?.id === params?.row?.itemCode?.id &&
+              e?.lotNumber === params?.row?.lotNumber?.lotNumber,
+          )
           return (
-            <NumberFormatText
-              value={+params?.row?.quantity || params?.row?.itemCode?.quantity}
-              formatter="quantity"
-            />
+            <NumberFormatText value={findItem?.quantity} formatter="quantity" />
           )
         },
       },
@@ -251,9 +260,14 @@ const ItemSettingTable = ({ items, lots, arrayHelpers, setFieldValue }) => {
         align: 'right',
         headerAlign: 'left',
         renderCell: (params) => {
+          const findItem = itemList?.find(
+            (e) =>
+              e?.id === params?.row?.itemCode?.id &&
+              e?.lotNumber === params?.row?.lotNumber?.lotNumber,
+          )
           return (
             <NumberFormatText
-              value={+params?.row?.planQuantity}
+              value={+findItem?.planQuantity}
               formatter="quantity"
             />
           )
