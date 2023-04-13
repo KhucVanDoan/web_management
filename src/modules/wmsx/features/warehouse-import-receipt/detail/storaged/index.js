@@ -38,7 +38,7 @@ import addNotification from '~/utils/toast'
 import ItemsSettingTable from './items-setting-table'
 import { formSchema } from './schema'
 
-function WarehouseImportReceiveAndStorage() {
+function WarehouseImportStorage() {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
   const { id } = useParams()
@@ -55,8 +55,8 @@ function WarehouseImportReceiveAndStorage() {
       title: ROUTE.WAREHOUSE_IMPORT_RECEIPT.DETAIL.TITLE,
     },
     {
-      route: ROUTE.WAREHOUSE_IMPORT_RECEIPT.RECEIVE_AND_STORAGE.PATH,
-      title: ROUTE.WAREHOUSE_IMPORT_RECEIPT.RECEIVE_AND_STORAGE.TITLE,
+      route: ROUTE.WAREHOUSE_IMPORT_RECEIPT.STORAGE.PATH,
+      title: ROUTE.WAREHOUSE_IMPORT_RECEIPT.STORAGE.TITLE,
     },
   ]
   const {
@@ -178,13 +178,13 @@ function WarehouseImportReceiveAndStorage() {
         orderId: Number(id),
         warehouseId: warehouseImportReceiptDetails?.warehouse?.id,
         items: itemsRequest,
-        autoCreateReceive: 1,
       }
-      actions.importWarehouse(payload, backToDetail)
+      actions.storedWarehouse(payload, backToDetail)
     } catch (error) {
       addNotification(error.message, NOTIFICATION_TYPE.ERROR)
     }
   }
+
   const initialValues = useMemo(
     () => ({
       storedNoLocatin: false,
@@ -241,7 +241,7 @@ function WarehouseImportReceiveAndStorage() {
   return (
     <Page
       breadcrumbs={breadcrumbs}
-      title={t('menu.warehouseImportReceiveAndStorage')}
+      title={t('menu.warehouseImportStore')}
       onBack={backToDetail}
       loading={isLoading}
     >
@@ -537,4 +537,4 @@ function WarehouseImportReceiveAndStorage() {
   )
 }
 
-export default WarehouseImportReceiveAndStorage
+export default WarehouseImportStorage

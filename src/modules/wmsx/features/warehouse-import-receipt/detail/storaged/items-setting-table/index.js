@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 
 import { IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
@@ -6,13 +6,15 @@ import Typography from '@mui/material/Typography'
 import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
+import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import { ACTIVE_STATUS } from '~/modules/wmsx/constants'
 import useLocationManagement from '~/modules/wmsx/redux/hooks/useLocationManagement'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
-import { scrollToBottom } from '~/utils'
+import { scrollToBottom, convertFilterParams } from '~/utils'
 
 function ItemsSettingTable(props) {
   const { t } = useTranslation(['wmsx'])
@@ -43,9 +45,22 @@ function ItemsSettingTable(props) {
       }),
     )
   const {
+    actions,
     data: { locationList },
   } = useLocationManagement()
 
+  useEffect(() => {
+    if (!isEmpty(warehouse)) {
+      actions.searchLocations({
+        limit: ASYNC_SEARCH_LIMIT,
+        filter: convertFilterParams({
+          warehouseId: warehouse?.id,
+          status: ACTIVE_STATUS.ACTIVE,
+          type: [0, 1],
+        }),
+      })
+    }
+  }, [warehouse])
   const handleChangeLotNumber = (val, index) => {
     if (val) {
       const findLotNumber =
@@ -72,7 +87,6 @@ function ItemsSettingTable(props) {
       )
     }
   }
-
   const getColumns = useMemo(() => {
     return [
       {
@@ -116,28 +130,6 @@ function ItemsSettingTable(props) {
           return params?.row?.itemCode?.itemUnit
         },
       },
-      // {
-      //   field: 'lotNumber',
-      //   headerName: t('warehouseImportReceipt.table.lotNumber'),
-      //   width: 180,
-      //   renderCell: (params, index) => {
-      //     return (
-      //       <Field.Autocomplete
-      //         name={`items[${index}].lotNumber`}
-      //         options={[]}
-      //         getOptionLabel={(opt) => opt.lotNumber}
-      //         getOptionValue={(option) => option?.lotNumber}
-      //         isOptionEqualToValue={(opt, val) => opt?.lotNumber === val}
-      //         // onChange={(val) => }
-      //         validate={(val) => {
-      //           if (!val) {
-      //             return t('general:form.required')
-      //           }
-      //         }}
-      //       />
-      //     )
-      //   },
-      // },
       {
         field: 'lotNumber',
         headerName: t('warehouseImportReceipt.table.lotNumber'),
@@ -199,7 +191,7 @@ function ItemsSettingTable(props) {
       {
         field: 'locator',
         headerName: t('warehouseTransfer.table.locatorStored'),
-        width: 150,
+        width: 300,
         renderCell: (params, index) => {
           const selectedLocators = items
             .filter(
@@ -238,7 +230,7 @@ function ItemsSettingTable(props) {
         },
       },
     ]
-  }, [itemList, values?.storedNoLocatin])
+  }, [itemList])
 
   return (
     <>

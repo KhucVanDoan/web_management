@@ -1,44 +1,31 @@
 import React, { useEffect, useMemo } from 'react'
 
-import { Box, FormControlLabel, Grid } from '@mui/material'
+import { Box, Grid } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
-import { uniq, map, groupBy, isEmpty, first } from 'lodash'
+import { uniq, map, groupBy, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
-import {
-  ASYNC_SEARCH_LIMIT,
-  MODAL_MODE,
-  NOTIFICATION_TYPE,
-} from '~/common/constants'
+import { MODAL_MODE, NOTIFICATION_TYPE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
-import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
-  MOVEMENT_TYPE,
   DATA_TYPE,
   TABLE_NAME_ENUM,
   WAREHOUSE_IMPORT_RECEIPT_OPTIONS,
-  ACTIVE_STATUS,
 } from '~/modules/wmsx/constants'
-import useLocationManagement from '~/modules/wmsx/redux/hooks/useLocationManagement'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { api } from '~/services/api'
-import {
-  convertFilterParams,
-  convertUtcDateToLocalTz,
-  getLocalItem,
-} from '~/utils'
+import { convertUtcDateToLocalTz } from '~/utils'
 import { downloadFile } from '~/utils/file'
 import addNotification from '~/utils/toast'
 
 import ItemsSettingTable from './items-setting-table'
-import { formSchema } from './schema'
 
-function WarehouseImportReceiveAndStorage() {
+function WarehouseImportReceive() {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
   const { id } = useParams()
@@ -55,8 +42,8 @@ function WarehouseImportReceiveAndStorage() {
       title: ROUTE.WAREHOUSE_IMPORT_RECEIPT.DETAIL.TITLE,
     },
     {
-      route: ROUTE.WAREHOUSE_IMPORT_RECEIPT.RECEIVE_AND_STORAGE.PATH,
-      title: ROUTE.WAREHOUSE_IMPORT_RECEIPT.RECEIVE_AND_STORAGE.TITLE,
+      route: ROUTE.WAREHOUSE_IMPORT_RECEIPT.RECEIVE.PATH,
+      title: ROUTE.WAREHOUSE_IMPORT_RECEIPT.RECEIVE.TITLE,
     },
   ]
   const {
@@ -67,20 +54,7 @@ function WarehouseImportReceiveAndStorage() {
     },
     actions,
   } = useWarehouseImportReceipt()
-  const {
-    actions: getLocation,
-    data: { locationList },
-  } = useLocationManagement()
-  useEffect(() => {
-    getLocation.searchLocations({
-      limit: ASYNC_SEARCH_LIMIT,
-      filter: convertFilterParams({
-        warehouseId: warehouseImportReceiptDetails?.warehouse?.id,
-        status: ACTIVE_STATUS.ACTIVE,
-        type: [0, 1],
-      }),
-    })
-  }, [])
+
   useEffect(() => {
     actions.getWarehouseImportReceiptDetailsById(id, (data) => {
       const attributes = data?.attributes?.filter((e) => e?.tableName)
@@ -144,7 +118,7 @@ function WarehouseImportReceiveAndStorage() {
           ...item,
           itemId: item.itemCode?.itemId,
         })),
-        (e) => `${e.itemId}_${e.lotNumber?.lotNumber || ''}`,
+        (e) => `${e.itemId}_${e?.lotNumber || ''}`,
       )
       if (
         Object.keys(itemByIds)?.length <
@@ -159,35 +133,24 @@ function WarehouseImportReceiveAndStorage() {
 
       const itemsRequest = Object.keys(itemByIds)?.map((itemId) => {
         return {
-          id: Number(itemId.split('_').shift()),
-          lotNumber: first(
-            itemByIds[itemId]?.map(
-              (lotNumber) => lotNumber.lotNumber?.lotNumber,
-            ),
-          ),
-          locations: itemByIds[itemId]?.map((locator) => ({
-            locatorId: locator.locator?.locatorId,
-            quantity: locator.receivedQuantity,
-          })),
+          actualQuantity: itemByIds[itemId][0]?.receivedQuantity,
+          itemId: itemByIds[itemId][0]?.itemId,
         }
       })
-      const userInfo = getLocalItem('userInfo')
       const payload = {
-        userId: userInfo.id,
-        movementType: MOVEMENT_TYPE.PO_IMPORT,
-        orderId: Number(id),
-        warehouseId: warehouseImportReceiptDetails?.warehouse?.id,
+        purchasedOrderImportId: warehouseImportReceiptDetails?.id,
+        isComplete: false,
         items: itemsRequest,
-        autoCreateReceive: 1,
+        warehouseId: warehouseImportReceiptDetails?.warehouse?.id,
       }
-      actions.importWarehouse(payload, backToDetail)
+      actions.receiveWarehouse(payload, backToDetail)
     } catch (error) {
       addNotification(error.message, NOTIFICATION_TYPE.ERROR)
     }
   }
+
   const initialValues = useMemo(
     () => ({
-      storedNoLocatin: false,
       items:
         warehouseImportReceiptDetails?.purchasedOrderImportWarehouseLots?.map(
           (item, index) => ({
@@ -201,7 +164,7 @@ function WarehouseImportReceiveAndStorage() {
               } || null,
             importQuantity: item?.quantity,
             receivedQuantity: item?.quantity,
-            locator: locationList[0],
+            lotNumber: item?.lotNumber,
           }),
         ),
     }),
@@ -210,45 +173,16 @@ function WarehouseImportReceiveAndStorage() {
   const receiptRequired = warehouseImportReceiptDetails?.attributes?.find(
     (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT,
   )
-  const handleChecked = (val, setFieldValue) => {
-    const items =
-      warehouseImportReceiptDetails?.purchasedOrderImportWarehouseLots?.map(
-        (item, index) => ({
-          id: `${item?.itemId}-${index}`,
-          itemCode:
-            {
-              itemId: item?.itemId,
-              id: item?.itemId,
-              quantity: item?.quantity,
-              ...item?.item,
-            } || null,
-          importQuantity: item?.quantity,
-          receivedQuantity: item?.quantity,
-          locator: val
-            ? locationList?.find(
-                (e) =>
-                  e?.code === warehouseImportReceiptDetails?.warehouse?.code,
-              )
-            : locationList[0],
-        }),
-      )
-    if (val) {
-      setFieldValue('items', items)
-    } else {
-      setFieldValue('items', items)
-    }
-  }
   return (
     <Page
       breadcrumbs={breadcrumbs}
-      title={t('menu.warehouseImportReceiveAndStorage')}
+      title={t('menu.warehouseImportReceive')}
       onBack={backToDetail}
       loading={isLoading}
     >
       <Formik
         initialValues={initialValues}
         enableReinitialize
-        validationSchema={formSchema(t)}
         onSubmit={onSubmit}
       >
         {({ values, setFieldValue }) => {
@@ -501,17 +435,6 @@ function WarehouseImportReceiveAndStorage() {
                       value={warehouseImportReceiptDetails?.explanation}
                     />
                   </Grid>
-                  <Grid item lg={6} xs={12} sx={{ mt: 1 }}>
-                    <FormControlLabel
-                      control={
-                        <Field.Checkbox
-                          name="storedNoLocation"
-                          onChange={(val) => handleChecked(val, setFieldValue)}
-                        />
-                      }
-                      label={t('warehouseImportReceipt.storeNoLocatin')}
-                    />
-                  </Grid>
                   <Box sx={{ mt: 3 }}>
                     <FieldArray
                       name="items"
@@ -537,4 +460,4 @@ function WarehouseImportReceiveAndStorage() {
   )
 }
 
-export default WarehouseImportReceiveAndStorage
+export default WarehouseImportReceive

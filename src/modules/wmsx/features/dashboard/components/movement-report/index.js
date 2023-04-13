@@ -146,12 +146,12 @@ const MovementReport = ({ fromDate, toDate }) => {
           return {
             ...datum,
             name: datum.type,
-            value: convertNumberWithThousandSeparator(datum.value, 5),
+            value: convertNumberWithThousandSeparator(datum.value),
           }
 
         return {
           ...datum,
-          value: convertNumberWithThousandSeparator(datum.count, 2),
+          value: convertNumberWithThousandSeparator(datum.count),
         }
       },
     },
