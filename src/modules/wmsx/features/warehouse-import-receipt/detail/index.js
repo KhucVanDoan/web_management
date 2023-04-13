@@ -17,7 +17,6 @@ import Status from '~/components/Status'
 import TextField from '~/components/TextField'
 import {
   DATA_TYPE,
-  ORDER_STATUS,
   STATUS_SYNC_ORDER_TO_EBS,
   SYNC_STATUS_CAN_UPDATE_HEADER_POI,
   TABLE_NAME_ENUM,
@@ -337,7 +336,50 @@ function WarehouseImportReceiptDetail() {
             </Button>
           </Guard>
         )}
-        {warehouseImportReceiptDetails?.status === ORDER_STATUS.CONFIRMED && (
+        {warehouseImportReceiptDetails?.status ===
+          WAREHOUSE_IMPORT_RECEIPT_STATUS.CONFIRMED && (
+          <Guard code={FUNCTION_CODE.SALE_RETURN_PURCHASED_ORDER_IMPORT}>
+            <Button
+              onClick={() =>
+                history.push(
+                  ROUTE.WAREHOUSE_IMPORT_RECEIPT.RECEIVE.PATH.replace(
+                    ':id',
+                    `${id}`,
+                  ),
+                )
+              }
+              sx={{
+                ml: 4 / 3,
+              }}
+              icon="add"
+            >
+              {t('warehouseImportReceipt.warehouseImport')}
+            </Button>
+          </Guard>
+        )}
+        {warehouseImportReceiptDetails?.status ===
+          WAREHOUSE_IMPORT_RECEIPT_STATUS.RECEIVED && (
+          <Guard code={FUNCTION_CODE.SALE_RETURN_PURCHASED_ORDER_IMPORT}>
+            <Button
+              onClick={() =>
+                history.push(
+                  ROUTE.WAREHOUSE_IMPORT_RECEIPT.STORAGE.PATH.replace(
+                    ':id',
+                    `${id}`,
+                  ),
+                )
+              }
+              sx={{
+                ml: 4 / 3,
+              }}
+              icon="add"
+            >
+              {t('warehouseImportReceipt.warehouseImportStore')}
+            </Button>
+          </Guard>
+        )}
+        {warehouseImportReceiptDetails?.status ===
+          WAREHOUSE_IMPORT_RECEIPT_STATUS.CONFIRMED && (
           <Guard code={FUNCTION_CODE.SALE_RECEIVE_PURCHASED_ORDER_IMPORT}>
             <Button
               onClick={() =>

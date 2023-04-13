@@ -175,6 +175,8 @@
     "warehouseTransferDetail": "Chi tiết lệnh chuyển kho",
     "pickupAndWarehouseExport": "Lấy hàng & Xuất kho",
     "receiveAndStored": "Nhập kho & Cất hàng",
+    "warehouseImportReceive": "Nhập kho",
+    "warehouseImportStore": "Cất hàng",
     "inventoryAdjust": "Điều chỉnh tồn kho",
     "inventoryAdjustCreate": "Tạo phiếu điều chỉnh",
     "inventoryAdjustEdit": "Sửa phiếu điều chỉnh",
@@ -3033,6 +3035,9 @@
     "cancelEbs": "Hủy đồng bộ EBS",
     "returnReceipt": "Trả phiếu",
     "createdByUser": "Người tạo",
+    "warehouseImport": "Nhập kho",
+    "storeNoLocatin": "Không cất hàng vào vị trí",
+    "warehouseImportStore": "Cất hàng",
     "table": {
       "title": "Danh sách vật tư",
       "addButton": "Thêm vật tư",

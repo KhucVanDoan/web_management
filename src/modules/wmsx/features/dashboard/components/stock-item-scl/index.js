@@ -25,7 +25,7 @@ const StockItemBySCLReport = () => {
     totalItemStockAmount:
       item.totalItemStockAmount < 0
         ? 0
-        : convertNumberWithThousandSeparator(item.totalItemStockAmount, 5),
+        : convertNumberWithThousandSeparator(item.totalItemStockAmount),
     name: t('dashboard.inventoryQuantity.value'),
   }))
 

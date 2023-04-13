@@ -33,6 +33,7 @@ export const formSchema = (t) =>
               (item) =>
                 item?.id !== context?.parent?.id &&
                 item?.itemCode?.id === context?.parent?.itemCode?.id &&
+                item?.lotNumber === context?.parent?.lotNumber &&
                 item?.locator?.locatorId === value?.locatorId,
             )
             if (!isEmpty(findItem)) {

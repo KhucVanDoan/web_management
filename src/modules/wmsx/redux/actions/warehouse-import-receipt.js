@@ -82,6 +82,14 @@ export const IMPORT_WAREHOUSE_START = 'IMPORT_WAREHOUSE_START'
 export const IMPORT_WAREHOUSE_SUCCESS = 'IMPORT_WAREHOUSE_SUCCESS'
 export const IMPORT_WAREHOUSE_FAILED = 'IMPORT_WAREHOUSE_FAILED'
 
+export const RECEIVE_START = 'RECEIVE_START'
+export const RECEIVE_SUCCESS = 'RECEIVE_SUCCESS'
+export const RECEIVE_FAILED = 'RECEIVE_FAILED'
+
+export const STORED_START = 'STORED_START'
+export const STORED_SUCCESS = 'STORED_SUCCESS'
+export const STORED_FAILED = 'STORED_FAILED'
+
 export const RETURN_WAREHOUSE_IMPORT_RECEIPT_START =
   'WMSX_RETURN_WAREHOUSE_IMPORT_RECEIPT_START'
 export const RETURN_WAREHOUSE_IMPORT_RECEIPT_SUCCESS =
@@ -370,6 +378,55 @@ export function importWarehouseSuccess(payload) {
   }
 }
 
+export function importWarehouseFailed() {
+  return {
+    type: IMPORT_WAREHOUSE_FAILED,
+  }
+}
+
+export function receiveWarehouse(payload, onSuccess, onError) {
+  return {
+    type: RECEIVE_START,
+    payload: payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function receiveWarehouseSuccess(payload) {
+  return {
+    type: RECEIVE_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function receiveWarehouseFailed() {
+  return {
+    type: RECEIVE_FAILED,
+  }
+}
+
+export function storedWarehouse(payload, onSuccess, onError) {
+  return {
+    type: STORED_START,
+    payload: payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function storedWarehouseSuccess(payload) {
+  return {
+    type: STORED_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function storedWarehouseFailed() {
+  return {
+    type: STORED_FAILED,
+  }
+}
 export function returnWarehouseImportReceiptById(Id, onSuccess, onError) {
   return {
     type: RETURN_WAREHOUSE_IMPORT_RECEIPT_START,
@@ -389,11 +446,6 @@ export function returnWarehouseImportReceiptByIdSuccess(payload) {
 export function returnWarehouseImportReceiptByIdFailed() {
   return {
     type: RETURN_WAREHOUSE_IMPORT_RECEIPT_FAILED,
-  }
-}
-export function importWarehouseFailed() {
-  return {
-    type: IMPORT_WAREHOUSE_FAILED,
   }
 }
 
@@ -438,4 +490,10 @@ export default {
   updateHeaderWarehouseImportReceipt,
   updateHeaderWarehouseImportReceiptSuccess,
   updateHeaderWarehouseImportReceiptFailed,
+  receiveWarehouse,
+  receiveWarehouseSuccess,
+  receiveWarehouseFailed,
+  storedWarehouse,
+  storedWarehouseSuccess,
+  storedWarehouseFailed,
 }
