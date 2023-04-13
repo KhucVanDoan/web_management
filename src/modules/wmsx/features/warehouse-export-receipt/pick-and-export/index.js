@@ -90,13 +90,17 @@ function WarehouseExportReceiptPickAndExport() {
             },
             receivedQuantity: '',
             planQuantity: minBy(
-              itemStockAvailabe?.find((e) => e?.itemId === item?.itemId)
-                ?.itemAvailables,
+              itemStockAvailabe?.find(
+                (e) =>
+                  e?.itemId === item?.itemId && e.lotNumber === item?.lotNumber,
+              )?.itemAvailables,
               'quantity',
             )?.quantity,
             locator: minBy(
-              itemStockAvailabe?.find((e) => e?.itemId === item?.itemId)
-                ?.itemAvailables,
+              itemStockAvailabe?.find(
+                (e) =>
+                  e?.itemId === item?.itemId && e.lotNumber === item?.lotNumber,
+              )?.itemAvailables,
               'quantity',
             )?.locator,
           }
