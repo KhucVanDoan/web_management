@@ -86,7 +86,6 @@ function ItemsSettingTable(props) {
       setFieldValue(`items[${index}].requestedQuantity`, +val?.quantity)
     }
   }
-
   const columns = useMemo(
     () => [
       {
