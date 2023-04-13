@@ -95,7 +95,8 @@ const ItemSettingTable = (props) => {
       {
         field: 'id',
         headerName: '#',
-        width: 80,
+        width: 50,
+        align: 'center',
         renderCell: (_, index) => {
           return index + 1
         },
@@ -133,7 +134,7 @@ const ItemSettingTable = (props) => {
       {
         field: 'itemUnit',
         headerName: t('warehouseTransfer.table.unit'),
-        width: 150,
+        width: 100,
         renderCell: (params, index) => {
           return (
             <Field.TextField
@@ -191,7 +192,7 @@ const ItemSettingTable = (props) => {
       {
         field: 'transferQuantity',
         headerName: t('warehouseTransfer.table.transferQuantity'),
-        width: 180,
+        width: 100,
         align: 'right',
         headerAlign: 'left',
         renderCell: (params, index) => {
@@ -208,7 +209,7 @@ const ItemSettingTable = (props) => {
       {
         field: 'ExportedQuantity',
         headerName: t('warehouseTransfer.table.exportedQuantity'),
-        width: 180,
+        width: 100,
         align: 'right',
         headerAlign: 'left',
         renderCell: (params, index) => {

@@ -87,6 +87,7 @@ const ItemSettingTable = ({ items, lots, arrayHelpers, setFieldValue }) => {
         field: '#',
         headerName: t('warehouseExportReceipt.items.STT'),
         width: 50,
+        align: 'center',
         renderCell: (_, index) => {
           return index + 1
         },
@@ -129,7 +130,7 @@ const ItemSettingTable = ({ items, lots, arrayHelpers, setFieldValue }) => {
       {
         field: 'lotNumber',
         headerName: t('warehouseExportReceipt.items.lotNumber'),
-        width: 250,
+        width: 200,
         renderCell: (params, index) => {
           const lotNumbersOfItem = lots?.filter(
             (lot) => lot.itemId === params?.row?.itemCode?.id,
@@ -171,7 +172,7 @@ const ItemSettingTable = ({ items, lots, arrayHelpers, setFieldValue }) => {
       {
         field: 'quantityRequest',
         headerName: t('warehouseExportReceipt.items.quantityRequest'),
-        width: 150,
+        width: 100,
         align: 'right',
         headerAlign: 'left',
         renderCell: (params) => {
@@ -197,7 +198,7 @@ const ItemSettingTable = ({ items, lots, arrayHelpers, setFieldValue }) => {
       {
         field: 'quantityExport',
         headerName: t('warehouseExportReceipt.items.quantityExportExpected'),
-        width: 150,
+        width: 100,
         align: 'right',
         headerAlign: 'left',
         renderCell: (params) => {
@@ -289,6 +290,7 @@ const ItemSettingTable = ({ items, lots, arrayHelpers, setFieldValue }) => {
                   .filter(
                     (item) =>
                       item.itemCode?.id === params?.row?.itemCode?.id &&
+                      item?.lotNumber === params?.row?.lotNumber?.lotNumber &&
                       item?.id !== params?.row?.id,
                   )
                   .reduce((prev, cur) => prev + Number(cur.exportedQuantity), 0)

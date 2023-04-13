@@ -63,7 +63,7 @@ function ItemsSettingTable(props) {
     )
     if (val?.itemWarehouseSources?.length > 0) {
       setFieldValue(
-        `items[${index}].debitAcc`,
+        `items[${index}].debitAccount`,
         val?.itemWarehouseSources
           ?.find((item) => item?.warehouseId === values?.warehouse?.id)
           ?.accounting?.replace(/^(\d*?[1-9])0+$/, '$1'),
@@ -91,7 +91,8 @@ function ItemsSettingTable(props) {
       {
         field: 'id',
         headerName: t('warehouseImportReceipt.table.number'),
-        width: 80,
+        width: 50,
+        align: 'center',
         renderCell: (_, index) => {
           return index + 1
         },
@@ -210,7 +211,7 @@ function ItemsSettingTable(props) {
       {
         field: 'unit',
         headerName: t('warehouseImportReceipt.table.unit'),
-        width: 180,
+        width: 100,
         renderCell: (params, index) => {
           return isView || isEdit ? (
             params?.row?.item?.itemUnit || params?.row?.itemCode?.item?.itemUnit
@@ -224,7 +225,7 @@ function ItemsSettingTable(props) {
       {
         field: 'lotNumber',
         headerName: t('warehouseImportReceipt.table.lotNumber'),
-        width: 180,
+        width: 200,
         hide: !isView,
         renderCell: (params) => {
           return params?.row?.lotNumber
@@ -233,7 +234,7 @@ function ItemsSettingTable(props) {
       {
         field: 'requireQuantity',
         headerName: t('warehouseImportReceipt.table.requireQuantity'),
-        width: 180,
+        width: 100,
         align: 'right',
         headerAlign: 'left',
         renderCell: (params, index) => {
@@ -271,7 +272,7 @@ function ItemsSettingTable(props) {
       {
         field: 'importQuantity',
         headerName: t('warehouseImportReceipt.table.importQuantity'),
-        width: 180,
+        width: 100,
         align: 'right',
         headerAlign: 'left',
         renderCell: (params, index) => {
@@ -305,7 +306,7 @@ function ItemsSettingTable(props) {
       {
         field: 'money',
         headerName: t('warehouseImportReceipt.table.money'),
-        width: 180,
+        width: 200,
         headerAlign: 'left',
         align: 'right',
         renderCell: (params, index) => {
@@ -324,7 +325,7 @@ function ItemsSettingTable(props) {
       {
         field: 'price',
         headerName: t('warehouseImportReceipt.table.price'),
-        width: 180,
+        width: 200,
         align: 'right',
         headerAlign: 'left',
         renderCell: (params, index) => {
@@ -348,7 +349,7 @@ function ItemsSettingTable(props) {
       {
         field: 'debitAcc',
         headerName: t('warehouseImportReceipt.table.debitAcc'),
-        width: 180,
+        width: 200,
         renderCell: (params, index) => {
           return isView || isEdit ? (
             params?.row?.debitAccount?.length === LENGTH_DEBITACCOUNT ? (
@@ -359,9 +360,9 @@ function ItemsSettingTable(props) {
               params?.row?.debitAccount
             )
           ) : !isEmpty(values[receiptRequired]) ? (
-            params?.row?.debitAcc
+            params?.row?.debitAccount
           ) : (
-            <Field.TextField name={`items[${index}].debitAcc`} disabled />
+            <Field.TextField name={`items[${index}].debitAccount`} disabled />
           )
         },
       },

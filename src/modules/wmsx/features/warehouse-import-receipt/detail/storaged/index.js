@@ -67,11 +67,20 @@ function WarehouseImportStorage() {
     },
     actions,
   } = useWarehouseImportReceipt()
+  // const { data: itemWarehouseStockList, actions: warehouseTransferAction } =
+  //   useWarehouseTransfer()
   const {
     actions: getLocation,
     data: { locationList },
   } = useLocationManagement()
   useEffect(() => {
+    // warehouseTransferAction.getListItemWarehouseStock({
+    //   warehouseId: warehouseImportReceiptDetails?.warehouse?.id,
+    //   isGetAll: 1,
+    //   itemIds: warehouseImportReceiptDetails?.purchasedOrderImportWarehouseLots
+    //     ?.map((item) => item?.itemId)
+    //     ?.join(','),
+    // })
     getLocation.searchLocations({
       limit: ASYNC_SEARCH_LIMIT,
       filter: convertFilterParams({
@@ -80,7 +89,7 @@ function WarehouseImportStorage() {
         type: [0, 1],
       }),
     })
-  }, [])
+  }, [warehouseImportReceiptDetails])
   useEffect(() => {
     actions.getWarehouseImportReceiptDetailsById(id, (data) => {
       const attributes = data?.attributes?.filter((e) => e?.tableName)
@@ -201,11 +210,15 @@ function WarehouseImportStorage() {
               } || null,
             importQuantity: item?.quantity,
             receivedQuantity: item?.quantity,
+            lotNumber: {
+              lotNumber: item?.lotNumber,
+              itemId: item?.itemId,
+            },
             locator: locationList[0],
           }),
         ),
     }),
-    [warehouseImportReceiptDetails],
+    [warehouseImportReceiptDetails, locationList],
   )
   const receiptRequired = warehouseImportReceiptDetails?.attributes?.find(
     (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT,
