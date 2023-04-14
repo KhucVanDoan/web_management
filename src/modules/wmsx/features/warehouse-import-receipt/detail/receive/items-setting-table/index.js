@@ -1,18 +1,16 @@
 import React, { useMemo } from 'react'
 
-import { IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
-import Icon from '~/components/Icon'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 
 function ItemsSettingTable(props) {
   const { t } = useTranslation(['wmsx'])
-  const { items, arrayHelpers, warehouse } = props
+  const { items, warehouse } = props
   const {
     data: { warehouseImportReceiptDetails },
   } = useWarehouseImportReceipt()
@@ -122,19 +120,19 @@ function ItemsSettingTable(props) {
       //     )
       //   },
       // },
-      {
-        field: 'remove',
-        hide: items?.length === 1,
-        headerName: '',
-        width: 50,
-        renderCell: (_, idx) => {
-          return (
-            <IconButton onClick={() => arrayHelpers.remove(idx)} size="large">
-              <Icon name="remove" />
-            </IconButton>
-          )
-        },
-      },
+      // {
+      //   field: 'remove',
+      //   hide: items?.length === 1,
+      //   headerName: '',
+      //   width: 50,
+      //   renderCell: (_, idx) => {
+      //     return (
+      //       <IconButton onClick={() => arrayHelpers.remove(idx)} size="large">
+      //         <Icon name="remove" />
+      //       </IconButton>
+      //     )
+      //   },
+      // },
     ]
   }, [itemList])
 

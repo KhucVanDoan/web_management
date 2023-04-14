@@ -219,7 +219,8 @@ function ItemsSettingTable(props) {
       },
       {
         field: 'remove',
-        hide: items?.length === 1,
+
+        hide: items?.length === 1 || values?.storedNoLocation,
         headerName: '',
         width: 50,
         renderCell: (_, idx) => {
@@ -249,12 +250,13 @@ function ItemsSettingTable(props) {
         <Box>
           <Button
             variant="outlined"
+            disabled={values?.storedNoLocation}
             onClick={() => {
               arrayHelpers.push({
                 id: new Date().getTime(),
                 itemCode: '',
                 locator: '',
-                itemName: '',
+                lotNumber: { lotNumber: null, itemId: null },
                 itemUnit: '',
                 quantity: '',
                 receivedQuantity: '',
