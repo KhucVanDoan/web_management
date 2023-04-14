@@ -68,7 +68,7 @@ const Autocomplete = ({
   const [persistedOptions, setPersistedOptions] = useState([])
   const [isShowFullTags, setIsShowFullTags] = useState(false)
   const [isSearchingMode, setIsSearchingMode] = useState(false)
-  const filteredOptsCountRef = useRef(0)
+  const filteredOptsRef = useRef([])
 
   const isAsync = typeof asyncRequest === 'function'
   const hasSubLabel = typeof getOptionSubLabel === 'function'
@@ -94,9 +94,7 @@ const Autocomplete = ({
       result = createFilterOptions()(options, state)
     }
 
-    if (filteredOptsCountRef.current !== result?.length) {
-      filteredOptsCountRef.current = result?.length || 0
-    }
+    filteredOptsRef.current = result || []
 
     return result
   }, [])
@@ -191,8 +189,8 @@ const Autocomplete = ({
         onChange(getDisplayedAsyncOptions()?.[0])
       }
 
-      if (!isAsync && filteredOptsCountRef.current === 1) {
-        onChange(getOptionValue(options?.[0]))
+      if (!isAsync && filteredOptsRef.current?.length === 1) {
+        onChange(getOptionValue(filteredOptsRef.current?.[0]))
       }
     }
   }
