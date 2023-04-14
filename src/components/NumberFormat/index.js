@@ -68,6 +68,12 @@ export const NumberFormatText = ({ value, numberProps, formatter }) => {
   if (isNil(value)) return ''
 
   const convertedValue = formatter
+    ? (+Number(value || 0).toFixed(
+        config(formatter)?.decimalScale || 0,
+      )).toString()
+    : value
+
+  const quantityValue = formatter
     ? Number(value || 0).toFixed(config(formatter)?.decimalScale || 0)
     : value
 
@@ -77,7 +83,9 @@ export const NumberFormatText = ({ value, numberProps, formatter }) => {
       displayType="text"
       isNumericString
       {...config(formatter)}
-      {...(formatter === 'quantity' ? { decimalScale: 2 } : {})}
+      {...(formatter === 'quantity'
+        ? { value: quantityValue, decimalScale: 2 }
+        : {})}
       {...numberProps}
     />
   )
