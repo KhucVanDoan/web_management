@@ -274,7 +274,7 @@ const InventoryCalendarForm = () => {
           <ActionBar
             onBack={backToList}
             onCancel={handleReset}
-            mode={MODAL_MODE.CREATE}
+            mode={MODAL_MODE.UPDATE}
           />
         )
       case MODAL_MODE.UPDATE:
