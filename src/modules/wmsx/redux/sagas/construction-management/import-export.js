@@ -6,7 +6,7 @@ import { api } from '~/services/api'
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-export const importUomSettingApi = (params) => {
+export const importContructionManagementApi = (params) => {
   const uri = `____ENTER_IMPORT_EXPORT_URL_HERE____`
   const formData = new FormData()
   formData.append('file', params)
@@ -18,8 +18,8 @@ export const importUomSettingApi = (params) => {
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-export const exportUomSettingApi = (params) => {
-  const uri = `v1/items/export?type=${CONST_EXPORT_MASTER_DATA.UNIT}`
+export const exportContructionManagementApi = (params) => {
+  const uri = `/v1/sales/export?type=${CONST_EXPORT_MASTER_DATA.CONTRUCTION}`
   return api.get(uri, params)
 }
 
@@ -28,13 +28,13 @@ export const exportUomSettingApi = (params) => {
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-export const getUomSettingTemplateApi = () => {
+export const getContructionManagementTemplateApi = () => {
   const uri = `____ENTER_IMPORT_EXPORT_URL_HERE____`
   return api.get(uri)
 }
 
 export default {
-  importUomSettingApi,
-  exportUomSettingApi,
-  getUomSettingTemplateApi,
+  importContructionManagementApi,
+  exportContructionManagementApi,
+  getContructionManagementTemplateApi,
 }
