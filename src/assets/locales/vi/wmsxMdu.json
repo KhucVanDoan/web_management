@@ -3037,6 +3037,7 @@
     "cancelEbs": "Hủy đồng bộ EBS",
     "warehouseImport": "Nhập kho",
     "storeNoLocatin": "Không cất hàng vào vị trí",
+    "fileNameImport": "Import_Phiếu nhập_Result",
     "table": {
       "title": "Danh sách vật tư",
       "addButton": "Thêm vật tư",

@@ -2024,30 +2024,20 @@ export const REPORT_TYPE_OPTIONS = [
     text: 'reportType.itemInventoryBelowMinimum',
     code: 'W006',
   },
-  {
-    id: 9,
-    text: 'reportType.inventory',
-    code: ' EVN_INV_011',
-  },
   // {
   //   id: 8,
   //   text: 'reportType.orderImportByRequestForItem',
   //   code: 'W008',
   // },
   {
-    id: 16,
-    text: 'reportType.ageOfItemStock',
-    code: 'EVN_INV_049',
-  },
-  {
-    id: 7,
-    text: 'reportType.itemInventory',
-    code: 'EVN_INV_017',
-  },
-  {
     id: 14,
     text: 'reportType.situationImportPeriod',
     code: 'EVN_INV_007',
+  },
+  {
+    id: 12,
+    text: 'reportType.situationTransfer',
+    code: 'EVN_INV_008',
   },
   {
     id: 15,
@@ -2055,9 +2045,19 @@ export const REPORT_TYPE_OPTIONS = [
     code: 'EVN_INV_009',
   },
   {
-    id: 12,
-    text: 'reportType.situationTransfer',
-    code: 'EVN_INV_008',
+    id: 9,
+    text: 'reportType.inventory',
+    code: ' EVN_INV_011',
+  },
+  {
+    id: 7,
+    text: 'reportType.itemInventory',
+    code: 'EVN_INV_017',
+  },
+  {
+    id: 16,
+    text: 'reportType.ageOfItemStock',
+    code: 'EVN_INV_049',
   },
   {
     id: 13,

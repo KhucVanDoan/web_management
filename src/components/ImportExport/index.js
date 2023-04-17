@@ -158,8 +158,7 @@ const ImportExport = ({
    */
   const downloadInt8Arr = async (rawArr, fileName) => {
     const uint8Arr = new Uint8Array(rawArr)
-
-    await downloadFile(uint8Arr, fileName, XLSX.MIME_TYPE, [XLSX.EXT])
+    await downloadFile(uint8Arr, fileName, XLSX.MIME_TYPE, [XLSX.TYPE])
   }
 
   const onDownloadLog = async () => {
@@ -167,7 +166,7 @@ const ImportExport = ({
       importResult.log.data,
       format(
         IMPORT_SETTING.FILE_NAME,
-        t('import.prefix.importLog'),
+        // t('import.prefix.importLog'),
         name,
         '_' +
           convertUtcDateTimeToLocalTz(new Date(), IMPORT_EXPORT_DATE_FORMAT),
