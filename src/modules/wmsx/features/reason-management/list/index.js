@@ -8,7 +8,6 @@ import { FUNCTION_CODE } from '~/common/constants/functionCode'
 // import { BULK_ACTION } from '~/common/constants'
 // import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
-import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
@@ -21,10 +20,7 @@ import Status from '~/components/Status'
 import StatusSwitcher from '~/components/StatusSwitcher'
 import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useReasonManagement from '~/modules/wmsx/redux/hooks/useReasonManagement'
-import {
-  exportReasonApi,
-  importReasonApi,
-} from '~/modules/wmsx/redux/sagas/reason-management/import-export'
+import { exportReasonApi } from '~/modules/wmsx/redux/sagas/reason-management/import-export'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
@@ -41,8 +37,6 @@ const breadcrumbs = [
 function ReasonManagement() {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
-  const { canAccess } = useApp()
-
   const [tempItem, setTempItem] = useState()
   const [deleteModal, setDeleteModal] = useState(false)
   const [isActiveModal, setIsActiveModal] = useState(false)
@@ -217,39 +211,36 @@ function ReasonManagement() {
     return (
       <>
         <ImportExport
-          name={t('reasonManagement.export')}
-          {...(canAccess(FUNCTION_CODE.SALE_EXPORT_REASON)
-            ? {
-                onExport: () =>
-                  exportReasonApi({
-                    columnSettings: JSON.stringify(columnsSettings),
-                    queryIds: JSON.stringify(
-                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
-                    ),
-                    keyword: keyword.trim(),
-                    filter: convertFilterParams(filters, [
-                      { field: 'createdAt', filterFormat: 'date' },
-                    ]),
-                    sort: convertSortParams(sort),
-                  }),
-              }
-            : {})}
-          {...(canAccess(FUNCTION_CODE.SALE_IMPORT_REASON)
-            ? {
-                onImport: () =>
-                  importReasonApi({
-                    columnSettings: JSON.stringify(columnsSettings),
-                    queryIds: JSON.stringify(
-                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
-                    ),
-                    keyword: keyword.trim(),
-                    filter: convertFilterParams(filters, [
-                      { field: 'createdAt', filterFormat: 'date' },
-                    ]),
-                    sort: convertSortParams(sort),
-                  }),
-              }
-            : {})}
+          name={t('menu.reasonManagement')}
+          onExport={() =>
+            exportReasonApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: `${x?.id}` })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }
+          // {...(canAccess(FUNCTION_CODE.SALE_IMPORT_REASON)
+          //   ? {
+          //       onImport: () =>
+          //         importReasonApi({
+          //           columnSettings: JSON.stringify(columnsSettings),
+          //           queryIds: JSON.stringify(
+          //             selectedRows?.map((x) => ({ id: `${x?.id}` })),
+          //           ),
+          //           keyword: keyword.trim(),
+          //           filter: convertFilterParams(filters, [
+          //             { field: 'createdAt', filterFormat: 'date' },
+          //           ]),
+          //           sort: convertSortParams(sort),
+          //         }),
+          //     }
+          //   : {})}
           onRefresh={refreshData}
           disabled
         />
@@ -291,7 +282,7 @@ function ReasonManagement() {
           onApply: setFilters,
         }}
         sort={sort}
-        //onSelectionChange={setSelectedRows}
+        // onSelectionChange={setSelectedRows}
         onSettingChange={setColumnsSettings}
         selected={selectedRows}
         // bulkActions={{

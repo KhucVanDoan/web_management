@@ -18,10 +18,9 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import StatusSwitcher from '~/components/StatusSwitcher'
-import { exportCompanyApi } from '~/modules/database/redux/sagas/define-company/import-export-company'
-import { TYPE_ENUM_EXPORT } from '~/modules/mesx/constants'
 import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useDefineProducingCountry from '~/modules/wmsx/redux/hooks/useDefineProducingCountry'
+import { exportDefineProducingCountryApi } from '~/modules/wmsx/redux/sagas/define-producing-country/import-export'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
@@ -213,10 +212,10 @@ function DefineProducingCountry() {
     return (
       <>
         <ImportExport
-          name={t('constructionManagement.export')}
+          name={t('menu.constructionManagement')}
           onImport={() => {}}
           onExport={() =>
-            exportCompanyApi({
+            exportDefineProducingCountryApi({
               columnSettings: JSON.stringify(columnsSettings),
               queryIds: JSON.stringify(
                 selectedRows?.map((x) => ({ id: `${x?.id}` })),
@@ -226,7 +225,6 @@ function DefineProducingCountry() {
                 { field: 'createdAt', filterFormat: 'date' },
               ]),
               sort: convertSortParams(sort),
-              type: TYPE_ENUM_EXPORT.COMPANY,
             })
           }
           onRefresh={refreshData}
@@ -266,7 +264,7 @@ function DefineProducingCountry() {
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
         onSettingChange={setColumnsSettings}
-        //onSelectionChange={setSelectedRows}
+        // onSelectionChange={setSelectedRows}
         selected={selectedRows}
         total={total}
         sort={sort}

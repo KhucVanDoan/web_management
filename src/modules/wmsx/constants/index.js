@@ -2295,11 +2295,11 @@ export const OrderTypeEnum = {
 }
 
 export const STATUS_SYNC_ORDER_TO_EBS = {
-  OUT_OF_SYNC: 0,
-  SYNC_WSO2_ERROR: 1,
-  SYNC_WSO2_SUCCESS: 2,
-  COMPLETED: 3,
-  CANCEL: 4,
+  OUT_OF_SYNC: 0, //Xác nhận đồng bộ
+  SYNC_WSO2_ERROR: 1, //lỗi đồng bộ EBS
+  SYNC_WSO2_SUCCESS: 2, //Chờ bot xử lý
+  COMPLETED: 3, //Hoàn thành
+  CANCEL: 4, //Hủy
   DEACTIVE: 5,
 }
 export const STATUS_SYNC_ORDER_TO_EBS_MAP = {
@@ -2604,4 +2604,22 @@ export const CODE_RECEIPT_DEPARTMENT_DEFAULT = {
   MDU: '030700KHV',
   PMY: '030600KHV',
   EPS: '031300KHV',
+}
+export const CONST_EXPORT_MASTER_DATA = {
+  SOURCE: 6,
+  CATEGORY_CONTRUCTION: 5,
+  CONTRUCTION: 4,
+  REASON: 7,
+  VENDOR: 8,
+  UNIT: 3,
+  PRODUCING_COUNTRY: 5,
+  ITEM: 6,
+  DEPARTMENT_RECEIPT: 4,
+  MATERIAL_CATEGORY: 2,
+}
+export const CONST_EXPORT_LOCATION = {
+  ASSEMBLY: 1,
+  SHELF: 2,
+  DRAWER: 3,
+  BIN: 4,
 }
