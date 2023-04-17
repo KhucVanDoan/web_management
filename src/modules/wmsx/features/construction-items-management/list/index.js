@@ -6,7 +6,6 @@ import { useHistory } from 'react-router-dom'
 
 import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import { useQueryState } from '~/common/hooks'
-import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
@@ -17,10 +16,9 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import StatusSwitcher from '~/components/StatusSwitcher'
-import { exportCompanyApi } from '~/modules/database/redux/sagas/define-company/import-export-company'
-import { TYPE_ENUM_EXPORT } from '~/modules/mesx/constants'
 import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useConstructionItemsManagement from '~/modules/wmsx/redux/hooks/useConstructionItemsManagement'
+import { exportContructionItemManagementApi } from '~/modules/wmsx/redux/sagas/construction-items-management/import-export'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
@@ -60,7 +58,6 @@ function ConstructionItemsManagement() {
   } = useQueryState({
     filters: DEFAULT_FILTERS,
   })
-  const { canAccess } = useApp()
   const {
     data: { constructionItemsList, total, isLoading },
     actions,
@@ -221,30 +218,25 @@ function ConstructionItemsManagement() {
     return (
       <>
         <ImportExport
-          name={t('constructionItemsManagement.export')}
-          onImport={() => {}}
-          {...(canAccess(FUNCTION_CODE.SALE_EXPORT_CATEGORY_CONSTRUCTION)
-            ? {
-                onExport: () =>
-                  exportCompanyApi({
-                    columnSettings: JSON.stringify(columnsSettings),
-                    queryIds: JSON.stringify(
-                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
-                    ),
-                    keyword: keyword.trim(),
-                    filter: convertFilterParams(filters, [
-                      { field: 'createdAt', filterFormat: 'date' },
-                    ]),
-                    sort: convertSortParams(sort),
-                    type: TYPE_ENUM_EXPORT.COMPANY,
-                  }),
-              }
-            : {})}
-          {...(canAccess(FUNCTION_CODE.SALE_IMPORT_CATEGORY_CONSTRUCTION)
-            ? {
-                onImport: () => {},
-              }
-            : {})}
+          name={t('menu.constructionItemsManagement')}
+          onExport={() =>
+            exportContructionItemManagementApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: `${x?.id}` })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }
+          // {...(canAccess(FUNCTION_CODE.SALE_IMPORT_CATEGORY_CONSTRUCTION)
+          //   ? {
+          //       onImport: () => {},
+          //     }
+          //   : {})}
           onRefresh={refreshData}
           disabled
         />
@@ -282,7 +274,7 @@ function ConstructionItemsManagement() {
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
         onSettingChange={setColumnsSettings}
-        //onSelectionChange={setSelectedRows}
+        // onSelectionChange={setSelectedRows}
         selected={selectedRows}
         total={total}
         sort={sort}

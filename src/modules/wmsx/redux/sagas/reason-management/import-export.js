@@ -1,3 +1,4 @@
+import { CONST_EXPORT_MASTER_DATA } from '~/modules/wmsx/constants'
 import { api } from '~/services/api'
 
 /**
@@ -18,7 +19,7 @@ export const importReasonApi = (params) => {
  * @returns {Promise}
  */
 export const exportReasonApi = (params) => {
-  const uri = `____ENTER_IMPORT_EXPORT_URL_HERE____`
+  const uri = `/v1/sales/export?type=${CONST_EXPORT_MASTER_DATA.REASON}`
   return api.get(uri, params)
 }
 

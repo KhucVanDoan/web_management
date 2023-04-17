@@ -18,10 +18,10 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import StatusSwitcher from '~/components/StatusSwitcher'
 import TableCollapse from '~/components/TableCollapse'
-import { exportPlanReportApi } from '~/modules/mesx/redux/sagas/plan-report/import-export-plan-report'
 import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useDefineMaterialCategory from '~/modules/wmsx/redux/hooks/useDefineMaterialCategory'
 import { getMaterialChildDetailsApi } from '~/modules/wmsx/redux/sagas/define-material-category/get-material-child-details'
+import { exportMaterialCategoryApi } from '~/modules/wmsx/redux/sagas/define-material-category/import-export'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import {
   convertFilterParams,
@@ -328,7 +328,7 @@ const DefineMaterialCategory = () => {
           {...(canAccess(FUNCTION_CODE.ITEM_EXPORT_ITEM_TYPE)
             ? {
                 onExport: (params) => {
-                  exportPlanReportApi({
+                  exportMaterialCategoryApi({
                     columnSettings: JSON.stringify(columnsSettings),
                     queryIds: JSON.stringify(
                       params?.map((x) => ({ id: x?.id })),

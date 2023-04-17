@@ -262,6 +262,7 @@ function MaterialManagement() {
           {t('materialManagement.printQRButton')}
         </Button>
         <ImportExport
+          name={t('menu.materialManagement')}
           {...(canAccess(FUNCTION_CODE.ITEM_IMPORT_ITEM)
             ? {
                 onImport: (params) => importMaterialApi(params),
@@ -490,7 +491,7 @@ function MaterialManagement() {
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
         onSettingChange={setColumnsSettings}
-        onSelectionChange={setSelectedRows}
+        // onSelectionChange={setSelectedRows}
         selected={selectedRows}
         total={total}
         sort={sort}
