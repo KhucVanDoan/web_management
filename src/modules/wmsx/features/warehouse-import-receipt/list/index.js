@@ -17,8 +17,6 @@ import IconButton from '~/components/IconButton'
 import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { exportCompanyApi } from '~/modules/database/redux/sagas/define-company/import-export-company'
-import { TYPE_ENUM_EXPORT } from '~/modules/mesx/constants'
 import {
   STATUS_SYNC_ORDER_TO_EBS,
   STATUS_SYNC_WAREHOUSE_IMPORT_TO_EBS_OPTIONS,
@@ -27,6 +25,10 @@ import {
   WAREHOUSE_IMPORT_RECEIPT_STATUS,
 } from '~/modules/wmsx/constants'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
+import {
+  getWarehouseImportReceiptTemplateApi,
+  importWarehouseImportReceiptApi,
+} from '~/modules/wmsx/redux/sagas/warehouse-import-receipt/import-export'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import {
   convertFilterParams,
@@ -86,7 +88,7 @@ function WarehouseImportReceipt() {
     isOpenCancelSyncEMSModal: false,
   })
 
-  const [columnsSettings, setColumnsSettings] = useState([])
+  // const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
 
   const columns = [
@@ -461,32 +463,19 @@ function WarehouseImportReceipt() {
     return (
       <>
         <ImportExport
-          name={t('constructionManagement.export')}
-          {...(canAccess(FUNCTION_CODE.SALE_EXPORT_PURCHASED_ORDER_IMPORT)
+          name={t('warehouseImportReceipt.fileNameImport')}
+          {...(canAccess(
+            FUNCTION_CODE.WAREHOUSE_IMPORT_WAREHOUSE_EXPORT_PROPOSAL,
+          )
             ? {
-                onExport: () =>
-                  exportCompanyApi({
-                    columnSettings: JSON.stringify(columnsSettings),
-                    queryIds: JSON.stringify(
-                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
-                    ),
-                    keyword: keyword.trim(),
-                    filter: convertFilterParams(filters, [
-                      { field: 'createdAt', filterFormat: 'date' },
-                    ]),
-                    sort: convertSortParams(sort),
-                    type: TYPE_ENUM_EXPORT.COMPANY,
-                  }),
+                onImport: (importFile) =>
+                  importWarehouseImportReceiptApi(importFile),
               }
             : {})}
-          {...(canAccess(FUNCTION_CODE.SALE_IMPORT_PURCHASED_ORDER_IMPORT)
-            ? {
-                onImport: () => {},
-              }
-            : {})}
+          onDownloadTemplate={getWarehouseImportReceiptTemplateApi}
           onRefresh={refreshData}
-          disabled
         />
+
         <Guard code={FUNCTION_CODE.SALE_CREATE_PURCHASED_ORDER_IMPORT}>
           <Button
             onClick={() =>
@@ -520,7 +509,7 @@ function WarehouseImportReceipt() {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
-        onSettingChange={setColumnsSettings}
+        // onSettingChange={setColumnsSettings}
         //onSelectionChange={setSelectedRows}
         selected={selectedRows}
         total={total}

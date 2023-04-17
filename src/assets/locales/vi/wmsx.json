@@ -3038,6 +3038,7 @@
     "warehouseImport": "Nhập kho",
     "storeNoLocatin": "Không cất hàng vào vị trí",
     "warehouseImportStore": "Cất hàng",
+    "fileNameImport": "Import_Phiếu nhập_Result",
     "table": {
       "title": "Danh sách vật tư",
       "addButton": "Thêm vật tư",

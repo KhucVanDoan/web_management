@@ -286,6 +286,7 @@ export const FILE_TYPE = {
   XLSX: {
     NAME: 'XLSX',
     EXT: '.xlsx',
+    TYPE: 'xlsx',
     MIME_TYPE:
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   },
@@ -332,7 +333,7 @@ export const IMG_FILE_TYPE = [
 export const IMPORT_SETTING = {
   FILE_SIZE_LIMIT: 2097152,
   NUMBER_OF_FILE: 1,
-  FILE_NAME: '{0}_{1}{2}' + FILE_TYPE.XLSX.EXT,
+  FILE_NAME: '{0}_{1}',
 }
 
 export const IMPORT_EXPORT_MODE = {
