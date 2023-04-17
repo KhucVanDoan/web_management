@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { Button, Checkbox, IconButton, Typography } from '@mui/material'
+import { Button, IconButton, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
@@ -158,6 +158,8 @@ const ItemSettingTable = (props) => {
             ?.filter(
               (selectedItem) =>
                 selectedItem?.itemCode?.code === params?.row?.itemCode?.code &&
+                selectedItem?.locator?.locatorId ===
+                  params?.row?.locator?.locatorId &&
                 selectedItem?.id !== params?.row?.id,
             )
             ?.map((selectedItem) => selectedItem.lotNumber)
@@ -270,20 +272,20 @@ const ItemSettingTable = (props) => {
           )
         },
       },
-      {
-        field: 'itemCodeWarehouseImp',
-        headerName: t('warehouseTransfer.table.itemCodeWarehouseImp'),
-        width: 100,
-        renderCell: (params) => {
-          return (
-            <Checkbox
-              checked={params?.row?.itemCodeWarehouseImp}
-              name="itemCodeWarehouseImp"
-              disabled
-            />
-          )
-        },
-      },
+      // {
+      //   field: 'itemCodeWarehouseImp',
+      //   headerName: t('warehouseTransfer.table.itemCodeWarehouseImp'),
+      //   width: 100,
+      //   renderCell: (params) => {
+      //     return (
+      //       <Checkbox
+      //         checked={params?.row?.itemCodeWarehouseImp}
+      //         name="itemCodeWarehouseImp"
+      //         disabled
+      //       />
+      //     )
+      //   },
+      // },
       // {
       //   field: 'price',
       //   headerName: t('warehouseTransfer.table.price'),

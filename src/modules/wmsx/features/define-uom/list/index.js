@@ -20,15 +20,13 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import StatusSwitcher from '~/components/StatusSwitcher'
 import { TYPE_ITEM_EXPORT } from '~/modules/database/constants'
-import {
-  exportItemUnitSettingApi,
-  getItemUnitSettingTemplateApi,
-} from '~/modules/database/redux/sagas/item-unit-setting/import-export-item-unit'
+import { getItemUnitSettingTemplateApi } from '~/modules/database/redux/sagas/item-unit-setting/import-export-item-unit'
 import {
   UOM_ACTIVE_STATUS,
   UOM_ACTIVE_STATUS_OPTIONS,
 } from '~/modules/wmsx/constants'
 import useDefineUom from '~/modules/wmsx/redux/hooks/useDefineUom'
+import { exportUomSettingApi } from '~/modules/wmsx/redux/sagas/define-uom/import-export-uom'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
@@ -222,7 +220,7 @@ function DefineUom() {
     return (
       <>
         <ImportExport
-          name={t('defineUom.export')}
+          name={t('menu.defineUom')}
           {...(canAccess(FUNCTION_CODE.ITEM_IMPORT_ITEM_UNIT)
             ? {
                 onImport: () => {},
@@ -232,7 +230,7 @@ function DefineUom() {
           {...(canAccess(FUNCTION_CODE.ITEM_EXPORT_ITEM_UNIT)
             ? {
                 onExport: () =>
-                  exportItemUnitSettingApi({
+                  exportUomSettingApi({
                     columnSettings: JSON.stringify(columnsSettings),
                     queryIds: JSON.stringify(
                       selectedRows?.map((x) => ({ id: x?.id })),
@@ -282,7 +280,7 @@ function DefineUom() {
           onPageSizeChange={setPageSize}
           onSortChange={setSort}
           onSettingChange={setColumnsSettings}
-          //onSelectionChange={setSelectedRows}
+          // onSelectionChange={setSelectedRows}
           selected={selectedRows}
           total={total}
           filters={{

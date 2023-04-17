@@ -21,10 +21,7 @@ import Status from '~/components/Status'
 import StatusSwitcher from '~/components/StatusSwitcher'
 import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useSourceManagement from '~/modules/wmsx/redux/hooks/useSourceManagement'
-import {
-  exportSourceManagementApi,
-  importSourceManagementApi,
-} from '~/modules/wmsx/redux/sagas/source-management/import-export'
+import { exportSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-management/import-export'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
@@ -225,37 +222,34 @@ function SourceManagement() {
     return (
       <>
         <ImportExport
-          name={t('sourceManagement.export')}
-          {...(canAccess(FUNCTION_CODE.SALE_EXPORT_REASON)
-            ? {
-                onExport: () =>
-                  exportSourceManagementApi({
-                    columnSettings: JSON.stringify(columnsSettings),
-                    queryIds: JSON.stringify(
-                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
-                    ),
-                    keyword: keyword.trim(),
-                    filter: convertFilterParams(filters, [
-                      { field: 'createdAt', filterFormat: 'date' },
-                    ]),
-                    sort: convertSortParams(sort),
-                  }),
-              }
-            : {})}
+          name={t('menu.sourceManagement')}
+          onExport={() =>
+            exportSourceManagementApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: `${x?.id}` })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }
           {...(canAccess(FUNCTION_CODE.SALE_IMPORT_REASON)
             ? {
-                onImport: () =>
-                  importSourceManagementApi({
-                    columnSettings: JSON.stringify(columnsSettings),
-                    queryIds: JSON.stringify(
-                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
-                    ),
-                    keyword: keyword.trim(),
-                    filter: convertFilterParams(filters, [
-                      { field: 'createdAt', filterFormat: 'date' },
-                    ]),
-                    sort: convertSortParams(sort),
-                  }),
+                // onImport: () =>
+                // importSourceManagementApi({
+                //   columnSettings: JSON.stringify(columnsSettings),
+                //   queryIds: JSON.stringify(
+                //     selectedRows?.map((x) => ({ id: `${x?.id}` })),
+                //   ),
+                //   keyword: keyword.trim(),
+                //   filter: convertFilterParams(filters, [
+                //     { field: 'createdAt', filterFormat: 'date' },
+                //   ]),
+                //   sort: convertSortParams(sort),
+                // }),
               }
             : {})}
           onRefresh={refreshData}
@@ -299,7 +293,7 @@ function SourceManagement() {
           onApply: setFilters,
         }}
         sort={sort}
-        //onSelectionChange={setSelectedRows}
+        // onSelectionChange={setSelectedRows}
         onSettingChange={setColumnsSettings}
         selected={selectedRows}
         // bulkActions={{
