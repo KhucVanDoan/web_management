@@ -294,7 +294,7 @@ function WarehouseImportReceiptDetail() {
               }}
               // icon="add"
             >
-              {t('warehouseImportReceipt.confirmWarehouseImport')}
+              {t('warehouseImportReceipt.confirmWarehouseImportERP')}
             </Button>
           </Guard>
         )}
@@ -322,7 +322,7 @@ function WarehouseImportReceiptDetail() {
                 actions.returnWarehouseImportReceiptById(
                   warehouseImportReceiptDetails?.id,
                   () => {
-                    window.location.reload()
+                    actions.getWarehouseImportReceiptDetailsById(id)
                   },
                 )
               }
@@ -410,7 +410,7 @@ function WarehouseImportReceiptDetail() {
     actions.deleteWarehouseImportReceipt(
       warehouseImportReceiptDetails?.id,
       () => {
-        window.location.reload()
+        actions.getWarehouseImportReceiptDetailsById(id)
       },
     )
     setModal({ isOpenDeleteModal: false })
@@ -419,7 +419,7 @@ function WarehouseImportReceiptDetail() {
     actions.confirmWarehouseImportReceiptById(
       warehouseImportReceiptDetails?.id,
       () => {
-        window.location.reload()
+        actions.getWarehouseImportReceiptDetailsById(id)
       },
     )
 
@@ -429,7 +429,7 @@ function WarehouseImportReceiptDetail() {
     actions.confirmWarehouseImportEBSById(
       warehouseImportReceiptDetails?.id,
       () => {
-        window.location.reload()
+        actions.getWarehouseImportReceiptDetailsById(id)
       },
     )
     setModal({ isOpenConfirmEBSModal: false })
@@ -438,7 +438,7 @@ function WarehouseImportReceiptDetail() {
     actions.rejectWarehouseImportReceiptById(
       warehouseImportReceiptDetails?.id,
       () => {
-        window.location.reload()
+        actions.getWarehouseImportReceiptDetailsById(id)
       },
     )
     setModal({ isOpenRejectedModal: false })
@@ -457,7 +457,7 @@ function WarehouseImportReceiptDetail() {
     actions.cancelWarehouseImportEBSById(
       warehouseImportReceiptDetails?.id,
       () => {
-        window.location.reload()
+        actions.getWarehouseImportReceiptDetailsById(id)
       },
     )
     setModal({ isOpenCancelSyncEMSModal: false })
@@ -720,7 +720,7 @@ function WarehouseImportReceiptDetail() {
             />
           </Box>
           <ActionBar
-            onBack={backToList}
+            // onBack={backToList}
             elBefore={
               <Button
                 sx={{ mr: 'auto' }}

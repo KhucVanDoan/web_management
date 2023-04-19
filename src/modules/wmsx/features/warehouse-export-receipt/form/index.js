@@ -836,62 +836,50 @@ function WarehouseExportReceiptForm() {
     setFieldValue('explanation', explaination)
   }
   const onSubmitConfirm = (values) => {
-    if (
-      warehouseExportReceiptDetails?.status ===
-        WAREHOUSE_EXPORT_RECEIPT_STATUS.PENDING ||
-      warehouseExportReceiptDetails?.status ===
-        WAREHOUSE_EXPORT_RECEIPT_STATUS.CONFIRMED ||
-      warehouseExportReceiptDetails?.status ===
-        WAREHOUSE_EXPORT_RECEIPT_STATUS.REJECTED
-    ) {
-      const params = {
-        receiver: values?.deliver,
-        businessTypeId: values?.businessTypeId?.id,
-        reasonId: values?.reasonId?.id,
-        explaination: values?.explanation || '',
-        receiptDate: values?.receiptDate.toISOString(),
-        departmentReceiptId: values?.departmentReceiptId?.id,
-        sourceId: values?.sourceId?.id,
-        warehouseId: values?.warehouseId?.id,
-        items: JSON.stringify(
-          values?.items?.map((item) => ({
-            id: +item?.itemCode?.itemId || +item?.itemCode?.id,
-            itemCode: item?.itemCode?.item?.code || item?.itemCode?.code,
-            lotNumber: item?.lotNumber || null,
-            quantity: +item?.quantityExport,
-            price: item?.price,
-            debitAccount: debitAccount || null,
-            creditAccount: item?.creditAccount?.replace(
-              /^(\d*?[1-9])0+$/,
-              '$1',
-            ),
-            warehouseId: values?.warehouseId?.id,
-          })),
-        ),
-      }
-      values?.businessTypeId?.bussinessTypeAttributes?.forEach((att, index) => {
-        // if (values[att.tableName]?.id) {
-        //   params[`attributes[${index}].id`] = att.id
-        //   params[`attributes[${index}].value`] = values[att.tableName]?.id
-        // }
-        if (values[att.id]) {
-          params[`attributes[${index}].id`] = att.id
-          params[`attributes[${index}].value`] =
-            values[att.id]?.id || values[att.id]
-        }
-      })
-      if (mode === MODAL_MODE.CREATE) {
-        actions.createWarehouseExportReceipt(params, backToList)
-      } else if (mode === MODAL_MODE.UPDATE) {
-        const paramUpdate = {
-          ...params,
-          code: warehouseExportReceiptDetails?.code,
-          id: +id,
-        }
-        actions.updateWarehouseExportReceipt(paramUpdate, backToList)
-      }
-      setModal(false)
+    const params = {
+      receiver: values?.deliver,
+      businessTypeId: values?.businessTypeId?.id,
+      reasonId: values?.reasonId?.id,
+      explaination: values?.explanation || '',
+      receiptDate: values?.receiptDate.toISOString(),
+      departmentReceiptId: values?.departmentReceiptId?.id,
+      sourceId: values?.sourceId?.id,
+      warehouseId: values?.warehouseId?.id,
+      items: JSON.stringify(
+        values?.items?.map((item) => ({
+          id: +item?.itemCode?.itemId || +item?.itemCode?.id,
+          itemCode: item?.itemCode?.item?.code || item?.itemCode?.code,
+          lotNumber: item?.lotNumber || null,
+          quantity: +item?.quantityExport,
+          price: item?.price,
+          debitAccount: debitAccount || null,
+          creditAccount: item?.creditAccount?.replace(/^(\d*?[1-9])0+$/, '$1'),
+          warehouseId: values?.warehouseId?.id,
+        })),
+      ),
     }
+    values?.businessTypeId?.bussinessTypeAttributes?.forEach((att, index) => {
+      // if (values[att.tableName]?.id) {
+      //   params[`attributes[${index}].id`] = att.id
+      //   params[`attributes[${index}].value`] = values[att.tableName]?.id
+      // }
+      if (values[att.id]) {
+        params[`attributes[${index}].id`] = att.id
+        params[`attributes[${index}].value`] =
+          values[att.id]?.id || values[att.id]
+      }
+    })
+    if (mode === MODAL_MODE.CREATE) {
+      actions.createWarehouseExportReceipt(params, backToList)
+    } else if (mode === MODAL_MODE.UPDATE) {
+      const paramUpdate = {
+        ...params,
+        code: warehouseExportReceiptDetails?.code,
+        id: +id,
+      }
+      actions.updateWarehouseExportReceipt(paramUpdate, backToList)
+    }
+    setModal(false)
   }
 
   const onCloseModal = (setFieldError) => {
