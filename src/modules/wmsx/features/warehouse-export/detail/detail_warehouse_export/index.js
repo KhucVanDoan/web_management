@@ -65,6 +65,9 @@ const MovementWarehouseExportDetail = () => {
   }, [id])
   const breadcrumbs = [
     {
+      title: ROUTE.REPORT_STATISTICS.TITLE,
+    },
+    {
       route: ROUTE.WAREHOUSE_EXPORT.LIST.PATH,
       title: ROUTE.WAREHOUSE_EXPORT.LIST.TITLE,
     },
@@ -78,7 +81,7 @@ const MovementWarehouseExportDetail = () => {
     <Page
       breadcrumbs={breadcrumbs}
       title={t('movements.formTitle')}
-      onBack={() => history.push(breadcrumbs[0].route)}
+      onBack={() => history.push(ROUTE.WAREHOUSE_EXPORT.LIST.PATH)}
       loading={isLoading}
     >
       <Grid container justifyContent="center">
