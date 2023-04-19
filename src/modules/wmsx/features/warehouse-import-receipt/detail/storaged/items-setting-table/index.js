@@ -194,23 +194,11 @@ function ItemsSettingTable(props) {
         headerName: t('warehouseTransfer.table.locatorStored'),
         width: 300,
         renderCell: (params, index) => {
-          const selectedLocators = items
-            .filter(
-              (item) =>
-                item.itemCode?.itemId === params?.row?.itemCode?.itemId &&
-                item?.lotNumber?.lotNumber ===
-                  params?.row?.lotNumber?.lotNumber &&
-                item?.id !== params?.row?.id,
-            )
-            .map((item) => item.locator?.locatorId)
-          const availableLocators = locationList.filter(
-            (locator) => !selectedLocators.includes(locator.locatorId),
-          )
           return (
             <Field.Autocomplete
               dropdownWidth={250}
               name={`items[${index}].locator`}
-              options={availableLocators}
+              options={locationList}
               getOptionLabel={(opt) => opt?.code}
               disabled={values?.storedNoLocation}
             />

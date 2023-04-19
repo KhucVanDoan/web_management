@@ -1,11 +1,14 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Box, Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
+import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
+import Dialog from '~/components/Dialog'
+import Guard from '~/components/Guard'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -20,6 +23,7 @@ import {
 import ItemsSettingTable from '~/modules/wmsx/features/inventory-calendar/detail/items-setting-table'
 import useInventoryCalendar from '~/modules/wmsx/redux/hooks/useInventoryCalendar'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import theme from '~/themes'
 import { convertUtcDateToLocalTz } from '~/utils'
 
 const breadcrumbs = [
@@ -40,6 +44,9 @@ const InventoryCalendarDetail = () => {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
   const { id } = useParams()
+  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
+  const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
+  const [isOpenRejectedModal, setIsOpenRejectedModal] = useState(false)
   const {
     data: { inventoryCalendarDetails, isLoading },
     actions,
@@ -54,6 +61,102 @@ const InventoryCalendarDetail = () => {
   const backToList = () => {
     history.push(ROUTE.INVENTORY_CALENDAR.LIST.PATH)
   }
+  const renderHeaderRight = () => {
+    const hasEditDeleteBtn =
+      inventoryCalendarDetails?.status === INVENTORY_CALENDAR_STATUS.PENDING ||
+      inventoryCalendarDetails?.status === INVENTORY_CALENDAR_STATUS.REJECTED
+    const isConfirmed =
+      inventoryCalendarDetails?.status === INVENTORY_CALENDAR_STATUS.PENDING
+    const isRejected =
+      inventoryCalendarDetails?.status === INVENTORY_CALENDAR_STATUS.PENDING
+    return (
+      <>
+        {isRejected && (
+          <Guard code={FUNCTION_CODE.WAREHOUSE_REJECT_INVENTORY}>
+            <Button
+              onClick={() => setIsOpenRejectedModal(true)}
+              sx={{
+                ml: 4 / 3,
+                borderColor: theme.palette.borderButtonRemove,
+                color: theme.palette.borderButtonRemove,
+              }}
+              variant="outlined"
+              // icon="add"
+            >
+              {t('warehouseExportReceipt.rejected')}
+            </Button>
+          </Guard>
+        )}
+        {isConfirmed && (
+          <Guard code={FUNCTION_CODE.WAREHOUSE_CONFIRM_INVENTORY}>
+            <Button
+              onClick={() => setIsOpenConfirmModal(true)}
+              sx={{
+                ml: 4 / 3,
+              }}
+
+              // icon="add"
+            >
+              {t('warehouseExportReceipt.confirmed')}
+            </Button>
+          </Guard>
+        )}
+        {hasEditDeleteBtn && (
+          <Guard code={FUNCTION_CODE.WAREHOUSE_DELETE_INVENTORY}>
+            <Button
+              onClick={() => setIsOpenDeleteModal(true)}
+              sx={{
+                ml: 4 / 3,
+              }}
+              color="error"
+              // icon="add"
+            >
+              {t('warehouseExportReceipt.deleted')}
+            </Button>
+          </Guard>
+        )}
+        {hasEditDeleteBtn && (
+          <Guard code={FUNCTION_CODE.WAREHOUSE_UPDATE_INVENTORY}>
+            <Button
+              onClick={() =>
+                history.push(
+                  ROUTE.INVENTORY_CALENDAR.EDIT.PATH.replace(':id', `${id}`),
+                )
+              }
+              sx={{
+                ml: 4 / 3,
+              }}
+              color="grayEE"
+              // icon="add"
+            >
+              {t('warehouseExportReceipt.update')}
+            </Button>
+          </Guard>
+        )}
+      </>
+    )
+  }
+
+  const onSubmitDelete = () => {
+    actions.deleteInventoryCalendar(inventoryCalendarDetails?.id, () => {
+      actions.getInventoryCalendarDetailsById(id)
+    })
+    setIsOpenDeleteModal(false)
+  }
+
+  const submitConfirm = () => {
+    actions.confirmInventoryCalendarById(inventoryCalendarDetails?.id, () => {
+      actions.getInventoryCalendarDetailsById(id)
+    })
+    setIsOpenConfirmModal(false)
+  }
+
+  const onSubmitRejected = () => {
+    actions.rejectInventoryCalendarById(inventoryCalendarDetails?.id, () => {
+      actions.getInventoryCalendarDetailsById(id)
+    })
+    setIsOpenRejectedModal(false)
+  }
 
   return (
     <Page
@@ -61,6 +164,7 @@ const InventoryCalendarDetail = () => {
       title={t('menu.inventoryCalendarDetail')}
       onBack={backToList}
       loading={isLoading}
+      renderHeaderRight={renderHeaderRight}
     >
       <Grid container justifyContent="center">
         <Grid item xl={11} xs={12}>
@@ -216,6 +320,77 @@ const InventoryCalendarDetail = () => {
           </Button>
         }
       />
+      <Dialog
+        open={isOpenDeleteModal}
+        title={t('inventoryCalendar.deleteModalTitle')}
+        onCancel={() => setIsOpenDeleteModal(false)}
+        cancelLabel={t('general:common.no')}
+        onSubmit={onSubmitDelete}
+        submitLabel={t('general:common.yes')}
+        noBorderBotttom
+        submitProps={{
+          color: 'error',
+        }}
+        noBorderBottom
+      >
+        {t('inventoryCalendar.deleteConfirm')}
+        <LV
+          label={t('inventoryCalendar.code')}
+          value={inventoryCalendarDetails?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('inventoryCalendar.name')}
+          value={inventoryCalendarDetails?.name}
+          sx={{ mt: 4 / 3 }}
+        />
+      </Dialog>
+      <Dialog
+        open={isOpenConfirmModal}
+        title={t('general:common.notify')}
+        onCancel={() => setIsOpenConfirmModal(false)}
+        cancelLabel={t('general:common.no')}
+        onSubmit={submitConfirm}
+        submitLabel={t('general:common.yes')}
+        noBorderBottom
+      >
+        {t('general:common.confirmMessage.confirm')}
+        <LV
+          label={t('inventoryCalendar.code')}
+          value={inventoryCalendarDetails?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('inventoryCalendar.name')}
+          value={inventoryCalendarDetails?.name}
+          sx={{ mt: 4 / 3 }}
+        />
+      </Dialog>
+      <Dialog
+        open={isOpenRejectedModal}
+        title={t('inventoryCalendar.rejectedModalTitle')}
+        onCancel={() => setIsOpenRejectedModal(false)}
+        cancelLabel={t('general:common.no')}
+        onSubmit={onSubmitRejected}
+        submitLabel={t('general:common.yes')}
+        noBorderBotttom
+        submitProps={{
+          color: 'error',
+        }}
+        noBorderBottom
+      >
+        {t('inventoryCalendar.rejectedConfirm')}
+        <LV
+          label={t('inventoryCalendar.code')}
+          value={inventoryCalendarDetails?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('inventoryCalendar.name')}
+          value={inventoryCalendarDetails?.name}
+          sx={{ mt: 4 / 3 }}
+        />
+      </Dialog>
     </Page>
   )
 }

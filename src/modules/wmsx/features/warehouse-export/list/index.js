@@ -30,6 +30,9 @@ import FilterForm from './filter'
 import WarehouseExportFilter from './filter-quick-form'
 const breadcrumbs = [
   {
+    title: ROUTE.REPORT_STATISTICS.TITLE,
+  },
+  {
     route: ROUTE.WAREHOUSE_EXPORT.LIST.PATH,
     title: ROUTE.WAREHOUSE_EXPORT.LIST.TITLE,
   },
