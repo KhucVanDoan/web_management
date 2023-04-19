@@ -69,9 +69,15 @@ function WarehouseImportReceiveAndStorage() {
   } = useWarehouseImportReceipt()
   const {
     actions: getLocation,
-    data: { locationList },
+    data: { locationList, itemByLocationIdList },
   } = useLocationManagement()
   useEffect(() => {
+    getLocation.getItemByLocationId({
+      warehouseId: warehouseImportReceiptDetails?.warehouse?.id,
+      itemIds: warehouseImportReceiptDetails?.purchasedOrderImportWarehouseLots
+        ?.map((item) => item?.itemId)
+        ?.join(','),
+    })
     getLocation.searchLocations({
       limit: ASYNC_SEARCH_LIMIT,
       filter: convertFilterParams({
@@ -201,11 +207,17 @@ function WarehouseImportReceiveAndStorage() {
               } || null,
             importQuantity: item?.quantity,
             receivedQuantity: item?.quantity,
-            locator: locationList[0],
+            locator:
+              itemByLocationIdList?.length > 0
+                ? itemByLocationIdList
+                    ?.find((e) => e?.id === item?.itemId)
+                    ?.locations?.sort((a, b) => b.quantity - a.quantity)[0]
+                    ?.locator
+                : locationList[0],
           }),
         ),
     }),
-    [warehouseImportReceiptDetails, locationList],
+    [warehouseImportReceiptDetails, itemByLocationIdList, locationList],
   )
   const receiptRequired = warehouseImportReceiptDetails?.attributes?.find(
     (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT,
@@ -229,7 +241,10 @@ function WarehouseImportReceiveAndStorage() {
                 (e) =>
                   e?.code === warehouseImportReceiptDetails?.warehouse?.code,
               )
-            : locationList[0],
+            : itemByLocationIdList
+                ?.find((e) => e?.id === item?.itemId)
+                ?.locations?.sort((a, b) => b.quantity - a.quantity)[0]
+                ?.locator || locationList[0],
         }),
       )
     if (val) {

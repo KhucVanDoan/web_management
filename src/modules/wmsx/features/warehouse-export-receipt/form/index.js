@@ -199,10 +199,7 @@ function WarehouseExportReceiptForm() {
                 ) / 100
               : '',
             planExportedQuantity: item?.exportableQuantity || 0,
-            debitAccount:
-              isEdit && warehouseExportReceiptDetails?.ebsId
-                ? item?.debitAccount
-                : item?.debitAccount?.toString()?.slice(18, 43),
+            debitAccount: item?.debitAccount?.toString()?.slice(18, 43),
             creditAccount: item?.creditAccount,
             itemCode: {
               ...item?.item,

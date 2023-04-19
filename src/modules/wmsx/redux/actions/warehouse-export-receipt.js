@@ -12,6 +12,13 @@ export const CREATE_WAREHOUSE_EXPORT_RECEIPT_SUCCESS =
 export const CREATE_WAREHOUSE_EXPORT_RECEIPT_FAILED =
   'WMSX_CREATE_WAREHOUSE_EXPORT_RECEIPT_FAILED'
 
+export const CREATE_WAREHOUSE_EXPORT_RECEIPT_RETURN_START =
+  'WMSX_CREATE_WAREHOUSE_EXPORT_RECEIPT_RETURN_START'
+export const CREATE_WAREHOUSE_EXPORT_RECEIPT_RETURN_SUCCESS =
+  'WMSX_CREATE_WAREHOUSE_EXPORT_RECEIPT_RETURN_SUCCESS'
+export const CREATE_WAREHOUSE_EXPORT_RECEIPT_RETURN_FAILED =
+  'WMSX_CREATE_WAREHOUSE_EXPORT_RECEIPT_RETURN_FAILED'
+
 export const UPDATE_WAREHOUSE_EXPORT_RECEIPT_START =
   'WMSX_UPDATE_WAREHOUSE_EXPORT_RECEIPT_START'
 export const UPDATE_WAREHOUSE_EXPORT_RECEIPT_SUCCESS =
@@ -133,6 +140,31 @@ export function createWarehouseExportReceiptFailed() {
   }
 }
 
+export function createWarehouseExportReceiptReturn(
+  payload,
+  onSuccess,
+  onError,
+) {
+  return {
+    type: CREATE_WAREHOUSE_EXPORT_RECEIPT_RETURN_START,
+    payload: payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function createWarehouseExportReceiptReturnSuccess(payload) {
+  return {
+    type: CREATE_WAREHOUSE_EXPORT_RECEIPT_RETURN_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function createWarehouseExportReceiptReturnFailed() {
+  return {
+    type: CREATE_WAREHOUSE_EXPORT_RECEIPT_RETURN_FAILED,
+  }
+}
 export function updateWarehouseExportReceipt(payload, onSuccess, onError) {
   return {
     type: UPDATE_WAREHOUSE_EXPORT_RECEIPT_START,
@@ -392,6 +424,9 @@ export default {
   createWarehouseExportReceipt,
   createWarehouseExportReceiptSuccess,
   createWarehouseExportReceiptFailed,
+  createWarehouseExportReceiptReturn,
+  createWarehouseExportReceiptReturnSuccess,
+  createWarehouseExportReceiptReturnFailed,
   updateWarehouseExportReceipt,
   updateWarehouseExportReceiptSuccess,
   updateWarehouseExportReceiptFailed,

@@ -109,6 +109,7 @@ import UnitManagement from '../features/unit-management/list'
 import WarehouseExportProposalDetail from '../features/warehouse-export-proposal/detail'
 import WarehouseExportProposalForm from '../features/warehouse-export-proposal/form'
 import WarehouseExportProposal from '../features/warehouse-export-proposal/list'
+import WarehouseExportReturn from '../features/warehouse-export-receipt/create-warehouse-export-return'
 import WarehouseExportReceiptDetail from '../features/warehouse-export-receipt/detail'
 import WarehouseExportReceiptForm from '../features/warehouse-export-receipt/form'
 import WarehouseExportReceipt from '../features/warehouse-export-receipt/list'
@@ -549,6 +550,13 @@ const routes = [
             isInSidebar: false,
           },
           {
+            name: ROUTE.WAREHOUSE_EXPORT_RECEIPT.CREATE_RETURN.TITLE,
+            path: ROUTE.WAREHOUSE_EXPORT_RECEIPT.CREATE_RETURN.PATH,
+            component: WarehouseExportReturn,
+            code: FUNCTION_CODE.SALE_CREATE_SALE_ORDER_EXPORT,
+            isInSidebar: false,
+          },
+          {
             name: ROUTE.WAREHOUSE_EXPORT_RECEIPT.DETAIL.TITLE,
             path: ROUTE.WAREHOUSE_EXPORT_RECEIPT.DETAIL.PATH,
             component: WarehouseExportReceiptDetail,
@@ -566,7 +574,7 @@ const routes = [
             name: ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT_HEADER.TITLE,
             path: ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT_HEADER.PATH,
             component: WarehouseExportReceiptForm,
-            // code: FUNCTION_CODE.SALE_UPDATE_HEADER_SALE_ORDER_EXPORT,
+            code: FUNCTION_CODE.SALE_UPDATE_HEADER_SALE_ORDER_EXPORT,
             isInSidebar: false,
           },
           {

@@ -8,8 +8,8 @@ import {
 import { api } from '~/services/api'
 
 const getItemByLocationIdApi = (params) => {
-  const uri = `/v1/items/warehouse-stock?locatorIds=${params}`
-  return api.get(uri)
+  const uri = `/v1/items/warehouse-stock`
+  return api.get(uri, params)
 }
 
 function* doGetItemByLocationId(action) {

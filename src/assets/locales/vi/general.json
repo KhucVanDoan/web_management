@@ -156,7 +156,7 @@
       "title": "Bước 2: Tải lên thông tin hoàn chỉnh",
       "description": "Chọn hoặc thả một tệp vào vùng này để Import dữ liệu",
       "support": "Hỗ trợ file ",
-      "fileType": "XLSX"
+      "fileType": "XLS,XLSX"
     },
     "result": "Đã nhập {0} dòng thành công, {1} dòng thất bại",
     "log": "Nhấn vào để tải xuống kết quả nhập dữ liệu",

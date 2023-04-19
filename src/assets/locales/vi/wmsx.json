@@ -130,6 +130,7 @@
     "warehouseExportReceiptEdit": "Sửa phiếu xuất kho",
     "warehouseExportReceiptDetail": "Chi tiết phiếu xuất kho",
     "warehouseExportReceiptPickAndExport": "Lấy hàng & Xuất kho",
+    "warehouseExportReceiptCreateReturn": "Tạo phiếu xuất kho - return",
     "warehouseImportReceipt": "Phiếu nhập kho",
     "warehouseImportReceiptCreate": "Tạo phiếu nhập kho",
     "warehouseImportReceiptEdit": "Sửa phiếu nhập kho",
@@ -2943,6 +2944,8 @@
       "quantityExport": "SL xuất",
       "quantityExportExpected": "SL xuất dự kiến",
       "planExportedQuantity": "SL có thể xuất",
+      "returnExportedQuantity": "SL có thể trả",
+      "returnQuantity": "SL trả",
       "unitPriceRefer": "Đơn giá",
       "totalMoney": "Thành tiền",
       "debitAccount": "TK nợ",
@@ -3055,7 +3058,8 @@
       "price": "Đơn giá",
       "debitAcc": "TK nợ",
       "creditAcc": "TK có",
-      "receivedQuantity": "SL thực nhập"
+      "receivedQuantity": "SL thực nhập",
+      "storedQuantity": "SL cất"
     },
     "receiveAndStorageBtn": "Nhập kho & Cất hàng",
     "importedItemIsNotEnough": "Chưa nhập đủ vật tư",
