@@ -244,7 +244,7 @@ const WarehouseTransferDetail = () => {
                   actions.returnWarehouseTransferById(
                     warehouseTransferDetails?.id,
                     () => {
-                      window.location.reload()
+                      actions.getWarehouseTransferDetailsById(id)
                     },
                   )
                 }
@@ -326,33 +326,33 @@ const WarehouseTransferDetail = () => {
 
   const onSubmitDelete = () => {
     actions.deleteWarehouseTransfer(warehouseTransferDetails?.id, () => {
-      window.location.reload()
+      actions.getWarehouseTransferDetailsById(id)
     })
     setIsOpenDeleteModal(false)
   }
 
   const submitConfirm = () => {
     actions.confirmWarehouseTransferById(warehouseTransferDetails?.id, () => {
-      window.location.reload()
+      actions.getWarehouseTransferDetailsById(id)
     })
     setIsOpenConfirmModal(false)
   }
   const onSubmitConfirmEBS = () => {
     actions.confirmWarehouseTransferEBS(warehouseTransferDetails?.id, () => {
-      window.location.reload()
+      actions.getWarehouseTransferDetailsById(id)
     })
     setIsOpenConfirmEBSModal(false)
   }
 
   const submitReject = () => {
     actions.rejectWarehouseTransferById(warehouseTransferDetails?.id, () => {
-      window.location.reload()
+      actions.getWarehouseTransferDetailsById(id)
     })
     setIsOpenRejectModal(false)
   }
   const onSubmitCancelEBS = () => {
     actions.cancelWarehouseTransferEBS(warehouseTransferDetails?.id, () => {
-      window.location.reload()
+      actions.getWarehouseTransferDetailsById(id)
     })
     setIsOpenCancelEBSModal(false)
   }
@@ -576,7 +576,7 @@ const WarehouseTransferDetail = () => {
         />
       </Box>
       <ActionBar
-        onBack={backToList}
+        // onBack={backToList}
         elBefore={
           <Button
             sx={{ mr: 'auto' }}

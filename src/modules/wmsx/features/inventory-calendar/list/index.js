@@ -298,6 +298,7 @@ function InventoryCalendar() {
                 onExport: () => {},
               }
             : {})}
+          disabled
         />
         <Guard code={FUNCTION_CODE.WAREHOUSE_CREATE_INVENTORY}>
           <Button
