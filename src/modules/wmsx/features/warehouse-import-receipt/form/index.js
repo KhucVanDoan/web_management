@@ -60,7 +60,7 @@ import { formSchema } from './schema'
 
 const DEFAULT_ITEMS = {
   id: 1,
-  itemCode: null,
+  itemCode: {},
   itemName: '',
   unit: '',
   lotNumber: '',
