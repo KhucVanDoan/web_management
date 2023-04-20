@@ -6,11 +6,7 @@ import { uniq, map, groupBy, isEmpty, first } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
-import {
-  ASYNC_SEARCH_LIMIT,
-  MODAL_MODE,
-  NOTIFICATION_TYPE,
-} from '~/common/constants'
+import { MODAL_MODE, NOTIFICATION_TYPE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
@@ -21,17 +17,12 @@ import {
   DATA_TYPE,
   TABLE_NAME_ENUM,
   WAREHOUSE_IMPORT_RECEIPT_OPTIONS,
-  ACTIVE_STATUS,
 } from '~/modules/wmsx/constants'
 import useLocationManagement from '~/modules/wmsx/redux/hooks/useLocationManagement'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { api } from '~/services/api'
-import {
-  convertFilterParams,
-  convertUtcDateToLocalTz,
-  getLocalItem,
-} from '~/utils'
+import { convertUtcDateToLocalTz, getLocalItem } from '~/utils'
 import { downloadFile } from '~/utils/file'
 import addNotification from '~/utils/toast'
 
@@ -67,27 +58,17 @@ function WarehouseImportStorage() {
     },
     actions,
   } = useWarehouseImportReceipt()
-  // const { data: itemWarehouseStockList, actions: warehouseTransferAction } =
-  //   useWarehouseTransfer()
+
   const {
     actions: getLocation,
-    data: { locationList },
+    data: { itemByLocationIdList },
   } = useLocationManagement()
   useEffect(() => {
-    // warehouseTransferAction.getListItemWarehouseStock({
-    //   warehouseId: warehouseImportReceiptDetails?.warehouse?.id,
-    //   isGetAll: 1,
-    //   itemIds: warehouseImportReceiptDetails?.purchasedOrderImportWarehouseLots
-    //     ?.map((item) => item?.itemId)
-    //     ?.join(','),
-    // })
-    getLocation.searchLocations({
-      limit: ASYNC_SEARCH_LIMIT,
-      filter: convertFilterParams({
-        warehouseId: warehouseImportReceiptDetails?.warehouse?.id,
-        status: ACTIVE_STATUS.ACTIVE,
-        type: [0, 1],
-      }),
+    getLocation.getItemByLocationId({
+      warehouseId: warehouseImportReceiptDetails?.warehouse?.id,
+      itemIds: warehouseImportReceiptDetails?.purchasedOrderImportWarehouseLots
+        ?.map((item) => item?.itemId)
+        ?.join(','),
     })
   }, [warehouseImportReceiptDetails])
   useEffect(() => {
@@ -188,37 +169,45 @@ function WarehouseImportStorage() {
         warehouseId: warehouseImportReceiptDetails?.warehouse?.id,
         items: itemsRequest,
       }
+
       actions.storedWarehouse(payload, backToDetail)
     } catch (error) {
       addNotification(error.message, NOTIFICATION_TYPE.ERROR)
     }
   }
-
   const initialValues = useMemo(
     () => ({
       storedNoLocatin: false,
       items:
         warehouseImportReceiptDetails?.purchasedOrderImportWarehouseLots?.map(
-          (item, index) => ({
-            id: `${item?.itemId}-${index}`,
-            itemCode:
-              {
+          (item, index) => {
+            return {
+              id: `${item?.itemId}-${index}`,
+              itemCode:
+                {
+                  itemId: item?.itemId,
+                  id: item?.itemId,
+                  quantity: item?.quantity,
+                  ...item?.item,
+                } || null,
+              importQuantity: item?.quantity,
+              receivedQuantity: item?.quantity,
+              lotNumber: {
+                lotNumber: item?.lotNumber,
                 itemId: item?.itemId,
-                id: item?.itemId,
-                quantity: item?.quantity,
-                ...item?.item,
-              } || null,
-            importQuantity: item?.quantity,
-            receivedQuantity: item?.quantity,
-            lotNumber: {
-              lotNumber: item?.lotNumber,
-              itemId: item?.itemId,
-            },
-            locator: locationList[0],
-          }),
+              },
+              locator:
+                itemByLocationIdList?.length > 0
+                  ? itemByLocationIdList
+                      ?.find((e) => e?.id === item?.itemId)
+                      ?.locations?.sort((a, b) => b.quantity - a.quantity)[0]
+                      ?.locator
+                  : {},
+            }
+          },
         ),
     }),
-    [warehouseImportReceiptDetails, locationList],
+    [warehouseImportReceiptDetails, itemByLocationIdList],
   )
   const receiptRequired = warehouseImportReceiptDetails?.attributes?.find(
     (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT,
@@ -238,11 +227,14 @@ function WarehouseImportStorage() {
           importQuantity: item?.quantity,
           receivedQuantity: item?.quantity,
           locator: val
-            ? locationList?.find(
+            ? itemByLocationIdList?.find(
                 (e) =>
                   e?.code === warehouseImportReceiptDetails?.warehouse?.code,
               )
-            : locationList[0],
+            : itemByLocationIdList
+                ?.find((e) => e?.id === item?.itemId)
+                ?.locations?.sort((a, b) => b.quantity - a.quantity)[0]
+                ?.locator,
         }),
       )
     if (val) {

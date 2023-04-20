@@ -2521,7 +2521,7 @@ export const WAREHOUSE_IMPORT_RECEIPT_OPTIONS = [
 export const WAREHOUSE_EXPORT_RECEIPT_STATUS = {
   PENDING: 0, //chờ xác nhận
   CONFIRMED: 1, //xác nhận
-  IN_COLLECTING: 9, //đang lấy hàng
+  IN_COLLECTING: 9, //chưa lấy hàng
   COMPLETED: 4, //hoan thành
   REJECTED: 5, //từ chối
   COLLECTED: 10, //chờ xuất kho
@@ -2580,6 +2580,7 @@ export const CODE_BUSSINESS_TYPE = {
   POINORMAL: 'N0002',
   POIBYCONTRUCTION: 'N0003',
   SOEBYCONTRUCTION: 'X0002',
+  SOINORMAL: 'X0001',
 }
 export const LIST_CODE_BUSSINESS_TYPE_PO = [
   CODE_BUSSINESS_TYPE.POINORMAL,
@@ -2623,3 +2624,4 @@ export const CONST_EXPORT_LOCATION = {
   DRAWER: 3,
   BIN: 4,
 }
+export const CODE_DEFAULT_REASON = '94'

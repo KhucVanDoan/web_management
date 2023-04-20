@@ -410,8 +410,8 @@ const ItemSettingTable = (props) => {
                 id: new Date().getTime(),
                 itemCodeWarehouseImp: false,
                 inputedQuantity: '',
-                locator: '',
-                lotNumber: '',
+                locator: null,
+                lotNumber: null,
               })
             }}
           >

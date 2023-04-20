@@ -40,7 +40,7 @@ function LocationManagementDetail() {
   const { id } = useParams()
 
   const {
-    data: { isLoading, locationDetails, itemByLocationIdList },
+    data: { isLoading, locationDetails },
     actions,
   } = useLocationManagement()
   const {
@@ -169,10 +169,7 @@ function LocationManagementDetail() {
         </Grid>
       </Grid>
       <Box sx={{ mt: 3 }}>
-        <ItemsSettingTable
-          items={itemByLocationIdList}
-          mode={MODAL_MODE.DETAIL}
-        />
+        <ItemsSettingTable mode={MODAL_MODE.DETAIL} />
       </Box>
       <ActionBar onBack={backToList} />
     </Page>

@@ -133,12 +133,12 @@ const ItemSettingTable = ({
         headerName: t('warehouseExportReceipt.items.suppliesCode'),
         width: 400,
         renderCell: (params, index) => {
-          const itemIdCodeList = items.map(
-            (item) =>
-              item?.itemCode?.itemCode?.itemId ||
-              item?.itemCode?.itemId ||
-              item?.itemCode?.id,
-          )
+          // const itemIdCodeList = items.map(
+          //   (item) =>
+          //     item?.itemCode?.itemCode?.itemId ||
+          //     item?.itemCode?.itemId ||
+          //     item?.itemCode?.id,
+          // )
           const itemLists = []
           itemWarehouseExportProposal
             ?.filter(
@@ -165,19 +165,19 @@ const ItemSettingTable = ({
               isOptionEqualToValue={(opt, val) =>
                 opt?.item?.itemId === val?.itemId
               }
-              getOptionDisabled={(opt) => {
-                if (!hiden) {
-                  return (
-                    itemIdCodeList.some(
-                      (id) => id === (opt?.itemId || opt?.itemCode?.itemId),
-                    ) &&
-                    (opt?.itemId || opt?.itemCode?.itemId) !==
-                      (items[index]?.itemId ||
-                        items[index]?.itemCode?.itemId ||
-                        items[index]?.itemCode?.id)
-                  )
-                }
-              }}
+              // getOptionDisabled={(opt) => {
+              //   if (!hiden) {
+              //     return (
+              //       itemIdCodeList.some(
+              //         (id) => id === (opt?.itemId || opt?.itemCode?.itemId),
+              //       ) &&
+              //       (opt?.itemId || opt?.itemCode?.itemId) !==
+              //         (items[index]?.itemId ||
+              //           items[index]?.itemCode?.itemId ||
+              //           items[index]?.itemCode?.id)
+              //     )
+              //   }
+              // }}
               disabled={isEmpty(values?.warehouseId)}
             />
           ) : itemList?.length > 0 ? (
@@ -193,19 +193,19 @@ const ItemSettingTable = ({
               isOptionEqualToValue={(opt, val) =>
                 opt?.itemId === (val?.itemId || val?.id)
               }
-              getOptionDisabled={(opt) => {
-                if (!hiden) {
-                  return (
-                    itemIdCodeList.some(
-                      (id) => id === (opt?.itemId || opt?.itemCode?.itemId),
-                    ) &&
-                    (opt?.itemId || opt?.itemCode?.itemId) !==
-                      (items[index]?.itemId ||
-                        items[index]?.itemCode?.itemId ||
-                        items[index]?.itemCode?.id)
-                  )
-                }
-              }}
+              // getOptionDisabled={(opt) => {
+              //   if (!hiden) {
+              //     return (
+              //       itemIdCodeList.some(
+              //         (id) => id === (opt?.itemId || opt?.itemCode?.itemId),
+              //       ) &&
+              //       (opt?.itemId || opt?.itemCode?.itemId) !==
+              //         (items[index]?.itemId ||
+              //           items[index]?.itemCode?.itemId ||
+              //           items[index]?.itemCode?.id)
+              //     )
+              //   }
+              // }}
               disabled={isEmpty(values?.warehouseId)}
             />
           ) : (
@@ -221,17 +221,17 @@ const ItemSettingTable = ({
               isOptionEqualToValue={(opt, val) =>
                 opt?.id === (val?.id || val?.itemId)
               }
-              getOptionDisabled={(opt) => {
-                if (!hiden) {
-                  return (
-                    itemIdCodeList.some(
-                      (id) => id === (opt?.id || opt?.itemId),
-                    ) &&
-                    (opt?.id || opt?.itemId) !==
-                      (items[index]?.id || items[index]?.itemId)
-                  )
-                }
-              }}
+              // getOptionDisabled={(opt) => {
+              //   if (!hiden) {
+              //     return (
+              //       itemIdCodeList.some(
+              //         (id) => id === (opt?.id || opt?.itemId),
+              //       ) &&
+              //       (opt?.id || opt?.itemId) !==
+              //         (items[index]?.id || items[index]?.itemId)
+              //     )
+              //   }
+              // }}
               disabled={isEmpty(values?.warehouseId)}
             />
           )

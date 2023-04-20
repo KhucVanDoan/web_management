@@ -518,6 +518,10 @@ export const ROUTE = {
       PATH: '/wms/warehouse-export-receipt/create',
       TITLE: 'warehouseExportReceiptCreate',
     },
+    CREATE_RETURN: {
+      PATH: '/wms/warehouse-export-receipt/:id/create-return',
+      TITLE: 'warehouseExportReceiptCreateReturn',
+    },
     EDIT: {
       PATH: '/wms/warehouse-export-receipt/:id/edit',
       TITLE: 'warehouseExportReceiptEdit',

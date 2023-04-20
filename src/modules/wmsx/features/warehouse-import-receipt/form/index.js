@@ -60,7 +60,7 @@ import { formSchema } from './schema'
 
 const DEFAULT_ITEMS = {
   id: 1,
-  itemCode: {},
+  itemCode: null,
   itemName: '',
   unit: '',
   lotNumber: '',
@@ -187,7 +187,7 @@ function WarehouseImportReceiptForm() {
             debitAccount: item?.debitAccount,
             creditAccount:
               isEdit && warehouseImportReceiptDetails?.ebsId
-                ? item?.creditAccount.slice(18, 29)
+                ? item?.creditAccount
                 : item?.creditAccount?.replace(/^(\d*?[1-9])0+$/, '$1'),
             importQuantity: item?.quantity,
             quantity: item?.quantity,

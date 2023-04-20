@@ -77,7 +77,7 @@ export const downloadFile = async (buffer, fileName, mimeType, accept) => {
 export const isValidFileType = (fileName, validType) => {
   const fileExt = fileName.split('.').pop()
 
-  return `.${fileExt.toLowerCase()}` === validType.toLowerCase()
+  return validType?.includes(fileExt)
 }
 
 export const isImageFile = (file) => {

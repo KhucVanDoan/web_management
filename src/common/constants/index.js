@@ -290,6 +290,13 @@ export const FILE_TYPE = {
     MIME_TYPE:
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   },
+  XLS: {
+    NAME: 'XLS',
+    EXT: '.xls',
+    TYPE: 'xls',
+    MIME_TYPE:
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  },
 }
 
 export const IMG_FILE_TYPE = [

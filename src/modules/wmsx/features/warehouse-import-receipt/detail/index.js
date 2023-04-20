@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 import { Box, Grid } from '@mui/material'
 import { uniq, map, isEmpty } from 'lodash'
@@ -146,262 +146,301 @@ function WarehouseImportReceiptDetail() {
       )
     }
   }
-  const renderHeaderRight = () => {
-    const isEdit =
-      warehouseImportReceiptDetails?.status ===
-        WAREHOUSE_IMPORT_RECEIPT_STATUS.PENDING ||
-      warehouseImportReceiptDetails?.status ===
-        WAREHOUSE_IMPORT_RECEIPT_STATUS.REJECTED ||
-      warehouseImportReceiptDetails?.status ===
-        WAREHOUSE_IMPORT_RECEIPT_STATUS.CONFIRMED
-    const isDelete =
-      warehouseImportReceiptDetails?.status ===
-        WAREHOUSE_IMPORT_RECEIPT_STATUS.PENDING ||
-      warehouseImportReceiptDetails?.status ===
-        WAREHOUSE_IMPORT_RECEIPT_STATUS.REJECTED
-    const isConfirmed =
-      warehouseImportReceiptDetails?.status ===
-      WAREHOUSE_IMPORT_RECEIPT_STATUS.PENDING
-    const isRejected =
-      warehouseImportReceiptDetails?.status ===
-      WAREHOUSE_IMPORT_RECEIPT_STATUS.PENDING
-    const isCancelSync =
-      warehouseImportReceiptDetails?.syncStatus ===
-      STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR
-    const isEditHeader =
-      (warehouseImportReceiptDetails?.status ===
-        WAREHOUSE_IMPORT_RECEIPT_STATUS.COMPLETED &&
-        SYNC_STATUS_CAN_UPDATE_HEADER_POI.includes(
-          warehouseImportReceiptDetails?.syncStatus,
-        )) ||
-      (warehouseImportReceiptDetails?.status ===
-        WAREHOUSE_IMPORT_RECEIPT_STATUS.IN_PROGRESS &&
-        SYNC_STATUS_CAN_UPDATE_HEADER_POI.includes(
-          warehouseImportReceiptDetails?.syncStatus,
-        )) ||
-      (warehouseImportReceiptDetails?.status ===
-        WAREHOUSE_IMPORT_RECEIPT_STATUS.RECEIVED &&
-        SYNC_STATUS_CAN_UPDATE_HEADER_POI.includes(
-          warehouseImportReceiptDetails?.syncStatus,
-        ))
-    const isConfirmWarehouseImport =
-      (warehouseImportReceiptDetails?.status ===
-        WAREHOUSE_IMPORT_RECEIPT_STATUS.IN_PROGRESS &&
+  const renderHeaderRight = () =>
+    useMemo(() => {
+      const isEdit =
+        warehouseImportReceiptDetails?.status ===
+          WAREHOUSE_IMPORT_RECEIPT_STATUS.PENDING ||
+        warehouseImportReceiptDetails?.status ===
+          WAREHOUSE_IMPORT_RECEIPT_STATUS.REJECTED ||
+        warehouseImportReceiptDetails?.status ===
+          WAREHOUSE_IMPORT_RECEIPT_STATUS.CONFIRMED
+      const isDelete =
+        warehouseImportReceiptDetails?.status ===
+          WAREHOUSE_IMPORT_RECEIPT_STATUS.PENDING ||
+        warehouseImportReceiptDetails?.status ===
+          WAREHOUSE_IMPORT_RECEIPT_STATUS.REJECTED
+      const isConfirmed =
+        warehouseImportReceiptDetails?.status ===
+        WAREHOUSE_IMPORT_RECEIPT_STATUS.PENDING
+      const isRejected =
+        warehouseImportReceiptDetails?.status ===
+        WAREHOUSE_IMPORT_RECEIPT_STATUS.PENDING
+      const isCancelSync =
         warehouseImportReceiptDetails?.syncStatus ===
-          STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC) ||
-      (warehouseImportReceiptDetails?.status ===
-        WAREHOUSE_IMPORT_RECEIPT_STATUS.COMPLETED &&
-        warehouseImportReceiptDetails?.syncStatus ===
-          STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC) ||
-      (warehouseImportReceiptDetails?.status ===
-        WAREHOUSE_IMPORT_RECEIPT_STATUS.RECEIVED &&
-        warehouseImportReceiptDetails?.syncStatus ===
-          STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC)
-    return (
-      <>
-        {isRejected && (
-          <Guard code={FUNCTION_CODE.SALE_REJECT_PURCHASED_ORDER_IMPORT}>
-            <Button
-              onClick={() => setModal({ isOpenRejectedModal: true })}
-              sx={{
-                ml: 4 / 3,
-                borderColor: theme.palette.borderButtonRemove,
-                color: theme.palette.borderButtonRemove,
-              }}
-              variant="outlined"
-              // icon="add"
-            >
-              {t('warehouseImportReceipt.rejected')}
-            </Button>
-          </Guard>
-        )}
-        {isConfirmed && (
-          <Guard code={FUNCTION_CODE.SALE_CONFIRM_PURCHASED_ORDER_IMPORT}>
-            <Button
-              onClick={() => setModal({ isOpenConfirmModal: true })}
-              sx={{
-                ml: 4 / 3,
-              }}
+        STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR
+      const isEditHeader =
+        (warehouseImportReceiptDetails?.status ===
+          WAREHOUSE_IMPORT_RECEIPT_STATUS.COMPLETED &&
+          SYNC_STATUS_CAN_UPDATE_HEADER_POI.includes(
+            warehouseImportReceiptDetails?.syncStatus,
+          )) ||
+        (warehouseImportReceiptDetails?.status ===
+          WAREHOUSE_IMPORT_RECEIPT_STATUS.IN_PROGRESS &&
+          SYNC_STATUS_CAN_UPDATE_HEADER_POI.includes(
+            warehouseImportReceiptDetails?.syncStatus,
+          )) ||
+        (warehouseImportReceiptDetails?.status ===
+          WAREHOUSE_IMPORT_RECEIPT_STATUS.RECEIVED &&
+          SYNC_STATUS_CAN_UPDATE_HEADER_POI.includes(
+            warehouseImportReceiptDetails?.syncStatus,
+          ))
+      const isConfirmWarehouseImport =
+        (warehouseImportReceiptDetails?.status ===
+          WAREHOUSE_IMPORT_RECEIPT_STATUS.IN_PROGRESS &&
+          warehouseImportReceiptDetails?.syncStatus ===
+            STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC) ||
+        (warehouseImportReceiptDetails?.status ===
+          WAREHOUSE_IMPORT_RECEIPT_STATUS.COMPLETED &&
+          warehouseImportReceiptDetails?.syncStatus ===
+            STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC) ||
+        (warehouseImportReceiptDetails?.status ===
+          WAREHOUSE_IMPORT_RECEIPT_STATUS.RECEIVED &&
+          warehouseImportReceiptDetails?.syncStatus ===
+            STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC)
+      const syncStatusNotReturm = [
+        STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR,
+        STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_SUCCESS,
+      ]
+      const isReturnWarehouseImport =
+        (warehouseImportReceiptDetails?.status ===
+          WAREHOUSE_IMPORT_RECEIPT_STATUS.COMPLETED &&
+          !syncStatusNotReturm.includes(
+            warehouseImportReceiptDetails?.syncStatus,
+          )) ||
+        (warehouseImportReceiptDetails?.status ===
+          WAREHOUSE_IMPORT_RECEIPT_STATUS.RECEIVED &&
+          !syncStatusNotReturm.includes(
+            warehouseImportReceiptDetails?.syncStatus,
+          ))
 
-              // icon="add"
+      return (
+        <>
+          {isRejected && (
+            <Guard code={FUNCTION_CODE.SALE_REJECT_PURCHASED_ORDER_IMPORT}>
+              <Button
+                onClick={() => setModal({ isOpenRejectedModal: true })}
+                sx={{
+                  ml: 4 / 3,
+                  borderColor: theme.palette.borderButtonRemove,
+                  color: theme.palette.borderButtonRemove,
+                }}
+                variant="outlined"
+                // icon="add"
+              >
+                {t('warehouseImportReceipt.rejected')}
+              </Button>
+            </Guard>
+          )}
+          {isConfirmed && (
+            <Guard code={FUNCTION_CODE.SALE_CONFIRM_PURCHASED_ORDER_IMPORT}>
+              <Button
+                onClick={() => setModal({ isOpenConfirmModal: true })}
+                sx={{
+                  ml: 4 / 3,
+                }}
+
+                // icon="add"
+              >
+                {t('warehouseImportReceipt.confirmed')}
+              </Button>
+            </Guard>
+          )}
+          {isDelete && (
+            <Guard code={FUNCTION_CODE.SALE_DELETE_PURCHASED_ORDER_IMPORT}>
+              <Button
+                onClick={() => setModal({ isOpenDeleteModal: true })}
+                sx={{
+                  ml: 4 / 3,
+                }}
+                color="error"
+                // icon="add"
+              >
+                {t('warehouseImportReceipt.deleted')}
+              </Button>
+            </Guard>
+          )}
+          {isEdit && (
+            <Guard code={FUNCTION_CODE.SALE_UPDATE_PURCHASED_ORDER_IMPORT}>
+              <Button
+                onClick={() =>
+                  history.push(
+                    ROUTE.WAREHOUSE_IMPORT_RECEIPT.EDIT.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    ),
+                  )
+                }
+                sx={{
+                  ml: 4 / 3,
+                }}
+                color="grayEE"
+                // icon="add"
+              >
+                {t('warehouseImportReceipt.update')}
+              </Button>
+            </Guard>
+          )}
+          {isReturnWarehouseImport && (
+            <Guard code={FUNCTION_CODE.SALE_UPDATE_PURCHASED_ORDER_IMPORT}>
+              <Button
+                onClick={() =>
+                  history.push(
+                    ROUTE.WAREHOUSE_EXPORT_RECEIPT.CREATE_RETURN.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    ),
+                  )
+                }
+                sx={{
+                  ml: 4 / 3,
+                }}
+                // icon="add"
+              >
+                {'Return'}
+              </Button>
+            </Guard>
+          )}
+          {isEditHeader && (
+            <Guard
+              code={FUNCTION_CODE.SALE_UPDATE_HEADER_PURCHASED_ORDER_IMPORT}
             >
-              {t('warehouseImportReceipt.confirmed')}
-            </Button>
-          </Guard>
-        )}
-        {isDelete && (
-          <Guard code={FUNCTION_CODE.SALE_DELETE_PURCHASED_ORDER_IMPORT}>
-            <Button
-              onClick={() => setModal({ isOpenDeleteModal: true })}
-              sx={{
-                ml: 4 / 3,
-              }}
-              color="error"
-              // icon="add"
+              <Button
+                onClick={() =>
+                  history.push(
+                    ROUTE.WAREHOUSE_IMPORT_RECEIPT.EDIT_HEADER.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    ),
+                  )
+                }
+                sx={{
+                  ml: 4 / 3,
+                }}
+                color="grayEE"
+                // icon="add"
+              >
+                {t('warehouseImportReceipt.update')}
+              </Button>
+            </Guard>
+          )}
+          {isConfirmWarehouseImport && (
+            <Guard code={FUNCTION_CODE.SALE_SYNC_PURCHASED_ORDER_IMPORT_TO_EBS}>
+              <Button
+                onClick={() => setModal({ isOpenConfirmEBSModal: true })}
+                sx={{
+                  ml: 4 / 3,
+                }}
+                // icon="add"
+              >
+                {t('warehouseImportReceipt.confirmWarehouseImportERP')}
+              </Button>
+            </Guard>
+          )}
+          {isCancelSync && (
+            <Guard code={FUNCTION_CODE.SALE_CANCEL_SYNC_PURCHASED_ORDER_IMPORT}>
+              <Button
+                onClick={() => setModal({ isOpenCancelSyncEMSModal: true })}
+                sx={{
+                  ml: 4 / 3,
+                  borderColor: theme.palette.borderButtonRemove,
+                  color: theme.palette.borderButtonRemove,
+                }}
+                // icon="add"
+                variant="outlined"
+              >
+                {t('warehouseImportReceipt.cancelEbs')}
+              </Button>
+            </Guard>
+          )}
+          {warehouseImportReceiptDetails?.status ===
+            WAREHOUSE_IMPORT_RECEIPT_STATUS.CONFIRMED && (
+            <Guard code={FUNCTION_CODE.SALE_RETURN_PURCHASED_ORDER_IMPORT}>
+              <Button
+                onClick={() =>
+                  actions.returnWarehouseImportReceiptById(
+                    warehouseImportReceiptDetails?.id,
+                    () => {
+                      actions.getWarehouseImportReceiptDetailsById(id)
+                    },
+                  )
+                }
+                sx={{
+                  ml: 4 / 3,
+                }}
+                color="grayEE"
+                // icon="add"
+              >
+                {t('warehouseImportReceipt.returnReceipt')}
+              </Button>
+            </Guard>
+          )}
+          {warehouseImportReceiptDetails?.status ===
+            WAREHOUSE_IMPORT_RECEIPT_STATUS.CONFIRMED && (
+            <Guard code={FUNCTION_CODE.SALE_RETURN_PURCHASED_ORDER_IMPORT}>
+              <Button
+                onClick={() =>
+                  history.push(
+                    ROUTE.WAREHOUSE_IMPORT_RECEIPT.RECEIVE.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    ),
+                  )
+                }
+                sx={{
+                  ml: 4 / 3,
+                }}
+                icon="add"
+              >
+                {t('warehouseImportReceipt.warehouseImport')}
+              </Button>
+            </Guard>
+          )}
+          {warehouseImportReceiptDetails?.status ===
+            WAREHOUSE_IMPORT_RECEIPT_STATUS.RECEIVED && (
+            <Guard
+              code={FUNCTION_CODE.SALE_CREATE_PURCHASED_ORDER_IMPORT_RECEIVE}
             >
-              {t('warehouseImportReceipt.deleted')}
-            </Button>
-          </Guard>
-        )}
-        {isEdit && (
-          <Guard code={FUNCTION_CODE.SALE_UPDATE_PURCHASED_ORDER_IMPORT}>
-            <Button
-              onClick={() =>
-                history.push(
-                  ROUTE.WAREHOUSE_IMPORT_RECEIPT.EDIT.PATH.replace(
-                    ':id',
-                    `${id}`,
-                  ),
-                )
-              }
-              sx={{
-                ml: 4 / 3,
-              }}
-              color="grayEE"
-              // icon="add"
-            >
-              {t('warehouseImportReceipt.update')}
-            </Button>
-          </Guard>
-        )}
-        {isEditHeader && (
-          <Guard code={FUNCTION_CODE.SALE_UPDATE_HEADER_PURCHASED_ORDER_IMPORT}>
-            <Button
-              onClick={() =>
-                history.push(
-                  ROUTE.WAREHOUSE_IMPORT_RECEIPT.EDIT_HEADER.PATH.replace(
-                    ':id',
-                    `${id}`,
-                  ),
-                )
-              }
-              sx={{
-                ml: 4 / 3,
-              }}
-              color="grayEE"
-              // icon="add"
-            >
-              {t('warehouseImportReceipt.update')}
-            </Button>
-          </Guard>
-        )}
-        {isConfirmWarehouseImport && (
-          <Guard code={FUNCTION_CODE.SALE_SYNC_PURCHASED_ORDER_IMPORT_TO_EBS}>
-            <Button
-              onClick={() => setModal({ isOpenConfirmEBSModal: true })}
-              sx={{
-                ml: 4 / 3,
-              }}
-              // icon="add"
-            >
-              {t('warehouseImportReceipt.confirmWarehouseImportERP')}
-            </Button>
-          </Guard>
-        )}
-        {isCancelSync && (
-          <Guard code={FUNCTION_CODE.SALE_CANCEL_SYNC_PURCHASED_ORDER_IMPORT}>
-            <Button
-              onClick={() => setModal({ isOpenCancelSyncEMSModal: true })}
-              sx={{
-                ml: 4 / 3,
-                borderColor: theme.palette.borderButtonRemove,
-                color: theme.palette.borderButtonRemove,
-              }}
-              // icon="add"
-              variant="outlined"
-            >
-              {t('warehouseImportReceipt.cancelEbs')}
-            </Button>
-          </Guard>
-        )}
-        {warehouseImportReceiptDetails?.status ===
-          WAREHOUSE_IMPORT_RECEIPT_STATUS.CONFIRMED && (
-          <Guard code={FUNCTION_CODE.SALE_RETURN_PURCHASED_ORDER_IMPORT}>
-            <Button
-              onClick={() =>
-                actions.returnWarehouseImportReceiptById(
-                  warehouseImportReceiptDetails?.id,
-                  () => {
-                    actions.getWarehouseImportReceiptDetailsById(id)
-                  },
-                )
-              }
-              sx={{
-                ml: 4 / 3,
-              }}
-              color="grayEE"
-              // icon="add"
-            >
-              {t('warehouseImportReceipt.returnReceipt')}
-            </Button>
-          </Guard>
-        )}
-        {warehouseImportReceiptDetails?.status ===
-          WAREHOUSE_IMPORT_RECEIPT_STATUS.CONFIRMED && (
-          <Guard code={FUNCTION_CODE.SALE_RETURN_PURCHASED_ORDER_IMPORT}>
-            <Button
-              onClick={() =>
-                history.push(
-                  ROUTE.WAREHOUSE_IMPORT_RECEIPT.RECEIVE.PATH.replace(
-                    ':id',
-                    `${id}`,
-                  ),
-                )
-              }
-              sx={{
-                ml: 4 / 3,
-              }}
-              icon="add"
-            >
-              {t('warehouseImportReceipt.warehouseImport')}
-            </Button>
-          </Guard>
-        )}
-        {warehouseImportReceiptDetails?.status ===
-          WAREHOUSE_IMPORT_RECEIPT_STATUS.RECEIVED && (
-          <Guard
-            code={FUNCTION_CODE.SALE_CREATE_PURCHASED_ORDER_IMPORT_RECEIVE}
-          >
-            <Button
-              onClick={() =>
-                history.push(
-                  ROUTE.WAREHOUSE_IMPORT_RECEIPT.STORAGE.PATH.replace(
-                    ':id',
-                    `${id}`,
-                  ),
-                )
-              }
-              sx={{
-                ml: 4 / 3,
-              }}
-              icon="add"
-            >
-              {t('warehouseImportReceipt.warehouseImportStore')}
-            </Button>
-          </Guard>
-        )}
-        {warehouseImportReceiptDetails?.status ===
-          WAREHOUSE_IMPORT_RECEIPT_STATUS.CONFIRMED && (
-          <Guard code={FUNCTION_CODE.SALE_RECEIVE_PURCHASED_ORDER_IMPORT}>
-            <Button
-              onClick={() =>
-                history.push(
-                  ROUTE.WAREHOUSE_IMPORT_RECEIPT.RECEIVE_AND_STORAGE.PATH.replace(
-                    ':id',
-                    `${id}`,
-                  ),
-                )
-              }
-              sx={{ ml: 4 / 3 }}
-              icon="add"
-            >
-              {t('warehouseImportReceipt.receiveAndStorageBtn')}
-            </Button>
-          </Guard>
-        )}
-      </>
-    )
-  }
+              <Button
+                onClick={() =>
+                  history.push(
+                    ROUTE.WAREHOUSE_IMPORT_RECEIPT.STORAGE.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    ),
+                  )
+                }
+                sx={{
+                  ml: 4 / 3,
+                }}
+                icon="add"
+              >
+                {t('warehouseImportReceipt.warehouseImportStore')}
+              </Button>
+            </Guard>
+          )}
+          {warehouseImportReceiptDetails?.status ===
+            WAREHOUSE_IMPORT_RECEIPT_STATUS.CONFIRMED && (
+            <Guard code={FUNCTION_CODE.SALE_RECEIVE_PURCHASED_ORDER_IMPORT}>
+              <Button
+                onClick={() =>
+                  history.push(
+                    ROUTE.WAREHOUSE_IMPORT_RECEIPT.RECEIVE_AND_STORAGE.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    ),
+                  )
+                }
+                sx={{ ml: 4 / 3 }}
+                icon="add"
+              >
+                {t('warehouseImportReceipt.receiveAndStorageBtn')}
+              </Button>
+            </Guard>
+          )}
+        </>
+      )
+    }, [warehouseImportReceiptDetails])
   const receiptRequired = warehouseImportReceiptDetails?.attributes?.find(
     (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT,
   )

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 
 import { IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
@@ -6,15 +6,13 @@ import Typography from '@mui/material/Typography'
 import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
-import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import { ACTIVE_STATUS } from '~/modules/wmsx/constants'
 import useLocationManagement from '~/modules/wmsx/redux/hooks/useLocationManagement'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
-import { scrollToBottom, convertFilterParams } from '~/utils'
+import { scrollToBottom } from '~/utils'
 
 function ItemsSettingTable(props) {
   const { t } = useTranslation(['wmsx'])
@@ -45,22 +43,9 @@ function ItemsSettingTable(props) {
       }),
     )
   const {
-    actions,
-    data: { locationList },
+    data: { itemByLocationIdList },
   } = useLocationManagement()
 
-  useEffect(() => {
-    if (!isEmpty(warehouse)) {
-      actions.searchLocations({
-        limit: ASYNC_SEARCH_LIMIT,
-        filter: convertFilterParams({
-          warehouseId: warehouse?.id,
-          status: ACTIVE_STATUS.ACTIVE,
-          type: [0, 1],
-        }),
-      })
-    }
-  }, [warehouse])
   const handleChangeLotNumber = (val, index) => {
     if (val) {
       const findLotNumber =
@@ -160,7 +145,7 @@ function ItemsSettingTable(props) {
       },
       {
         field: 'importQuantity',
-        headerName: t('warehouseImportReceipt.table.importQuantity'),
+        headerName: t('warehouseImportReceipt.table.receivedQuantity'),
         width: 100,
         align: 'right',
         headerAlign: 'left',
@@ -176,7 +161,7 @@ function ItemsSettingTable(props) {
       },
       {
         field: 'receivedQuantity',
-        headerName: t('warehouseImportReceipt.table.receivedQuantity'),
+        headerName: t('warehouseImportReceipt.table.storedQuantity'),
         width: 100,
         headerAlign: 'left',
         align: 'right',
@@ -194,12 +179,18 @@ function ItemsSettingTable(props) {
         headerName: t('warehouseTransfer.table.locatorStored'),
         width: 300,
         renderCell: (params, index) => {
+          const locationList = itemByLocationIdList
+            ?.find((item) => item?.id === params?.row?.itemCode?.itemId)
+            ?.locations?.map((locator) => locator?.locator)
           return (
             <Field.Autocomplete
               dropdownWidth={250}
               name={`items[${index}].locator`}
               options={locationList}
               getOptionLabel={(opt) => opt?.code}
+              isOptionEqualToValue={(val, opt) =>
+                opt?.locatorId === val?.locatorId
+              }
               disabled={values?.storedNoLocation}
             />
           )

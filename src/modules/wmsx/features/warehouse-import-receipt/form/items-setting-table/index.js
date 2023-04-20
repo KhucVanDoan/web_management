@@ -102,12 +102,12 @@ function ItemsSettingTable(props) {
         headerName: t('warehouseImportReceipt.table.itemCode'),
         width: 400,
         renderCell: (params, index) => {
-          const itemIdCodeList = items.map(
-            (item) =>
-              item?.itemCode?.itemCode?.itemId ||
-              item?.itemCode?.itemId ||
-              item?.itemCode?.id,
-          )
+          // const itemIdCodeList = items.map(
+          //   (item) =>
+          //     item?.itemCode?.itemCode?.itemId ||
+          //     item?.itemCode?.itemId ||
+          //     item?.itemCode?.id,
+          // )
           return isView || isEdit ? (
             params?.row?.item?.code || params?.row?.itemCode?.item?.code
           ) : itemList?.length > 0 && isEmpty(values[receiptRequired]) ? (
@@ -123,19 +123,19 @@ function ItemsSettingTable(props) {
                 (opt?.itemId || opt?.itemCode?.itemId) ===
                 (val?.itemId || val?.itemCode?.itemId)
               }
-              getOptionDisabled={(opt) => {
-                if (!values?.warehouse?.manageByLot) {
-                  return (
-                    itemIdCodeList.some(
-                      (id) => id === (opt?.itemId || opt?.itemCode?.itemId),
-                    ) &&
-                    (opt?.itemId || opt?.itemCode?.itemId) !==
-                      (items[index]?.itemId ||
-                        items[index]?.itemCode?.itemId ||
-                        items[index]?.itemCode?.id)
-                  )
-                }
-              }}
+              // getOptionDisabled={(opt) => {
+              //   if (!values?.warehouse?.manageByLot) {
+              //     return (
+              //       itemIdCodeList.some(
+              //         (id) => id === (opt?.itemId || opt?.itemCode?.itemId),
+              //       ) &&
+              //       (opt?.itemId || opt?.itemCode?.itemId) !==
+              //         (items[index]?.itemId ||
+              //           items[index]?.itemCode?.itemId ||
+              //           items[index]?.itemCode?.id)
+              //     )
+              //   }
+              // }}
             />
           ) : !isEmpty(values[receiptRequired]) ? (
             params?.row?.itemCode?.code
@@ -152,16 +152,16 @@ function ItemsSettingTable(props) {
               isOptionEqualToValue={(opt, val) =>
                 opt?.itemCode?.itemId === val?.itemCode?.itemId
               }
-              getOptionDisabled={(opt) => {
-                if (!values?.warehouse?.manageByLot) {
-                  return (
-                    itemIdCodeList.some((id) => id === opt?.itemId) &&
-                    opt?.itemId !==
-                      (items[index]?.itemCode?.itemId ||
-                        items[index]?.itemCode?.id)
-                  )
-                }
-              }}
+              // getOptionDisabled={(opt) => {
+              //   if (!values?.warehouse?.manageByLot) {
+              //     return (
+              //       itemIdCodeList.some((id) => id === opt?.itemId) &&
+              //       opt?.itemId !==
+              //         (items[index]?.itemCode?.itemId ||
+              //           items[index]?.itemCode?.id)
+              //     )
+              //   }
+              // }}
             />
           ) : (
             <Field.Autocomplete
@@ -181,14 +181,14 @@ function ItemsSettingTable(props) {
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
               getOptionLabel={(opt) => opt?.code}
               getOptionSubLabel={(opt) => opt?.name || ''}
-              getOptionDisabled={(opt) => {
-                if (!values?.warehouse?.manageByLot) {
-                  return (
-                    itemIdCodeList.some((id) => id === opt?.id) &&
-                    opt?.id !== items[index]?.itemCode?.id
-                  )
-                }
-              }}
+              // getOptionDisabled={(opt) => {
+              //   if (!values?.warehouse?.manageByLot) {
+              //     return (
+              //       itemIdCodeList.some((id) => id === opt?.id) &&
+              //       opt?.id !== items[index]?.itemCode?.id
+              //     )
+              //   }
+              // }}
               required
             />
           )
@@ -410,9 +410,10 @@ function ItemsSettingTable(props) {
         hide:
           (items || []).length <= 1 ||
           isView ||
+          isEdit ||
           !isEmpty(values[receiptRequired]),
         renderCell: (params, idx) => {
-          return isView || isEdit ? null : (
+          return isView ? null : (
             <IconButton onClick={() => arrayHelpers.remove(idx)} size="large">
               <Icon name="remove" />
             </IconButton>

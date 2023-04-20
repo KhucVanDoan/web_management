@@ -63,7 +63,7 @@ const ImportExport = ({
   else if (onExport) mode = IMPORT_EXPORT_MODE.EXPORT_ONLY
 
   const { FILE_SIZE_LIMIT, NUMBER_OF_FILE } = IMPORT_SETTING
-  const { XLSX } = FILE_TYPE
+  const { XLSX, XLS } = FILE_TYPE
 
   const validateFileInput = (files) => {
     const file = files[0]
@@ -84,8 +84,10 @@ const ImportExport = ({
           )}.`,
         )
 
-      if (!isValidFileType(name, XLSX.EXT)) {
-        msg.push(`${t('fileUpload.error.invalidType')} ${XLSX.NAME}.`)
+      if (!isValidFileType(name, [XLSX.TYPE, XLS.TYPE])) {
+        msg.push(
+          `${t('fileUpload.error.invalidType')} ${XLSX.NAME}, ${XLS.NAME}.`,
+        )
       }
 
       setImportError(msg.join('\n').trim())
@@ -279,7 +281,7 @@ const ImportExport = ({
         <input
           type="file"
           hidden
-          accept={FILE_TYPE.XLSX.EXT}
+          accept={[FILE_TYPE.XLSX.EXT, FILE_TYPE.XLS.EXT]}
           onChange={onFileChange}
           ref={inputFileRef}
         />
