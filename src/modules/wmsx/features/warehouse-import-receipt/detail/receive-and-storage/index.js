@@ -207,13 +207,17 @@ function WarehouseImportReceiveAndStorage() {
               } || null,
             importQuantity: item?.quantity,
             receivedQuantity: item?.quantity,
-            locator:
-              itemByLocationIdList?.length > 0
-                ? itemByLocationIdList
-                    ?.find((e) => e?.id === item?.itemId)
-                    ?.locations?.sort((a, b) => b.quantity - a.quantity)[0]
-                    ?.locator
-                : locationList[0],
+            locator: !isEmpty(
+              itemByLocationIdList
+                ?.find((e) => e?.id === item?.itemId)
+                ?.locations?.sort((a, b) => b.quantity - a.quantity)[0]
+                ?.locator,
+            )
+              ? itemByLocationIdList
+                  ?.find((e) => e?.id === item?.itemId)
+                  ?.locations?.sort((a, b) => b.quantity - a.quantity)[0]
+                  ?.locator
+              : locationList[0],
           }),
         ),
     }),
