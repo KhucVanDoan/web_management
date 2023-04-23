@@ -60,7 +60,7 @@ import { formSchema } from './schema'
 
 const DEFAULT_ITEMS = {
   id: 1,
-  itemCode: {},
+  itemCode: null,
   itemName: '',
   unit: '',
   lotNumber: '',
@@ -182,6 +182,7 @@ function WarehouseImportReceiptForm() {
             itemName: item?.item?.name,
             unit: item?.item?.itemUnit,
             lotNumber: item?.lotNumber,
+            lotNumberOld: item?.lotNumberOld,
             money: item?.amount,
             price: item?.price,
             debitAccount: item?.debitAccount,
@@ -493,6 +494,7 @@ function WarehouseImportReceiptForm() {
               +item?.itemCode?.itemCode?.itemId,
             requestedItemIdImportActual: item?.itemCode?.item?.code,
             lotNumber: item?.lotNumber || '',
+            lotNumberOld: item?.lotNumberOld,
             quantity: +item?.importQuantity || item?.quantity,
             price: item?.price || (item?.money / item?.quantity).toFixed(2),
             amount: item?.money,
@@ -547,7 +549,7 @@ function WarehouseImportReceiptForm() {
       items: JSON.stringify(
         values?.items?.map((item) => ({
           itemId: item?.itemId,
-          lotNumber: item?.lotNumber,
+          lotNumber: item?.lotNumber || '',
           creditAccount: item?.creditAccount,
         })),
       ),
