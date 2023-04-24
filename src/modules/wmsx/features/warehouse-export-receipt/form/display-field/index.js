@@ -139,6 +139,7 @@ const displayFollowBusinessTypeManagement = (
             },
             itemUnit: chil?.itemResponse?.itemUnit,
             itemId: chil?.itemId,
+            warehouseExportProposalChildId: chil?.id,
             code: chil?.itemResponse?.code || chil?.itemCode,
             name: chil?.itemResponse?.name || chil?.itemName,
             warehouseExport: chil?.warehouseExport,

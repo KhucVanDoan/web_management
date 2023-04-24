@@ -393,30 +393,29 @@ function WarehouseExportReceiptForm() {
         const itemWarehouseExportProposal = []
         res?.data?.items?.forEach((item) => {
           item?.childrens?.forEach((chil) => {
-            const findItem = itemWarehouseExportProposal?.find(
-              (w) =>
-                w?.itemId === chil?.itemId &&
-                w?.warehouseExport?.id === chil?.warehouseExport?.id,
-            )
-            if (isEmpty(findItem)) {
-              itemWarehouseExportProposal.push({
-                item: {
-                  itemId: chil?.itemId,
-                  code: chil?.itemResponse?.code || chil?.itemCode,
-                  name: chil?.itemResponse?.name || chil?.itemName,
-                  itemUnit: chil?.itemResponse?.itemUnit?.name,
-                  exportedQuantity: chil?.exportedQuantity,
-                  requestedQuantity: chil?.requestedQuantity,
-                },
-                itemUnit: chil?.itemResponse?.itemUnit,
+            // const findItem = itemWarehouseExportProposal?.find(
+            //   (w) =>
+            //     w?.itemId === chil?.itemId &&
+            //     w?.warehouseExport?.id === chil?.warehouseExport?.id,
+            // )
+            itemWarehouseExportProposal.push({
+              item: {
                 itemId: chil?.itemId,
                 code: chil?.itemResponse?.code || chil?.itemCode,
                 name: chil?.itemResponse?.name || chil?.itemName,
-                warehouseExport: chil?.warehouseExport,
+                itemUnit: chil?.itemResponse?.itemUnit?.name,
+                exportedQuantity: chil?.exportedQuantity,
                 requestedQuantity: chil?.requestedQuantity,
-                lotNumber: chil?.lotNumber,
-              })
-            }
+              },
+              itemUnit: chil?.itemResponse?.itemUnit,
+              itemId: chil?.itemId,
+              warehouseExportProposalChildId: chil?.id,
+              code: chil?.itemResponse?.code || chil?.itemCode,
+              name: chil?.itemResponse?.name || chil?.itemName,
+              warehouseExport: chil?.warehouseExport,
+              requestedQuantity: chil?.requestedQuantity,
+              lotNumber: chil?.lotNumber,
+            })
           })
         })
         setItemWarehouseExportProposal(itemWarehouseExportProposal)
@@ -464,6 +463,8 @@ function WarehouseExportReceiptForm() {
           warehouseId: values?.warehouseId?.id,
           items: JSON.stringify(
             values?.items?.map((item) => ({
+              warehouseExportProposalChildId:
+                item?.itemCode?.warehouseExportProposalChildId,
               id: +item?.itemCode?.itemId || +item?.itemCode?.id,
               itemCode: item?.itemCode?.item?.code || item?.itemCode?.code,
               lotNumber: item?.lotNumber || null,

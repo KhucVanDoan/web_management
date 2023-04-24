@@ -5,15 +5,21 @@ import Box from '@mui/material/Box'
 import { flatMap, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
-import { MODAL_MODE } from '~/common/constants'
+import { ASYNC_SEARCH_LIMIT, MODAL_MODE } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import NumberFormatText from '~/components/NumberFormat'
-import { OrderTypeEnum, TABLE_NAME_ENUM } from '~/modules/wmsx/constants'
+import {
+  ACTIVE_STATUS,
+  OrderTypeEnum,
+  TABLE_NAME_ENUM,
+} from '~/modules/wmsx/constants'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 import { getItemWarehouseStockAvailableApi } from '~/modules/wmsx/redux/sagas/warehouse-transfer/get-item-warehouse-stock-available'
+import { getListItemWarehouseStockApi } from '~/modules/wmsx/redux/sagas/warehouse-transfer/get-list-item'
+import { convertFilterParams } from '~/utils'
 const ItemSettingTable = ({
   items,
   mode,
@@ -212,11 +218,20 @@ const ItemSettingTable = ({
             <Field.Autocomplete
               name={`items[${index}].itemCode`}
               placeholder={t('warehouseExportReceipt.items.suppliesCode')}
-              options={itemWarehouseStockList}
+              asyncRequest={(s) =>
+                getListItemWarehouseStockApi({
+                  keyword: s,
+                  limit: ASYNC_SEARCH_LIMIT,
+                  filter: convertFilterParams({
+                    warehouseId: values?.warehouseId?.id,
+                    status: ACTIVE_STATUS.ACTIVE,
+                  }),
+                })
+              }
+              asyncRequestDeps={values?.warehouseId}
+              asyncRequestHelper={(res) => res?.data?.items}
               getOptionLabel={(opt) => opt?.code}
               getOptionSubLabel={(opt) => opt?.name}
-              filterOptions={filterOptions}
-              // filterSelectedOptions
               onChange={(val) => handleChangeItem(val, index)}
               isOptionEqualToValue={(opt, val) =>
                 opt?.id === (val?.id || val?.itemId)
@@ -240,7 +255,7 @@ const ItemSettingTable = ({
       {
         field: 'itemName',
         headerName: t('warehouseExportReceipt.items.suppliesName'),
-        width: 300,
+        width: 400,
         renderCell: (params, index) => {
           return isView ? (
             params?.row?.suppliesName
@@ -277,18 +292,13 @@ const ItemSettingTable = ({
                 selectedItem?.id !== params?.row?.id,
             )
             ?.map((selectedItem) => selectedItem.lotNumber)
-          const locationList = itemWarehouseStockList?.find(
-            (item) =>
-              item?.id === params?.row?.itemCode?.id ||
-              item?.id === params?.row?.itemCode?.itemId,
-          )
           const lotNumbers = itemList?.find(
             (item) =>
               item?.itemId === params?.row?.itemCode?.id ||
               item?.itemId === params?.row?.itemCode?.itemId,
           )
           const lotNumberFreeItem = []
-          flatMap(locationList?.locations, 'lots')?.forEach((e) => {
+          flatMap(params?.row?.itemCode?.locations, 'lots')?.forEach((e) => {
             const findLotNumber = lotNumberFreeItem?.find(
               (lot) => lot?.lotNumber === e?.lotNumber,
             )
@@ -296,7 +306,6 @@ const ItemSettingTable = ({
               lotNumberFreeItem.push(e)
             }
           })
-
           const lotNumber = []
           itemWarehouseExportProposal?.forEach((item) => {
             if (
@@ -340,9 +349,9 @@ const ItemSettingTable = ({
               name={`items[${index}].lotNumber`}
               options={lotNumber?.filter(
                 (lot) =>
-                  !lotsSelected.includes(lot.lotNumber) && lot?.lotNumber,
+                  !lotsSelected?.includes(lot?.lotNumber) && lot?.lotNumber,
               )}
-              getOptionLabel={(opt) => opt.lotNumber}
+              getOptionLabel={(opt) => opt?.lotNumber}
               getOptionValue={(option) => option?.lotNumber}
               isOptionEqualToValue={(opt, val) => opt?.lotNumber === val}
               disabled={!hiden}

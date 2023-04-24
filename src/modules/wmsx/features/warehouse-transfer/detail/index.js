@@ -216,7 +216,7 @@ const WarehouseTransferDetail = () => {
               }}
               // icon="add"
             >
-              {t('warehouseTransfer.confirmWarehouseExport')}
+              {t('warehouseImportReceipt.confirmWarehouseImportERP')}
             </Button>
           </Guard>
         )}

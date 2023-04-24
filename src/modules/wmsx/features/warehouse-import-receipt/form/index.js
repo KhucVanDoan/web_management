@@ -188,7 +188,7 @@ function WarehouseImportReceiptForm() {
             debitAccount: item?.debitAccount,
             creditAccount:
               isEdit && warehouseImportReceiptDetails?.ebsId
-                ? item?.creditAccount
+                ? item?.creditAccount?.slice(18, 29)
                 : item?.creditAccount?.replace(/^(\d*?[1-9])0+$/, '$1'),
             importQuantity: item?.quantity,
             quantity: item?.quantity,

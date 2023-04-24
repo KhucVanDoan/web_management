@@ -43,7 +43,7 @@ function ItemsSettingTable(props) {
       }),
     )
   const {
-    data: { itemByLocationIdList },
+    data: { locationList },
   } = useLocationManagement()
 
   const handleChangeLotNumber = (val, index) => {
@@ -179,9 +179,6 @@ function ItemsSettingTable(props) {
         headerName: t('warehouseTransfer.table.locatorStored'),
         width: 300,
         renderCell: (params, index) => {
-          const locationList = itemByLocationIdList
-            ?.find((item) => item?.id === params?.row?.itemCode?.itemId)
-            ?.locations?.map((locator) => locator?.locator)
           return (
             <Field.Autocomplete
               dropdownWidth={250}

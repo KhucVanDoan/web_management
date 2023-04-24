@@ -197,7 +197,7 @@ function ItemsSettingTable(props) {
       {
         field: 'itemName',
         headerName: t('warehouseImportReceipt.table.itemName'),
-        width: 300,
+        width: 400,
         renderCell: (params, index) => {
           return isView || isEdit ? (
             params?.row?.item?.name || params?.row?.itemCode?.item?.name

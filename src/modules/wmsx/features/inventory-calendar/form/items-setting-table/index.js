@@ -49,7 +49,7 @@ function ItemSettingTable({ items, mode, arrayHelpers, values }) {
       {
         field: 'itemCode',
         headerName: t('inventoryCalendar.items.itemCode'),
-        width: 180,
+        width: 400,
         renderCell: (params, index) => {
           const itemIdCodeList = items?.map((item) => item?.itemCode?.id)
           return isView ? (
@@ -86,7 +86,7 @@ function ItemSettingTable({ items, mode, arrayHelpers, values }) {
       {
         field: 'itemName',
         headerName: t('inventoryCalendar.items.itemName'),
-        width: 180,
+        width: 400,
         renderCell: (params, index) => {
           return isView ? (
             params?.row?.itemCode?.name
