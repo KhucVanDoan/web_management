@@ -2,11 +2,25 @@ import React, { useEffect, useMemo } from 'react'
 
 import { Box, FormControlLabel, Grid } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
-import { uniq, map, groupBy, isEmpty, first } from 'lodash'
+import {
+  uniq,
+  map,
+  groupBy,
+  isEmpty,
+  first,
+  keyBy,
+  omitBy,
+  orderBy,
+  isNil,
+} from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
-import { MODAL_MODE, NOTIFICATION_TYPE } from '~/common/constants'
+import {
+  ASYNC_SEARCH_LIMIT,
+  MODAL_MODE,
+  NOTIFICATION_TYPE,
+} from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
@@ -17,12 +31,17 @@ import {
   DATA_TYPE,
   TABLE_NAME_ENUM,
   WAREHOUSE_IMPORT_RECEIPT_OPTIONS,
+  ACTIVE_STATUS,
 } from '~/modules/wmsx/constants'
 import useLocationManagement from '~/modules/wmsx/redux/hooks/useLocationManagement'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { api } from '~/services/api'
-import { convertUtcDateToLocalTz, getLocalItem } from '~/utils'
+import {
+  convertFilterParams,
+  convertUtcDateToLocalTz,
+  getLocalItem,
+} from '~/utils'
 import { downloadFile } from '~/utils/file'
 import addNotification from '~/utils/toast'
 
@@ -61,7 +80,7 @@ function WarehouseImportStorage() {
 
   const {
     actions: getLocation,
-    data: { itemByLocationIdList },
+    data: { itemByLocationIdList, locationList },
   } = useLocationManagement()
   useEffect(() => {
     getLocation.getItemByLocationId({
@@ -69,6 +88,14 @@ function WarehouseImportStorage() {
       itemIds: warehouseImportReceiptDetails?.purchasedOrderImportWarehouseLots
         ?.map((item) => item?.itemId)
         ?.join(','),
+    })
+    getLocation.searchLocations({
+      limit: ASYNC_SEARCH_LIMIT,
+      filter: convertFilterParams({
+        warehouseId: warehouseImportReceiptDetails?.warehouse?.id,
+        status: ACTIVE_STATUS.ACTIVE,
+        type: [0, 1],
+      }),
     })
   }, [warehouseImportReceiptDetails])
   useEffect(() => {
@@ -175,8 +202,9 @@ function WarehouseImportStorage() {
       addNotification(error.message, NOTIFICATION_TYPE.ERROR)
     }
   }
-  const initialValues = useMemo(
-    () => ({
+  const initialValues = useMemo(() => {
+    const itemByLocationIdListMap = keyBy(itemByLocationIdList, 'id')
+    return {
       storedNoLocatin: false,
       items:
         warehouseImportReceiptDetails?.purchasedOrderImportWarehouseLots?.map(
@@ -192,23 +220,31 @@ function WarehouseImportStorage() {
                 } || null,
               importQuantity: item?.quantity,
               receivedQuantity: item?.quantity,
-              lotNumber: {
-                lotNumber: item?.lotNumber,
-                itemId: item?.itemId,
-              },
-              locator:
-                itemByLocationIdList?.length > 0
-                  ? itemByLocationIdList
-                      ?.find((e) => e?.id === item?.itemId)
-                      ?.locations?.sort((a, b) => b.quantity - a.quantity)[0]
-                      ?.locator
-                  : {},
+              locator: !isEmpty(
+                omitBy(
+                  first(
+                    orderBy(
+                      itemByLocationIdListMap[item?.itemId]?.locations,
+                      'quantity',
+                      'desc',
+                    ),
+                  )?.locator,
+                  isNil,
+                ),
+              )
+                ? first(
+                    orderBy(
+                      itemByLocationIdListMap[item?.itemId]?.locations,
+                      'quantity',
+                      'desc',
+                    ),
+                  )?.locator
+                : locationList[0],
             }
           },
         ),
-    }),
-    [warehouseImportReceiptDetails, itemByLocationIdList],
-  )
+    }
+  }, [warehouseImportReceiptDetails, itemByLocationIdList, locationList])
   const receiptRequired = warehouseImportReceiptDetails?.attributes?.find(
     (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT,
   )

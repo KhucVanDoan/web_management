@@ -13,39 +13,11 @@ import {
   WAREHOUSE_EXPORT_RECEIPT_STATUS,
 } from '~/modules/wmsx/constants'
 import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
-const ItemSettingTableDetail = ({ items, isEdit, setFieldValue }) => {
+const ItemSettingTableDetail = ({ items, isEdit }) => {
   const { t } = useTranslation(['wmsx'])
   const {
     data: { warehouseExportReceiptDetails },
   } = useWarehouseExportReceipt()
-  const addSeperators = (str, mask) => {
-    const chars = str.split('')
-    let count = 0
-
-    let formatted = ''
-    for (let i = 0; i < mask.length; i++) {
-      const m = mask[i]
-      if (chars[count]) {
-        if (/#/.test(m)) {
-          formatted += chars[count]
-          count++
-        } else {
-          formatted += m
-        }
-      }
-    }
-    return formatted
-  }
-  const handleChangeDebitAccount = (val = '', setFieldValue, index) => {
-    setFieldValue(
-      `items[${index}].debitAccount`,
-      addSeperators(
-        val.replace(TEXTFIELD_ALLOW.ALPHANUMERIC, ''),
-        '###########.####.####.###',
-      ),
-    )
-  }
-
   const columns = useMemo(
     () => [
       {
@@ -161,12 +133,12 @@ const ItemSettingTableDetail = ({ items, isEdit, setFieldValue }) => {
           return isEdit && warehouseExportReceiptDetails?.ebsId ? (
             <Field.TextField
               name={`items[${index}].debitAccount`}
-              onInput={(val) => {
-                handleChangeDebitAccount(val, setFieldValue, index)
-              }}
               allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
               validate={(val) => {
-                if (val?.length !== 25) {
+                const validateDebitAcc = new RegExp(
+                  '^[0-9]{11}.[0-9]{4}.[0-9]{4}.[0-9]{3}$',
+                )
+                if (!validateDebitAcc.test(val)) {
                   return t(`general:form.formatDebitAccount`)
                 }
               }}

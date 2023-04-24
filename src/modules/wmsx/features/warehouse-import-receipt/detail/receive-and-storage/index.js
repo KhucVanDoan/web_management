@@ -2,7 +2,17 @@ import React, { useEffect, useMemo } from 'react'
 
 import { Box, FormControlLabel, Grid } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
-import { uniq, map, groupBy, isEmpty, first } from 'lodash'
+import {
+  uniq,
+  map,
+  groupBy,
+  isEmpty,
+  first,
+  orderBy,
+  keyBy,
+  isNil,
+  omitBy,
+} from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
@@ -86,7 +96,7 @@ function WarehouseImportReceiveAndStorage() {
         type: [0, 1],
       }),
     })
-  }, [])
+  }, [warehouseImportReceiptDetails])
   useEffect(() => {
     actions.getWarehouseImportReceiptDetailsById(id, (data) => {
       const attributes = data?.attributes?.filter((e) => e?.tableName)
@@ -191,38 +201,49 @@ function WarehouseImportReceiveAndStorage() {
       addNotification(error.message, NOTIFICATION_TYPE.ERROR)
     }
   }
-  const initialValues = useMemo(
-    () => ({
+  const initialValues = useMemo(() => {
+    const itemByLocationIdListMap = keyBy(itemByLocationIdList, 'id')
+    return {
       storedNoLocatin: false,
       items:
         warehouseImportReceiptDetails?.purchasedOrderImportWarehouseLots?.map(
-          (item, index) => ({
-            id: `${item?.itemId}-${index}`,
-            itemCode:
-              {
-                itemId: item?.itemId,
-                id: item?.itemId,
-                quantity: item?.quantity,
-                ...item?.item,
-              } || null,
-            importQuantity: item?.quantity,
-            receivedQuantity: item?.quantity,
-            locator: !isEmpty(
-              itemByLocationIdList
-                ?.find((e) => e?.id === item?.itemId)
-                ?.locations?.sort((a, b) => b.quantity - a.quantity)[0]
-                ?.locator,
-            )
-              ? itemByLocationIdList
-                  ?.find((e) => e?.id === item?.itemId)
-                  ?.locations?.sort((a, b) => b.quantity - a.quantity)[0]
-                  ?.locator
-              : locationList[0],
-          }),
+          (item, index) => {
+            return {
+              id: `${item?.itemId}-${index}`,
+              itemCode:
+                {
+                  itemId: item?.itemId,
+                  id: item?.itemId,
+                  quantity: item?.quantity,
+                  ...item?.item,
+                } || null,
+              importQuantity: item?.quantity,
+              receivedQuantity: item?.quantity,
+              locator: !isEmpty(
+                omitBy(
+                  first(
+                    orderBy(
+                      itemByLocationIdListMap[item?.itemId]?.locations,
+                      'quantity',
+                      'desc',
+                    ),
+                  )?.locator,
+                  isNil,
+                ),
+              )
+                ? first(
+                    orderBy(
+                      itemByLocationIdListMap[item?.itemId]?.locations,
+                      'quantity',
+                      'desc',
+                    ),
+                  )?.locator
+                : locationList[0],
+            }
+          },
         ),
-    }),
-    [warehouseImportReceiptDetails, itemByLocationIdList, locationList],
-  )
+    }
+  }, [warehouseImportReceiptDetails, itemByLocationIdList, locationList])
   const receiptRequired = warehouseImportReceiptDetails?.attributes?.find(
     (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT,
   )

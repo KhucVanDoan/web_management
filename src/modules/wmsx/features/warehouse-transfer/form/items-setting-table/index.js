@@ -298,7 +298,7 @@ const ItemSettingTable = (props) => {
       {
         field: 'itemName',
         headerName: t('warehouseTransfer.table.itemName'),
-        width: 300,
+        width: 400,
         renderCell: (params, index) => {
           return isView ? (
             <>{params?.row?.itemName}</>
