@@ -157,11 +157,13 @@ function WarehouseImportStorage() {
   const onSubmit = (values) => {
     try {
       const itemByIds = groupBy(
-        values.items?.map((item) => ({
-          ...item,
-          itemId: item.itemCode?.itemId,
-        })),
-        (e) => `${e.itemId}_${e.lotNumber?.lotNumber || ''}`,
+        values.items?.map((item) => {
+          return {
+            ...item,
+            itemId: item.itemCode?.itemId,
+          }
+        }),
+        (e) => `${e.itemId}_${e?.lotNumber || e?.lotNumberOld || ''}`,
       )
       if (
         Object.keys(itemByIds)?.length <
@@ -218,6 +220,8 @@ function WarehouseImportStorage() {
                   quantity: item?.quantity,
                   ...item?.item,
                 } || null,
+              lotNumber: item?.lotNumber,
+              lotNumberOld: item?.lotNumberOld,
               importQuantity: item?.quantity,
               receivedQuantity: item?.quantity,
               locator: !isEmpty(
