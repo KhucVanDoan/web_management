@@ -282,7 +282,7 @@ function WarehouseImportReceiptDetail() {
             </Guard>
           )}
           {isReturnWarehouseImport && (
-            <Guard code={FUNCTION_CODE.SALE_UPDATE_PURCHASED_ORDER_IMPORT}>
+            <Guard code={FUNCTION_CODE.SALE_SALE_ORDER_EXPORT_RETURN}>
               <Button
                 onClick={() =>
                   history.push(

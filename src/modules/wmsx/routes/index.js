@@ -111,6 +111,7 @@ import WarehouseExportProposalForm from '../features/warehouse-export-proposal/f
 import WarehouseExportProposal from '../features/warehouse-export-proposal/list'
 import WarehouseExportReturn from '../features/warehouse-export-receipt/create-warehouse-export-return'
 import WarehouseExportReceiptDetail from '../features/warehouse-export-receipt/detail'
+import WarehouseExportReturnDetail from '../features/warehouse-export-receipt/detail/detail-warehouse-export-return'
 import WarehouseExportReceiptForm from '../features/warehouse-export-receipt/form'
 import WarehouseExportReceipt from '../features/warehouse-export-receipt/list'
 import WarehouseExportReceiptPickAndExport from '../features/warehouse-export-receipt/pick-and-export'
@@ -553,7 +554,7 @@ const routes = [
             name: ROUTE.WAREHOUSE_EXPORT_RECEIPT.CREATE_RETURN.TITLE,
             path: ROUTE.WAREHOUSE_EXPORT_RECEIPT.CREATE_RETURN.PATH,
             component: WarehouseExportReturn,
-            code: FUNCTION_CODE.SALE_CREATE_SALE_ORDER_EXPORT,
+            code: FUNCTION_CODE.SALE_SALE_ORDER_EXPORT_RETURN,
             isInSidebar: false,
           },
           {
@@ -561,6 +562,12 @@ const routes = [
             path: ROUTE.WAREHOUSE_EXPORT_RECEIPT.DETAIL.PATH,
             component: WarehouseExportReceiptDetail,
             code: FUNCTION_CODE.SALE_DETAIL_SALE_ORDER_EXPORT,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.WAREHOUSE_EXPORT_RECEIPT.DETAIL_RETURN.TITLE,
+            path: ROUTE.WAREHOUSE_EXPORT_RECEIPT.DETAIL_RETURN.PATH,
+            component: WarehouseExportReturnDetail,
             isInSidebar: false,
           },
           {

@@ -131,6 +131,7 @@
     "warehouseExportReceiptDetail": "Chi tiết phiếu xuất kho",
     "warehouseExportReceiptPickAndExport": "Lấy hàng & Xuất kho",
     "warehouseExportReceiptCreateReturn": "Tạo phiếu xuất kho - return",
+    "warehouseExportReturnDetail": "Chi tiết phiếu xuất kho - return",
     "warehouseImportReceipt": "Phiếu nhập kho",
     "warehouseImportReceiptCreate": "Tạo phiếu nhập kho",
     "warehouseImportReceiptEdit": "Sửa phiếu nhập kho",

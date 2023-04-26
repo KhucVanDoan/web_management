@@ -25,6 +25,7 @@ import {
   CODE_RECEIPT_DEPARTMENT_DEFAULT,
   CODE_TYPE_DATA_FATHER_JOB,
   COMPANY_CODE,
+  LENGTH_DEBITACCOUNT,
   PARENT_BUSINESS_TYPE,
   ruleEBS,
   TABLE_NAME_ENUM,
@@ -177,33 +178,38 @@ function WarehouseImportReceiptForm() {
             )} [${convertUtcDateToLocalTz(new Date().toISOString())}]`,
       items:
         warehouseImportReceiptDetails?.purchasedOrderImportWarehouseLots?.map(
-          (item) => ({
-            itemId: item?.itemId,
-            itemName: item?.item?.name,
-            unit: item?.item?.itemUnit,
-            lotNumber: item?.lotNumber,
-            lotNumberOld: item?.lotNumberOld,
-            money: item?.amount,
-            price: item?.price,
-            debitAccount: item?.debitAccount,
-            creditAccount:
-              isEdit && warehouseImportReceiptDetails?.ebsId
-                ? item?.creditAccount?.slice(18, 29)
-                : item?.creditAccount?.replace(/^(\d*?[1-9])0+$/, '$1'),
-            importQuantity: item?.quantity,
-            quantity: item?.quantity,
-            requestedQuantityWarehouseExportProposal:
-              item?.requestedQuantityWarehouseExportProposal,
-            itemCode: {
+          (item) => {
+            return {
               itemId: item?.itemId,
-              id: item?.itemId,
-              code: item?.item?.code,
-              name: item?.item?.name,
-              requestedQuantity: item?.requestedQuantityWarehouseExportProposal,
+              itemName: item?.item?.name,
+              unit: item?.item?.itemUnit,
+              lotNumber: item?.lotNumber,
+              lotNumberOld: item?.lotNumberOld,
+              money: item?.amount,
+              price: item?.price,
+              debitAccount: item?.debitAccount,
+              creditAccount:
+                isEdit && warehouseImportReceiptDetails?.ebsId
+                  ? item?.creditAccount?.length === LENGTH_DEBITACCOUNT
+                    ? item?.creditAccount?.slice(18, 29)
+                    : item?.creditAccount
+                  : item?.creditAccount?.replace(/^(\d*?[1-9])0+$/, '$1'),
+              importQuantity: item?.quantity,
               quantity: item?.quantity,
-              item: { ...item?.item },
-            },
-          }),
+              requestedQuantityWarehouseExportProposal:
+                item?.requestedQuantityWarehouseExportProposal,
+              itemCode: {
+                itemId: item?.itemId,
+                id: item?.itemId,
+                code: item?.item?.code,
+                name: item?.item?.name,
+                requestedQuantity:
+                  item?.requestedQuantityWarehouseExportProposal,
+                quantity: item?.quantity,
+                item: { ...item?.item },
+              },
+            }
+          },
         ) || [{ ...DEFAULT_ITEMS }],
     }),
     [

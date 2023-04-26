@@ -534,6 +534,10 @@ export const ROUTE = {
       PATH: '/wms/warehouse-export-receipt/:id/detail',
       TITLE: 'warehouseExportReceiptDetail',
     },
+    DETAIL_RETURN: {
+      PATH: '/wms/warehouse-export-receipt/:id/detail-return',
+      TITLE: 'warehouseExportReturnDetail',
+    },
     PICK_AND_EXPORT: {
       PATH: '/wms/warehouse-export-receipt/:id/pick-and-export',
       TITLE: 'warehouseExportReceiptPickAndExport',

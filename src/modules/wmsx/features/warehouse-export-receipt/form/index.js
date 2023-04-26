@@ -30,13 +30,13 @@ import {
   ruleEBS,
   CODE_RECEIPT_DEPARTMENT_DEFAULT,
   COMPANY_CODE,
+  LENGTH_DEBITACCOUNT,
 } from '~/modules/wmsx/constants'
 import useDefineExpenditureOrg from '~/modules/wmsx/redux/hooks/useDefineExpenditureOrg'
 import useReceiptDepartmentManagement from '~/modules/wmsx/redux/hooks/useReceiptDepartmentManagement'
 import useSourceManagement from '~/modules/wmsx/redux/hooks/useSourceManagement'
 import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
-import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 import { searchBusinessTypesApi } from '~/modules/wmsx/redux/sagas/business-type-management/search-business-types'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { searchApi } from '~/modules/wmsx/redux/sagas/reason-management/search'
@@ -89,7 +89,6 @@ function WarehouseExportReceiptForm() {
     data: { isLoading, warehouseExportReceiptDetails },
     actions,
   } = useWarehouseExportReceipt()
-  const { actions: warehouseTransferAction } = useWarehouseTransfer()
 
   const {
     data: { attributesBusinessTypeDetails },
@@ -199,7 +198,12 @@ function WarehouseExportReceiptForm() {
                 ) / 100
               : '',
             planExportedQuantity: item?.exportableQuantity || 0,
-            debitAccount: item?.debitAccount?.toString()?.slice(18, 43),
+            debitAccount:
+              isEdit && warehouseExportReceiptDetails?.ebsId
+                ? item?.debitAccount?.length === LENGTH_DEBITACCOUNT
+                  ? item?.debitAccount?.toString()?.slice(18, 43)
+                  : item?.debitAccount
+                : item?.debitAccount?.toString()?.slice(18, 43),
             creditAccount: item?.creditAccount,
             itemCode: {
               ...item?.item,
@@ -301,25 +305,6 @@ function WarehouseExportReceiptForm() {
             res?.data?.factorialCode,
           ].join('.'),
         )
-        if (
-          isEmpty(
-            data?.attributes?.find(
-              (att) =>
-                att?.code ===
-                  (CODE_TYPE_DATA_FATHER_JOB.WAREHOUSE_EXPORT_PROPOSAL_ID ||
-                    att?.code === CODE_TYPE_DATA_FATHER_JOB.PO_IMPORT_ID) &&
-                att?.value,
-            ),
-          )
-        ) {
-          warehouseTransferAction.getListItemWarehouseStock({
-            warehouseId: data?.warehouse?.id || data?.warehouseId,
-            isGetAll: 1,
-            filter: convertFilterParams({
-              status: ACTIVE_STATUS.ACTIVE,
-            }),
-          })
-        }
         const attributes = data?.attributes?.filter(
           (e) => e?.tableName && e?.value,
         )
@@ -758,15 +743,6 @@ function WarehouseExportReceiptForm() {
   const handleChangeWarehouse = async (val, setFieldValue) => {
     setFieldValue('items', DEFAULT_ITEMS)
     setFieldValue('sourceId', null)
-    if (val) {
-      warehouseTransferAction.getListItemWarehouseStock({
-        warehouseId: val?.id,
-        isGetAll: 1,
-        filter: convertFilterParams({
-          status: ACTIVE_STATUS.ACTIVE,
-        }),
-      })
-    }
   }
   const handleChangeBusinessType = (val, setFieldValue, values) => {
     setFieldValue('items', DEFAULT_ITEMS)
