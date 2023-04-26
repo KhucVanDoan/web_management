@@ -227,7 +227,6 @@ function ConstructionManagement() {
           }
           // onImport={() => {}}
           onRefresh={refreshData}
-          disabled
         />
         <Guard code={FUNCTION_CODE.SALE_CREATE_CONSTRUCTION}>
           <Button
@@ -263,7 +262,7 @@ function ConstructionManagement() {
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
         onSettingChange={setColumnsSettings}
-        // onSelectionChange={setSelectedRows}
+        onSelectionChange={setSelectedRows}
         selected={selectedRows}
         total={total}
         sort={sort}

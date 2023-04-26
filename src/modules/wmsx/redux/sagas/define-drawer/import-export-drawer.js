@@ -18,7 +18,7 @@ export const importDrawerApi = (params) => {
  * @returns {Promise}
  */
 export const exportDrawerApi = (params) => {
-  const uri = `____ENTER_IMPORT_EXPORT_URL_HERE____`
+  const uri = `v1/warehouse-layouts/export?type=3`
   return api.get(uri, params)
 }
 

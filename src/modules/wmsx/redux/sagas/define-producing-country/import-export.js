@@ -19,7 +19,7 @@ export const importDefineProducingCountryApi = (params) => {
  * @returns {Promise}
  */
 export const exportDefineProducingCountryApi = (params) => {
-  const uri = `/v1/sales/export?type=${CONST_EXPORT_MASTER_DATA.PRODUCING_COUNTRY}`
+  const uri = `/v1/items/export?type=${CONST_EXPORT_MASTER_DATA.PRODUCING_COUNTRY}`
   return api.get(uri, params)
 }
 

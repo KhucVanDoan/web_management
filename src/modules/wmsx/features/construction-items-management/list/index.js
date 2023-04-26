@@ -238,7 +238,6 @@ function ConstructionItemsManagement() {
           //     }
           //   : {})}
           onRefresh={refreshData}
-          disabled
         />
         <Guard code={FUNCTION_CODE.SALE_CREATE_CATEGORY_CONSTRUCTION}>
           <Button
@@ -274,7 +273,7 @@ function ConstructionItemsManagement() {
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
         onSettingChange={setColumnsSettings}
-        // onSelectionChange={setSelectedRows}
+        onSelectionChange={setSelectedRows}
         selected={selectedRows}
         total={total}
         sort={sort}

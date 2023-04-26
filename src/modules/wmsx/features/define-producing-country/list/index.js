@@ -212,8 +212,8 @@ function DefineProducingCountry() {
     return (
       <>
         <ImportExport
-          name={t('menu.constructionManagement')}
-          onImport={() => {}}
+          name={t('menu.defineProducingCountry')}
+          // onImport={() => {}}
           onExport={() =>
             exportDefineProducingCountryApi({
               columnSettings: JSON.stringify(columnsSettings),
@@ -228,7 +228,6 @@ function DefineProducingCountry() {
             })
           }
           onRefresh={refreshData}
-          disabled
         />
         <Guard code={FUNCTION_CODE.ITEM_CREATE_MANUFACTURING_COUNTRY}>
           <Button
@@ -264,7 +263,7 @@ function DefineProducingCountry() {
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
         onSettingChange={setColumnsSettings}
-        // onSelectionChange={setSelectedRows}
+        onSelectionChange={setSelectedRows}
         selected={selectedRows}
         total={total}
         sort={sort}

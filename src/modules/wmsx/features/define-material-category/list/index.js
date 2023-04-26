@@ -327,7 +327,7 @@ const DefineMaterialCategory = () => {
             : {})}
           {...(canAccess(FUNCTION_CODE.ITEM_EXPORT_ITEM_TYPE)
             ? {
-                onExport: (params) => {
+                onExport: (params) =>
                   exportMaterialCategoryApi({
                     columnSettings: JSON.stringify(columnsSettings),
                     queryIds: JSON.stringify(
@@ -338,12 +338,10 @@ const DefineMaterialCategory = () => {
                       { field: 'createdAt', filterFormat: 'date' },
                     ]),
                     sort: convertSortParams(sort),
-                  })
-                },
+                  }),
               }
             : {})}
           onRefresh={refreshData}
-          disabled
         />
         <Guard code={FUNCTION_CODE.ITEM_CREATE_ITEM_TYPE}>
           <Button

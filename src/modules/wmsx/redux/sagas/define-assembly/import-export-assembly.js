@@ -18,7 +18,7 @@ export const importAssemblyApi = (params) => {
  * @returns {Promise}
  */
 export const exportAssemblyApi = (params) => {
-  const uri = `____ENTER_IMPORT_EXPORT_URL_HERE____`
+  const uri = `/v1/warehouse-layouts/export?type=1`
   return api.get(uri, params)
 }
 

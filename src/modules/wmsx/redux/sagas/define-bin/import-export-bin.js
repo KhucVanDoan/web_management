@@ -18,7 +18,7 @@ export const importBinApi = (params) => {
  * @returns {Promise}
  */
 export const exportBinApi = (params) => {
-  const uri = `____ENTER_IMPORT_EXPORT_URL_HERE____`
+  const uri = `/v1/warehouse-layouts/export?type=4`
   return api.get(uri, params)
 }
 
