@@ -6,6 +6,7 @@ import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
+import NumberFormatText from '~/components/NumberFormat'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 
 function ItemsSettingTable(props) {
@@ -80,7 +81,12 @@ function ItemsSettingTable(props) {
         align: 'right',
         headerAlign: 'left',
         renderCell: (params) => {
-          return params?.row?.importQuantity
+          return (
+            <NumberFormatText
+              value={params?.row?.importQuantity}
+              formatter="price"
+            />
+          )
         },
       },
       {
@@ -90,7 +96,12 @@ function ItemsSettingTable(props) {
         headerAlign: 'left',
         align: 'right',
         renderCell: (params) => {
-          return params?.row?.receivedQuantity
+          return (
+            <NumberFormatText
+              value={params?.row?.receivedQuantity}
+              formatter="price"
+            />
+          )
         },
       },
       // {

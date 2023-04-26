@@ -122,9 +122,13 @@ function WarehouseExportReturn() {
     }
     warehouseExportReceiptAction.createWarehouseExportReceiptReturn(
       params,
-      () => {
-        backToDetail()
-      },
+      (data) =>
+        history.push(
+          ROUTE.WAREHOUSE_EXPORT_RECEIPT.DETAIL_RETURN.PATH.replace(
+            ':id',
+            `${data?.id}`,
+          ),
+        ),
     )
   }
 

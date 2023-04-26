@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from 'react'
 
 import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
-import { Box, FormHelperText } from '@mui/material'
+import { Box, Checkbox, FormHelperText } from '@mui/material'
 import Collapse from '@mui/material/Collapse'
 import IconButton from '@mui/material/IconButton'
 import Table from '@mui/material/Table'
@@ -29,7 +29,6 @@ import DateRangePicker from '../DateRangePicker'
 import style from '../DataTableCollapse/style'
 import Truncate from '../DataTable/Truncate'
 import useTableSetting from '~/components/DataTable/hooks/useTableSetting'
-
 /**
  * Data Table
  */
@@ -66,6 +65,9 @@ const TableCollapse = (props) => {
     tableSettingKey,
     onSettingChange,
     enableResizable,
+    onSelectionChange,
+    selected,
+    onRowsOrderChange,
   } = props
 
   const [open, setOpen] = useState({})
@@ -74,7 +76,8 @@ const TableCollapse = (props) => {
   const containerRef = useRef(null)
   const uniqKey = props.uniqKey ?? 'id'
   const { initTableSetting } = useTableSetting(tableSettingKey)
-
+  const checkboxSelection = typeof onSelectionChange === 'function'
+  const reorderable = typeof onRowsOrderChange === 'function'
   const columns = hideSetting
     ? rawColumns?.filter((col) => !col.hide)
     : rawColumns.filter((col) => visibleColumns.includes(col.field))
@@ -88,6 +91,73 @@ const TableCollapse = (props) => {
       ...open,
       [index]: o,
     })
+  }
+  /**
+   * Handle select all
+   * @param {*} event
+   */
+  const handleSelectAllClick = (event) => {
+    if (!checkboxSelection) return
+    if (event.target.checked) {
+      console.log('aaa')
+      const concatSelected = [...selected, ...rows]
+      console.log('concatSelected', concatSelected)
+      const uniqueIndexValues = [
+        ...new Set(concatSelected.map((item) => item[uniqKey])),
+      ]
+      console.log('uniqueIndexValues', uniqueIndexValues)
+
+      const newSelected = uniqueIndexValues.map((indexValue) =>
+        concatSelected.find((item) => item[uniqKey] === indexValue),
+      )
+      console.log('newSelected', newSelected)
+      onSelectionChange(newSelected)
+    } else {
+      console.log('dđ')
+      const newSelected = selected.filter(
+        (item) => !rows.find((e) => e[uniqKey] === item[uniqKey]),
+      )
+      onSelectionChange(newSelected)
+    }
+  }
+
+  /**
+   * Handle select or deselect row
+   * @param {*} indexValue
+   * @returns
+   */
+  const handleSelectOrDeselectRow = (indexValue) => {
+    if (!checkboxSelection) return
+    const selectedIndex = selected.findIndex(
+      (item) => item[uniqKey] === indexValue,
+    )
+    let newSelected = []
+
+    const newValueData = rows.find((item) => item[uniqKey] === indexValue)
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, newValueData)
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1))
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1))
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1),
+      )
+    }
+
+    onSelectionChange(newSelected)
+  }
+
+  /**
+   * Check if row is selected
+   * @param {*} uniqKeyValue
+   * @returns
+   */
+  const isSelected = (uniqKeyValue) => {
+    return selected.findIndex((item) => item[uniqKey] === uniqKeyValue) !== -1
   }
 
   /**
@@ -280,12 +350,15 @@ const TableCollapse = (props) => {
           columns={rawColumns}
           visibleColumns={visibleColumns}
           filters={filters}
+          selected={selected}
+          uniqKey={uniqKey}
           tableSettingKey={tableSettingKey}
           setVisibleColumns={setVisibleColumns}
           onSettingChange={onSettingChange}
         />
       )}
       <TableContainer
+        ref={containerRef}
         className={classes.tableContainer}
         style={{ height: height ? height : '100%' }}
         {...(isRoot ? { ref: containerRef } : {})}
@@ -296,25 +369,34 @@ const TableCollapse = (props) => {
           sx={enableResizable ? { tableLayout: 'fixed', width: '100%' } : {}}
         >
           <TableHead
-            classes={classes}
             uniqKey={uniqKey}
+            classes={classes}
+            selected={selected}
             pageSize={pageSize}
             rows={rows}
             order={sort?.order}
             orderBy={sort?.orderBy}
             onSortChange={onSortChange}
+            onSelectAllClick={handleSelectAllClick}
+            checkboxSelection={checkboxSelection}
             columns={columns}
             rawColumns={rawColumns}
             visibleColumns={visibleColumns}
+            reorderable={reorderable}
             enableResizable={enableResizable}
             tableSettingKey={tableSettingKey}
             containerRef={containerRef}
           />
 
-          <TableBody>
+          <TableBody
+            reorderable={reorderable}
+            onRowsOrderChange={onRowsOrderChange}
+          >
             {rows &&
               rows.length > 0 &&
               rows.map((row, index) => {
+                const isItemSelected = isSelected(row[uniqKey])
+                const labelId = `enhanced-table-checkbox-${index}`
                 if (!row) return
                 let ps = []
                 if (
@@ -341,8 +423,12 @@ const TableCollapse = (props) => {
                 return (
                   <React.Fragment>
                     <TableRow
+                      index={index}
                       tabIndex={-1}
                       key={row[uniqKey] || index}
+                      aria-checked={isItemSelected}
+                      reorderable={reorderable}
+                      draggableId={row[uniqKey]?.toString()}
                       className={clsx(
                         classes.tableRow,
                         classes.tableRowBorderGrid,
@@ -355,6 +441,29 @@ const TableCollapse = (props) => {
                         },
                       )}
                     >
+                      {checkboxSelection && (
+                        <TableCell
+                          className={clsx(
+                            classes.tableCell,
+                            classes.tableCellCheckbox,
+                          )}
+                          sx={{
+                            position: 'sticky',
+                            left: reorderable ? 50 : 0,
+                            zIndex: 10,
+                          }}
+                        >
+                          <Checkbox
+                            checked={isItemSelected}
+                            inputProps={{
+                              'aria-labelledby': labelId,
+                            }}
+                            onClick={() =>
+                              handleSelectOrDeselectRow(row[uniqKey])
+                            }
+                          />
+                        </TableCell>
+                      )}
                       {columns.map((column, i) => {
                         const { field, align, renderCell, width } = column
                         const cellValue = renderCell
@@ -591,6 +700,7 @@ TableCollapse.defaultProps = {
   onSettingChange: () => {},
   enableResizable: false,
   isRoot: true,
+  selected: [],
 }
 
 TableCollapse.propsTypes = {
@@ -623,6 +733,9 @@ TableCollapse.propsTypes = {
   onSettingChange: PropTypes.func,
   enableResizable: PropTypes.bool,
   isRoot: PropTypes.bool,
+  onSelectionChange: PropTypes.func,
+  selected: PropTypes.array,
+  onRowsOrderChange: PropTypes.func,
 }
 
 export default withTranslation()(withClasses(style)(TableCollapse))

@@ -46,7 +46,7 @@ const DefineMaterialCategory = () => {
 
   const [bomTree, setBomTree] = useState([])
   const [columnsSettings, setColumnsSettings] = useState([])
-
+  const [selectedRows, setSelectedRows] = useState([])
   const {
     data: { materialCategoryList, isLoading, total },
     actions,
@@ -71,7 +71,9 @@ const DefineMaterialCategory = () => {
     setFilters,
     setKeyword,
   } = useQueryState()
-
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
   const columns = [
     {
       field: 'code',
@@ -319,19 +321,19 @@ const DefineMaterialCategory = () => {
     return (
       <>
         <ImportExport
-          name={t('planReport.export')}
-          {...(canAccess(FUNCTION_CODE.ITEM_IMPORT_ITEM_TYPE)
-            ? {
-                onImport: () => {},
-              }
-            : {})}
+          name={t('menu.defineMaterialCategory')}
+          // {...(canAccess(FUNCTION_CODE.ITEM_IMPORT_ITEM_TYPE)
+          //   ? {
+          //       onImport: () => {},
+          //     }
+          //   : {})}
           {...(canAccess(FUNCTION_CODE.ITEM_EXPORT_ITEM_TYPE)
             ? {
-                onExport: (params) =>
+                onExport: () =>
                   exportMaterialCategoryApi({
                     columnSettings: JSON.stringify(columnsSettings),
                     queryIds: JSON.stringify(
-                      params?.map((x) => ({ id: x?.id })),
+                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
                     ),
                     keyword: keyword.trim(),
                     filter: convertFilterParams(filters, [
@@ -376,6 +378,8 @@ const DefineMaterialCategory = () => {
         handleGetData={handleGetData}
         additionColums={additionColums}
         producingStepColumns={producingStepColumns}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
         isRoot={true}
         type={'list'}
         isView={true}

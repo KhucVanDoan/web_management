@@ -19,7 +19,7 @@ export const importMaterialCategoryApi = (params) => {
  * @returns {Promise}
  */
 export const exportMaterialCategoryApi = (params) => {
-  const uri = `/v1/sales/export?type=${CONST_EXPORT_MASTER_DATA.MATERIAL_CATEGORY}`
+  const uri = `/v1/items/export?type=${CONST_EXPORT_MASTER_DATA.MATERIAL_CATEGORY}`
   return api.get(uri, params)
 }
 

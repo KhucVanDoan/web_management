@@ -253,7 +253,6 @@ function SourceManagement() {
               }
             : {})}
           onRefresh={refreshData}
-          disabled
         />
         <Guard code={FUNCTION_CODE.CREATE_SOURCE}>
           <Button
@@ -293,7 +292,7 @@ function SourceManagement() {
           onApply: setFilters,
         }}
         sort={sort}
-        // onSelectionChange={setSelectedRows}
+        onSelectionChange={setSelectedRows}
         onSettingChange={setColumnsSettings}
         selected={selectedRows}
         // bulkActions={{

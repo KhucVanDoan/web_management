@@ -118,7 +118,7 @@ function WarehouseImportReceive() {
           ...item,
           itemId: item.itemCode?.itemId,
         })),
-        (e) => `${e.itemId}_${e?.lotNumber || ''}`,
+        (e) => `${e.itemId}_${e?.lotNumber || e?.lotNumberOld || ''}`,
       )
       if (
         Object.keys(itemByIds)?.length <
@@ -166,6 +166,7 @@ function WarehouseImportReceive() {
             importQuantity: item?.quantity,
             receivedQuantity: item?.quantity,
             lotNumber: item?.lotNumber,
+            lotNumberOld: item?.lotNumberOld,
           }),
         ),
     }),

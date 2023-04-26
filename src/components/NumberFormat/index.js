@@ -83,7 +83,7 @@ export const NumberFormatText = ({ value, numberProps, formatter }) => {
       displayType="text"
       isNumericString
       {...config(formatter)}
-      {...(formatter === 'quantity' && Number(value) - parseInt(value) === 0
+      {...(formatter === 'quantity' && Number(value - parseInt(value)) === 0
         ? { value: quantityValue, decimalScale: 2 }
         : {})}
       {...numberProps}
