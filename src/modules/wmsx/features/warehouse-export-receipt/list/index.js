@@ -7,7 +7,6 @@ import { useHistory } from 'react-router-dom'
 // import { API_URL } from '~/common/constants/apiUrl'
 import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import { useQueryState } from '~/common/hooks'
-import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
@@ -59,7 +58,6 @@ function WarehouseExportReceipt() {
     name: '',
     createTime: [],
   }
-  const { canAccess } = useApp()
   const {
     page,
     pageSize,
@@ -438,38 +436,32 @@ function WarehouseExportReceipt() {
     return (
       <>
         <ImportExport
-          {...(canAccess(FUNCTION_CODE.WAREHOUSE_EXPORT_LOCATION)
-            ? {
-                onExport: () =>
-                  exportWarehouseExportReceiptApi({
-                    columnSettings: JSON.stringify(columnsSettings),
-                    queryIds: JSON.stringify(
-                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
-                    ),
-                    keyword: keyword.trim(),
-                    filter: convertFilterParams(filters, [
-                      { field: 'createdAt', filterFormat: 'date' },
-                    ]),
-                    sort: convertSortParams(sort),
-                  }),
-              }
-            : {})}
-          {...(canAccess(FUNCTION_CODE.WAREHOUSE_IMPORT_LOCATION)
-            ? {
-                onImport: () =>
-                  importWarehouseExportReceiptApi({
-                    columnSettings: JSON.stringify(columnsSettings),
-                    queryIds: JSON.stringify(
-                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
-                    ),
-                    keyword: keyword.trim(),
-                    filter: convertFilterParams(filters, [
-                      { field: 'createdAt', filterFormat: 'date' },
-                    ]),
-                    sort: convertSortParams(sort),
-                  }),
-              }
-            : {})}
+          onExport={() =>
+            exportWarehouseExportReceiptApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: `${x?.id}` })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }
+          onImport={() =>
+            importWarehouseExportReceiptApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: `${x?.id}` })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }
           onDownloadTemplate={getWarehouseExportReceiptTemplateApi}
           onRefresh={refreshData}
           disabled

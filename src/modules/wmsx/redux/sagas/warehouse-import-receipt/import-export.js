@@ -1,3 +1,4 @@
+import { CONST_EXPORT_MASTER_DATA } from '~/modules/wmsx/constants'
 import { api } from '~/services/api'
 
 /**
@@ -18,7 +19,7 @@ export const importWarehouseImportReceiptApi = (params) => {
  * @returns {Promise}
  */
 export const exportWarehouseImportReceiptApi = (params) => {
-  const uri = `____ENTER_IMPORT_IMPORT_URL_HERE____`
+  const uri = `/v1/sales/export?type=${CONST_EXPORT_MASTER_DATA.WAREHOUSE_IMPORT_RECEIPT}`
   return api.get(uri, params)
 }
 

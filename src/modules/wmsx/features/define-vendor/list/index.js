@@ -23,8 +23,8 @@ import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useDefineVendor from '~/modules/wmsx/redux/hooks/useDefineVendor'
 import {
   exportVendorApi,
-  getVendorTemplateApi,
-  importVendorApi,
+  // getVendorTemplateApi,
+  // importVendorApi,
 } from '~/modules/wmsx/redux/sagas/define-vendor/import-export-vendor'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
@@ -211,7 +211,7 @@ function DefineVendor() {
     return (
       <>
         <ImportExport
-          name={t('menu.importExportData')}
+          name={t('menu.defineVendor')}
           {...(canAccess(FUNCTION_CODE.SALE_EXPORT_VENDOR)
             ? {
                 onExport: () =>
@@ -228,25 +228,25 @@ function DefineVendor() {
                   }),
               }
             : {})}
-          {...(canAccess(FUNCTION_CODE.SALE_IMPORT_REASON)
-            ? {
-                onImport: () =>
-                  importVendorApi({
-                    columnSettings: JSON.stringify(columnsSettings),
-                    queryIds: JSON.stringify(
-                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
-                    ),
-                    keyword: keyword.trim(),
-                    filter: convertFilterParams(filters, [
-                      { field: 'createdAt', filterFormat: 'date' },
-                    ]),
-                    sort: convertSortParams(sort),
-                  }),
-              }
-            : {})}
-          onDownloadTemplate={getVendorTemplateApi}
+          // {...(canAccess(FUNCTION_CODE.SALE_IMPORT_REASON)
+          //   ? {
+          //       onImport: () =>
+          //         importVendorApi({
+          //           columnSettings: JSON.stringify(columnsSettings),
+          //           queryIds: JSON.stringify(
+          //             selectedRows?.map((x) => ({ id: `${x?.id}` })),
+          //           ),
+          //           keyword: keyword.trim(),
+          //           filter: convertFilterParams(filters, [
+          //             { field: 'createdAt', filterFormat: 'date' },
+          //           ]),
+          //           sort: convertSortParams(sort),
+          //         }),
+          //     }
+          //   : {})}
+          // onDownloadTemplate={getVendorTemplateApi}
           onRefresh={refreshData}
-          disabled
+          // disabled
         />
         <Guard code={FUNCTION_CODE.SALE_CREATE_VENDOR}>
           <Button
@@ -279,7 +279,7 @@ function DefineVendor() {
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
         onSettingChange={setColumnsSettings}
-        // onSelectionChange={setSelectedRows}
+        onSelectionChange={setSelectedRows}
         selected={selectedRows}
         total={total}
         sort={sort}

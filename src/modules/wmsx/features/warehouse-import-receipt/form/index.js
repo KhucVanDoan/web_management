@@ -445,9 +445,7 @@ function WarehouseImportReceiptForm() {
           amount: item?.money,
           debitAccount:
             item?.debitAccount?.replace(/^(\d*?[1-9])0+$/, '$1') || null,
-          creditAccount:
-            item?.creditAccount ||
-            creditAccount?.replace(/^(\d*?[1-9])0+$/, '$1'),
+          creditAccount: creditAccount?.replace(/^(\d*?[1-9])0+$/, '$1'),
           warehouseId: values?.warehouse?.id,
         })),
       ),
@@ -500,9 +498,7 @@ function WarehouseImportReceiptForm() {
             amount: item?.money,
             debitAccount:
               item?.debitAccount?.replace(/^(\d*?[1-9])0+$/, '$1') || null,
-            creditAccount:
-              item?.creditAccount ||
-              creditAccount?.replace(/^(\d*?[1-9])0+$/, '$1'),
+            creditAccount: creditAccount?.replace(/^(\d*?[1-9])0+$/, '$1'),
             warehouseId: values?.warehouse?.id,
           })),
         ),

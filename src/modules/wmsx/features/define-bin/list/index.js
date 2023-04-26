@@ -24,8 +24,8 @@ import {
 import useDefineBin from '~/modules/wmsx/redux/hooks/useDefineBin'
 import {
   exportBinApi,
-  getBinTemplateApi,
-  importBinApi,
+  // getBinTemplateApi,
+  // importBinApi,
 } from '~/modules/wmsx/redux/sagas/define-bin/import-export-bin'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
@@ -197,7 +197,8 @@ function DefineBin() {
     return (
       <>
         <ImportExport
-          onImport={(params) => importBinApi(params)}
+          name={t('menu.defineBin')}
+          // onImport={(params) => importBinApi(params)}
           onExport={() =>
             exportBinApi({
               columnSettings: JSON.stringify(columnsSettings),
@@ -205,15 +206,15 @@ function DefineBin() {
                 selectedRows?.map((x) => ({ id: `${x?.id}` })),
               ),
               keyword: keyword.trim(),
-              filter: convertFilterParams(filters, [
-                { field: 'createdAt', filterFormat: 'date' },
-              ]),
+              filter: convertFilterParams(
+                { ...filters, level: WAREHOUSE_LAYOUTS.BIN },
+                [{ field: 'createdAt', filterFormat: 'date' }],
+              ),
               sort: convertSortParams(sort),
             })
           }
-          onDownloadTemplate={getBinTemplateApi}
+          // onDownloadTemplate={getBinTemplateApi}
           onRefresh={refreshData}
-          disabled
         />
         <Button
           onClick={() => history.push(ROUTE.DEFINE_BIN.CREATE.PATH)}
@@ -245,7 +246,7 @@ function DefineBin() {
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
         onSettingChange={setColumnsSettings}
-        //onSelectionChange={setSelectedRows}
+        onSelectionChange={setSelectedRows}
         selected={selectedRows}
         total={total}
         sort={sort}

@@ -20,7 +20,7 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import StatusSwitcher from '~/components/StatusSwitcher'
 import { TYPE_ITEM_EXPORT } from '~/modules/database/constants'
-import { getItemUnitSettingTemplateApi } from '~/modules/database/redux/sagas/item-unit-setting/import-export-item-unit'
+// import { getItemUnitSettingTemplateApi } from '~/modules/database/redux/sagas/item-unit-setting/import-export-item-unit'
 import {
   UOM_ACTIVE_STATUS,
   UOM_ACTIVE_STATUS_OPTIONS,
@@ -221,12 +221,12 @@ function DefineUom() {
       <>
         <ImportExport
           name={t('menu.defineUom')}
-          {...(canAccess(FUNCTION_CODE.ITEM_IMPORT_ITEM_UNIT)
-            ? {
-                onImport: () => {},
-                onDownloadTemplate: getItemUnitSettingTemplateApi,
-              }
-            : {})}
+          // {...(canAccess(FUNCTION_CODE.ITEM_IMPORT_ITEM_UNIT)
+          //   ? {
+          //       onImport: () => {},
+          //       onDownloadTemplate: getItemUnitSettingTemplateApi,
+          //     }
+          //   : {})}
           {...(canAccess(FUNCTION_CODE.ITEM_EXPORT_ITEM_UNIT)
             ? {
                 onExport: () =>
@@ -245,7 +245,6 @@ function DefineUom() {
               }
             : {})}
           onRefresh={refreshData}
-          disabled
         />
         <Guard code={FUNCTION_CODE.ITEM_CREATE_ITEM_UNIT}>
           <Button
@@ -280,7 +279,7 @@ function DefineUom() {
           onPageSizeChange={setPageSize}
           onSortChange={setSort}
           onSettingChange={setColumnsSettings}
-          // onSelectionChange={setSelectedRows}
+          onSelectionChange={setSelectedRows}
           selected={selectedRows}
           total={total}
           filters={{

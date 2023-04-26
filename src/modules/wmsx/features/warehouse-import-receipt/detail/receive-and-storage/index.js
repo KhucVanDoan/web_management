@@ -275,7 +275,46 @@ function WarehouseImportReceiveAndStorage() {
     if (val) {
       setFieldValue('items', items)
     } else {
-      setFieldValue('items', items)
+      setFieldValue(
+        'items',
+        warehouseImportReceiptDetails?.purchasedOrderImportWarehouseLots?.map(
+          (item, index) => {
+            const itemByLocationIdListMap = keyBy(itemByLocationIdList, 'id')
+            return {
+              id: `${item?.itemId}-${index}`,
+              itemCode:
+                {
+                  itemId: item?.itemId,
+                  id: item?.itemId,
+                  quantity: item?.quantity,
+                  ...item?.item,
+                } || null,
+              importQuantity: item?.quantity,
+              receivedQuantity: item?.quantity,
+              locator: !isEmpty(
+                omitBy(
+                  first(
+                    orderBy(
+                      itemByLocationIdListMap[item?.itemId]?.locations,
+                      'quantity',
+                      'desc',
+                    ),
+                  )?.locator,
+                  isNil,
+                ),
+              )
+                ? first(
+                    orderBy(
+                      itemByLocationIdListMap[item?.itemId]?.locations,
+                      'quantity',
+                      'desc',
+                    ),
+                  )?.locator
+                : locationList[0],
+            }
+          },
+        ),
+      )
     }
   }
   return (

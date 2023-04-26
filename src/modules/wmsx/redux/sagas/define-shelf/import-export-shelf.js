@@ -18,7 +18,7 @@ export const importShelfApi = (params) => {
  * @returns {Promise}
  */
 export const exportShelfApi = (params) => {
-  const uri = `____ENTER_IMPORT_EXPORT_URL_HERE____`
+  const uri = `v1/warehouse-layouts/export?type=2`
   return api.get(uri, params)
 }
 

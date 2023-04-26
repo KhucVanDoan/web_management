@@ -49,7 +49,7 @@ function WarehouseExportReturn() {
     },
   ]
   const {
-    data: { warehouseImportReceiptDetails, isLoading },
+    data: { warehouseImportReceiptDetails },
     actions,
   } = useWarehouseImportReceipt()
   const {
@@ -60,7 +60,10 @@ function WarehouseExportReturn() {
     data: { businessTypeList },
     actions: getListBussinessTypeAction,
   } = useBussinessTypeManagement()
-  const { actions: warehouseExportReceiptAction } = useWarehouseExportReceipt()
+  const {
+    data: { isLoading },
+    actions: warehouseExportReceiptAction,
+  } = useWarehouseExportReceipt()
   useEffect(() => {
     actions.getWarehouseImportReceiptDetailsById(id)
     getListReasonAction.searchReasonManagement({
@@ -99,7 +102,7 @@ function WarehouseExportReturn() {
   }
   const onSubmit = (values) => {
     const params = {
-      purchasedOrderImportId: id,
+      purchasedOrderImportId: +id,
       receiver: values?.deliver,
       receiptDate: values?.receiptDate,
       departmentReceiptId: values?.departmentReceipt?.id,
@@ -107,7 +110,8 @@ function WarehouseExportReturn() {
       reasonId: values?.reason?.id,
       explanation: values?.explanation,
       items: values?.items?.map((item) => ({
-        itemId: +item?.itemCode?.itemId || +item?.itemCode?.id,
+        id: +item?.itemCode?.itemId || +item?.itemCode?.id,
+        itemCode: item?.itemCode?.code,
         lotNumber: item?.lotNumber || null,
         quantity: +item?.returnQuantity,
         price: item?.price,
@@ -118,7 +122,9 @@ function WarehouseExportReturn() {
     }
     warehouseExportReceiptAction.createWarehouseExportReceiptReturn(
       params,
-      backToDetail(),
+      () => {
+        backToDetail()
+      },
     )
   }
 
@@ -136,6 +142,7 @@ function WarehouseExportReturn() {
       reason: reasonManagementList?.find(
         (item) => item?.code === CODE_DEFAULT_REASON,
       ),
+      explanation: warehouseImportReceiptDetails?.explanation,
       items:
         warehouseImportReceiptDetails?.purchasedOrderImportWarehouseLots?.map(
           (item, index) => ({
@@ -222,7 +229,6 @@ function WarehouseExportReturn() {
                         name="receiptDate"
                         label={t('warehouseExportReceipt.receiptDate')}
                         placeholder={t('warehouseExportReceipt.receiptDate')}
-                        maxDate={new Date()}
                         minDate={new Date()}
                         required
                       />
@@ -270,7 +276,6 @@ function WarehouseExportReturn() {
                         asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                        disabled
                         required
                       />
                     </Grid>

@@ -27,8 +27,8 @@ import {
 import useReceiptDepartmentManagement from '~/modules/wmsx/redux/hooks/useReceiptDepartmentManagement'
 import {
   exportReceiptDepartmentApi,
-  getReceiptDepartmentTemplateApi,
-  importReceiptDepartmentApi,
+  // getReceiptDepartmentTemplateApi,
+  // importReceiptDepartmentApi,
 } from '~/modules/wmsx/redux/sagas/receipt-department-management/import-export-receipt-department'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
@@ -249,7 +249,6 @@ function ReceiptDepartmentManagement() {
     return (
       <>
         <ImportExport
-          onImport={(params) => importReceiptDepartmentApi(params)}
           {...(canAccess(FUNCTION_CODE.USER_EXPORT_DEPARTMENT_RECEIPT)
             ? {
                 onExport: () =>
@@ -266,25 +265,24 @@ function ReceiptDepartmentManagement() {
                   }),
               }
             : {})}
-          {...(canAccess(FUNCTION_CODE.USER_IMPORT_DEPARTMENT_RECEIPT)
-            ? {
-                onImport: () =>
-                  importReceiptDepartmentApi({
-                    columnSettings: JSON.stringify(columnsSettings),
-                    queryIds: JSON.stringify(
-                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
-                    ),
-                    keyword: keyword.trim(),
-                    filter: convertFilterParams(filters, [
-                      { field: 'createdAt', filterFormat: 'date' },
-                    ]),
-                    sort: convertSortParams(sort),
-                  }),
-              }
-            : {})}
-          onDownloadTemplate={getReceiptDepartmentTemplateApi}
+          // {...(canAccess(FUNCTION_CODE.USER_IMPORT_DEPARTMENT_RECEIPT)
+          //   ? {
+          //       onImport: () =>
+          //         importReceiptDepartmentApi({
+          //           columnSettings: JSON.stringify(columnsSettings),
+          //           queryIds: JSON.stringify(
+          //             selectedRows?.map((x) => ({ id: `${x?.id}` })),
+          //           ),
+          //           keyword: keyword.trim(),
+          //           filter: convertFilterParams(filters, [
+          //             { field: 'createdAt', filterFormat: 'date' },
+          //           ]),
+          //           sort: convertSortParams(sort),
+          //         }),
+          //     }
+          //   : {})}
+          // onDownloadTemplate={getReceiptDepartmentTemplateApi}
           onRefresh={refreshData}
-          disabled
         />
         <Guard code={FUNCTION_CODE.USER_CREATE_DEPARTMENT_RECEIPT}>
           <Button
@@ -320,7 +318,7 @@ function ReceiptDepartmentManagement() {
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
         onSettingChange={setColumnsSettings}
-        // onSelectionChange={setSelectedRows}
+        onSelectionChange={setSelectedRows}
         selected={selectedRows}
         total={total}
         sort={sort}

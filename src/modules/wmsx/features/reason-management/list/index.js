@@ -242,7 +242,6 @@ function ReasonManagement() {
           //     }
           //   : {})}
           onRefresh={refreshData}
-          disabled
         />
         <Guard code={FUNCTION_CODE.SALE_CREATE_REASON}>
           <Button
@@ -282,7 +281,7 @@ function ReasonManagement() {
           onApply: setFilters,
         }}
         sort={sort}
-        // onSelectionChange={setSelectedRows}
+        onSelectionChange={setSelectedRows}
         onSettingChange={setColumnsSettings}
         selected={selectedRows}
         // bulkActions={{

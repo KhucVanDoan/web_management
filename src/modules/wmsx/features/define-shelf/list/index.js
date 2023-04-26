@@ -8,7 +8,7 @@ import { FUNCTION_CODE } from '~/common/constants/functionCode'
 // import { BULK_ACTION } from '~/common/constants'
 // import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
-import { useApp } from '~/common/hooks/useApp'
+// import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
@@ -27,8 +27,8 @@ import {
 import useDefineShelf from '~/modules/wmsx/redux/hooks/useDefineShelf'
 import {
   exportShelfApi,
-  getShelfTemplateApi,
-  importShelfApi,
+  // getShelfTemplateApi,
+  // importShelfApi,
 } from '~/modules/wmsx/redux/sagas/define-shelf/import-export-shelf'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
@@ -70,7 +70,7 @@ function DefineShelf() {
   } = useQueryState({
     filters: DEFAULT_FILTERS,
   })
-  const { canAccess } = useApp()
+  // const { canAccess } = useApp()
   const {
     data: { shelfList, total, isLoading },
     actions,
@@ -214,41 +214,39 @@ function DefineShelf() {
     return (
       <>
         <ImportExport
-          {...(canAccess(FUNCTION_CODE.WAREHOUSE_EXPORT_LOCATION)
-            ? {
-                onExport: () =>
-                  exportShelfApi({
-                    columnSettings: JSON.stringify(columnsSettings),
-                    queryIds: JSON.stringify(
-                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
-                    ),
-                    keyword: keyword.trim(),
-                    filter: convertFilterParams(filters, [
-                      { field: 'createdAt', filterFormat: 'date' },
-                    ]),
-                    sort: convertSortParams(sort),
-                  }),
-              }
-            : {})}
-          {...(canAccess(FUNCTION_CODE.WAREHOUSE_IMPORT_LOCATION)
-            ? {
-                onImport: () =>
-                  importShelfApi({
-                    columnSettings: JSON.stringify(columnsSettings),
-                    queryIds: JSON.stringify(
-                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
-                    ),
-                    keyword: keyword.trim(),
-                    filter: convertFilterParams(filters, [
-                      { field: 'createdAt', filterFormat: 'date' },
-                    ]),
-                    sort: convertSortParams(sort),
-                  }),
-              }
-            : {})}
-          onDownloadTemplate={getShelfTemplateApi}
+          name={t('menu.defineShelf')}
+          onExport={() =>
+            exportShelfApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: `${x?.id}` })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(
+                { ...filters, level: WAREHOUSE_LAYOUTS.SHELF },
+                [{ field: 'createdAt', filterFormat: 'date' }],
+              ),
+              sort: convertSortParams(sort),
+            })
+          }
+          // {...(canAccess(FUNCTION_CODE.WAREHOUSE_IMPORT_LOCATION)
+          //   ? {
+          //       onImport: () =>
+          //         importShelfApi({
+          //           columnSettings: JSON.stringify(columnsSettings),
+          //           queryIds: JSON.stringify(
+          //             selectedRows?.map((x) => ({ id: `${x?.id}` })),
+          //           ),
+          //           keyword: keyword.trim(),
+          //           filter: convertFilterParams(filters, [
+          //             { field: 'createdAt', filterFormat: 'date' },
+          //           ]),
+          //           sort: convertSortParams(sort),
+          //         }),
+          //     }
+          //   : {})}
+          // onDownloadTemplate={getShelfTemplateApi}
           onRefresh={refreshData}
-          disabled
         />
         <Guard code={FUNCTION_CODE.WAREHOUSE_CREATE_LOCATION}>
           <Button
@@ -282,7 +280,7 @@ function DefineShelf() {
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
         onSettingChange={setColumnsSettings}
-        //onSelectionChange={setSelectedRows}
+        onSelectionChange={setSelectedRows}
         selected={selectedRows}
         total={total}
         sort={sort}
