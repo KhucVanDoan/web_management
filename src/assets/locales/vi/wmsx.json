@@ -143,6 +143,7 @@
     "warehouseExportProposalDetail": "Chi tiết giấy đề nghị xuất vật tư",
     "receiptManagement": "Quản lý receipt",
     "receiptManagementDetail": "Chi tiết receipt",
+    "adjustDelivery": "Điều chỉnh giao nhận",
     "reportStatistics": "Thống kê báo cáo",
     "reportExport": "Xuất báo cáo",
     "inventoryCalendar": "Lệnh kiểm kê",
@@ -3199,6 +3200,7 @@
     "returnReceiptConfirm": "Phiếu giao nhận - số receipt đã bị hủy sẽ không được sử dụng nhập kho !!!",
     "returnReceiptConfirmText": "Bạn có chắc chắn muốn hủy số receipt:",
     "contractNumber": "hợp đồng số:",
+    "adjustDelivery": "Điều chỉnh giao nhận",
     "itemDetails": {
       "title": "Danh sách vật tư",
       "code": "Mã vật tư",
@@ -3208,7 +3210,13 @@
       "price": "Đơn giá",
       "amount": "Thành tiền",
       "debitAccount": "Tài khoản nợ",
-      "creditAccount": "Tài khoản có"
+      "creditAccount": "Tài khoản có",
+      "enteredQuantity": "SL đã nhập",
+      "adjustedReceipt": "Số phiếu điều chỉnh",
+      "quantityRemainning": "Số lượng chưa nhập",
+      "paidQuantity": "Số lượng đã trả",
+      "returnQuantity": "SL trả",
+      "remainReturnQuantity": "SL có thể trả"
     }
   },
   "reportExport": {

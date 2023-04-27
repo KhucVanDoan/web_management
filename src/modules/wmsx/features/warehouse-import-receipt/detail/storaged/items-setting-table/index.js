@@ -30,6 +30,7 @@ function ItemsSettingTable(props) {
           importQuantity: item?.quantity,
           receivedQuantity: item?.quantity,
           lotNumber: item?.lotNumber,
+          lotNumberOld: item?.lotNumberOld,
           itemId: item?.itemId,
         })
       }
@@ -232,7 +233,7 @@ function ItemsSettingTable(props) {
                 id: new Date().getTime(),
                 itemCode: '',
                 locator: '',
-                lotNumber: { lotNumber: null, itemId: null },
+                lotNumber: null,
                 itemUnit: '',
                 quantity: '',
                 receivedQuantity: '',

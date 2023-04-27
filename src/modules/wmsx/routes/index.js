@@ -89,6 +89,7 @@ import ReasonManagement from '../features/reason-management/list'
 import ReceiptDepartmentManagementDetail from '../features/receipt-department-management/detail'
 import ReceiptDepartmentManagementForm from '../features/receipt-department-management/form'
 import ReceiptDepartmentManagement from '../features/receipt-department-management/list'
+import AdjustDeliveryForm from '../features/receipt-management/adjust-delivery'
 import ReceiptManagementDetail from '../features/receipt-management/detail'
 import ReceiptManagement from '../features/receipt-management/list'
 import ReportExport from '../features/report-export'
@@ -722,6 +723,13 @@ const routes = [
         path: ROUTE.RECEIPT_MANAGEMENT.DETAIL.PATH,
         component: ReceiptManagementDetail,
         code: FUNCTION_CODE.SALE_DETAIL_RECEIPT,
+        isInSidebar: false,
+      },
+      {
+        name: ROUTE.RECEIPT_MANAGEMENT.ADJUST_DELIVERY.TITLE,
+        path: ROUTE.RECEIPT_MANAGEMENT.ADJUST_DELIVERY.PATH,
+        component: AdjustDeliveryForm,
+        // code: FUNCTION_CODE.SALE_DETAIL_RECEIPT,
         isInSidebar: false,
       },
     ],

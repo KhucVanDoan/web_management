@@ -27,7 +27,7 @@ import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseEx
 import {
   exportWarehouseExportReceiptApi,
   getWarehouseExportReceiptTemplateApi,
-  importWarehouseExportReceiptApi,
+  // importWarehouseExportReceiptApi,
 } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/import-export'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import {
@@ -436,6 +436,7 @@ function WarehouseExportReceipt() {
     return (
       <>
         <ImportExport
+          name={t('menu.warehouseExportReceipt')}
           onExport={() =>
             exportWarehouseExportReceiptApi({
               columnSettings: JSON.stringify(columnsSettings),
@@ -449,22 +450,21 @@ function WarehouseExportReceipt() {
               sort: convertSortParams(sort),
             })
           }
-          onImport={() =>
-            importWarehouseExportReceiptApi({
-              columnSettings: JSON.stringify(columnsSettings),
-              queryIds: JSON.stringify(
-                selectedRows?.map((x) => ({ id: `${x?.id}` })),
-              ),
-              keyword: keyword.trim(),
-              filter: convertFilterParams(filters, [
-                { field: 'createdAt', filterFormat: 'date' },
-              ]),
-              sort: convertSortParams(sort),
-            })
-          }
+          // onImport={() =>
+          //   importWarehouseExportReceiptApi({
+          //     columnSettings: JSON.stringify(columnsSettings),
+          //     queryIds: JSON.stringify(
+          //       selectedRows?.map((x) => ({ id: `${x?.id}` })),
+          //     ),
+          //     keyword: keyword.trim(),
+          //     filter: convertFilterParams(filters, [
+          //       { field: 'createdAt', filterFormat: 'date' },
+          //     ]),
+          //     sort: convertSortParams(sort),
+          //   })
+          // }
           onDownloadTemplate={getWarehouseExportReceiptTemplateApi}
           onRefresh={refreshData}
-          disabled
         />
         <Guard code={FUNCTION_CODE.SALE_CREATE_SALE_ORDER_EXPORT}>
           <Button
@@ -500,7 +500,7 @@ function WarehouseExportReceipt() {
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
         onSettingChange={setColumnsSettings}
-        //onSelectionChange={setSelectedRows}
+        onSelectionChange={setSelectedRows}
         selected={selectedRows}
         total={total}
         sort={sort}

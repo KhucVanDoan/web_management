@@ -508,6 +508,10 @@ export const ROUTE = {
       PATH: '/wms/receipt-management/:id/detail',
       TITLE: 'receiptManagementDetail',
     },
+    ADJUST_DELIVERY: {
+      PATH: '/wms/receipt-management/:id/adjust-delivery',
+      TITLE: 'adjustDelivery',
+    },
   },
   WAREHOUSE_EXPORT_RECEIPT: {
     LIST: {

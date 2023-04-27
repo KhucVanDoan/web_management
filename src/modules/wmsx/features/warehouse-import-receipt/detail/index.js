@@ -199,7 +199,7 @@ function WarehouseImportReceiptDetail() {
           warehouseImportReceiptDetails?.syncStatus ===
             STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC)
       const syncStatusNotReturm = [
-        STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR,
+        STATUS_SYNC_ORDER_TO_EBS.CANCEL,
         STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_SUCCESS,
       ]
       const isReturnWarehouseImport =

@@ -116,7 +116,7 @@ function ItemsSettingTable(props) {
       {
         field: 'returnExportedQuantity',
         headerName: t('warehouseExportReceipt.items.returnExportedQuantity'),
-        width: 150,
+        width: 200,
         headerAlign: 'left',
         align: 'right',
         renderCell: (params, index) => {

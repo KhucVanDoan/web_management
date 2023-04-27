@@ -84,7 +84,12 @@ function WarehouseExportReturnDetail() {
                 value={warehouseExportReceiptDetails?.code}
               />
             </Grid>
-
+            {/* <Grid item xs={12} lg={6}>
+              <LV
+                label={t('warehouseImportReceipt.id')}
+                value={warehouseImportReceiptDetails.code}
+              />
+            </Grid> */}
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.nameOfReceiver')}
