@@ -77,6 +77,46 @@ const ItemSettingTable = ({ items }) => {
       },
     },
     {
+      field: ' enteredQuantity',
+      headerName: t('receiptManagement.itemDetails.enteredQuantity'),
+      width: 150,
+      align: 'right',
+      headerAlign: 'left',
+      renderCell: () => {
+        return <NumberFormatText value={0} formatter="quantity" />
+      },
+    },
+    {
+      field: ' quantityRemainning',
+      headerName: t('receiptManagement.itemDetails.quantityRemainning'),
+      width: 150,
+      align: 'right',
+      headerAlign: 'left',
+      renderCell: () => {
+        return <NumberFormatText value={0} formatter="quantity" />
+      },
+    },
+    {
+      field: 'paidQuantity',
+      headerName: t('receiptManagement.itemDetails.paidQuantity'),
+      width: 150,
+      align: 'right',
+      headerAlign: 'left',
+      renderCell: () => {
+        return <NumberFormatText value={0} formatter="quantity" />
+      },
+    },
+    {
+      field: 'adjustedReceipt',
+      headerName: t('receiptManagement.itemDetails.adjustedReceipt'),
+      width: 150,
+      align: 'right',
+      headerAlign: 'left',
+      renderCell: () => {
+        return <NumberFormatText value={0} formatter="quantity" />
+      },
+    },
+    {
       field: 'debitAccount',
       headerName: t('receiptManagement.itemDetails.debitAccount'),
       width: 150,

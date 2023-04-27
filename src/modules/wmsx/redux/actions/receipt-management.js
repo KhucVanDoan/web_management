@@ -12,6 +12,13 @@ export const WMSX_RESET_RECEIPT_DETAILS_STATE =
 export const WMSX_RETURN_RECEIPT_START = 'WMSX_RETURN_RECEIPT_START'
 export const WMSX_RETURN_RECEIPT_SUCCESS = 'WMSX_RETURN_RECEIPT_SUCCESS'
 export const WMSX_RETURN_RECEIPT_FAILED = 'WMSX_RETURN_RECEIPT_FAILED'
+
+export const WMSX_ADJUST_DELIVER_RECEIPT_START =
+  'WMSX_ADJUST_DELIVER_RECEIPT_START'
+export const WMSX_ADJUST_DELIVER_RECEIPT_SUCCESS =
+  'WMSX_ADJUST_DELIVER_RECEIPT_SUCCESS'
+export const WMSX_ADJUST_DELIVER_RECEIPT_FAILED =
+  'WMSX_ADJUST_DELIVER_RECEIPT_FAILED'
 export function searchReceipt(payload, onSuccess, onError) {
   return {
     type: WMSX_SEARCH_RECEIPT_START,
@@ -56,6 +63,27 @@ export function getReceiptDetailsByIdFailed() {
   }
 }
 
+export function adujustDeliverReceipt(id, onSuccess, onError) {
+  return {
+    type: WMSX_ADJUST_DELIVER_RECEIPT_START,
+    payload: id,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function adujustDeliverReceiptSuccess(payload) {
+  return {
+    type: WMSX_ADJUST_DELIVER_RECEIPT_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function adujustDeliverReceiptFailed() {
+  return {
+    type: WMSX_ADJUST_DELIVER_RECEIPT_FAILED,
+  }
+}
 export function resetReceiptDetailsState() {
   return {
     type: WMSX_RESET_RECEIPT_DETAILS_STATE,
@@ -94,4 +122,7 @@ export default {
   returnReceiptById,
   returnReceiptByIdSuccess,
   returnReceiptByIdFailed,
+  adujustDeliverReceipt,
+  adujustDeliverReceiptSuccess,
+  adujustDeliverReceiptFailed,
 }

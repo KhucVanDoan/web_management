@@ -119,7 +119,11 @@ const displayFollowBusinessTypeManagement = (
         setValueReceipt(data)
         if (isEmpty(values?.sourceId)) {
           const items = data?.items?.map((item) => ({
-            itemCode: { ...item?.item, itemId: item?.itemId },
+            itemCode: {
+              ...item?.item,
+              itemId: item?.itemId,
+              receiptDetailId: item?.id,
+            },
             itemName: item?.item?.name,
             unit: item?.item?.itemUnit,
             importQuantity: item?.quantity,
@@ -135,7 +139,11 @@ const displayFollowBusinessTypeManagement = (
           }
         } else {
           const items = data?.items?.map((item) => ({
-            itemCode: { ...item?.item, itemId: item?.itemId },
+            itemCode: {
+              ...item?.item,
+              itemId: item?.itemId,
+              receiptDetailId: item?.id,
+            },
             itemName: item?.item?.name,
             unit: item?.item?.itemUnit,
             importQuantity: item?.quantity,

@@ -26,6 +26,7 @@
     "totalExportedQuantity": "Tổng số lượng xuất phải bằng số lượng chuyển là {{exportQuantity}}",
     "totalInputedQuantity": "Tổng số lượng nhập phải bằng số lượng chuyển là {{inputQuantity}}",
     "totalQuantityExport": "Tổng số lượng xuất phải nhỏ hơn hoặc bằng {{exportQuantity}}",
+    "returnQuantity": "Số lượng trả phải nhỏ hơn hoặc bằng Số lượng có thể trả là {{returnQuantity}}",
     "moreThanNumber": "Giá trị phải lớn hơn {{min}}",
     "duplicates": "Mục này không được trùng lặp",
     "dateRange": "Ngày phải thuộc khoảng từ {{from}} đến {{to}}",

@@ -30,6 +30,7 @@ function ItemsSettingTable(props) {
           importQuantity: item?.quantity,
           receivedQuantity: item?.quantity,
           lotNumber: item?.lotNumber,
+          lotNumberOld: item?.lotNumberOld,
           itemId: item?.itemId,
         })
       }

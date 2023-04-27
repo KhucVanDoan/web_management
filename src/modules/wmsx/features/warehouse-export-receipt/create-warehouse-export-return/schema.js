@@ -19,6 +19,12 @@ export const formSchema = (t) =>
                   min: NUMBER_FIELD_REQUIRED_SIZE.WATTAGE.MIN,
                 }),
               })
+            } else if (+value > context?.parent?.returnExportedQuantity) {
+              return context.createError({
+                message: t('general:form.returnQuantity', {
+                  returnQuantity: context?.parent?.returnExportedQuantity,
+                }),
+              })
             }
             return true
           }),

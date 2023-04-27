@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 
 import { Box, Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
 import ActionBar from '~/components/ActionBar'
+import Button from '~/components/Button'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -45,13 +46,35 @@ const ReceiptManagementDetail = () => {
   const backToList = () => {
     history.push(ROUTE.RECEIPT_MANAGEMENT.LIST.PATH)
   }
-
+  const renderHeaderRight = () =>
+    useMemo(() => {
+      return (
+        // <Guard code={FUNCTION_CODE.SALE_CONFIRM_PURCHASED_ORDER_IMPORT}>
+        <Button
+          sx={{
+            ml: 4 / 3,
+          }}
+          onClick={() =>
+            history.push(
+              ROUTE.RECEIPT_MANAGEMENT.ADJUST_DELIVERY.PATH.replace(
+                ':id',
+                `${id}`,
+              ),
+            )
+          }
+        >
+          {t('receiptManagement.adjustDelivery')}
+        </Button>
+        // </Guard>
+      )
+    }, [receiptDetail])
   return (
     <Page
       breadcrumbs={breadcrumbs}
       title={t('receiptManagement.formTitle')}
       onBack={backToList}
       loading={isLoading}
+      renderHeaderRight={renderHeaderRight}
     >
       <Grid container justifyContent="center">
         <Grid item xl={11} xs={12}>

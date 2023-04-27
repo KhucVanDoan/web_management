@@ -84,7 +84,7 @@ function ItemsSettingTable(props) {
           return (
             <NumberFormatText
               value={params?.row?.importQuantity}
-              formatter="price"
+              formatter="quantity"
             />
           )
         },
@@ -99,7 +99,7 @@ function ItemsSettingTable(props) {
           return (
             <NumberFormatText
               value={params?.row?.receivedQuantity}
-              formatter="price"
+              formatter="quantity"
             />
           )
         },

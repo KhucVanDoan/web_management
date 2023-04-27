@@ -160,7 +160,7 @@ function WarehouseImportReceiveAndStorage() {
           ...item,
           itemId: item.itemCode?.itemId,
         })),
-        (e) => `${e.itemId}_${e.lotNumber?.lotNumber || ''}`,
+        (e) => `${e.itemId}_${e?.lotNumber || e?.lotNumberOld || ''}`,
       )
       if (
         Object.keys(itemByIds)?.length <
@@ -217,6 +217,8 @@ function WarehouseImportReceiveAndStorage() {
                   quantity: item?.quantity,
                   ...item?.item,
                 } || null,
+              lotNumber: item?.lotNumber,
+              lotNumberOld: item?.lotNumberOld,
               importQuantity: item?.quantity,
               receivedQuantity: item?.quantity,
               locator: !isEmpty(

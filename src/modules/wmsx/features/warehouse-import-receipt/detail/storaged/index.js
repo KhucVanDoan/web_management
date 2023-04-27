@@ -180,9 +180,7 @@ function WarehouseImportStorage() {
         return {
           id: Number(itemId.split('_').shift()),
           lotNumber: first(
-            itemByIds[itemId]?.map(
-              (lotNumber) => lotNumber.lotNumber?.lotNumber,
-            ),
+            itemByIds[itemId]?.map((lotNumber) => lotNumber?.lotNumber),
           ),
           locations: itemByIds[itemId]?.map((locator) => ({
             locatorId: locator.locator?.locatorId,
@@ -198,7 +196,6 @@ function WarehouseImportStorage() {
         warehouseId: warehouseImportReceiptDetails?.warehouse?.id,
         items: itemsRequest,
       }
-
       actions.storedWarehouse(payload, backToDetail)
     } catch (error) {
       addNotification(error.message, NOTIFICATION_TYPE.ERROR)
@@ -220,7 +217,7 @@ function WarehouseImportStorage() {
                   quantity: item?.quantity,
                   ...item?.item,
                 } || null,
-              lotNumber: item?.lotNumber,
+              lotNumber: item?.lotNumber || null,
               lotNumberOld: item?.lotNumberOld,
               importQuantity: item?.quantity,
               receivedQuantity: item?.quantity,

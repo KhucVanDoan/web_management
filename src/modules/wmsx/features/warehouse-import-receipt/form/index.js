@@ -206,6 +206,7 @@ function WarehouseImportReceiptForm() {
                 requestedQuantity:
                   item?.requestedQuantityWarehouseExportProposal,
                 quantity: item?.quantity,
+                receiptDetailId: item?.receiptDetailId,
                 item: { ...item?.item },
               },
             }
@@ -444,6 +445,7 @@ function WarehouseImportReceiptForm() {
             +item?.itemCode?.itemId ||
             +item?.itemCode?.id ||
             +item?.itemCode?.itemCode?.itemId,
+          receiptDetailId: item?.itemCode?.receiptDetailId,
           requestedItemIdImportActual: item?.itemCode?.item?.code,
           lotNumber: item?.lotNumber || '',
           quantity: +item?.importQuantity || item?.quantity,
@@ -496,6 +498,7 @@ function WarehouseImportReceiptForm() {
               +item?.itemCode?.itemId ||
               +item?.itemCode?.id ||
               +item?.itemCode?.itemCode?.itemId,
+            receiptDetailId: item?.itemCode?.receiptDetailId || null,
             requestedItemIdImportActual: item?.itemCode?.item?.code,
             lotNumber: item?.lotNumber || '',
             lotNumberOld: item?.lotNumberOld,

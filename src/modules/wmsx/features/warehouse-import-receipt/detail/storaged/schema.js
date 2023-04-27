@@ -15,7 +15,9 @@ export const formSchema = (t) =>
                   item.itemCode?.itemId === context?.parent?.itemCode?.itemId &&
                   (item?.lotNumber
                     ? item?.lotNumber === context?.parent?.lotNumber
-                    : item?.lotNumberOld === context?.parent?.lotNumberOld) &&
+                    : (item?.lotNumberOld || item?.itemCode?.lotNumberOld) ===
+                      (context?.parent?.lotNumberOld ||
+                        context?.parent?.itemCode?.lotNumberOld)) &&
                   item?.id !== context?.parent?.row?.id,
               )
               .reduce((prev, cur) => prev + Number(cur.receivedQuantity), 0)
