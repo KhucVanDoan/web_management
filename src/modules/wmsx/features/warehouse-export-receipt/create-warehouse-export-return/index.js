@@ -166,7 +166,7 @@ function WarehouseExportReturn() {
             planExportedQuantity:
               warehouseImportReceiptDetails?.status ===
               WAREHOUSE_IMPORT_RECEIPT_STATUS.RECEIVED
-                ? item?.exportableQuantity + item?.remainReturnQuantity
+                ? ((+item?.exportableQuantity || 0) + (+item?.remainReturnQuantity || 0))
                 : item?.exportableQuantity,
             returnExportedQuantity: item?.remainReturnQuantity,
             returnQuantity: item?.remainReturnQuantity,
