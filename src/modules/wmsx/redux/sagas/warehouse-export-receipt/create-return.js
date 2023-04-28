@@ -26,7 +26,7 @@ function* doCreateWarehouseExportReceiptReturn(action) {
 
       // Call callback action if provided
       if (action.onSuccess) {
-        yield action.onSuccess()
+        yield action.onSuccess(response.data)
       }
 
       addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)

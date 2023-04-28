@@ -103,18 +103,18 @@ const MovementReport = ({ fromDate, toDate }) => {
         },
       },
     },
-    slider: {
-      height: 30,
-      handlerStyle: {
-        stroke: '#8884d8',
-        width: 4,
-        fill: '#8884d8',
-        highLightFill: '#8884d8',
-      },
-      trendCfg: {
-        data: [],
-      },
-    },
+    // slider: {
+    //   height: 30,
+    //   handlerStyle: {
+    //     stroke: '#8884d8',
+    //     width: 4,
+    //     fill: '#8884d8',
+    //     highLightFill: '#8884d8',
+    //   },
+    //   trendCfg: {
+    //     data: [],
+    //   },
+    // },
     geometryOptions: [
       {
         geometry: 'column',
