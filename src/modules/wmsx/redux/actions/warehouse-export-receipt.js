@@ -153,16 +153,19 @@ export function createWarehouseExportReceiptReturn(
   }
 }
 
-export function createWarehouseExportReceiptReturnSuccess(payload) {
+export function createWarehouseExportReceiptReturnSuccess(payload, onSuccess) {
   return {
     type: CREATE_WAREHOUSE_EXPORT_RECEIPT_RETURN_SUCCESS,
     payload: payload,
+    onSuccess: onSuccess,
   }
 }
 
-export function createWarehouseExportReceiptReturnFailed() {
+export function createWarehouseExportReceiptReturnFailed(payload, onSuccess) {
   return {
     type: CREATE_WAREHOUSE_EXPORT_RECEIPT_RETURN_FAILED,
+    payload: payload,
+    onSuccess: onSuccess,
   }
 }
 export function updateWarehouseExportReceipt(payload, onSuccess, onError) {

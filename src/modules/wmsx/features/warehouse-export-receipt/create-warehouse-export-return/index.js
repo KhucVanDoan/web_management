@@ -108,7 +108,8 @@ function WarehouseExportReturn() {
       departmentReceiptId: values?.departmentReceipt?.id,
       warehouseId: values?.warehouse?.id,
       reasonId: values?.reason?.id,
-      explanation: values?.explanation,
+      businessTypeId: values?.businessType?.id,
+      explaination: values?.explanation,
       items: values?.items?.map((item) => ({
         id: +item?.itemCode?.itemId || +item?.itemCode?.id,
         itemCode: item?.itemCode?.code,
@@ -165,7 +166,7 @@ function WarehouseExportReturn() {
             planExportedQuantity:
               warehouseImportReceiptDetails?.status ===
               WAREHOUSE_IMPORT_RECEIPT_STATUS.RECEIVED
-                ? item?.exportableQuantity + item?.quantity
+                ? item?.exportableQuantity + item?.remainReturnQuantity
                 : item?.exportableQuantity,
             returnExportedQuantity: item?.remainReturnQuantity,
             returnQuantity: item?.remainReturnQuantity,

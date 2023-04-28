@@ -94,7 +94,11 @@ function ItemsSettingTable(props) {
         headerAlign: 'left',
         renderCell: (params, index) => {
           return (
-            <Field.TextField name={`items[${index}].importQuantity`} disabled />
+            <Field.TextField
+              name={`items[${index}].importQuantity`}
+              formatter="quantity"
+              disabled
+            />
           )
         },
       },
@@ -108,6 +112,7 @@ function ItemsSettingTable(props) {
           return (
             <Field.TextField
               name={`items[${index}].planExportedQuantity`}
+              formatter="quantity"
               disabled
             />
           )
@@ -123,6 +128,7 @@ function ItemsSettingTable(props) {
           return (
             <Field.TextField
               name={`items[${index}].returnExportedQuantity`}
+              formatter="quantity"
               disabled
             />
           )
@@ -139,6 +145,7 @@ function ItemsSettingTable(props) {
             <Field.TextField
               name={`items[${index}].returnQuantity`}
               disabled={isReturnAll}
+              formatter="quantity"
               validate={(val) => {
                 if (val) {
                   if (val > params?.row?.planExportedQuantity) {
