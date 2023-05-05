@@ -168,8 +168,8 @@ function WarehouseExportReturn() {
               WAREHOUSE_IMPORT_RECEIPT_STATUS.RECEIVED
                 ? ((+item?.exportableQuantity || 0) + (+item?.remainReturnQuantity || 0))
                 : item?.exportableQuantity,
-            returnExportedQuantity: item?.remainReturnQuantity,
-            returnQuantity: item?.remainReturnQuantity,
+            returnExportedQuantity: +item?.remainReturnQuantity,
+            returnQuantity: +item?.remainReturnQuantity,
             debitAccount: item?.debitAccount,
             creditAccount: item?.creditAccount,
             lotNumber: item?.lotNumber,
