@@ -40,10 +40,23 @@ const InventoryQuantity = ({ fromDate, toDate }) => {
   const handleChangeItem = (value) => {
     setItemCode(value)
   }
+
+  const convertAmount = (amount) => {
+    const unit = 1000000;
+    if (!amount || +amount == 0) {
+      return 0;
+    }
+    try {
+      return  (amount / unit).toString().match(/^-?\d+(?:\.\d{0,2})?/)[0];
+    } catch {
+      return (amount / unit).toFixed(2);
+    }
+  }
+
   const data = itemStockHistories?.map((item) => ({
     time: item?.rangeDate,
     quantity: item?.quantity,
-    amount: item?.amount,
+    amount: convertAmount(item?.amount),
     type: t('dashboard.inventoryQuantity.quantity'),
     name: t('dashboard.inventoryQuantity.value'),
   }))
