@@ -47,6 +47,7 @@ const DefineMaterialCategory = () => {
   const [bomTree, setBomTree] = useState([])
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
+  const [loadingExport, setLoadingExport] = useState(false)
   const {
     data: { materialCategoryList, isLoading, total },
     actions,
@@ -322,6 +323,7 @@ const DefineMaterialCategory = () => {
       <>
         <ImportExport
           name={t('menu.defineMaterialCategory')}
+          loadingExport={setLoadingExport}
           // {...(canAccess(FUNCTION_CODE.ITEM_IMPORT_ITEM_TYPE)
           //   ? {
           //       onImport: () => {},
@@ -367,7 +369,7 @@ const DefineMaterialCategory = () => {
       renderHeaderRight={renderHeaderRight}
       onSearch={setKeyword}
       placeholder={t('defineMaterialCategory.searchPlaceholder')}
-      loading={isLoading}
+      loading={isLoading || loadingExport}
     >
       <TableCollapse
         title={t('defineMaterialCategory.title')}

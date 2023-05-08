@@ -83,7 +83,7 @@ function DefineAssembly() {
 
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
-
+  const [loadingExport, setLoadingExport] = useState(false)
   const columns = [
     {
       field: 'code',
@@ -217,6 +217,7 @@ function DefineAssembly() {
       <>
         <ImportExport
           name={t('menu.defineAssembly')}
+          loadingExport={setLoadingExport}
           onExport={() =>
             exportAssemblyApi({
               columnSettings: JSON.stringify(columnsSettings),
@@ -270,7 +271,7 @@ function DefineAssembly() {
       onSearch={setKeyword}
       placeholder={t('defineAssembly.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}
-      loading={isLoading}
+      loading={isLoading || loadingExport}
     >
       <DataTable
         title={t('defineAssembly.list')}

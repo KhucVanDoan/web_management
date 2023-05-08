@@ -89,7 +89,7 @@ function WarehouseExportReceipt() {
 
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
-
+  const [loadingExport, setLoadingExport] = useState(false)
   const columns = [
     {
       field: 'code',
@@ -437,6 +437,7 @@ function WarehouseExportReceipt() {
       <>
         <ImportExport
           name={t('menu.warehouseExportReceipt')}
+          loadingExport={setLoadingExport}
           onExport={() =>
             exportWarehouseExportReceiptApi({
               columnSettings: JSON.stringify(columnsSettings),
@@ -488,7 +489,7 @@ function WarehouseExportReceipt() {
       onSearch={setKeyword}
       placeholder={t('warehouseExportReceipt.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}
-      loading={isLoading}
+      loading={isLoading || loadingExport}
     >
       <DataTable
         title={t('warehouseExportReceipt.list')}

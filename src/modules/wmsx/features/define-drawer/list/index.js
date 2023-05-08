@@ -83,7 +83,7 @@ function DefineDrawer() {
 
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
-
+  const [loadingExport, setLoadingExport] = useState(false)
   const columns = [
     {
       field: 'code',
@@ -217,6 +217,7 @@ function DefineDrawer() {
       <>
         <ImportExport
           name={t('menu.defineDrawer')}
+          loadingExport={setLoadingExport}
           onExport={() =>
             exportDrawerApi({
               columnSettings: JSON.stringify(columnsSettings),
@@ -270,7 +271,7 @@ function DefineDrawer() {
       onSearch={setKeyword}
       placeholder={t('defineDrawer.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}
-      loading={isLoading}
+      loading={isLoading || loadingExport}
     >
       <DataTable
         title={t('defineDrawer.list')}

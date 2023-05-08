@@ -43,6 +43,7 @@ function SourceManagement() {
   const [isActiveModal, setIsActiveModal] = useState(false)
   const [selectedRows, setSelectedRows] = useState([])
   const [columnsSettings, setColumnsSettings] = useState([])
+  const [loadingExport, setLoadingExport] = useState(false)
   const { canAccess } = useApp()
   const DEFAULT_FILTERS = {
     code: '',
@@ -225,6 +226,7 @@ function SourceManagement() {
       <>
         <ImportExport
           name={t('menu.sourceManagement')}
+          loadingExport={setLoadingExport}
           onExport={() =>
             exportSourceManagementApi({
               columnSettings: JSON.stringify(columnsSettings),
@@ -275,7 +277,7 @@ function SourceManagement() {
       renderHeaderRight={renderHeaderRight}
       onSearch={setKeyword}
       placeholder={t('sourceManagement.searchPlaceholder')}
-      loading={isLoading}
+      loading={isLoading || loadingExport}
     >
       <DataTable
         title={t('sourceManagement.list')}

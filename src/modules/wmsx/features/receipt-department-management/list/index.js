@@ -84,6 +84,7 @@ function ReceiptDepartmentManagement() {
 
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
+  const [loadingExport, setLoadingExport] = useState(false)
   const { canAccess } = useApp()
   const columns = [
     {
@@ -251,6 +252,8 @@ function ReceiptDepartmentManagement() {
     return (
       <>
         <ImportExport
+          name={t('menu.receiptDepartmentManagement')}
+          loadingExport={setLoadingExport}
           {...(canAccess(FUNCTION_CODE.USER_EXPORT_DEPARTMENT_RECEIPT)
             ? {
                 onExport: () =>
@@ -308,7 +311,7 @@ function ReceiptDepartmentManagement() {
       onSearch={setKeyword}
       placeholder={t('receiptDepartmentManagement.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}
-      loading={isLoading}
+      loading={isLoading || loadingExport}
     >
       <DataTable
         title={t('receiptDepartmentManagement.list')}

@@ -54,7 +54,7 @@ function DefineVendor() {
   })
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
-
+  const [loadingExport, setLoadingExport] = useState(false)
   const {
     page,
     pageSize,
@@ -214,6 +214,7 @@ function DefineVendor() {
       <>
         <ImportExport
           name={t('menu.defineVendor')}
+          loadingExport={setLoadingExport}
           {...(canAccess(FUNCTION_CODE.SALE_EXPORT_VENDOR)
             ? {
                 onExport: () =>
@@ -269,7 +270,7 @@ function DefineVendor() {
       onSearch={setKeyword}
       placeholder={t('defineVendor.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}
-      loading={isLoading}
+      loading={isLoading || loadingExport}
     >
       <DataTable
         title={t('defineVendor.title')}

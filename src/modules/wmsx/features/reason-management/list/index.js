@@ -42,6 +42,7 @@ function ReasonManagement() {
   const [isActiveModal, setIsActiveModal] = useState(false)
   const [selectedRows, setSelectedRows] = useState([])
   const [columnsSettings, setColumnsSettings] = useState([])
+  const [loadingExport, setLoadingExport] = useState(false)
   const DEFAULT_FILTERS = {
     code: '',
     name: '',
@@ -214,6 +215,7 @@ function ReasonManagement() {
       <>
         <ImportExport
           name={t('menu.reasonManagement')}
+          loadingExport={setLoadingExport}
           onExport={() =>
             exportReasonApi({
               columnSettings: JSON.stringify(columnsSettings),
@@ -264,7 +266,7 @@ function ReasonManagement() {
       renderHeaderRight={renderHeaderRight}
       onSearch={setKeyword}
       placeholder={t('reasonManagement.searchPlaceHolder')}
-      loading={isLoading}
+      loading={isLoading || loadingExport}
     >
       <DataTable
         title={t('reasonManagement.title')}
