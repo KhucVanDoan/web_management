@@ -66,7 +66,7 @@ const Movements = ({ breadcrumbs, movementType, onBack }) => {
       headerName: t('movements.code'),
       width: 100,
       sortable: true,
-      fixed: true,
+      visible: 'always',
       renderCell: (params) => {
         return params.row.id
       },
@@ -138,7 +138,9 @@ const Movements = ({ breadcrumbs, movementType, onBack }) => {
       headerName: t('movements.action'),
       width: 100,
       align: 'center',
-      fixed: true,
+      visible: 'always',
+      sticky: 'right',
+      resizable: false,
       renderCell: (params) => {
         const { id } = params.row
         return (

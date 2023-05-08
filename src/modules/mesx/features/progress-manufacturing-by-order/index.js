@@ -63,7 +63,7 @@ const progressManufacturingByOrder = () => {
       headerName: t('progressManufacturingByOrder.code'),
       width: 100,
       filterFormat: 'multiple',
-      fixed: true,
+      visible: 'always',
       renderCell: (params) => {
         const { row } = params
         return (
@@ -89,7 +89,7 @@ const progressManufacturingByOrder = () => {
       field: 'name',
       headerName: t('progressManufacturingByOrder.name'),
       width: 100,
-      fixed: true,
+      visible: 'always',
       renderCell: (params) => {
         const { row } = params
         return row?.saleOrder?.name
@@ -119,7 +119,7 @@ const progressManufacturingByOrder = () => {
       field: 'status',
       headerName: t('progressManufacturingByOrder.status'),
       width: 150,
-      fixed: true,
+      visible: 'always',
       renderCell: (params) => {
         const { status } = params?.row?.saleOrder
         return (

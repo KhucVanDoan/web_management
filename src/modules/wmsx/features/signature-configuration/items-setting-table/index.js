@@ -81,6 +81,9 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
         headerName: t('signatureConfiguration.action'),
         width: 50,
         align: 'center',
+        visible: 'always',
+        sticky: 'right',
+        resizable: false,
         renderCell: (params) => {
           const idx = items.findIndex((item) => item.id === params.row.id)
           return (

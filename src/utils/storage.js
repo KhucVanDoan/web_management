@@ -1,17 +1,25 @@
-export const getSessionItem = (key) =>
-  JSON.parse(window.sessionStorage.getItem(key))
+const isJsonString = (str) => {
+  try {
+    JSON.parse(str)
+  } catch (e) {
+    return false
+  }
+  return true
+}
+
+export const getSessionItem = (key) => {
+  const str = window.sessionStorage.getItem(key)
+  if (isJsonString(str)) return JSON.parse(str)
+  return undefined
+}
 export const setSessionItem = (key, value) => {
   window.sessionStorage.setItem(key, JSON.stringify(value))
 }
 
 export const getLocalItem = (key) => {
-  const data = window.localStorage.getItem(key)
-
-  if (!!data && data !== 'undefined') {
-    return JSON.parse(data)
-  }
-
-  return data
+  const str = window.localStorage.getItem(key)
+  if (isJsonString(str)) return JSON.parse(str)
+  return undefined
 }
 
 export const setLocalItem = (key, value) => {

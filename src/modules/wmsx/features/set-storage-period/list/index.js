@@ -74,7 +74,7 @@ function SetStoragePeriod() {
       headerName: t('setStoragePeriod.warehouseCode'),
       width: 120,
       sortable: true,
-      fixed: true,
+      visible: 'always',
       renderCell: (params) => {
         return params.row.warehouse?.code
       },
@@ -84,7 +84,7 @@ function SetStoragePeriod() {
       headerName: t('setStoragePeriod.warehouseName'),
       width: 120,
       sortable: true,
-      fixed: true,
+      visible: 'always',
       renderCell: (params) => {
         return params.row.warehouse?.name
       },
@@ -106,7 +106,9 @@ function SetStoragePeriod() {
       headerName: t('general:common.action'),
       width: 150,
       align: 'center',
-      fixed: true,
+      visible: 'always',
+      sticky: 'right',
+      resizable: false,
       renderCell: (params) => {
         const { id } = params?.row
         return (

@@ -80,7 +80,7 @@ function ReceiptManagement() {
       field: 'id',
       headerName: '#',
       width: 50,
-      fixed: true,
+      visible: 'always',
       renderCell: (_, index) => {
         return index + 1
       },
@@ -90,14 +90,14 @@ function ReceiptManagement() {
       headerName: t('receiptManagement.receiptCode'),
       width: 120,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'receiptNumber',
       headerName: t('receiptManagement.receiptNo'),
       width: 120,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'contractNumber',
@@ -137,7 +137,9 @@ function ReceiptManagement() {
       width: 120,
       sortable: false,
       align: 'center',
-      fixed: true,
+      visible: 'always',
+      sticky: 'right',
+      resizable: false,
       renderCell: (params) => {
         const { id, status } = params.row
         const isCanceled = status === RECEIPT_MANAGEMENT_STATUS.NOT_YET_STOCKED

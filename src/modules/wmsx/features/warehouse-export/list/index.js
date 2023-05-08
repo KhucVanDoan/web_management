@@ -97,7 +97,7 @@ function WarehouseExport() {
         headerName: t('movements.code'),
         width: 120,
         sortable: true,
-        fixed: true,
+        visible: 'always',
       },
       {
         field: 'formNumber',
@@ -170,7 +170,9 @@ function WarehouseExport() {
         width: 120,
         sortable: false,
         align: 'center',
-        fixed: true,
+        visible: 'always',
+        sticky: 'right',
+        resizable: false,
         renderCell: (params) => {
           const { id, movementType, orderType } = params.row
           return (

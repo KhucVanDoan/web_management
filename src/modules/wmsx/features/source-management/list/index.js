@@ -77,14 +77,14 @@ function SourceManagement() {
       field: 'code',
       headerName: t('sourceManagement.code'),
       width: 150,
-      fixed: true,
+      visible: 'always',
       sortable: true,
     },
     {
       field: 'name',
       headerName: t('sourceManagement.name'),
       width: 150,
-      fixed: true,
+      visible: 'always',
       sortable: true,
     },
     {
@@ -99,7 +99,7 @@ function SourceManagement() {
       field: 'accountIdentifier',
       headerName: t('sourceManagement.accountIdentifier'),
       width: 150,
-      fixed: true,
+      visible: 'always',
       sortable: true,
     },
     {
@@ -122,7 +122,9 @@ function SourceManagement() {
     {
       field: 'action',
       headerName: t('general:common.action'),
-      fixed: true,
+      visible: 'always',
+      sticky: 'right',
+      resizable: false,
       width: 180,
       align: 'center',
       renderCell: (params) => {

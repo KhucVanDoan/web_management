@@ -86,14 +86,14 @@ function BomProducingStep() {
       headerName: t('bomProducingStep.code'),
       width: 80,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'bomName',
       headerName: t('bomProducingStep.name'),
       width: 120,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'itemCode',
@@ -135,7 +135,7 @@ function BomProducingStep() {
       width: 150,
       sortable: false,
       align: 'center',
-      fixed: true,
+      visible: 'always',
       renderCell: (params) => {
         const { status, id } = params.row
         const isConfirmed = status === BOM_PRODUCING_STEP_STATUS.PENDING

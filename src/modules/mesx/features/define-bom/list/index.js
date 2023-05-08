@@ -80,20 +80,20 @@ function DefineBOM() {
     //   field: 'id',
     //   headerName: '#',
     //   width: 80,
-    //   fixed: true,
+    //   visible: 'always',
     // },
     {
       field: 'code',
       headerName: t('defineBOM.bomCode'),
       width: 150,
-      fixed: true,
+      visible: 'always',
       sortable: true,
     },
     {
       field: 'name',
       headerName: t('defineBOM.bomName'),
       width: 150,
-      fixed: true,
+      visible: 'always',
       sortable: true,
     },
     {
@@ -154,7 +154,7 @@ function DefineBOM() {
       headerName: t('general:common.action'),
       width: 200,
       align: 'center',
-      fixed: true,
+      visible: 'always',
       renderCell: (params) => {
         const { status, id } = params.row
         const canEdit = BOM_STATUS_TO_EDIT.includes(status)

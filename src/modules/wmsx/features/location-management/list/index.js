@@ -85,7 +85,7 @@ function LocationManagement() {
       headerName: t('locationManagement.warehouseCode'),
       width: 100,
       sortable: true,
-      fixed: true,
+      visible: 'always',
       renderCell: (params) => params.row?.warehouse?.code,
     },
     {
@@ -93,7 +93,7 @@ function LocationManagement() {
       headerName: t('locationManagement.code'),
       width: 100,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'description',
@@ -120,7 +120,9 @@ function LocationManagement() {
       headerName: t('general:common.action'),
       width: 150,
       align: 'center',
-      fixed: true,
+      visible: 'always',
+      sticky: 'right',
+      resizable: false,
       renderCell: (params) => {
         const { id, status } = params?.row
         const isLocked = status === ACTIVE_STATUS.ACTIVE

@@ -84,14 +84,14 @@ function DefineCompany() {
       headerName: t('defineCompany.code'),
       width: 100,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'name',
       headerName: t('defineCompany.name'),
       width: 150,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'address',
@@ -135,7 +135,9 @@ function DefineCompany() {
       width: 150,
       sortable: false,
       align: 'center',
-      fixed: true,
+      visible: 'always',
+      sticky: 'right',
+      resizable: false,
       renderCell: (params) => {
         const { id } = params?.row
         return (

@@ -89,14 +89,14 @@ const DefineMasterPlan = () => {
         headerName: t('defineMasterPlan.code'),
         width: 100,
         sortable: true,
-        fixed: true,
+        visible: 'always',
       },
       {
         field: 'name',
         headerName: t('defineMasterPlan.planName'),
         width: 150,
         sortable: true,
-        fixed: true,
+        visible: 'always',
       },
       {
         field: 'soName',

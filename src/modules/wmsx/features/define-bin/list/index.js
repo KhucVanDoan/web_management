@@ -87,14 +87,14 @@ function DefineBin() {
       headerName: t('defineBin.code'),
       width: 100,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'name',
       headerName: t('defineBin.name'),
       width: 100,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'description',
@@ -121,7 +121,9 @@ function DefineBin() {
       headerName: t('general:common.action'),
       width: 150,
       align: 'center',
-      fixed: true,
+      visible: 'always',
+      sticky: 'right',
+      resizable: false,
       renderCell: (params) => {
         const { id, status } = params?.row
         const isLocked = status === ACTIVE_STATUS.ACTIVE

@@ -86,21 +86,21 @@ function Routing() {
     //   headerName: t('routing.orderNumber'),
     //   width: 80,
     //   sortable: false,
-    //   fixed: true,
+    //   visible: 'always',
     // },
     {
       field: 'code',
       headerName: t('routing.code'),
       width: 200,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'name',
       headerName: t('routing.name'),
       width: 200,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'status',
@@ -124,7 +124,7 @@ function Routing() {
       width: 250,
       sortable: false,
       align: 'center',
-      fixed: true,
+      visible: 'always',
       renderCell: (params) => {
         const { status, id } = params.row
         const isConfirmed = status === ROUTING_STATUS.PENDING

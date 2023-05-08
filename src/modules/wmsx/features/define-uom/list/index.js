@@ -86,14 +86,14 @@ function DefineUom() {
       headerName: t('defineUom.code'),
       width: 150,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'name',
       headerName: t('defineUom.name'),
       width: 150,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'shortName',
@@ -126,7 +126,9 @@ function DefineUom() {
       headerName: t('general:common.action'),
       width: 150,
       align: 'center',
-      fixed: true,
+      visible: 'always',
+      sticky: 'right',
+      resizable: false,
       renderCell: (params) => {
         const { id, status } = params.row
         const isLocked = status === UOM_ACTIVE_STATUS.ACTIVE

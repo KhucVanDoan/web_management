@@ -73,14 +73,14 @@ function SOExport() {
       field: 'code',
       headerName: t('soExport.code'),
       width: 80,
-      fixed: true,
+      visible: 'always',
       sortable: true,
     },
     {
       field: 'name',
       headerName: t('soExport.name'),
       width: 150,
-      fixed: true,
+      visible: 'always',
       sortable: true,
     },
     {
@@ -127,9 +127,11 @@ function SOExport() {
     {
       field: 'action',
       headerName: t('general:common.action'),
-      fixed: true,
       width: 180,
       align: 'center',
+      visible: 'always',
+      sticky: 'right',
+      resizable: false,
       renderCell: (params) => {
         const { row } = params
         const { id, status } = row

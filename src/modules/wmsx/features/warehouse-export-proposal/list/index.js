@@ -102,7 +102,7 @@ function WarehouseExportProposal() {
       headerName: t('warehouseExportProposal.paperNumber'),
       width: 100,
       sortable: true,
-      fixed: true,
+      visible: 'always',
       renderCell: (params) => {
         return params?.row?.code
       },
@@ -112,7 +112,7 @@ function WarehouseExportProposal() {
       headerName: t('warehouseExportProposal.unit'),
       width: 100,
       sortable: true,
-      fixed: true,
+      visible: 'always',
       renderCell: (params) => {
         return params?.row?.departmentSetting?.name
       },
@@ -177,9 +177,8 @@ function WarehouseExportProposal() {
       headerName: t('general:common.action'),
       width: 150,
       align: 'center',
-      fixed: true,
-      sticky: { right: 0 },
-      resizable: false,
+      visible: 'always',
+      sticky: 'right',
       renderCell: (params) => {
         const { id, status } = params?.row
         const canEdit =

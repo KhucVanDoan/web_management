@@ -77,21 +77,21 @@ function ManagementUnit() {
       field: 'code',
       headerName: t('managementUnit.code'),
       width: 150,
-      fixed: true,
+      visible: 'always',
       sortable: true,
     },
     {
       field: 'name',
       headerName: t('managementUnit.name'),
       width: 150,
-      fixed: true,
+      visible: 'always',
       sortable: true,
     },
     {
       field: 'description',
       headerName: t('managementUnit.description'),
       width: 150,
-      fixed: true,
+      visible: 'always',
       sortable: true,
     },
     {
@@ -113,7 +113,9 @@ function ManagementUnit() {
     {
       field: 'action',
       headerName: t('general:common.action'),
-      fixed: true,
+      visible: 'always',
+      sticky: 'right',
+      resizable: false,
       width: 180,
       align: 'center',
       renderCell: (params) => {

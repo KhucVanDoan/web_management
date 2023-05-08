@@ -1,5 +1,6 @@
 /* eslint-disable */
-import React, { useState, useRef, useEffect } from 'react'
+
+import React, { useState, useEffect } from 'react'
 
 import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
@@ -14,32 +15,32 @@ import TableRow from '@mui/material/TableRow'
 import clsx from 'clsx'
 import isAfter from 'date-fns/isAfter'
 import isBefore from 'date-fns/isBefore'
-import { isEmpty, isEqual } from 'lodash'
-import PropTypes from 'prop-types'
-import { withTranslation } from 'react-i18next'
+import { isEmpty } from 'lodash'
+import { useTranslation } from 'react-i18next'
 
-import { MODAL_MODE, ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
+import { MODAL_MODE } from '~/common/constants'
+import { useTable } from '~/common/hooks/useTable'
 import TopBar from '~/components/DataTable/TopBar'
-import { withClasses } from '~/themes'
+import { TableProvider } from '~/contexts/TableContext'
+import { useClasses } from '~/themes'
 import { convertUtcDateToLocalTz } from '~/utils'
 
 import Pagination from '../DataTable/Pagination'
 import TableHead from '../DataTable/TableHead'
-import DateRangePicker from '../DateRangePicker'
-import style from '../DataTableCollapse/style'
 import Truncate from '../DataTable/Truncate'
-import useTableSetting from '~/components/DataTable/hooks/useTableSetting'
+import style from '../DataTableCollapse/style'
+import DateRangePicker from '../DateRangePicker'
+
 /**
  * Data Table
  */
-const TableCollapse = (props) => {
+const TableCollapse = () => {
+  const { t } = useTranslation()
+  const classes = useClasses(style)
+
   const {
-    classes,
-    columns: rawColumns,
+    visibleColumns,
     height,
-    total,
-    t,
-    hideFooter,
     additionColums,
     producingStepColumns,
     isRoot,
@@ -57,68 +58,33 @@ const TableCollapse = (props) => {
     rows,
     page,
     pageSize,
-    title,
-    hideSetting,
-    onPageChange,
-    onPageSizeChange,
-    filters,
-    tableSettingKey,
-    onSettingChange,
     enableResizable,
+    containerRef,
+    uniqKey,
+    handleGetData,
+    onSortChange: _onSortChange,
     onSelectionChange,
     selected,
-    onRowsOrderChange,
-  } = props
+    checkboxSelection,
+    ...props
+  } = useTable()
 
   const [open, setOpen] = useState({})
   const [sort, setSort] = useState(null)
-  const [visibleColumns, setVisibleColumns] = useState([])
-  const containerRef = useRef(null)
-  const uniqKey = props.uniqKey ?? 'id'
-  const { initTableSetting } = useTableSetting(tableSettingKey)
-  const checkboxSelection = typeof onSelectionChange === 'function'
-  const reorderable = typeof onRowsOrderChange === 'function'
-  const columns = hideSetting
-    ? rawColumns?.filter((col) => !col.hide)
-    : rawColumns.filter((col) => visibleColumns.includes(col.field))
 
   const onOpen = (index, o, row, type) => {
-    if (type === 'list' && !open[index]) {
-      props.handleGetData(row?.id)
+    if (
+      type === 'list' &&
+      !open[index] &&
+      typeof handleGetData === 'function'
+    ) {
+      handleGetData?.(row?.id)
     }
 
     setOpen({
       ...open,
       [index]: o,
     })
-  }
-  /**
-   * Handle select all
-   * @param {*} event
-   */
-  const handleSelectAllClick = (event) => {
-    if (!checkboxSelection) return
-    if (event.target.checked) {
-      console.log('aaa')
-      const concatSelected = [...selected, ...rows]
-      console.log('concatSelected', concatSelected)
-      const uniqueIndexValues = [
-        ...new Set(concatSelected.map((item) => item[uniqKey])),
-      ]
-      console.log('uniqueIndexValues', uniqueIndexValues)
-
-      const newSelected = uniqueIndexValues.map((indexValue) =>
-        concatSelected.find((item) => item[uniqKey] === indexValue),
-      )
-      console.log('newSelected', newSelected)
-      onSelectionChange(newSelected)
-    } else {
-      console.log('dđ')
-      const newSelected = selected.filter(
-        (item) => !rows.find((e) => e[uniqKey] === item[uniqKey]),
-      )
-      onSelectionChange(newSelected)
-    }
   }
 
   /**
@@ -160,14 +126,18 @@ const TableCollapse = (props) => {
     return selected.findIndex((item) => item[uniqKey] === uniqKeyValue) !== -1
   }
 
+  useEffect(() => {
+    setOpen({})
+  }, [page, pageSize, sort])
+
   /**
    * Handle change order
    * @param {*} param
    */
   const onSortChange = (newSort) => {
-    if (typeof props.onSortChange === 'function') {
+    if (typeof _onSortChange === 'function') {
       setSort(newSort)
-      props.onSortChange(newSort)
+      _onSortChange?.(newSort)
     }
   }
 
@@ -226,7 +196,7 @@ const TableCollapse = (props) => {
       })
     }
 
-    props.parent.setState({
+    props?.parent?.setState({
       bomChange,
       parentRows,
     })
@@ -338,25 +308,26 @@ const TableCollapse = (props) => {
     })
   }
 
-  useEffect(() => {
-    initTableSetting(rawColumns)
-  }, [rawColumns])
+  const renderCheckboxPlaceholder = () => {
+    if (checkboxSelection)
+      return (
+        <TableCell
+          className={clsx(classes.tableCell, classes.tableCellCheckbox)}
+          sx={{
+            position: 'sticky !important',
+            left: 0,
+            zIndex: 10,
+          }}
+        ></TableCell>
+      )
+
+    return null
+  }
 
   return (
     <>
-      {(title || filters || !hideSetting) && (
-        <TopBar
-          title={title}
-          columns={rawColumns}
-          visibleColumns={visibleColumns}
-          filters={filters}
-          selected={selected}
-          uniqKey={uniqKey}
-          tableSettingKey={tableSettingKey}
-          setVisibleColumns={setVisibleColumns}
-          onSettingChange={onSettingChange}
-        />
-      )}
+      <TopBar />
+
       <TableContainer
         ref={containerRef}
         className={classes.tableContainer}
@@ -364,34 +335,13 @@ const TableCollapse = (props) => {
         {...(isRoot ? { ref: containerRef } : {})}
       >
         <Table
-          className={classes.table}
           stickyHeader
+          className={classes.table}
           sx={enableResizable ? { tableLayout: 'fixed', width: '100%' } : {}}
         >
-          <TableHead
-            uniqKey={uniqKey}
-            classes={classes}
-            selected={selected}
-            pageSize={pageSize}
-            rows={rows}
-            order={sort?.order}
-            orderBy={sort?.orderBy}
-            onSortChange={onSortChange}
-            onSelectAllClick={handleSelectAllClick}
-            checkboxSelection={checkboxSelection}
-            columns={columns}
-            rawColumns={rawColumns}
-            visibleColumns={visibleColumns}
-            reorderable={reorderable}
-            enableResizable={enableResizable}
-            tableSettingKey={tableSettingKey}
-            containerRef={containerRef}
-          />
+          <TableHead onSortChange={onSortChange} />
 
-          <TableBody
-            reorderable={reorderable}
-            onRowsOrderChange={onRowsOrderChange}
-          >
+          <TableBody>
             {rows &&
               rows.length > 0 &&
               rows.map((row, index) => {
@@ -427,7 +377,6 @@ const TableCollapse = (props) => {
                       tabIndex={-1}
                       key={row[uniqKey] || index}
                       aria-checked={isItemSelected}
-                      reorderable={reorderable}
                       draggableId={row[uniqKey]?.toString()}
                       className={clsx(
                         classes.tableRow,
@@ -449,7 +398,7 @@ const TableCollapse = (props) => {
                           )}
                           sx={{
                             position: 'sticky',
-                            left: reorderable ? 50 : 0,
+                            left: 0,
                             zIndex: 10,
                           }}
                         >
@@ -464,7 +413,7 @@ const TableCollapse = (props) => {
                           />
                         </TableCell>
                       )}
-                      {columns.map((column, i) => {
+                      {visibleColumns.map((column, i) => {
                         const { field, align, renderCell, width } = column
                         const cellValue = renderCell
                           ? renderCell(
@@ -528,7 +477,12 @@ const TableCollapse = (props) => {
                     </TableRow>
                     {!isEmpty(ps) && (
                       <TableRow className={classes.tableRowCollapse}>
-                        <TableCell sx={{ p: 0 }} colSpan={columns.length}>
+                        {renderCheckboxPlaceholder()}
+
+                        <TableCell
+                          sx={{ p: 0 }}
+                          colSpan={visibleColumns.length}
+                        >
                           <Collapse
                             in={open[index]}
                             timeout="auto"
@@ -539,11 +493,9 @@ const TableCollapse = (props) => {
                               entered: classes.collapseEntered,
                             }}
                           >
-                            <TableCollapse
-                              enableResizable={false}
+                            <TableProvider
                               rows={ps}
                               rootItem={isRoot ? row?.item?.id : rootItem}
-                              collectData={props.collectData}
                               columns={producingStepColumns}
                               parentPlanFrom={
                                 row?.planFrom
@@ -555,25 +507,29 @@ const TableCollapse = (props) => {
                               }
                               isView={true}
                               mode={mode}
-                              classes={classes}
                               isRoot={false}
                               hideFooter
                               hideSetting
-                              validator={props.validator}
-                              t={t}
                               bomChange={
                                 bomChange?.length > 0 ? bomChange : null
                               }
                               parent={parent ? parent : null}
                               parentRows={rows}
-                            />
+                            >
+                              <TableCollapse />
+                            </TableProvider>
                           </Collapse>
                         </TableCell>
                       </TableRow>
                     )}
                     {rowData?.length > 0 && (
                       <TableRow className={classes.tableRowCollapse}>
-                        <TableCell sx={{ p: 0 }} colSpan={columns.length}>
+                        {renderCheckboxPlaceholder()}
+
+                        <TableCell
+                          sx={{ p: 0 }}
+                          colSpan={visibleColumns.length}
+                        >
                           <Collapse
                             in={open[index]}
                             timeout="auto"
@@ -584,12 +540,12 @@ const TableCollapse = (props) => {
                               entered: classes.collapseEntered,
                             }}
                           >
-                            <TableCollapse
-                              enableResizable={false}
+                            <TableProvider
                               rows={rowData}
-                              collectData={props.collectData}
                               columns={
-                                type === 'list' ? additionColums : columns
+                                type === 'list'
+                                  ? additionColums
+                                  : visibleColumns
                               }
                               rootItem={isRoot ? row?.item?.id : rootItem}
                               additionColums={additionColums}
@@ -605,27 +561,31 @@ const TableCollapse = (props) => {
                                 row?.planTo ? row?.planTo : row?.planBom?.planTo
                               }
                               mode={mode}
-                              classes={classes}
                               isView={isView}
                               isRoot={false}
                               hideFooter
                               hideSetting
-                              validator={props.validator}
-                              t={t}
                               materialReport={materialReport}
                               parent={parent ? parent : null}
                               bomChange={
                                 bomChange?.length > 0 ? bomChange : null
                               }
                               parentRows={rows}
-                            />
+                            >
+                              <TableCollapse />
+                            </TableProvider>
                           </Collapse>
                         </TableCell>
                       </TableRow>
                     )}
                     {rowMaterial?.length > 0 && (
                       <TableRow className={classes.tableRowCollapse}>
-                        <TableCell sx={{ p: 0 }} colSpan={columns.length}>
+                        {renderCheckboxPlaceholder()}
+
+                        <TableCell
+                          sx={{ p: 0 }}
+                          colSpan={visibleColumns.length}
+                        >
                           <Collapse
                             in={open[index]}
                             timeout="auto"
@@ -636,23 +596,19 @@ const TableCollapse = (props) => {
                               entered: classes.collapseEntered,
                             }}
                           >
-                            <TableCollapse
-                              enableResizable={false}
+                            <TableProvider
                               rows={rowMaterial}
-                              collectData={props.collectData}
                               columns={materialColumns}
                               rootItem={isRoot ? row?.item?.id : rootItem}
                               producingStepColumns={producingStepColumns}
-                              initBomChange={props.initBomChange}
-                              t={t}
                               mode={mode}
-                              classes={classes}
                               isView={isView}
                               isRoot={false}
                               hideFooter
                               hideSetting
-                              validator={props.validator}
-                            />
+                            >
+                              <TableCollapse />
+                            </TableProvider>
                           </Collapse>
                         </TableCell>
                       </TableRow>
@@ -664,7 +620,7 @@ const TableCollapse = (props) => {
             {!rows?.length && (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
+                  colSpan={visibleColumns.length}
                   sx={(theme) => ({
                     textAlign: 'center',
                     color: theme.palette.subText.main,
@@ -677,65 +633,14 @@ const TableCollapse = (props) => {
           </TableBody>
         </Table>
       </TableContainer>
-      {!hideFooter && (
-        <Pagination
-          onPageChange={onPageChange}
-          onPageSizeChange={onPageSizeChange}
-          total={total}
-          pageSize={pageSize}
-          page={page}
-        />
-      )}
+
+      <Pagination />
     </>
   )
 }
 
-TableCollapse.defaultProps = {
-  onPageChange: () => {},
-  onPageSizeChange: () => {},
-  pageSize: ROWS_PER_PAGE_OPTIONS[0],
-  page: 1,
-  title: '',
-  hideSetting: false,
-  onSettingChange: () => {},
-  enableResizable: false,
-  isRoot: true,
-  selected: [],
-}
-
-TableCollapse.propsTypes = {
-  rows: PropTypes.arrayOf(PropTypes.shape()),
-  columns: PropTypes.arrayOf(
-    PropTypes.shape({
-      field: PropTypes.string.isRequired,
-      headerName: PropTypes.string.isRequired,
-      width: PropTypes.number,
-      filterable: PropTypes.bool,
-      sortable: PropTypes.bool,
-      hide: PropTypes.bool,
-      align: PropTypes.oneOf(['left', 'center', 'right']),
-      headerAlign: PropTypes.oneOf(['left', 'center', 'right']),
-      renderCell: PropTypes.func,
-    }),
-  ),
-  uniqKey: PropTypes.string,
-  total: PropTypes.number,
-  pageSize: PropTypes.number,
-  page: PropTypes.number,
-  height: PropTypes.number,
-  onPageChange: PropTypes.func,
-  onPageSizeChange: PropTypes.func,
-  hideFooter: PropTypes.bool,
-  title: PropTypes.string,
-  hideSetting: PropTypes.bool,
-  filters: PropTypes.shape(),
-  tableSettingKey: PropTypes.string,
-  onSettingChange: PropTypes.func,
-  enableResizable: PropTypes.bool,
-  isRoot: PropTypes.bool,
-  onSelectionChange: PropTypes.func,
-  selected: PropTypes.array,
-  onRowsOrderChange: PropTypes.func,
-}
-
-export default withTranslation()(withClasses(style)(TableCollapse))
+export default (props) => (
+  <TableProvider {...props} enableResizable={false} isTableCollapse>
+    <TableCollapse />
+  </TableProvider>
+)

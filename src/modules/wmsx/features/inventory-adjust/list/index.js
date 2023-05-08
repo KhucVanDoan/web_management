@@ -82,14 +82,14 @@ const InventoryAdjust = () => {
         headerName: t('inventoryAdjust.code'),
         width: 150,
         sortable: true,
-        fixed: true,
+        visible: 'always',
       },
       {
         field: 'name',
         headerName: t('inventoryAdjust.name'),
         width: 150,
         sortable: true,
-        fixed: true,
+        visible: 'always',
       },
       {
         field: 'type',
@@ -135,7 +135,9 @@ const InventoryAdjust = () => {
         headerName: t('inventoryAdjust.actions'),
         width: 200,
         align: 'center',
-        fixed: true,
+        visible: 'always',
+        sticky: 'right',
+        resizable: false,
         renderCell: (params) => {
           const { id, status } = params?.row
           const canConfirm = status === INVENTORY_ADJUST_STATUS.PENDING

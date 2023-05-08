@@ -1,17 +1,18 @@
-import React, { useState, useRef, useMemo, useEffect } from 'react'
+import React, { useMemo } from 'react'
 
 import Checkbox from '@mui/material/Checkbox'
 import Table from '@mui/material/Table'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import clsx from 'clsx'
-import PropTypes from 'prop-types'
-import { withTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 
-import { ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
-import useTableSetting from '~/components/DataTable/hooks/useTableSetting'
-import { withClasses } from '~/themes'
-import { getColumnsInBottomTree } from '~/utils'
+import { useTable } from '~/common/hooks/useTable'
+import {
+  TableProvider,
+  DEFAULT_MIN_COLUMN_WIDTH,
+} from '~/contexts/TableContext'
+import { useClasses } from '~/themes'
 
 import Pagination from './Pagination'
 import TableBody from './TableBody'
@@ -24,68 +25,27 @@ import style from './style'
 /**
  * Data Table
  */
-const DataTable = (props) => {
+const DataTable = () => {
+  const { t } = useTranslation()
+  const classes = useClasses(style)
+
   const {
     rows,
-    classes,
-    columns: rawColumns = [],
+    visibleColumns,
     height,
-    total,
-    t,
-    hideFooter,
-    // striped,
-    // hover,
-    title,
-    hideSetting,
-    page,
-    pageSize,
-    sort,
     selected,
-    filters,
-    onSortChange,
-    onPageChange,
-    onPageSizeChange,
     onSelectionChange,
-    onRowsOrderChange,
-    tableSettingKey,
-    onSettingChange,
-    beforeTopbar,
-    afterTopbar,
-    bulkActions,
-    enableResizable,
     rowSpanMatrix,
     rowGrayMatrix,
-  } = props
-
-  const [visibleColumns, setVisibleColumns] = useState([])
-  const containerRef = useRef(null)
-  const { initTableSetting } = useTableSetting(tableSettingKey)
-
-  const uniqKey = props.uniqKey ?? 'id'
-  const checkboxSelection = typeof onSelectionChange === 'function'
-  const reorderable = typeof onRowsOrderChange === 'function'
-  /**
-   * Handle select all
-   * @param {*} event
-   */
-  const handleSelectAllClick = (event) => {
-    if (!checkboxSelection) return
-    if (event.target.checked) {
-      const concatSelected = [...selected, ...rows]
-      const uniqueIndexValues = [
-        ...new Set(concatSelected.map((item) => item[uniqKey])),
-      ]
-      const newSelected = uniqueIndexValues.map((indexValue) =>
-        concatSelected.find((item) => item[uniqKey] === indexValue),
-      )
-      onSelectionChange(newSelected)
-    } else {
-      const newSelected = selected.filter(
-        (item) => !rows.find((e) => e[uniqKey] === item[uniqKey]),
-      )
-      onSelectionChange(newSelected)
-    }
-  }
+    containerRef,
+    uniqKey,
+    isTableResizable,
+    checkboxSelection,
+    reorderable,
+    isVisible,
+    hideSetting,
+    setting,
+  } = useTable()
 
   /**
    * Handle select or deselect row
@@ -126,52 +86,38 @@ const DataTable = (props) => {
     return selected.findIndex((item) => item[uniqKey] === uniqKeyValue) !== -1
   }
 
-  const columns = useMemo(
-    () =>
-      hideSetting
-        ? rawColumns.filter((col) => !col.hide)
-        : rawColumns.filter((col) => visibleColumns.includes(col.field)),
-    [hideSetting, rawColumns, visibleColumns],
+  const getColumnsInBottomTree = (cols = []) => {
+    const childCols = cols?.reduce((acc, cur) => {
+      if (
+        Array.isArray(cur?.columns) &&
+        cur?.columns?.some((c) => isVisible(c))
+      ) {
+        return [...acc, ...cur?.columns?.filter((c) => isVisible(c))]
+      }
+      return [...acc, cur]
+    }, [])
+
+    if (childCols?.some((x) => x?.columns)) {
+      return getColumnsInBottomTree(childCols)
+    }
+
+    return childCols
+  }
+
+  const bodyColumns = useMemo(
+    () => getColumnsInBottomTree(visibleColumns),
+    [visibleColumns],
   )
 
-  const bodyColumns = useMemo(() => getColumnsInBottomTree(columns), [columns])
-
-  const hasTableHead = useMemo(
-    () => columns.some((col) => col.headerName !== undefined),
-    [columns],
+  const hasStickyCol = useMemo(
+    () => visibleColumns.some((c) => c?.sticky),
+    [visibleColumns],
   )
-
-  const isTableResizable = useMemo(
-    () =>
-      enableResizable &&
-      hasTableHead &&
-      columns?.some((col) => col?.resizable !== false),
-    [enableResizable, hasTableHead, columns],
-  )
-
-  useEffect(() => {
-    initTableSetting(rawColumns)
-  }, [rawColumns])
 
   return (
     <>
-      {(title || filters || !hideSetting || beforeTopbar || afterTopbar) && (
-        <TopBar
-          beforeTopbar={beforeTopbar}
-          afterTopbar={afterTopbar}
-          title={title}
-          columns={rawColumns}
-          visibleColumns={visibleColumns}
-          filters={filters}
-          hideSetting={hideSetting}
-          selected={selected}
-          bulkActions={bulkActions}
-          uniqKey={uniqKey}
-          tableSettingKey={tableSettingKey}
-          setVisibleColumns={setVisibleColumns}
-          onSettingChange={onSettingChange}
-        />
-      )}
+      <TopBar />
+
       <TableContainer
         ref={containerRef}
         className={classes.tableContainer}
@@ -184,33 +130,17 @@ const DataTable = (props) => {
         }}
       >
         <Table
+          stickyHeader
           className={classes.table}
-          sx={isTableResizable ? { tableLayout: 'fixed', width: '100%' } : {}}
+          sx={
+            isTableResizable || hasStickyCol
+              ? { tableLayout: 'fixed', width: '100%' }
+              : {}
+          }
         >
-          <TableHead
-            uniqKey={uniqKey}
-            selected={selected}
-            pageSize={pageSize}
-            rows={rows}
-            order={sort?.order}
-            orderBy={sort?.orderBy}
-            onSortChange={onSortChange}
-            onSelectAllClick={handleSelectAllClick}
-            checkboxSelection={checkboxSelection}
-            columns={columns}
-            rawColumns={rawColumns}
-            visibleColumns={visibleColumns}
-            reorderable={reorderable}
-            enableResizable={enableResizable}
-            tableSettingKey={tableSettingKey}
-            containerRef={containerRef}
-          />
+          <TableHead />
 
-          <TableBody
-            rows={rows}
-            reorderable={reorderable}
-            onRowsOrderChange={onRowsOrderChange}
-          >
+          <TableBody>
             {rows?.length > 0 &&
               rows.map((row, index) => {
                 const isItemSelected = isSelected(row[uniqKey])
@@ -220,7 +150,6 @@ const DataTable = (props) => {
                     key={row[uniqKey] || index}
                     draggableId={row[uniqKey]?.toString()}
                     index={index}
-                    reorderable={reorderable}
                     aria-checked={isItemSelected}
                     tabIndex={-1}
                     className={clsx(
@@ -264,12 +193,68 @@ const DataTable = (props) => {
                         align,
                         renderCell,
                         width,
+                        minWidth,
                         cellStyle = {},
-                        sticky,
                       } = column
                       const cellValue = renderCell
                         ? renderCell({ row }, index)
                         : row[field]
+
+                      let colWidth = 0
+                      let colMinWidth = 0
+                      let colSticky = ''
+                      let colStickyLeft =
+                        (reorderable ? 50 : 0) + (checkboxSelection ? 50 : 0)
+                      let colStickyRight = 0
+
+                      if (hideSetting && !isTableResizable) {
+                        colWidth = width || minWidth
+                        colMinWidth =
+                          minWidth || width || DEFAULT_MIN_COLUMN_WIDTH
+                        colSticky = column.sticky
+                        colStickyLeft = 0
+                        colStickyRight = 0
+
+                        for (let c of visibleColumns || []) {
+                          if (c?.field === field) break
+
+                          if (c?.sticky === 'left' && isVisible(c)) {
+                            colStickyLeft += c?.width || 0
+                          }
+                        }
+
+                        for (let c of [...(setting || [])].reverse()) {
+                          if (c?.field === field) break
+
+                          if (c?.sticky === 'right' && isVisible(c)) {
+                            colStickyRight += c?.width || 0
+                          }
+                        }
+                      } else {
+                        const colSetting = setting?.find(
+                          (s) => s.field === field,
+                        )
+
+                        colWidth = colSetting?.width
+                        colMinWidth = colSetting?.minWidth
+                        colSticky = colSetting?.sticky
+
+                        for (let c of setting || []) {
+                          if (c?.field === field) break
+
+                          if (c?.sticky === 'left' && isVisible(c, true)) {
+                            colStickyLeft += c?.width || 0
+                          }
+                        }
+
+                        for (let c of [...(setting || [])].reverse()) {
+                          if (c?.field === field) break
+
+                          if (c?.sticky === 'right' && isVisible(c, true)) {
+                            colStickyRight += c?.width || 0
+                          }
+                        }
+                      }
 
                       const rowSpan = rowSpanMatrix?.[index]?.[i]
 
@@ -279,24 +264,25 @@ const DataTable = (props) => {
                         <TableCell
                           className={clsx(classes.tableCell, {
                             [classes[`tableCellAlign${align}`]]: align,
-                            [classes.lastStickyLeft]:
-                              sticky?.left !== undefined &&
-                              !bodyColumns[i + 1]?.sticky?.left,
+
                             [classes.firstStickyRight]:
-                              sticky?.right !== undefined &&
-                              !bodyColumns[i - 1]?.sticky?.right,
+                              colSticky === 'right' &&
+                              setting?.find((s) => s?.sticky === 'right')
+                                ?.field === field,
                           })}
                           key={`data-table-${field}-${i}`}
                           id={`data-table-${field}-${i}`}
                           sx={{
-                            width: width,
-                            minWidth: width,
+                            width: colWidth,
+                            minWidth: colMinWidth,
                             verticalAlign: 'middle',
-                            ...(sticky
+                            ...(colSticky
                               ? {
                                   position: 'sticky',
-                                  left: sticky?.left ?? 'auto',
-                                  right: sticky?.right ?? 'auto',
+                                  [colSticky]:
+                                    colSticky === 'left'
+                                      ? colStickyLeft
+                                      : colStickyRight,
                                   zIndex: 10,
                                 }
                               : {}),
@@ -315,7 +301,7 @@ const DataTable = (props) => {
             {!rows?.length && (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length + (checkboxSelection ? 1 : 0)}
+                  colSpan={visibleColumns.length + (checkboxSelection ? 1 : 0)}
                   sx={(theme) => ({
                     textAlign: 'center',
                     color: theme.palette.subText.main,
@@ -328,74 +314,14 @@ const DataTable = (props) => {
           </TableBody>
         </Table>
       </TableContainer>
-      {!hideFooter && (
-        <Pagination
-          onPageChange={onPageChange}
-          onPageSizeChange={onPageSizeChange}
-          total={parseInt(total) || 0}
-          pageSize={pageSize}
-          page={page}
-        />
-      )}
+
+      <Pagination />
     </>
   )
 }
 
-DataTable.defaultProps = {
-  striped: true,
-  hover: false,
-  hideSetting: false,
-  page: 1,
-  pageSize: ROWS_PER_PAGE_OPTIONS[0],
-  sort: {},
-  selected: [],
-  onSortChange: () => {},
-  onPageChange: () => {},
-  onPageSizeChange: () => {},
-  onSettingChange: () => {},
-  enableResizable: true,
-}
-
-DataTable.propsTypes = {
-  rows: PropTypes.arrayOf(PropTypes.shape()),
-  columns: PropTypes.arrayOf(
-    PropTypes.shape({
-      field: PropTypes.string.isRequired,
-      headerName: PropTypes.oneOfType([PropTypes.func, PropTypes.string])
-        .isRequired,
-      width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-      sortable: PropTypes.bool,
-      hide: PropTypes.bool,
-      align: PropTypes.oneOf(['left', 'center', 'right']),
-      headerAlign: PropTypes.oneOf(['left', 'center', 'right']),
-      renderCell: PropTypes.func,
-      fixed: PropTypes.bool,
-    }),
-  ),
-  uniqKey: PropTypes.string,
-  total: PropTypes.number,
-  pageSize: PropTypes.number,
-  page: PropTypes.number,
-  height: PropTypes.number,
-  onPageChange: PropTypes.func,
-  onPageSizeChange: PropTypes.func,
-  onSelectionChange: PropTypes.func,
-  onSortChange: PropTypes.func,
-  onRowsOrderChange: PropTypes.func,
-  hideFooter: PropTypes.bool,
-  striped: PropTypes.bool,
-  hover: PropTypes.bool,
-  title: PropTypes.string,
-  hideSetting: PropTypes.bool,
-  sort: PropTypes.shape(),
-  selected: PropTypes.array,
-  filters: PropTypes.shape(),
-  tableSettingKey: PropTypes.string,
-  onSettingChange: PropTypes.func,
-  beforeTopbar: PropTypes.node,
-  afterTopbar: PropTypes.node,
-  bulkActions: PropTypes.shape(),
-  enableResizable: PropTypes.bool,
-}
-
-export default withTranslation()(withClasses(style)(DataTable))
+export default (props) => (
+  <TableProvider {...props}>
+    <DataTable />
+  </TableProvider>
+)

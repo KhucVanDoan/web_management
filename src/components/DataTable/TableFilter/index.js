@@ -3,20 +3,27 @@ import React, { useState } from 'react'
 import { Box, Popover, Typography } from '@mui/material'
 import { Formik, Form } from 'formik'
 import { isEqual } from 'lodash'
-import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
+import { useTable } from '~/common/hooks/useTable'
 import Button from '~/components/Button'
 import { useClasses } from '~/themes'
 
 import style from './style'
 
-const TableFilter = ({
-  filters: { form, values, onApply, defaultValue = {}, validationSchema },
-}) => {
+const TableFilter = () => {
   const classes = useClasses(style)
   const { t } = useTranslation()
   const [anchorEl, setAnchorEl] = useState(null)
+  const {
+    filters: {
+      form,
+      values,
+      onApply,
+      defaultValue = {},
+      validationSchema,
+    } = {},
+  } = useTable()
 
   const handleOpen = (event) => {
     setAnchorEl(event.currentTarget)
@@ -95,20 +102,6 @@ const TableFilter = ({
       </Box>
     </>
   )
-}
-
-TableFilter.defaultProps = {
-  filters: {},
-}
-
-TableFilter.propTypes = {
-  filters: PropTypes.shape({
-    form: PropTypes.node,
-    values: PropTypes.shape(),
-    onApply: PropTypes.func,
-    defaultValue: PropTypes.shape(),
-    validationSchema: PropTypes.shape(),
-  }),
 }
 
 export default TableFilter

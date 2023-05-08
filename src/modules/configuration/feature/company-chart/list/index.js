@@ -62,14 +62,14 @@ const CompanyChart = () => {
       headerName: t('companyChart.companyCode'),
       width: 150,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'name',
       headerName: t('companyChart.companyName'),
       width: 150,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'userQuantity',
@@ -105,7 +105,7 @@ const CompanyChart = () => {
       field: 'actions',
       headerName: t('general:common.action'),
       width: 180,
-      fixed: true,
+      visible: 'always',
       align: 'center',
       renderCell: () => {
         return (
@@ -177,7 +177,7 @@ const CompanyChart = () => {
       field: 'actions',
       headerName: t('general:common.action'),
       width: 200,
-      fixed: true,
+      visible: 'always',
       align: 'center',
       renderCell: (params) => {
         const { id } = params?.row

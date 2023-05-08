@@ -80,7 +80,7 @@ const DefineMaterialCategory = () => {
       headerName: t('defineMaterialCategory.materialCode'),
       width: 150,
       sortable: true,
-      fixed: true,
+      visible: 'always',
       renderCell: (params) => params.row?.code,
     },
     {
@@ -88,7 +88,7 @@ const DefineMaterialCategory = () => {
       headerName: t('defineMaterialCategory.materialName'),
       width: 150,
       sortable: true,
-      fixed: true,
+      visible: 'always',
       renderCell: (params) => params.row?.name,
     },
     {
@@ -126,7 +126,7 @@ const DefineMaterialCategory = () => {
       field: 'actions',
       headerName: t('general:common.action'),
       width: 180,
-      fixed: true,
+      visible: 'always',
       align: 'center',
       renderCell: (params) => {
         const { id, status } = params?.row

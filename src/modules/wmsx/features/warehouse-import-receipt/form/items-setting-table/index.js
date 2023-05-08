@@ -412,6 +412,9 @@ function ItemsSettingTable(props) {
           isView ||
           isEdit ||
           !isEmpty(values[receiptRequired]),
+        visible: 'always',
+        sticky: 'right',
+        resizable: false,
         renderCell: (params, idx) => {
           return isView ? null : (
             <IconButton onClick={() => arrayHelpers.remove(idx)} size="large">

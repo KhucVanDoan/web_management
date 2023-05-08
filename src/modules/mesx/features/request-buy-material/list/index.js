@@ -84,14 +84,14 @@ function RequestBuyMaterial() {
       headerName: t('requestBuyMaterial.requestCode'),
       width: 150,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'name',
       headerName: t('requestBuyMaterial.requestName'),
       width: 200,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       // @TODO: <linh.taquang> wait backend change data field
@@ -156,7 +156,7 @@ function RequestBuyMaterial() {
       headerName: t('requestBuyMaterial.action'),
       align: 'center',
       width: 150,
-      fixed: true,
+      visible: 'always',
       renderCell: (params) => {
         const { status, id } = params.row
         const isEdit = status === ORDER_STATUS.PENDING

@@ -89,21 +89,21 @@ function UserManagement() {
       headerName: t('userManagement.code'),
       width: 100,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'username',
       headerName: t('userManagement.username'),
       width: 100,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'fullName',
       headerName: t('userManagement.fullName'),
       width: 150,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
 
     {
@@ -152,7 +152,7 @@ function UserManagement() {
       width: 150,
       sortable: false,
       align: 'center',
-      fixed: true,
+      visible: 'always',
       renderCell: (params) => {
         const { id, status } = params?.row
         const isLocked = status === ACTIVE_STATUS.ACTIVE

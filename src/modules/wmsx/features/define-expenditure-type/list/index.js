@@ -85,14 +85,14 @@ function DefineExpenditureType() {
       headerName: t('defineExpenditureType.code'),
       width: 100,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'name',
       headerName: t('defineExpenditureType.name'),
       width: 100,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'description',
@@ -119,7 +119,9 @@ function DefineExpenditureType() {
       headerName: t('general:common.action'),
       width: 150,
       align: 'center',
-      fixed: true,
+      visible: 'always',
+      sticky: 'right',
+      resizable: false,
       renderCell: (params) => {
         const { id, status } = params?.row
         const isLocked = status === ACTIVE_STATUS.ACTIVE

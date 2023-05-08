@@ -96,7 +96,7 @@ function WarehouseExportReceipt() {
       headerName: t('warehouseExportReceipt.receiptId'),
       width: 100,
       sortable: true,
-      fixed: true,
+      visible: 'always',
       renderCell: (params) => {
         return params?.row?.code
       },
@@ -106,7 +106,7 @@ function WarehouseExportReceipt() {
       headerName: t('warehouseExportReceipt.departmentReception'),
       width: 100,
       sortable: true,
-      fixed: true,
+      visible: 'always',
       renderCell: (params) => {
         return params?.row?.departmentReceipt?.name
       },
@@ -215,8 +215,8 @@ function WarehouseExportReceipt() {
       headerName: t('general:common.action'),
       width: 250,
       align: 'center',
-      fixed: true,
-      sticky: { right: 0 },
+      visible: 'always',
+      sticky: 'right',
       resizable: false,
       renderCell: (params) => {
         const { id, status, warehouseId, syncStatus } = params?.row

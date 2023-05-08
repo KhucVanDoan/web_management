@@ -84,14 +84,14 @@ function DefineObjectCategory() {
       headerName: t('defineObjectCategory.code'),
       width: 100,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'name',
       headerName: t('defineObjectCategory.name'),
       width: 100,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'description',
@@ -118,7 +118,9 @@ function DefineObjectCategory() {
       headerName: t('general:common.action'),
       width: 150,
       align: 'center',
-      fixed: true,
+      visible: 'always',
+      sticky: 'right',
+      resizable: false,
       renderCell: (params) => {
         const { id, status } = params?.row
         const isLocked = status === ACTIVE_STATUS.ACTIVE

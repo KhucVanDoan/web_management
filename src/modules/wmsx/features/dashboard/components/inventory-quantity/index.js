@@ -42,14 +42,14 @@ const InventoryQuantity = ({ fromDate, toDate }) => {
   }
 
   const convertAmount = (amount) => {
-    const unit = 1000000;
-    if (!amount || +amount == 0) {
-      return 0;
+    const unit = 1000000
+    if (!amount || +amount === 0) {
+      return 0
     }
     try {
-      return  (amount / unit).toString().match(/^-?\d+(?:\.\d{0,2})?/)[0];
+      return (amount / unit).toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]
     } catch {
-      return (amount / unit).toFixed(2);
+      return (amount / unit).toFixed(2)
     }
   }
 

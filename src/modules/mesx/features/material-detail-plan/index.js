@@ -67,12 +67,12 @@ const MaterialDetailPlan = () => {
       {
         field: 'targetName',
         headerName: t('materialDetailPlan.targetName'),
-        fixed: true,
+        visible: 'always',
       },
       {
         field: 'plan',
         headerName: t('materialDetailPlan.plan'),
-        fixed: true,
+        visible: 'always',
         width: 200,
       },
     ]
@@ -91,7 +91,7 @@ const MaterialDetailPlan = () => {
       {
         field: 'total',
         headerName: t(`materialDetailPlan.total`),
-        fixed: true,
+        visible: 'always',
         width: 100,
         align: 'right',
         headerAlign: 'left',
@@ -183,12 +183,12 @@ const MaterialDetailPlan = () => {
       {
         field: 'targetName',
         headerName: t('materialDetailPlan.targetName'),
-        fixed: true,
+        visible: 'always',
       },
       {
         field: 'plan',
         headerName: t('materialDetailPlan.plan'),
-        fixed: true,
+        visible: 'always',
         width: 200,
       },
     ]
@@ -208,7 +208,7 @@ const MaterialDetailPlan = () => {
       {
         field: 'total',
         headerName: t(`materialDetailPlan.total`),
-        fixed: true,
+        visible: 'always',
         width: 100,
         align: 'right',
         headerAlign: 'left',
@@ -298,12 +298,12 @@ const MaterialDetailPlan = () => {
       {
         field: 'targetName',
         headerName: t('materialDetailPlan.targetName'),
-        fixed: true,
+        visible: 'always',
       },
       {
         field: 'plan',
         headerName: t('materialDetailPlan.plan'),
-        fixed: true,
+        visible: 'always',
         width: 200,
       },
     ]
@@ -312,7 +312,7 @@ const MaterialDetailPlan = () => {
       {
         field: 'total',
         headerName: t(`materialDetailPlan.total`),
-        fixed: true,
+        visible: 'always',
         width: 100,
         align: 'center',
       },

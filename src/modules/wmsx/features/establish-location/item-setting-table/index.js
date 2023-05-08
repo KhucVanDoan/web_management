@@ -157,6 +157,8 @@ function ItemSettingTableDetail(props) {
       headerName: '',
       width: 50,
       hide: isView,
+      sticky: 'right',
+      resizable: false,
       renderCell: (params) => {
         const idx = items.findIndex((item) => item.id === params.row.id)
         return isView ? null : (

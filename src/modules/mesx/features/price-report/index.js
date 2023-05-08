@@ -53,7 +53,7 @@ const PriceReport = () => {
       headerName: t('priceReport.itemName'),
       width: 100,
       sortable: true,
-      fixed: true,
+      visible: 'always',
       renderCell: (params) => {
         const { item } = params?.row
         return item?.name
@@ -65,7 +65,7 @@ const PriceReport = () => {
       width: 100,
       align: 'right',
       headerAlign: 'left',
-      fixed: true,
+      visible: 'always',
       sortable: true,
     },
     {
@@ -74,7 +74,7 @@ const PriceReport = () => {
       width: 100,
       align: 'right',
       headerAlign: 'left',
-      fixed: true,
+      visible: 'always',
       sortable: true,
     },
     {
@@ -82,7 +82,7 @@ const PriceReport = () => {
       headerName: t('priceReport.unit'),
       width: 100,
       sortable: true,
-      fixed: true,
+      visible: 'always',
       renderCell: (params) => {
         const { item } = params?.row
         return item?.itemUnitName

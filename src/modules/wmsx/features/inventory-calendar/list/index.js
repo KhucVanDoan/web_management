@@ -76,14 +76,14 @@ function InventoryCalendar() {
       headerName: t('inventoryCalendar.code'),
       width: 120,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'name',
       headerName: t('inventoryCalendar.name'),
       width: 150,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'inventoryType',
@@ -139,7 +139,9 @@ function InventoryCalendar() {
       width: 180,
       sortable: false,
       align: 'center',
-      fixed: true,
+      visible: 'always',
+      sticky: 'right',
+      resizable: false,
       renderCell: (params) => {
         const { status, id } = params.row
         const hasEditDeleteBtn =

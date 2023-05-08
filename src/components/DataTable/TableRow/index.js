@@ -8,15 +8,12 @@ import { useTheme } from '@mui/material/styles'
 import PropTypes from 'prop-types'
 import { Draggable } from 'react-beautiful-dnd'
 
-const TableRow = ({
-  children,
-  reorderable,
-  draggableId,
-  index,
-  classes,
-  ...props
-}) => {
+import { useTable } from '~/common/hooks/useTable'
+
+const TableRow = ({ children, draggableId, index, classes, ...props }) => {
   const theme = useTheme()
+  const { reorderable } = useTable()
+
   if (reorderable) {
     return (
       <Draggable draggableId={draggableId} index={index}>
@@ -65,12 +62,10 @@ const TableRow = ({
 
 TableRow.defaultProps = {
   children: null,
-  reorderable: false,
 }
 
 TableRow.propsTypes = {
   children: PropTypes.node,
-  reorderable: PropTypes.bool,
   draggableId: PropTypes.string,
   index: PropTypes.number,
   classes: PropTypes.shape(),

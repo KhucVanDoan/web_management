@@ -56,7 +56,7 @@ function ProgressManufacturingByWorkCenter() {
       headerName: t('progressManufacturingByWorkCenter.workCenterCode'),
       width: 100,
       sortable: true,
-      fixed: true,
+      visible: 'always',
       renderCell: (params) => {
         return params?.row?.workCenter?.code
       },
@@ -66,7 +66,7 @@ function ProgressManufacturingByWorkCenter() {
       headerName: t('progressManufacturingByWorkCenter.workCenterName'),
       width: 150,
       sortable: true,
-      fixed: true,
+      visible: 'always',
       renderCell: (params) => {
         return params?.row?.workCenter?.name
       },

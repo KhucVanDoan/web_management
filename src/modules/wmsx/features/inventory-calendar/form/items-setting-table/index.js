@@ -119,6 +119,8 @@ function ItemSettingTable({ items, mode, arrayHelpers, values }) {
         width: 50,
         align: 'center',
         hide: isView,
+        sticky: 'right',
+        resizable: false,
         renderCell: (params, idx) => {
           return isView ? null : (
             <IconButton onClick={() => arrayHelpers.remove(idx)} size="large">

@@ -79,21 +79,21 @@ function ItemUnitSetting() {
     //   headerName: '#',
     //   width: 80,
     //   sortable: false,
-    //   fixed: true,
+    //   visible: 'always',
     // },
     {
       field: 'code',
       headerName: t('itemUnitDefine.unitCode'),
       width: 100,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'name',
       headerName: t('itemUnitDefine.unitName'),
       width: 200,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'description',
@@ -129,7 +129,9 @@ function ItemUnitSetting() {
       width: 150,
       sortable: false,
       align: 'center',
-      fixed: true,
+      visible: 'always',
+      sticky: 'right',
+      resizable: false,
       renderCell: (params) => {
         const { row } = params
         const { id } = row

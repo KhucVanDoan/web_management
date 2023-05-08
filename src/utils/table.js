@@ -74,18 +74,3 @@ export const convertSortParams = (sort) => {
 
   return JSON.stringify(sortData)
 }
-
-export const getColumnsInBottomTree = (cols = []) => {
-  const childCols = cols?.reduce((acc, cur) => {
-    if (Array.isArray(cur?.columns) && cur?.columns?.some((c) => !c?.hide)) {
-      return [...acc, ...cur?.columns?.filter((c) => !c.hide)]
-    }
-    return [...acc, cur]
-  }, [])
-
-  if (childCols?.some((x) => x?.columns)) {
-    return getColumnsInBottomTree(childCols)
-  }
-
-  return childCols
-}
