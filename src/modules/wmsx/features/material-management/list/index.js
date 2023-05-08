@@ -93,6 +93,7 @@ function MaterialManagement() {
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
   const [isOpenPrintQRModal, setIsOpenPrintQRModal] = useState(false)
+  const [loadingExport, setLoadingExport] = useState(false)
   const columns = [
     {
       field: 'code',
@@ -265,6 +266,7 @@ function MaterialManagement() {
         </Button>
         <ImportExport
           name={t('menu.materialManagement')}
+          loadingExport={setLoadingExport}
           // {...(canAccess(FUNCTION_CODE.ITEM_IMPORT_ITEM)
           //   ? {
           //       onImport: (params) => importMaterialApi(params),
@@ -480,7 +482,7 @@ function MaterialManagement() {
       onSearch={setKeyword}
       placeholder={t('materialManagement.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}
-      loading={isLoading}
+      loading={isLoading || loadingExport}
     >
       <DataTable
         title={t('materialManagement.list')}

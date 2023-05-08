@@ -42,6 +42,7 @@ const ImportExport = ({
   onExport,
   onRefresh,
   disabled,
+  loadingExport,
   ...props
 }) => {
   const { t } = useTranslation()
@@ -209,15 +210,17 @@ const ImportExport = ({
 
   const onClickExport = async () => {
     let res
-
+    loadingExport && loadingExport(true)
     try {
       res = await onExport()
     } catch (err) {
       addNotification(t('toast.defaultError'), NOTIFICATION_TYPE.ERROR)
+      loadingExport && loadingExport(false)
     }
 
     if (!res) {
       addNotification(t('toast.defaultError'), NOTIFICATION_TYPE.ERROR)
+      loadingExport && loadingExport(false)
       return
     }
 
@@ -233,11 +236,13 @@ const ImportExport = ({
           IMPORT_EXPORT_DATE_FORMAT,
         )}`,
       )
-
+      loadingExport && loadingExport(false)
       addNotification(message, NOTIFICATION_TYPE.SUCCESS)
     } else if (statusCode === HTTP_STATUS_CODE.NOT_ACCEPTABLE) {
+      loadingExport && loadingExport(false)
       setExportWarning(message)
     } else {
+      loadingExport && loadingExport(false)
       addNotification(message, NOTIFICATION_TYPE.ERROR)
     }
   }
@@ -591,6 +596,7 @@ ImportExport.propTypes = {
   onExport: PropTypes.func,
   onRefresh: PropTypes.func,
   disabled: PropTypes.bool,
+  loadingExport: PropTypes.node,
 }
 
 export default ImportExport

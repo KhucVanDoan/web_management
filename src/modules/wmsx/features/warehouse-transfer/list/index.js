@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom'
 // import { API_URL } from '~/common/constants/apiUrl'
 import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import { useQueryState } from '~/common/hooks'
-import { useApp } from '~/common/hooks/useApp'
+// import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
@@ -26,6 +26,7 @@ import {
   WAREHOUSE_TRANSFER_MAP,
 } from '~/modules/wmsx/constants'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
+import { importWarehouseTransferImportApi } from '~/modules/wmsx/redux/sagas/warehouse-transfer/import-export'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import {
   convertFilterParams,
@@ -54,7 +55,8 @@ const WarehouseTransfer = () => {
   const [isOpenConfirmEBSModal, setIsOpenConfirmEBSModal] = useState(false)
   const [isOpenCancelEBSModal, setIsOpenCancelEBSModal] = useState(false)
   const [selectedRows, setSelectedRows] = useState([])
-  const { canAccess } = useApp()
+  const [loadingExport, setLoadingExport] = useState(false)
+  // const { canAccess } = useApp()
   const {
     data: { warehouseTransferList, isLoading, total },
     actions,
@@ -421,20 +423,16 @@ const WarehouseTransfer = () => {
     return (
       <>
         <ImportExport
-          {...(canAccess(FUNCTION_CODE.WAREHOUSE_IMPORT_WAREHOUSE_TRANSFER)
-            ? {
-                onExport: () => {},
-              }
-            : {})}
-          {...(canAccess(
-            FUNCTION_CODE.WAREHOUSE_CONFIRM_IMPORT_WAREHOUSE_TRANSFER,
-          )
-            ? {
-                onImport: () => {},
-              }
-            : {})}
+          loadingExport={setLoadingExport}
+          // {...(canAccess(FUNCTION_CODE.WAREHOUSE_IMPORT_WAREHOUSE_TRANSFER)
+          //   ? {
+          //       onExport: () => {},
+          //     }
+          //   : {})}
+          onImport={(importFile) =>
+            importWarehouseTransferImportApi(importFile)
+          }
           onRefresh={refreshData}
-          disabled
         />
         <Guard code={FUNCTION_CODE.WAREHOUSE_CREATE_WAREHOUSE_TRANSFER}>
           <Button
@@ -456,7 +454,7 @@ const WarehouseTransfer = () => {
       renderHeaderRight={renderHeaderRight}
       onSearch={setKeyword}
       placeholder={t('warehouseTransfer.searchPlaceholder')}
-      loading={isLoading}
+      loading={isLoading || loadingExport}
     >
       <DataTable
         title={t('warehouseTransfer.list')}

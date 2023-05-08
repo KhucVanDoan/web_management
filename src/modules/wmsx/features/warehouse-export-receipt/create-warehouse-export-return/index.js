@@ -109,7 +109,7 @@ function WarehouseExportReturn() {
       warehouseId: values?.warehouse?.id,
       reasonId: values?.reason?.id,
       businessTypeId: values?.businessType?.id,
-      explaination: values?.explanation,
+      explanation: values?.explanation,
       items: values?.items?.map((item) => ({
         id: +item?.itemCode?.itemId || +item?.itemCode?.id,
         itemCode: item?.itemCode?.code,
@@ -166,11 +166,17 @@ function WarehouseExportReturn() {
             planExportedQuantity:
               warehouseImportReceiptDetails?.status ===
               WAREHOUSE_IMPORT_RECEIPT_STATUS.RECEIVED
-                ? ((+item?.exportableQuantity || 0) + (+item?.remainReturnQuantity || 0))
+                ? (+item?.exportableQuantity || 0) +
+                  (+item?.remainReturnQuantity || 0)
                 : item?.exportableQuantity,
             returnExportedQuantity: +item?.remainReturnQuantity,
             returnQuantity: +item?.remainReturnQuantity,
-            debitAccount: item?.debitAccount,
+            debitAccount: [
+              item?.source?.accountant,
+              item?.source?.produceTypeCode,
+              item?.source?.productCode,
+              item?.source?.factorialCode,
+            ].join('.'),
             creditAccount: item?.creditAccount,
             lotNumber: item?.lotNumber,
           }),

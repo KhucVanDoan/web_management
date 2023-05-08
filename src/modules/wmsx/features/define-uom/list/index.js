@@ -64,7 +64,7 @@ function DefineUom() {
 
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
-
+  const [loadingExport, setLoadingExport] = useState(false)
   const {
     page,
     pageSize,
@@ -223,6 +223,7 @@ function DefineUom() {
       <>
         <ImportExport
           name={t('menu.defineUom')}
+          loadingExport={setLoadingExport}
           // {...(canAccess(FUNCTION_CODE.ITEM_IMPORT_ITEM_UNIT)
           //   ? {
           //       onImport: () => {},
@@ -269,7 +270,7 @@ function DefineUom() {
         onSearch={setKeyword}
         placeholder={t('defineUom.searchPlaceholder')}
         renderHeaderRight={renderHeaderRight}
-        loading={isLoading}
+        loading={isLoading || loadingExport}
       >
         <DataTable
           title={t('defineUom.title')}

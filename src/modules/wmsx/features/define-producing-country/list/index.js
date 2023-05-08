@@ -74,7 +74,7 @@ function DefineProducingCountry() {
 
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
-
+  const [loadingExport, setLoadingExport] = useState(false)
   const columns = [
     {
       field: 'code',
@@ -215,6 +215,7 @@ function DefineProducingCountry() {
       <>
         <ImportExport
           name={t('menu.defineProducingCountry')}
+          loadingExport={setLoadingExport}
           // onImport={() => {}}
           onExport={() =>
             exportDefineProducingCountryApi({
@@ -253,7 +254,7 @@ function DefineProducingCountry() {
       onSearch={setKeyword}
       placeholder={t('defineProducingCountry.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}
-      loading={isLoading}
+      loading={isLoading || loadingExport}
     >
       <DataTable
         title={t('defineProducingCountry.list')}

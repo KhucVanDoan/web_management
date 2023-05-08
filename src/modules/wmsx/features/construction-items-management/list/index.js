@@ -70,7 +70,7 @@ function ConstructionItemsManagement() {
 
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
-
+  const [loadingExport, setLoadingExport] = useState(false)
   const columns = [
     {
       field: 'code',
@@ -221,6 +221,7 @@ function ConstructionItemsManagement() {
       <>
         <ImportExport
           name={t('menu.constructionItemsManagement')}
+          loadingExport={setLoadingExport}
           onExport={() =>
             exportContructionItemManagementApi({
               columnSettings: JSON.stringify(columnsSettings),
@@ -263,7 +264,7 @@ function ConstructionItemsManagement() {
       onSearch={setKeyword}
       placeholder={t('constructionItemsManagement.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}
-      loading={isLoading}
+      loading={isLoading || loadingExport}
     >
       <DataTable
         title={t('constructionItemsManagement.list')}

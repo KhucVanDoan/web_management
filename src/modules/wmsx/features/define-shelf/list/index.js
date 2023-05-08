@@ -83,7 +83,7 @@ function DefineShelf() {
 
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
-
+  const [loadingExport, setLoadingExport] = useState(false)
   const columns = [
     {
       field: 'code',
@@ -217,6 +217,7 @@ function DefineShelf() {
       <>
         <ImportExport
           name={t('menu.defineShelf')}
+          loadingExport={setLoadingExport}
           onExport={() =>
             exportShelfApi({
               columnSettings: JSON.stringify(columnsSettings),
@@ -270,7 +271,7 @@ function DefineShelf() {
       onSearch={setKeyword}
       placeholder={t('defineShelf.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}
-      loading={isLoading}
+      loading={isLoading || loadingExport}
     >
       <DataTable
         title={t('defineShelf.list')}

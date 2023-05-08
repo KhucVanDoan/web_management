@@ -91,7 +91,7 @@ function WarehouseImportReceipt() {
 
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
-
+  const [loadingExport, setLoadingExport] = useState(false)
   const columns = [
     {
       field: 'code',
@@ -465,6 +465,7 @@ function WarehouseImportReceipt() {
       <>
         <ImportExport
           name={t('menu.warehouseImportReceipt')}
+          loadingExport={setLoadingExport}
           {...(canAccess(
             FUNCTION_CODE.WAREHOUSE_IMPORT_WAREHOUSE_EXPORT_PROPOSAL,
           )
@@ -512,7 +513,7 @@ function WarehouseImportReceipt() {
       onSearch={setKeyword}
       placeholder={t('warehouseImportReceipt.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}
-      loading={isLoading}
+      loading={isLoading || loadingExport}
     >
       <DataTable
         title={t('warehouseImportReceipt.list')}

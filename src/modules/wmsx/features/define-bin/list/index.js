@@ -80,7 +80,7 @@ function DefineBin() {
 
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
-
+  const [loadingExport, setLoadingExport] = useState(false)
   const columns = [
     {
       field: 'code',
@@ -200,6 +200,7 @@ function DefineBin() {
       <>
         <ImportExport
           name={t('menu.defineBin')}
+          loadingExport={setLoadingExport}
           // onImport={(params) => importBinApi(params)}
           onExport={() =>
             exportBinApi({
@@ -236,7 +237,7 @@ function DefineBin() {
       onSearch={setKeyword}
       placeholder={t('defineBin.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}
-      loading={isLoading}
+      loading={isLoading || loadingExport}
     >
       <DataTable
         title={t('defineBin.list')}
