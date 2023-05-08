@@ -22,7 +22,7 @@ const ProgressTable = () => {
       {
         field: 'itemName',
         headerName: t('ProgessDetailReport.item'),
-        fixed: true,
+        visible: 'always',
         renderCell: (params) => {
           if (params?.row?.itemName) {
             const itemId = params?.row?.id

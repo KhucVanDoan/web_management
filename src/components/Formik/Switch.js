@@ -18,6 +18,7 @@ const FormikSwitch = ({ field, form, onChange, ...props }) => (
 FormikSwitch.defaultProps = {
   field: {},
   form: {},
+  onChange: () => {},
 }
 
 FormikSwitch.propTypes = {

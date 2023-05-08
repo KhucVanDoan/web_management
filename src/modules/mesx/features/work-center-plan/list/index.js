@@ -64,42 +64,42 @@ const WorkCenterPlanList = () => {
     //   headerName: '#',
     //   width: 80,
     //   sortable: false,
-    //   fixed: true,
+    //   visible: 'always',
     // },
     {
       field: 'mpCode',
       headerName: t('workCenterPlan.planCode'),
       width: 100,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'moCode',
       headerName: t('workCenterPlan.moCode'),
       width: 100,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'woCode',
       headerName: t('workCenterPlan.woCode'),
       width: 100,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'itemName',
       headerName: t('workCenterPlan.itemName'),
       width: 100,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'producingStepName',
       headerName: t('workCenterPlan.producingStepName'),
       width: 150,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'wcName',
@@ -117,7 +117,7 @@ const WorkCenterPlanList = () => {
       width: 100,
       sortable: false,
       align: 'center',
-      fixed: true,
+      visible: 'always',
       renderCell: (params) => {
         const { id } = params.row
         const workCenterId = params.row?.workCenter?.id

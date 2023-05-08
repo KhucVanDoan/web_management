@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 
-import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
 import {
@@ -8,6 +7,7 @@ import {
   BULK_ACTION_OPTIONS,
   NOTIFICATION_TYPE,
 } from '~/common/constants'
+import { useTable } from '~/common/hooks/useTable'
 import Dialog from '~/components/Dialog'
 import Dropdown from '~/components/Dropdown'
 import Icon from '~/components/Icon'
@@ -16,10 +16,12 @@ import { api } from '~/services/api'
 import qs from '~/utils/qs'
 import addNotification from '~/utils/toast'
 
-const BulkActions = ({ bulkActions, selected, uniqKey = 'id' }) => {
+const BulkActions = () => {
   const { t } = useTranslation()
   const [action, setAction] = useState(0)
   // const [loading, setLoading] = useState(false)
+
+  const { bulkActions, selected, uniqKey } = useTable()
 
   const options = BULK_ACTION_OPTIONS.filter((opt) =>
     (bulkActions?.actions || []).includes(opt.value),
@@ -117,16 +119,6 @@ const BulkActions = ({ bulkActions, selected, uniqKey = 'id' }) => {
       {/* <Loading open={loading} /> */}
     </>
   )
-}
-
-BulkActions.defaultProps = {
-  bulkActions: {},
-  selected: [],
-}
-
-BulkActions.propTypes = {
-  bulkActions: PropTypes.shape({}),
-  selected: PropTypes.array,
 }
 
 export default BulkActions

@@ -89,14 +89,14 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
         headerName: t('movements.code'),
         width: 120,
         sortable: true,
-        fixed: true,
+        visible: 'always',
       },
       {
         field: 'formNumber',
         headerName: t('movements.importExport.formNumber'),
         width: 120,
         sortable: true,
-        fixed: true,
+        visible: 'always',
         renderCell: (params) => {
           return params?.row?.ebsId || params?.row?.order?.ebsId
         },
@@ -105,7 +105,7 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
         field: 'idWms',
         headerName: t('movements.importExport.idWms'),
         width: 120,
-        fixed: true,
+        visible: 'always',
         sortable: true,
         renderCell: (params) =>
           params.row?.order?.code || params.row?.orderCode,
@@ -160,7 +160,9 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
         headerName: t('movements.action'),
         width: 100,
         align: 'center',
-        fixed: true,
+        visible: 'always',
+        sticky: 'right',
+        resizable: false,
         renderCell: (params) => {
           const { id, movementType, orderType } = params.row
           return (

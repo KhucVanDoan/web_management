@@ -77,20 +77,20 @@ const ItemGroupSetting = () => {
     //   headerName: '#',
     //   width: 80,
     //   sortable: false,
-    //   fixed: true,
+    //   visible: 'always',
     // },
     {
       field: 'code',
       headerName: t('itemGroupDefine.groupCode'),
       width: 100,
-      fixed: true,
+      visible: 'always',
       sortable: true,
     },
     {
       field: 'name',
       headerName: t('itemGroupDefine.groupName'),
       width: 200,
-      fixed: true,
+      visible: 'always',
       sortable: true,
     },
     {
@@ -125,7 +125,9 @@ const ItemGroupSetting = () => {
       width: 150,
       sortable: false,
       align: 'center',
-      fixed: true,
+      visible: 'always',
+      sticky: 'right',
+      resizable: false,
       renderCell: (params) => {
         const { row } = params
         const { id } = row

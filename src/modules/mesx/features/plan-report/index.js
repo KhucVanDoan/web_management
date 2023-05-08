@@ -66,13 +66,13 @@ function PlanReport() {
       headerName: t('definePlan.id'),
       width: 100,
       sortable: false,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'code',
       headerName: t('definePlan.code'),
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'moCode',
@@ -114,7 +114,7 @@ function PlanReport() {
       headerName: t('planReport.status'),
       align: 'center',
       sortable: true,
-      fixed: true,
+      visible: 'always',
       renderCell: (params) => {
         const { planBom } = params.row
         return planBom?.status

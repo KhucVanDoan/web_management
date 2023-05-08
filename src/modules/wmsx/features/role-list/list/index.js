@@ -60,21 +60,23 @@ const RoleList = () => {
       headerName: t('roleList.code'),
       width: 200,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'name',
       headerName: t('roleList.name'),
       width: 200,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'actions',
       headerName: t('general:common.action'),
       width: 150,
-      fixed: true,
       align: 'center',
+      visible: 'always',
+      sticky: 'right',
+      resizable: false,
       renderCell: (params) => {
         const { row } = params
         const { id } = row

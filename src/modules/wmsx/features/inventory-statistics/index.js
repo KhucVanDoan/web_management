@@ -80,20 +80,20 @@ function InventoryStatistics() {
     //   field: 'id',
     //   headerName: '#',
     //   width: 80,
-    //   fixed: true,
+    //   visible: 'always',
     //   sortable: true,
     // },
     {
       field: 'itemCode',
       headerName: t('inventoryStatistics.code'),
       width: 200,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'itemName',
       headerName: t('inventoryStatistics.name'),
       width: 255,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'unit',
@@ -165,6 +165,9 @@ function InventoryStatistics() {
       headerName: t('inventoryStatistics.action'),
       width: 150,
       align: 'center',
+      visible: 'always',
+      sticky: 'right',
+      resizable: false,
       renderCell: (params) => {
         return (
           <IconButton onClick={() => onClickUpdate(params.row)}>

@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 
 import { Grid, Box } from '@mui/material'
-import { endOfDay } from 'date-fns'
+import { endOfDay, endOfWeek, startOfDay, startOfWeek } from 'date-fns'
 import { Form, Formik } from 'formik'
-import moment from 'moment'
 import { useTranslation } from 'react-i18next'
 
 import { Field } from '~/components/Formik'
@@ -32,22 +31,25 @@ const breadcrumbs = [
 function Dashboard() {
   const { t } = useTranslation(['wmsx'])
 
-  const startOfWeek = addHours(7, moment().startOf('week').toDate())
-  const endOfWeek = moment().endOf('week').toDate()
-  const [fromDate, setfromDate] = useState(startOfWeek)
-  const [toDate, settoDate] = useState(endOfWeek)
-  const [selectedDate, setSelectedDate] = useState([startOfWeek, endOfWeek])
+  const initialDate = [
+    addHours(7, startOfWeek(new Date())),
+    endOfWeek(new Date()),
+  ]
+
+  const [selectedDate, setSelectedDate] = useState(initialDate)
   const handleChangeSelect = (value) => {
     setSelectedDate(value)
-    setfromDate(addHours(7, new Date(value[0])))
-    settoDate(endOfDay(new Date(value[1])))
   }
+
+  const fromDate = addHours(7, startOfDay(new Date(selectedDate[0])))
+  const toDate = endOfDay(new Date(selectedDate[1]))
+
   return (
     <Page title={t('dashboard.title')} breadcrumbs={breadcrumbs} freeSolo>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Formik
-            initialValues={{ createdAt: [startOfWeek, endOfWeek] }}
+            initialValues={{ createdAt: initialDate }}
             onSubmit={() => {}}
             enableReinitialize
           >

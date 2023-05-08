@@ -113,11 +113,8 @@ const style = (theme) => ({
     },
   },
 
-  lastStickyLeft: {
-    borderRight: `2px solid ${theme.palette.primary.a3} !important`,
-  },
   firstStickyRight: {
-    borderLeft: `2px solid ${theme.palette.text.a1} !important`,
+    borderLeft: `1px solid ${theme.palette.text.a2} !important`,
   },
 })
 

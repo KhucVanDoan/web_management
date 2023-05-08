@@ -327,6 +327,7 @@ const ItemSettingTable = ({ items, lots, arrayHelpers, setFieldValue }) => {
         hide: items?.length === 1,
         width: 100,
         align: 'center',
+        sticky: 'right',
         renderCell: (params, idx) => {
           return (
             <IconButton

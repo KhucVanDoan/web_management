@@ -93,14 +93,14 @@ const DefineBOQ = () => {
       //   field: 'id',
       //   headerName: '#',
       //   width: 80,
-      //   fixed: true,
+      //   visible: 'always',
       // },
       {
         field: 'code',
         headerName: t('defineBOQ.boqCode'),
         width: 150,
         sortable: true,
-        fixed: true,
+        visible: 'always',
       },
       {
         field: 'name',
@@ -154,7 +154,7 @@ const DefineBOQ = () => {
         headerName: t('general:common.action'),
         width: 250,
         align: 'center',
-        fixed: true,
+        visible: 'always',
         renderCell: (params) => {
           const { status, id } = params.row
           const canEdit = BOQ_STATUS_TO_EDIT.includes(status)

@@ -650,6 +650,8 @@ const ItemSettingTable = (props) => {
         headerName: '',
         width: 50,
         hide: isView,
+        sticky: 'right',
+        resizable: false,
         renderCell: (_, index) => {
           return isView ? null : (
             <IconButton

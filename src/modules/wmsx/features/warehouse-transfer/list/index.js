@@ -88,14 +88,13 @@ const WarehouseTransfer = () => {
         headerName: t('warehouseTransfer.code'),
         width: 150,
         sortable: true,
-        fixed: true,
+        visible: 'always',
       },
       {
         field: 'name',
         headerName: t('warehouseTransfer.name'),
         width: 150,
         sortable: true,
-        // fixed: true,
       },
       {
         field: 'type',
@@ -206,8 +205,8 @@ const WarehouseTransfer = () => {
         headerName: t('warehouseTransfer.actions'),
         width: 250,
         align: 'center',
-        fixed: true,
-        sticky: { right: 0 },
+        visible: 'always',
+        sticky: 'right',
         resizable: false,
         renderCell: (params) => {
           const { id, status, syncStatus } = params?.row

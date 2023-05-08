@@ -81,7 +81,7 @@ const Mo = () => {
       headerName: t('Mo.moCode'),
       width: 120,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'name',
@@ -176,7 +176,7 @@ const Mo = () => {
       headerName: t('general:common.action'),
       width: 200,
       align: 'center',
-      fixed: true,
+      visible: 'always',
       renderCell: (params) => {
         const { status, id } = params.row
         const canEdit = MO_STATUS_TO_EDIT.includes(status)

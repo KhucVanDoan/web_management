@@ -8,49 +8,50 @@ import MuiTableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import { Box } from '@mui/system'
 import clsx from 'clsx'
-import PropTypes from 'prop-types'
 
 import { ORDER_DIRECTION } from '~/common/constants'
-import useTableSetting from '~/components/DataTable/hooks/useTableSetting'
+import { useTable } from '~/common/hooks/useTable'
+import {
+  DEFAULT_MIN_COLUMN_WIDTH,
+  DEFAULT_MAX_COLUMN_WIDTH,
+  DEFAULT_TR_HEIGHT,
+  RESIZE_LINE_WIDTH,
+} from '~/contexts/TableContext'
 import { useClasses } from '~/themes'
 
 import style from './style'
 
-const DEFAULT_MIN_COLUMN_WIDTH = 80
-const DEFAULT_MAX_COLUMN_WIDTH = 1000
-const DEFAULT_TR_HEIGHT = 41
-const DEFAULT_SCROLL_BAR_WIDTH = 8
-const RESIZE_LINE_WIDTH = 3
 /**
  *
  * @param {*} props
  * @returns
  */
-const TableHead = (props) => {
+const TableHead = ({ onSortChange: _onSortChange }) => {
   const {
-    onSelectAllClick,
-    order,
-    orderBy,
-    onSortChange,
-    checkboxSelection,
-    columns = [],
-    selected,
     rows,
     uniqKey,
     pageSize,
-    reorderable,
-    enableResizable,
-    tableSettingKey,
+    sort,
+    onSortChange,
     containerRef,
-    rawColumns = [],
     visibleColumns,
-  } = props
+    selected,
+    isTableResizable,
+    checkboxSelection,
+    reorderable,
+    onSelectionChange,
+    setting,
+    updateSetting,
+    isVisible,
+    visibleColumnKeys,
+    hideSetting,
+  } = useTable()
+
+  const { order, orderBy } = sort || {}
 
   const classes = useClasses(style)
-  const { getTableSetting, updateTableSetting, initTableSetting } =
-    useTableSetting(tableSettingKey)
 
-  const columnRefs = columns.reduce(
+  const columnRefs = visibleColumns.reduce(
     (acc, cur) => ({
       ...acc,
       [cur.field]: createRef(),
@@ -60,33 +61,30 @@ const TableHead = (props) => {
 
   const isResizing = useRef('')
 
-  const isTableResizable =
-    enableResizable && columns?.some((col) => col?.resizable !== false)
-
-  const hasVerticalScrollbar = () =>
-    containerRef?.current &&
-    containerRef?.current?.scrollHeight > containerRef?.current?.clientHeight
-
-  const autoAdjustWidth = (setting = []) => {
+  const autoAdjustWidth = () => {
     const actualWidth = setting.reduce((acc, cur) => {
-      if (cur.visible) return acc + cur.width
+      if (isVisible(cur, true)) return acc + cur.width
+
       return acc
     }, 0)
-    const containerWidth = containerRef?.current?.offsetWidth || 0
+
+    const containerWidth = containerRef?.current?.clientWidth || 0
     const shortageWidth =
       containerWidth -
-      (actualWidth + (checkboxSelection ? 50 : 0) + (reorderable ? 50 : 0)) -
-      (hasVerticalScrollbar() ? DEFAULT_SCROLL_BAR_WIDTH : 0) -
-      2
+      (actualWidth + (checkboxSelection ? 50 : 0) + (reorderable ? 50 : 0))
 
+    if (shortageWidth === 0) return
     if (shortageWidth > 0) {
       const qty =
-        setting.filter((c) => c.resizable !== false && c.visible)?.length || 1
+        setting.filter((c) => c.resizable !== false && isVisible(c, true))
+          ?.length || 1
       const growWidth = Math.floor(shortageWidth / qty)
 
       setting.forEach((col) => {
         const newWidth =
-          col.width + (col.resizable !== false && col.visible ? growWidth : 0)
+          col.width +
+          (col.resizable !== false && isVisible(col, true) ? growWidth : 0)
+
         if (columnRefs[col.field]?.current?.parentElement) {
           columnRefs[col.field].current.parentElement.style.width =
             newWidth + 'px'
@@ -104,27 +102,26 @@ const TableHead = (props) => {
 
   const manualAdjustWidth = (field, width) => {
     if (columnRefs[field]?.current?.parentElement) {
-      const column = columns.find((col) => col.field === field)
-      const minWidth = column?.minWidth ?? DEFAULT_MIN_COLUMN_WIDTH
-      const maxWidth = column?.maxWidth ?? DEFAULT_MAX_COLUMN_WIDTH
+      const minWidth =
+        setting.find((col) => col.field === field)?.minWidth ??
+        DEFAULT_MIN_COLUMN_WIDTH
+      const maxWidth = DEFAULT_MAX_COLUMN_WIDTH
       const getNewWidth = () => {
         if (width > maxWidth) return maxWidth
         if (width < minWidth) return minWidth
         return width
       }
 
-      const setting = getTableSetting() || []
       const actualWidth = setting.reduce((acc, cur) => {
         if (cur.field === field) return acc + getNewWidth()
-        if (cur.visible) return acc + cur.width
+        if (isVisible(cur, true)) return acc + cur.width
         return acc
       }, 0)
-      const containerWidth = containerRef?.current?.offsetWidth || 0
+
+      const containerWidth = containerRef?.current?.clientWidth || 0
       const shortageWidth =
         containerWidth -
-        (actualWidth + (checkboxSelection ? 50 : 0) + (reorderable ? 50 : 0)) -
-        (hasVerticalScrollbar() ? DEFAULT_SCROLL_BAR_WIDTH : 0) -
-        2
+        (actualWidth + (checkboxSelection ? 50 : 0) + (reorderable ? 50 : 0))
 
       if (shortageWidth > 0) return
       columnRefs[field].current.parentElement.style.width = getNewWidth() + 'px'
@@ -144,8 +141,7 @@ const TableHead = (props) => {
         columnRefs[
           isResizing.current
         ]?.current?.parentElement?.getBoundingClientRect().left +
-        RESIZE_LINE_WIDTH +
-        1
+        RESIZE_LINE_WIDTH
 
       manualAdjustWidth(isResizing.current, Math.floor(newWidth || 0))
     },
@@ -157,27 +153,14 @@ const TableHead = (props) => {
     if (!isResizing.current) return
     isResizing.current = ''
 
-    const tbSetting = getTableSetting()
+    const st = setting?.map((s) => ({
+      ...s,
+      width:
+        columnRefs[s.field]?.current?.parentElement?.offsetWidth || s.width,
+    }))
 
-    let newSetting = []
-
-    if (Array.isArray(tbSetting) && tbSetting?.length) {
-      newSetting = tbSetting?.map((s) => ({
-        ...s,
-        width:
-          columnRefs[s.field]?.current?.parentElement?.offsetWidth || s.width,
-      }))
-    } else {
-      newSetting = columns?.map((c) => ({
-        field: c.field,
-        visible: true,
-        width:
-          columnRefs[c.field]?.current?.parentElement?.offsetWidth || c.width,
-      }))
-    }
-
-    updateTableSetting(newSetting)
-  }, [isResizing.current, columnRefs, columns])
+    updateSetting(st)
+  }, [isResizing.current, columnRefs, visibleColumns, setting])
 
   const startResize = (field) => {
     isResizing.current = field
@@ -197,16 +180,8 @@ const TableHead = (props) => {
 
   useEffect(() => {
     if (!isTableResizable) return
-
-    autoAdjustWidth(initTableSetting(rawColumns))
-  }, [
-    rawColumns,
-    checkboxSelection,
-    reorderable,
-    columnRefs,
-    isTableResizable,
-    visibleColumns,
-  ])
+    autoAdjustWidth()
+  }, [checkboxSelection, reorderable, isTableResizable, visibleColumnKeys])
 
   const onClickSort = (field) => {
     let newSort
@@ -222,7 +197,12 @@ const TableHead = (props) => {
         order: ORDER_DIRECTION.DESC,
       }
     }
-    onSortChange(newSort)
+
+    if (typeof _onSortChange === 'function') {
+      _onSortChange(newSort)
+    } else {
+      onSortChange(newSort)
+    }
   }
 
   /**
@@ -232,6 +212,29 @@ const TableHead = (props) => {
    */
   const isSorted = (field) => {
     return orderBy === field
+  }
+
+  /**
+   * Handle select all
+   * @param {*} event
+   */
+  const onSelectAllClick = (event) => {
+    if (!checkboxSelection) return
+    if (event.target.checked) {
+      const concatSelected = [...selected, ...rows]
+      const uniqueIndexValues = [
+        ...new Set(concatSelected.map((item) => item[uniqKey])),
+      ]
+      const newSelected = uniqueIndexValues.map((indexValue) =>
+        concatSelected.find((item) => item[uniqKey] === indexValue),
+      )
+      onSelectionChange(newSelected)
+    } else {
+      const newSelected = selected.filter(
+        (item) => !rows.find((e) => e[uniqKey] === item[uniqKey]),
+      )
+      onSelectionChange(newSelected)
+    }
   }
 
   /**
@@ -268,7 +271,7 @@ const TableHead = (props) => {
   const parseColumnsByLevel = (cols = []) => {
     const childCols = cols?.reduce((acc, cur) => {
       if (Array.isArray(cur?.columns))
-        return [...acc, ...cur?.columns?.filter((c) => !c.hide)]
+        return [...acc, ...cur?.columns?.filter((c) => isVisible(c))]
       return acc
     }, [])
 
@@ -292,10 +295,10 @@ const TableHead = (props) => {
     return x
   }
 
-  const tableRows = parseColumnsByLevel(columns)
+  const tableRows = parseColumnsByLevel(visibleColumns)
   const depth = tableRows.length
 
-  if (columns.every((col) => !col.headerName)) return null
+  if (visibleColumns.every((col) => !col.headerName)) return null
 
   return (
     <MuiTableHead className={classes.tableHead}>
@@ -324,7 +327,7 @@ const TableHead = (props) => {
             </TableCell>
           )}
 
-          {trColumns.map((column, thIndex) => {
+          {trColumns.map((column) => {
             const {
               headerAlign,
               align,
@@ -335,19 +338,63 @@ const TableHead = (props) => {
               minWidth,
               sortable,
               resizable,
-              sticky,
             } = column
             const sorted = isSorted(field)
 
-            const getColumnWidth = () => {
-              if (isTableResizable)
-                return (
-                  getTableSetting()?.find((s) => s.field === field)?.width ||
-                  width ||
-                  minWidth
-                )
+            let colWidth = 0
+            let colMinWidth = 0
+            let colHeaderName = ''
+            let colSticky = ''
+            let colStickyLeft =
+              (reorderable ? 50 : 0) + (checkboxSelection ? 50 : 0)
+            let colStickyRight = 0
 
-              return width || 'auto'
+            if (hideSetting && !isTableResizable) {
+              colWidth = width || minWidth
+              colMinWidth = minWidth || width || DEFAULT_MIN_COLUMN_WIDTH
+              colHeaderName = headerName
+              colSticky = column.sticky
+              colStickyLeft = 0
+              colStickyRight = 0
+
+              for (let c of visibleColumns || []) {
+                if (c?.field === field) break
+
+                if (c?.sticky === 'left' && isVisible(c)) {
+                  colStickyLeft += c?.width || 0
+                }
+              }
+
+              for (let c of [...(setting || [])].reverse()) {
+                if (c?.field === field) break
+
+                if (c?.sticky === 'right' && isVisible(c)) {
+                  colStickyRight += c?.width || 0
+                }
+              }
+            } else {
+              const colSetting = setting?.find((s) => s.field === field)
+
+              colWidth = colSetting?.width
+              colMinWidth = colSetting?.minWidth
+              colHeaderName = colSetting?.aliasName || headerName
+              colSticky = colSetting?.sticky
+
+              for (let c of setting || []) {
+                if (c?.field === field) break
+
+                if (c?.sticky === 'left' && isVisible(c, true)) {
+                  colStickyLeft += c?.width || 0
+                }
+              }
+
+              for (let c of [...(setting || [])].reverse()) {
+                if (c?.field === field) break
+
+                if (c?.sticky === 'right' && isVisible(c, true)) {
+                  colStickyRight += c?.width || 0
+                }
+              }
             }
 
             const renderHeaderContent = () => (
@@ -355,8 +402,8 @@ const TableHead = (props) => {
                 {typeof headerName === 'function' ? (
                   headerName()
                 ) : (
-                  <Typography variant="h5" noWrap title={headerName}>
-                    {headerName}
+                  <Typography variant="h5" noWrap title={colHeaderName}>
+                    {colHeaderName}
                   </Typography>
                 )}
                 {headerTooltip && (
@@ -377,27 +424,25 @@ const TableHead = (props) => {
             )
             return (
               <TableCell
-                key={thIndex}
+                key={field}
                 className={clsx(classes.headerCell, {
                   [classes[`headerCellAlign${headerAlign || align}`]]:
                     headerAlign || align,
-                  [classes.lastStickyLeft]:
-                    sticky?.left !== undefined &&
-                    !trColumns[thIndex + 1]?.sticky?.left,
                   [classes.firstStickyRight]:
-                    sticky?.right !== undefined &&
-                    !trColumns[thIndex - 1]?.sticky?.right,
+                    colSticky === 'right' &&
+                    setting?.find((s) => s?.sticky === 'right')?.field ===
+                      field,
                 })}
                 sx={{
-                  width: getColumnWidth(),
-                  minWidth: minWidth || width, // for tableLayout auto
+                  width: colWidth,
+                  minWidth: colMinWidth,
                   top: (DEFAULT_TR_HEIGHT + 1) * trIndex,
                   zIndex: trIndex === 0 ? 20 : 19,
-                  ...(sticky
+                  ...(colSticky
                     ? {
                         position: 'sticky',
-                        left: sticky?.left ?? 'auto',
-                        right: sticky?.right ?? 'auto',
+                        [colSticky]:
+                          colSticky === 'left' ? colStickyLeft : colStickyRight,
                         zIndex: 30,
                       }
                     : {}),
@@ -443,31 +488,10 @@ const TableHead = (props) => {
               </TableCell>
             )
           })}
-
-          {/* {trIndex === 0 && isTableResizable && (
-            <TableCell className={classes.headerCellOffset} rowSpan={depth} />
-          )} */}
         </TableRow>
       ))}
     </MuiTableHead>
   )
-}
-
-TableHead.defaultProps = {
-  onSortChange: () => {},
-  onSelectAllClick: () => {},
-  rows: [],
-  enableResizable: false,
-}
-
-TableHead.propTypes = {
-  onSortChange: PropTypes.func,
-  onSelectAllClick: PropTypes.func,
-  order: PropTypes.oneOf(['asc', 'desc']),
-  orderBy: PropTypes.string,
-  enableResizable: PropTypes.bool,
-  onResizeFinished: PropTypes.func,
-  tableSettingKey: PropTypes.string,
 }
 
 export default TableHead

@@ -91,27 +91,27 @@ function SaleOrder() {
     //   headerName: t('saleOrder.orderNumber'),
     //   width: 50,
     //   sortable: false,
-    //   fixed: true,
+    //   visible: 'always',
     // },
     {
       field: 'code',
       headerName: t('saleOrder.code'),
       width: 100,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'name',
       headerName: t('saleOrder.name'),
       width: 150,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'description',
       headerName: t('saleOrder.description'),
       width: 150,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'status',
@@ -155,7 +155,9 @@ function SaleOrder() {
       headerName: t('general:common.action'),
       width: 200,
       align: 'center',
-      fixed: true,
+      visible: 'always',
+      sticky: 'right',
+      resizable: false,
       renderCell: (params) => {
         const { status, id } = params.row
         const isConfirmed = status === ORDER_STATUS.PENDING

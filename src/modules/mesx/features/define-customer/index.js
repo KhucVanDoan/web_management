@@ -89,14 +89,14 @@ function DefineCustomer() {
       headerName: t('defineCustomer.code'),
       width: 150,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'name',
       headerName: t('defineCustomer.name'),
       width: 200,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'address',
@@ -128,7 +128,7 @@ function DefineCustomer() {
       width: 150,
       sortable: false,
       align: 'center',
-      fixed: true,
+      visible: 'always',
       renderCell: (params) => {
         const { id } = params?.row
         return (

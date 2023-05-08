@@ -64,7 +64,7 @@ const QualityReports = () => {
       headerName: t('qualityReport.moName'),
       width: 100,
       sortable: true,
-      fixed: true,
+      visible: 'always',
       renderCell: (params) => {
         const { row } = params
         return row?.manufacturingOrder?.name
@@ -75,7 +75,7 @@ const QualityReports = () => {
       headerName: t('qualityReport.saleOrder'),
       width: 150,
       sortable: true,
-      fixed: true,
+      visible: 'always',
       renderCell: (params) => {
         const { row } = params
         return row?.saleOrder?.name
@@ -86,7 +86,7 @@ const QualityReports = () => {
       headerName: t('qualityReport.productName'),
       width: 200,
       sortable: true,
-      fixed: true,
+      visible: 'always',
       renderCell: (params) => {
         const { row } = params
         return row?.bom?.item?.name

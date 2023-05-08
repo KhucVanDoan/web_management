@@ -78,14 +78,14 @@ function DefineFactory() {
       headerName: t('defineFactory.code'),
       width: 100,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'name',
       headerName: t('defineFactory.name'),
       width: 200,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'companyName',
@@ -117,7 +117,9 @@ function DefineFactory() {
       width: 150,
       sortable: false,
       align: 'center',
-      fixed: true,
+      visible: 'always',
+      sticky: 'right',
+      resizable: false,
       renderCell: (params) => {
         const { id } = params?.row
         return (

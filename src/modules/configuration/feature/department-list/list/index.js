@@ -52,14 +52,14 @@ const DepartmentList = () => {
       headerName: t('departmentList.code'),
       width: 200,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'name',
       headerName: t('departmentList.name'),
       width: 200,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'note',
@@ -71,8 +71,9 @@ const DepartmentList = () => {
       field: 'actions',
       headerName: t('general:common.action'),
       width: 150,
-      fixed: true,
-      align: 'center',
+      visible: 'always',
+      sticky: 'right',
+      resizable: false,
       renderCell: (params) => {
         const { id } = params?.row
         return (

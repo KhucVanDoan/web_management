@@ -74,21 +74,21 @@ function ReasonManagement() {
       field: 'code',
       headerName: t('reasonManagement.code'),
       width: 150,
-      fixed: true,
+      visible: 'always',
       sortable: true,
     },
     {
       field: 'name',
       headerName: t('reasonManagement.name'),
       width: 150,
-      fixed: true,
+      visible: 'always',
       sortable: true,
     },
     {
       field: 'description',
       headerName: t('reasonManagement.description'),
       width: 150,
-      fixed: true,
+      visible: 'always',
       sortable: true,
     },
     {
@@ -111,9 +111,11 @@ function ReasonManagement() {
     {
       field: 'action',
       headerName: t('general:common.action'),
-      fixed: true,
       width: 180,
       align: 'center',
+      sticky: 'right',
+      visible: 'always',
+      resizable: false,
       renderCell: (params) => {
         const { row } = params
         const { id, status } = row

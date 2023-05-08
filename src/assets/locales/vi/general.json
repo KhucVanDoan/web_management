@@ -69,7 +69,23 @@
     "cancel": "Hủy",
     "title": "Danh sách",
     "noData": "Không có dữ liệu",
-    "showAllColumns": "Tất cả"
+    "showAllColumns": "Tất cả",
+    "tableSetting": {
+      "dialogTitle": "Cấu hình hiển thị",
+      "save": "Lưu",
+      "cancel": "Huỷ",
+      "reset": "Đặt lại mặc định",
+      "name": "Tên cột mặc định",
+      "aliasName": "Tên cột tuỳ chỉnh",
+      "minWidth": "Độ rộng tối thiểu",
+      "width": "Độ rộng tuỳ chỉnh",
+      "visible": "Hiển thị",
+      "sticky": "Cố định",
+      "side": "Phía",
+      "left": "Trái",
+      "right": "Phải",
+      "validateSmallerThanMinWidth": "Không được nhỏ hơn độ rộng tối thiểu"
+    }
   },
   "pagination": {
     "rowsPerPage": "Số dòng mỗi trang",

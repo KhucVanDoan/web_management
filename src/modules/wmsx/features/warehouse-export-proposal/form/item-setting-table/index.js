@@ -236,6 +236,8 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
         width: 100,
         align: 'center',
         hide: isView || items?.length === 1,
+        sticky: 'right',
+        resizable: false,
         renderCell: (params, idx) => {
           return (
             <IconButton

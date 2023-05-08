@@ -98,7 +98,7 @@ function WarehouseImportReceipt() {
       headerName: t('warehouseImportReceipt.id'),
       width: 150,
       sortable: true,
-      fixed: true,
+      visible: 'always',
       renderCell: (params) => {
         return params?.row?.code
       },
@@ -233,9 +233,9 @@ function WarehouseImportReceipt() {
       headerName: t('general:common.action'),
       width: 200,
       align: 'center',
-      sticky: { right: 0 },
+      visible: 'always',
+      sticky: 'right',
       resizable: false,
-      fixed: true,
       renderCell: (params) => {
         const { id, status, syncStatus } = params?.row
         const isEdit =

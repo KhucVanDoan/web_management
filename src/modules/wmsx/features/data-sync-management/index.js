@@ -97,13 +97,13 @@ const DataSyncManagement = () => {
       headerName: t('dataSyncManagement.signalCode'),
       width: 250,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'resourceCode',
       headerName: t('dataSyncManagement.objectCode'),
       width: 200,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'typeTransaction',
@@ -151,7 +151,9 @@ const DataSyncManagement = () => {
       field: 'action',
       headerName: t('dataSyncManagement.action'),
       width: 150,
-      fixed: true,
+      visible: 'always',
+      sticky: 'right',
+      resizable: false,
       renderCell: (params) => {
         const { status } = params?.row
         const isDisplay =

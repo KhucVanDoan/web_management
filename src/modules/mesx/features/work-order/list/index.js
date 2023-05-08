@@ -86,7 +86,7 @@ const WorkOrder = () => {
       headerName: t('workOrder.lblcodeWorkOrder'),
       sortable: true,
       width: 200,
-      fixed: true,
+      visible: 'always',
     },
     // {
     //   field: 'moPlanCode',
@@ -235,7 +235,7 @@ const WorkOrder = () => {
       disableClickEventBubbling: true,
       width: 160,
       align: 'center',
-      fixed: true,
+      visible: 'always',
       renderCell: (params) => {
         const { status, id } = params.row
         const isConfirmed = status === WORK_ORDER_STATUS.CREATED

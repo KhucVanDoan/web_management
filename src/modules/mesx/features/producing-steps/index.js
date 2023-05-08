@@ -86,27 +86,27 @@ function ProducingStep() {
     //   headerName: '#',
     //   width: 80,
     //   sortable: false,
-    //   fixed: true,
+    //   visible: 'always',
     // },
     {
       field: 'code',
       headerName: t('producingStep.code'),
       width: 80,
-      fixed: true,
+      visible: 'always',
       sortable: true,
     },
     {
       field: 'name',
       headerName: t('producingStep.name'),
       width: 150,
-      fixed: true,
+      visible: 'always',
       sortable: true,
     },
     {
       field: 'description',
       headerName: t('producingStep.description'),
       width: 150,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'createdAt',
@@ -150,7 +150,7 @@ function ProducingStep() {
       headerName: t('producingStep.action'),
       width: 150,
       align: 'center',
-      fixed: true,
+      visible: 'always',
       renderCell: (params) => {
         const { status, id } = params.row
         const canConfirm = PRODUCING_STEP_STATUS_TO_CONFIRM.includes(status)

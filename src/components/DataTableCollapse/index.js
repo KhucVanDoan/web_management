@@ -1,8 +1,9 @@
 /* eslint-disable */
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
+import { Box } from '@mui/material'
 import Collapse from '@mui/material/Collapse'
 import IconButton from '@mui/material/IconButton'
 import Table from '@mui/material/Table'
@@ -11,55 +12,41 @@ import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableRow from '@mui/material/TableRow'
 import clsx from 'clsx'
-import PropTypes from 'prop-types'
-import { withTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 
-import TopBar from '~/components/DataTable/TopBar'
-
+import { useTable } from '~/common/hooks/useTable'
 import Pagination from '~/components/DataTable/Pagination'
 import TableHead from '~/components/DataTable/TableHead'
-import { withClasses } from '~/themes'
-import style from './style'
-import { ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
+import TopBar from '~/components/DataTable/TopBar'
+import { TableProvider } from '~/contexts/TableContext'
+import { useClasses } from '~/themes'
+
 import Truncate from '../DataTable/Truncate'
-import useTableSetting from '~/components/DataTable/hooks/useTableSetting'
-import { Box } from '@mui/material'
+import style from './style'
 
 const DataTableCollapse = (props) => {
+  const { t } = useTranslation()
+  const classes = useClasses(style)
+
   const {
-    classes,
-    columns: rawColumns,
+    visibleColumns,
     height,
-    total,
-    t,
-    hideFooter,
     subColumns,
     subDataKey,
     isRoot,
-    rows = [],
+    rows,
     page,
     pageSize,
-    title,
-    hideSetting,
-    onPageChange,
-    onPageSizeChange,
-    filters,
-    tableSettingKey,
-    onSettingChange,
     enableResizable,
     handleGetData,
-  } = props
+    uniqKey,
+    containerRef,
+    onSortChange: _onSortChange,
+    expandable: _expandable,
+  } = useTable()
 
   const [open, setOpen] = useState({})
   const [sort, setSort] = useState(null)
-  const [visibleColumns, setVisibleColumns] = useState([])
-  const containerRef = useRef(null)
-  const uniqKey = props.uniqKey ?? 'id'
-  const { initTableSetting } = useTableSetting(tableSettingKey)
-
-  const columns = hideSetting
-    ? rawColumns?.filter((col) => !col.hide)
-    : rawColumns.filter((col) => visibleColumns.includes(col.field))
 
   const onOpen = (index, e, row) => {
     if (typeof handleGetData === 'function') {
@@ -81,9 +68,9 @@ const DataTableCollapse = (props) => {
    * @param {*} param
    */
   const onSortChange = (newSort) => {
-    if (typeof props.onSortChange === 'function') {
+    if (typeof _onSortChange === 'function') {
       setSort(newSort)
-      props.onSortChange(newSort)
+      _onSortChange(newSort)
     }
   }
 
@@ -95,51 +82,21 @@ const DataTableCollapse = (props) => {
     }
   }
 
-  useEffect(() => {
-    initTableSetting(rawColumns)
-  }, [rawColumns])
-
   return (
     <>
-      {(title || filters || !hideSetting) && (
-        <TopBar
-          title={title}
-          columns={rawColumns}
-          visibleColumns={visibleColumns}
-          filters={filters}
-          hideSetting={hideSetting}
-          tableSettingKey={tableSettingKey}
-          setVisibleColumns={setVisibleColumns}
-          onSettingChange={onSettingChange}
-        />
-      )}
+      <TopBar />
+
       <TableContainer
         className={classes.tableContainer}
         style={{ height: height ? height : '100%' }}
         {...(isRoot ? { ref: containerRef } : {})}
       >
         <Table
-          className={classes.table}
           stickyHeader
+          className={classes.table}
           sx={enableResizable ? { tableLayout: 'fixed', width: '100%' } : {}}
         >
-          {columns && (
-            <TableHead
-              classes={classes}
-              uniqKey={uniqKey}
-              pageSize={pageSize}
-              rows={rows}
-              order={sort?.order}
-              orderBy={sort?.orderBy}
-              onSortChange={onSortChange}
-              columns={columns}
-              rawColumns={rawColumns}
-              visibleColumns={visibleColumns}
-              enableResizable={enableResizable}
-              tableSettingKey={tableSettingKey}
-              containerRef={containerRef}
-            />
-          )}
+          <TableHead onSortChange={onSortChange} />
           <TableBody>
             {rows &&
               rows?.length > 0 &&
@@ -163,7 +120,7 @@ const DataTableCollapse = (props) => {
                         },
                       )}
                     >
-                      {columns?.map((column, i) => {
+                      {visibleColumns?.map((column, i) => {
                         const { field, align, renderCell, width } = column
                         const cellValue = renderCell
                           ? renderCell({ row }, index)
@@ -182,7 +139,7 @@ const DataTableCollapse = (props) => {
                             id={`data-table-${field}-${i}`}
                             width={width}
                           >
-                            {i === 0 && (expandable || props.expandable) ? (
+                            {i === 0 && (expandable || _expandable) ? (
                               <Box
                                 sx={{
                                   display: 'flex',
@@ -210,9 +167,12 @@ const DataTableCollapse = (props) => {
                       })}
                     </TableRow>
 
-                    {(expandable || props.expandable) && (
+                    {(expandable || _expandable) && (
                       <TableRow className={classes.tableRowCollapse}>
-                        <TableCell sx={{ p: 0 }} colSpan={columns.length}>
+                        <TableCell
+                          sx={{ p: 0 }}
+                          colSpan={visibleColumns.length}
+                        >
                           <Collapse
                             in={open[index]}
                             timeout="auto"
@@ -223,19 +183,19 @@ const DataTableCollapse = (props) => {
                               entered: classes.collapseEntered,
                             }}
                           >
-                            <DataTableCollapse
+                            <TableProvider
                               rows={row?.[subDataKey]}
                               columns={
                                 typeof subColumns === 'function'
                                   ? subColumns(row, index)
                                   : subColumns
                               }
-                              classes={classes}
                               isRoot={false}
                               hideFooter
                               hideSetting
-                              t={t}
-                            />
+                            >
+                              <DataTableCollapse />
+                            </TableProvider>
                           </Collapse>
                         </TableCell>
                       </TableRow>
@@ -246,7 +206,7 @@ const DataTableCollapse = (props) => {
             {!rows?.length && (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
+                  colSpan={visibleColumns.length}
                   sx={(theme) => ({
                     textAlign: 'center',
                     color: theme.palette.subText.main,
@@ -259,78 +219,14 @@ const DataTableCollapse = (props) => {
           </TableBody>
         </Table>
       </TableContainer>
-      {!hideFooter && (
-        <Pagination
-          onPageChange={onPageChange}
-          onPageSizeChange={onPageSizeChange}
-          total={total}
-          pageSize={pageSize}
-          page={page}
-        />
-      )}
+
+      <Pagination />
     </>
   )
 }
 
-DataTableCollapse.defaultProps = {
-  onPageChange: () => {},
-  onPageSizeChange: () => {},
-  pageSize: ROWS_PER_PAGE_OPTIONS[0],
-  page: 1,
-  title: '',
-  hideSetting: false,
-  onSettingChange: () => {},
-  enableResizable: false,
-  isRoot: true,
-  subDataKey: 'details',
-  expandable: false,
-}
-
-DataTableCollapse.propsTypes = {
-  rows: PropTypes.arrayOf(PropTypes.shape()),
-  columns: PropTypes.arrayOf(
-    PropTypes.shape({
-      field: PropTypes.string.isRequired,
-      headerName: PropTypes.string.isRequired,
-      width: PropTypes.number,
-      filterable: PropTypes.bool,
-      sortable: PropTypes.bool,
-      hide: PropTypes.bool,
-      align: PropTypes.oneOf(['left', 'center', 'right']),
-      headerAlign: PropTypes.oneOf(['left', 'center', 'right']),
-      renderCell: PropTypes.func,
-    }),
-  ),
-  subColumns: PropTypes.oneOfType([
-    PropTypes.arrayOf(
-      PropTypes.shape({
-        field: PropTypes.string.isRequired,
-        headerName: PropTypes.string.isRequired,
-        width: PropTypes.number,
-        filterable: PropTypes.bool,
-        sortable: PropTypes.bool,
-        hide: PropTypes.bool,
-        align: PropTypes.oneOf(['left', 'center', 'right']),
-        headerAlign: PropTypes.oneOf(['left', 'center', 'right']),
-        renderCell: PropTypes.func,
-      }),
-      PropTypes.func,
-    ),
-  ]),
-  subDataKey: PropTypes.string,
-  uniqKey: PropTypes.string,
-  total: PropTypes.number,
-  pageSize: PropTypes.number,
-  page: PropTypes.number,
-  height: PropTypes.number,
-  onPageChange: PropTypes.func,
-  onPageSizeChange: PropTypes.func,
-  hideFooter: PropTypes.bool,
-  title: PropTypes.string,
-  hideSetting: PropTypes.bool,
-  filters: PropTypes.shape(),
-  isRoot: PropTypes.bool,
-  expandable: PropTypes.bool,
-}
-
-export default withTranslation()(withClasses(style)(DataTableCollapse))
+export default (props) => (
+  <TableProvider {...props} enableResizable={false} isTableCollapse>
+    <DataTableCollapse />
+  </TableProvider>
+)

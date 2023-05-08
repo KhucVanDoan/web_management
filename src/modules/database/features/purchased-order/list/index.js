@@ -88,14 +88,14 @@ function PurchasedOrder() {
       headerName: t('purchasedOrder.code'),
       width: 100,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'name',
       headerName: t('purchasedOrder.name'),
       width: 180,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'type',
@@ -156,7 +156,9 @@ function PurchasedOrder() {
       headerName: t('general:common.action'),
       width: 200,
       align: 'center',
-      fixed: true,
+      visible: 'always',
+      sticky: 'right',
+      resizable: false,
       renderCell: (params) => {
         const { status, id } = params.row
         const isConfirmed = status === PURCHASED_ORDER_STATUS.PENDING

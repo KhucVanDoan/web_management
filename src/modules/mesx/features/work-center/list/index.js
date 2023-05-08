@@ -103,21 +103,21 @@ const WorkCenter = () => {
     //   headerName: '#',
     //   width: 80,
     //   sortable: false,
-    //   fixed: true,
+    //   visible: 'always',
     // },
     {
       field: 'code',
       headerName: t('workCenter.code'),
       width: 150,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'name',
       headerName: t('workCenter.name'),
       width: 200,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'factoryName',
@@ -153,7 +153,7 @@ const WorkCenter = () => {
       width: 160,
       sortable: false,
       align: 'center',
-      fixed: true,
+      visible: 'always',
       renderCell: (params) => {
         const { id, status } = params.row
         const canConfirm = WORK_CENTER_STATUS_TO_CONFIRM.includes(status)

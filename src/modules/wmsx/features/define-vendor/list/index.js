@@ -74,14 +74,14 @@ function DefineVendor() {
       headerName: t('defineVendor.code'),
       width: 150,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'name',
       headerName: t('defineVendor.name'),
       width: 150,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'email',
@@ -122,7 +122,9 @@ function DefineVendor() {
       width: 150,
       sortable: false,
       align: 'center',
-      fixed: true,
+      visible: 'always',
+      sticky: 'right',
+      resizable: false,
       renderCell: (params) => {
         const { id, status } = params.row
         const isLocked = status === ACTIVE_STATUS.ACTIVE

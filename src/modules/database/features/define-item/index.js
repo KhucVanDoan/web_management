@@ -104,21 +104,21 @@ function DefineItem() {
     //   headerName: '#',
     //   width: 50,
     //   sortable: false,
-    //   fixed: true,
+    //   visible: 'always',
     // },
     {
       field: 'code',
       headerName: t('defineItem.code'),
       width: 80,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'name',
       headerName: t('defineItem.name'),
       width: 80,
       sortable: true,
-      fixed: true,
+      visible: 'always',
     },
     {
       field: 'itemTypeCode',
@@ -241,7 +241,9 @@ function DefineItem() {
       width: 150,
       sortable: false,
       align: 'center',
-      fixed: true,
+      visible: 'always',
+      sticky: 'right',
+      resizable: false,
       renderCell: (params) => {
         const { id, isHasBom } = params?.row
         return (

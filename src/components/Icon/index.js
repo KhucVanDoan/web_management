@@ -46,6 +46,7 @@ import { ReactComponent as Sync } from '~/assets/images/icons/sync.svg'
 import { ReactComponent as TableFilter } from '~/assets/images/icons/tableFilter.svg'
 import { ReactComponent as TableSetting } from '~/assets/images/icons/tableSetting.svg'
 import { ReactComponent as Tick } from '~/assets/images/icons/tick.svg'
+import { ReactComponent as Undo } from '~/assets/images/icons/undo.svg'
 import { ReactComponent as Unlock } from '~/assets/images/icons/unlock.svg'
 import { ReactComponent as UpdateQuantity } from '~/assets/images/icons/updateQuantity.svg'
 import { ReactComponent as Upload } from '~/assets/images/icons/upload.svg'
@@ -61,6 +62,7 @@ import { ReactComponent as Key } from '~/assets/images/menu/key.svg'
 import { ReactComponent as Keylock } from '~/assets/images/menu/keylock.svg'
 import { ReactComponent as Plan } from '~/assets/images/menu/plan.svg'
 import { ReactComponent as PrettyBag } from '~/assets/images/menu/prettyBag.svg'
+
 const icons = {
   add: <Add />,
   addRow: <AddRow />,
@@ -112,6 +114,7 @@ const icons = {
   sync: <Sync />,
   print: <Print />,
   cancelSync: <CancelSync />,
+  undo: <Undo />,
   // menu
   drawer: <Drawer />,
   home: <Home />,

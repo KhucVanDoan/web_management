@@ -1,38 +1,212 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 
-import {
-  Box,
-  Checkbox,
-  FormControlLabel,
-  Popover,
-  Typography,
-} from '@mui/material'
-import { isEqual } from 'lodash'
-import { PropTypes } from 'prop-types'
+import { Box, FormControlLabel, Radio, Switch } from '@mui/material'
+import { useFormikContext } from 'formik'
 import { useTranslation } from 'react-i18next'
 
+import { TEXTFIELD_ALLOW } from '~/common/constants'
+import { useTable } from '~/common/hooks/useTable'
 import Button from '~/components/Button'
-import useTableSetting from '~/components/DataTable/hooks/useTableSetting'
+import Dialog from '~/components/Dialog'
+import { Field, FastField } from '~/components/Formik'
+import Icon from '~/components/Icon'
 import { useClasses } from '~/themes'
 
+import DataTable from '..'
+import { validationSchema } from './schema'
 import style from './style'
 
-const TableSetting = ({
-  columns: rawColumns,
-  visibleColumns,
-  setVisibleColumns,
-  onSettingChange,
-  tableSettingKey,
-}) => {
+const DialogContent = () => {
+  const { t } = useTranslation()
+
+  const { columns, isVisible, isTableCollapse } = useTable()
+  const { values, setFieldValue } = useFormikContext()
+
+  const getName = useCallback(
+    (field) => {
+      const headerName = columns.find((c) => c?.field === field)?.headerName
+      if (typeof headerName === 'function') return headerName()
+      return headerName
+    },
+    [columns],
+  )
+
+  const tableColumns = [
+    {
+      field: 'id',
+      headerName: '#',
+      width: 50,
+      sticky: 'left',
+      renderCell: (_, index) => {
+        return index + 1
+      },
+    },
+    {
+      field: 'name',
+      headerName: t('dataTable.tableSetting.name'),
+      width: 200,
+      renderCell: ({ row }) => getName(row.field),
+      sticky: 'left',
+    },
+    {
+      field: 'aliasName',
+      headerName: t('dataTable.tableSetting.aliasName'),
+      width: 200,
+      renderCell: ({ row }, index) => {
+        const headerName = columns.find(
+          (c) => c?.field === row.field,
+        )?.headerName
+
+        if (!headerName || headerName === 'function') {
+          return null
+        }
+
+        return <FastField.TextField name={`items[${index}].aliasName`} />
+      },
+    },
+    {
+      field: 'minWidth',
+      headerName: t('dataTable.tableSetting.minWidth'),
+      width: 100,
+      align: 'right',
+      headerAlign: 'left',
+      hide: isTableCollapse,
+      renderCell: (_, index) => {
+        return (
+          <Field.TextField
+            name={`items[${index}].minWidth`}
+            type="number"
+            allow={TEXTFIELD_ALLOW.NUMERIC}
+            onChange={(val) => {
+              if (val > values?.items?.[index]?.width) {
+                setFieldValue(`items[${index}].width`, val)
+              }
+            }}
+          />
+        )
+      },
+    },
+
+    {
+      field: 'width',
+      headerName: t('dataTable.tableSetting.width'),
+      width: 100,
+      align: 'right',
+      headerAlign: 'left',
+      hide: isTableCollapse,
+      renderCell: (_, index) => {
+        return (
+          <Field.TextField
+            name={`items[${index}].width`}
+            type="number"
+            allow={TEXTFIELD_ALLOW.NUMERIC}
+          />
+        )
+      },
+    },
+    {
+      field: 'visible',
+      headerName: t('dataTable.tableSetting.visible'),
+      width: 80,
+      align: 'center',
+      headerAlign: 'left',
+      renderCell: (_, index) => {
+        return (
+          <FastField.Switch
+            name={`items[${index}].visible`}
+            checked={isVisible(values?.items?.[index])}
+            color="success"
+            disabled={values?.items?.[index]?.visible === 'always'}
+          />
+        )
+      },
+    },
+    {
+      field: 'stickyStatus',
+      headerName: t('dataTable.tableSetting.sticky'),
+      width: 80,
+      align: 'center',
+      headerAlign: 'left',
+      hide: isTableCollapse,
+      renderCell: (_, index) => {
+        return (
+          <Switch
+            color="success"
+            checked={['left', 'right'].includes(values?.items?.[index]?.sticky)}
+            onChange={(_, val) => {
+              if (val) {
+                setFieldValue(`items[${index}].sticky`, 'left')
+              } else {
+                setFieldValue(`items[${index}].sticky`, '')
+              }
+            }}
+          />
+        )
+      },
+    },
+    {
+      field: 'stickyPosition',
+      headerName: t('dataTable.tableSetting.side'),
+      width: 150,
+      align: 'center',
+      headerAlign: 'left',
+      hide: isTableCollapse,
+      renderCell: (_, index) => {
+        if (!values?.items?.[index]?.sticky) return null
+        return (
+          <Field.RadioGroup
+            row
+            name={`items[${index}].sticky`}
+            sx={{ flexWrap: 'nowrap', justifyContent: 'center' }}
+          >
+            <FormControlLabel
+              value="left"
+              control={<Radio sx={{ p: '6px' }} />}
+              label={t('dataTable.tableSetting.left')}
+              sx={{ ml: '-6px', mr: 2 }}
+            />
+            <FormControlLabel
+              value="right"
+              control={<Radio sx={{ p: '6px' }} />}
+              label={t('dataTable.tableSetting.right')}
+            />
+          </Field.RadioGroup>
+        )
+      },
+    },
+  ]
+
+  return (
+    <DataTable
+      rows={values.items}
+      columns={tableColumns}
+      hideSetting
+      hideFooter
+      enableResizable={false}
+    />
+  )
+}
+
+const TableSetting = () => {
   const classes = useClasses(style)
   const { t } = useTranslation()
   const [anchorEl, setAnchorEl] = useState(null)
-  const tableSettingRef = useRef(null)
 
-  const { getTableSetting, updateTableSetting } =
-    useTableSetting(tableSettingKey)
+  const { initSetting, updateSetting, setting, columns, isTableCollapse } =
+    useTable()
 
-  const handleClick = (event) => {
+  const tableRows = useMemo(
+    () =>
+      setting.filter((item) => {
+        const isHidden = columns.find((c) => c?.field === item.field && c?.hide)
+
+        if (isHidden) return false
+        return true
+      }),
+    [setting, columns],
+  )
+
+  const handleOpen = (event) => {
     setAnchorEl(event.currentTarget)
   }
 
@@ -40,143 +214,71 @@ const TableSetting = ({
     setAnchorEl(null)
   }
 
-  const onApplySetting = (cols = []) => {
-    setVisibleColumns(cols)
+  const handleUpdate = (items) => {
+    const st = setting.map((s) => {
+      const matched = items.find((item) => item.field === s.field)
 
-    const tbSetting = getTableSetting() || []
-    const newSetting = tbSetting.map((s) => {
-      if (cols.includes(s?.field)) return { ...s, visible: true }
-      return { ...s, visible: false }
+      if (matched) return matched
+      return s
     })
 
-    updateTableSetting(newSetting)
+    updateSetting(st)
   }
 
-  useEffect(() => {
-    const tbSetting = getTableSetting() || []
-
-    let newVisibleColumns = []
-
-    if (tbSetting.length) {
-      newVisibleColumns = tbSetting.reduce((acc, cur) => {
-        if (cur.visible) return [...acc, cur.field]
-        return acc
-      }, [])
-    } else {
-      newVisibleColumns = rawColumns.reduce((acc, cur) => {
-        if (!cur.hide) return [...acc, cur.field]
-        return acc
-      }, [])
-    }
-
-    setVisibleColumns(newVisibleColumns)
-  }, [rawColumns])
-
-  useEffect(() => {
-    if (!isEqual(visibleColumns, tableSettingRef?.current)) {
-      onSettingChange(visibleColumns)
-      tableSettingRef.current = visibleColumns
-    }
-  }, [visibleColumns])
-
-  const open = Boolean(anchorEl)
-  const columns = rawColumns.filter((col) => !col.hide)
-  return (
-    <Box className={classes.root}>
-      <Button icon="tableSetting" color="grayEE" onClick={handleClick} />
-      <Popover
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        PaperProps={{
-          variant: 'caret',
-        }}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
+  const renderFooter = () => {
+    const { resetForm } = useFormikContext()
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          gap: 4 / 3,
+          width: '100%',
         }}
       >
-        <Box className={classes.formContainer}>
-          <Typography variant="h5" sx={{ mb: 1 }}>
-            {t('dataTable.visibleColumns')}
-          </Typography>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={visibleColumns.length === columns.length}
-                indeterminate={
-                  visibleColumns.length !== columns.length &&
-                  visibleColumns.length >
-                    columns.filter((col) => col.fixed).length
-                }
-                onChange={(e) => {
-                  if (e.target.checked)
-                    onApplySetting(columns.map((col) => col.field))
-                  else
-                    onApplySetting(
-                      columns.reduce((acc, val) => {
-                        if (val.fixed) return [...acc, val.field]
-                        return acc
-                      }, []),
-                    )
-                }}
-              />
-            }
-            label={t('dataTable.showAllColumns')}
-          />
-          {columns.map((column, idx) => {
-            return (
-              <Box key={column.field || idx}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={visibleColumns.includes(column.field)}
-                      onChange={(e) => {
-                        if (e.target.checked)
-                          onApplySetting([...visibleColumns, column.field])
-                        else
-                          onApplySetting(
-                            visibleColumns.filter(
-                              (col) => col !== column.field,
-                            ),
-                          )
-                      }}
-                      {...(column.fixed
-                        ? {
-                            disabled: true,
-                            checked: true,
-                          }
-                        : {})}
-                    />
-                  }
-                  label={column.headerName || ''}
-                />
-              </Box>
-            )
-          })}
-        </Box>
-      </Popover>
+        <Button
+          variant="text"
+          onClick={() => {
+            handleClose()
+            initSetting(true)
+          }}
+          sx={{ mr: 'auto', pl: '3px' }}
+        >
+          <Icon name="undo" size={24} sx={{ marginRight: '6px' }} />
+          {t('dataTable.tableSetting.reset')}
+        </Button>
+
+        <Button color="grayF4" onClick={resetForm}>
+          {t('general:common.cancel')}
+        </Button>
+        <Button type="submit">{t('general:common.save')}</Button>
+      </Box>
+    )
+  }
+
+  return (
+    <Box className={classes.root}>
+      <Button icon="tableSetting" color="grayEE" onClick={handleOpen} />
+
+      <Dialog
+        open={Boolean(anchorEl)}
+        onCancel={handleClose}
+        title={t('dataTable.tableSetting.dialogTitle')}
+        maxWidth={isTableCollapse ? 'md' : 'lg'}
+        formikProps={{
+          validationSchema: validationSchema(t),
+          initialValues: { items: tableRows },
+          onSubmit: (values) => {
+            handleClose()
+            handleUpdate(values.items)
+          },
+          enableReinitialize: true,
+        }}
+        renderFooter={renderFooter}
+      >
+        <DialogContent />
+      </Dialog>
     </Box>
   )
-}
-
-TableSetting.defaultProps = {
-  setVisibleColumns: () => {},
-  onSettingChange: () => {},
-  columns: [],
-  visibleColumns: [],
-}
-
-TableSetting.propTypes = {
-  columns: PropTypes.array,
-  visibleColumns: PropTypes.array,
-  setVisibleColumns: PropTypes.func,
-  onSettingChange: PropTypes.func,
-  tableSettingKey: PropTypes.string,
 }
 
 export default TableSetting
