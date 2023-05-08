@@ -18,28 +18,8 @@ function ItemsSettingTable(props) {
   const {
     data: { warehouseImportReceiptDetails },
   } = useWarehouseImportReceipt()
-  // const isReturnAll =
-  //   (warehouseImportReceiptDetails?.status ===
-  //     WAREHOUSE_IMPORT_RECEIPT_STATUS.RECEIVED &&
-  //     warehouseImportReceiptDetails?.syncStatus ===
-  //       STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC) ||
-  //   (warehouseImportReceiptDetails?.status ===
-  //     WAREHOUSE_IMPORT_RECEIPT_STATUS.RECEIVED &&
-  //     warehouseImportReceiptDetails?.syncStatus ===
-  //       STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR &&
-  //     !warehouseImportReceiptDetails?.ebsId) ||
-  //   (warehouseImportReceiptDetails?.status ===
-  //     WAREHOUSE_IMPORT_RECEIPT_STATUS.COMPLETED &&
-  //     warehouseImportReceiptDetails?.syncStatus ===
-  //       STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC) ||
-  //   (warehouseImportReceiptDetails?.status ===
-  //     WAREHOUSE_IMPORT_RECEIPT_STATUS.COMPLETED &&
-  //     warehouseImportReceiptDetails?.syncStatus ===
-  //       STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR &&
-  //     !warehouseImportReceiptDetails?.ebsId)
-
-  const checkReturnAll = () => {
-    return (warehouseImportReceiptDetails?.status ===
+  const isReturnAll =
+    (warehouseImportReceiptDetails?.status ===
       WAREHOUSE_IMPORT_RECEIPT_STATUS.RECEIVED &&
       warehouseImportReceiptDetails?.syncStatus ===
         STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC) ||
@@ -56,8 +36,8 @@ function ItemsSettingTable(props) {
       WAREHOUSE_IMPORT_RECEIPT_STATUS.COMPLETED &&
       warehouseImportReceiptDetails?.syncStatus ===
         STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR &&
-      !warehouseImportReceiptDetails?.ebsId);
-  }
+      !warehouseImportReceiptDetails?.ebsId)
+
   const getColumns = useMemo(() => {
     return [
       {
@@ -165,7 +145,7 @@ function ItemsSettingTable(props) {
           return (
             <Field.TextField
               name={`items[${index}].returnQuantity`}
-              disabled={checkReturnAll}
+              disabled={isReturnAll}
               formatter="quantity"
               validate={(val) => {
                 if (val) {
@@ -209,7 +189,7 @@ function ItemsSettingTable(props) {
         },
       },
     ]
-  }, [])
+  }, [isReturnAll])
 
   return (
     <>
