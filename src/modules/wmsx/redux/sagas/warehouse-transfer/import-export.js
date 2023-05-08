@@ -6,7 +6,7 @@ import { api } from '~/services/api'
  * @returns {Promise}
  */
 export const importWarehouseTransferImportApi = (params) => {
-  const uri = `/v1/warehouse/transfers/import`
+  const uri = `/v1/warehouses/transfers/import`
   const formData = new FormData()
   formData.append('file', params)
   return api.postMultiplePart(uri, formData)

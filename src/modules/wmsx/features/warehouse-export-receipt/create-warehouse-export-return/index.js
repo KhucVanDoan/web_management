@@ -172,12 +172,17 @@ function WarehouseExportReturn() {
             returnExportedQuantity: +item?.remainReturnQuantity,
             returnQuantity: +item?.remainReturnQuantity,
             debitAccount: [
-              item?.source?.accountant,
-              item?.source?.produceTypeCode,
-              item?.source?.productCode,
-              item?.source?.factorialCode,
+              warehouseImportReceiptDetails?.source?.accountant,
+              warehouseImportReceiptDetails?.source?.produceTypeCode,
+              warehouseImportReceiptDetails?.source?.productCode,
+              warehouseImportReceiptDetails?.source?.factorialCode,
             ].join('.'),
-            creditAccount: item?.creditAccount,
+            creditAccount:
+              item?.item?.itemWarehouseSources?.find(
+                (e) =>
+                  e?.warehouseId ===
+                  warehouseImportReceiptDetails?.warehouse?.id,
+              )?.accounting || '',
             lotNumber: item?.lotNumber,
           }),
         ),

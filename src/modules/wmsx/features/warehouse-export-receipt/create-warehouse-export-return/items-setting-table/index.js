@@ -173,7 +173,9 @@ function ItemsSettingTable(props) {
                 if (val) {
                   if (val > params?.row?.planExportedQuantity) {
                     return t('general:form.maxNumber', {
-                      max: params?.row?.planExportedQuantity,
+                      max: params?.row?.planExportedQuantity
+                        ?.toString()
+                        .replace('.', ','),
                     })
                   }
                 }
