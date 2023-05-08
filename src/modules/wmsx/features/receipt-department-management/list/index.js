@@ -27,6 +27,7 @@ import {
 import useReceiptDepartmentManagement from '~/modules/wmsx/redux/hooks/useReceiptDepartmentManagement'
 import {
   exportReceiptDepartmentApi,
+  // importReceiptDepartmentApi,
   // getReceiptDepartmentTemplateApi,
   // importReceiptDepartmentApi,
 } from '~/modules/wmsx/redux/sagas/receipt-department-management/import-export-receipt-department'
@@ -272,18 +273,8 @@ function ReceiptDepartmentManagement() {
             : {})}
           // {...(canAccess(FUNCTION_CODE.USER_IMPORT_DEPARTMENT_RECEIPT)
           //   ? {
-          //       onImport: () =>
-          //         importReceiptDepartmentApi({
-          //           columnSettings: JSON.stringify(columnsSettings),
-          //           queryIds: JSON.stringify(
-          //             selectedRows?.map((x) => ({ id: `${x?.id}` })),
-          //           ),
-          //           keyword: keyword.trim(),
-          //           filter: convertFilterParams(filters, [
-          //             { field: 'createdAt', filterFormat: 'date' },
-          //           ]),
-          //           sort: convertSortParams(sort),
-          //         }),
+          //       onImport: (importFile) =>
+          //         importReceiptDepartmentApi(importFile),
           //     }
           //   : {})}
           // onDownloadTemplate={getReceiptDepartmentTemplateApi}
