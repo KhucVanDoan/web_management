@@ -1,4 +1,3 @@
-import { CONST_EXPORT_MASTER_DATA } from '~/modules/wmsx/constants'
 import { api } from '~/services/api'
 
 /**
@@ -6,8 +5,8 @@ import { api } from '~/services/api'
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-export const importContructionManagementApi = (params) => {
-  const uri = `/v1/sales/constructions/import`
+export const importDefineMaterialQualityApi = (params) => {
+  const uri = `/v1/items/item-qualities/import`
   const formData = new FormData()
   formData.append('file', params)
   return api.postMultiplePart(uri, formData)
@@ -18,8 +17,8 @@ export const importContructionManagementApi = (params) => {
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-export const exportContructionManagementApi = (params) => {
-  const uri = `/v1/sales/export?type=${CONST_EXPORT_MASTER_DATA.CONTRUCTION}`
+export const exportDefineMaterialQualityApi = (params) => {
+  const uri = `____ENTER_IMPORT_EXPORT_URL_HERE____`
   return api.get(uri, params)
 }
 
@@ -28,13 +27,13 @@ export const exportContructionManagementApi = (params) => {
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-export const getContructionManagementTemplateApi = () => {
+export const getDefineMaterialQualityTemplateApi = () => {
   const uri = `____ENTER_IMPORT_EXPORT_URL_HERE____`
   return api.get(uri)
 }
 
 export default {
-  importContructionManagementApi,
-  exportContructionManagementApi,
-  getContructionManagementTemplateApi,
+  importDefineMaterialQualityApi,
+  exportDefineMaterialQualityApi,
+  getDefineMaterialQualityTemplateApi,
 }

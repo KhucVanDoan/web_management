@@ -115,13 +115,21 @@ const ImportExport = ({
 
   const onSubmit = async () => {
     setImporting(true)
-
     try {
       const res = await onImport(importFile)
 
       if (res.statusCode === 200) {
         setOpenImport(false)
-        setImportResult(res.data)
+        setImportResult({
+          success: res?.data?.success || res?.data?.successCount || 0,
+          fail:
+            res?.data?.fail ||
+            Number(
+              (res?.data?.totalCount || 0) - (res?.data?.successCount || 0),
+            ) ||
+            0,
+          log: res?.data?.log || res?.data?.result,
+        })
       } else {
         setImportError(res.message)
       }

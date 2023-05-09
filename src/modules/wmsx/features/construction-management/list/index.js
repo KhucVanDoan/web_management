@@ -20,7 +20,11 @@ import Status from '~/components/Status'
 import StatusSwitcher from '~/components/StatusSwitcher'
 import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useConstructionManagement from '~/modules/wmsx/redux/hooks/useConstructionManagement'
-import { exportContructionManagementApi } from '~/modules/wmsx/redux/sagas/construction-management/import-export'
+import {
+  exportContructionManagementApi,
+  getContructionManagementTemplateApi,
+  importContructionManagementApi,
+} from '~/modules/wmsx/redux/sagas/construction-management/import-export'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
@@ -228,7 +232,8 @@ function ConstructionManagement() {
               sort: convertSortParams(sort),
             })
           }
-          // onImport={() => {}}
+          onImport={(importFile) => importContructionManagementApi(importFile)}
+          onDownloadTemplate={getContructionManagementTemplateApi}
           onRefresh={refreshData}
         />
         <Guard code={FUNCTION_CODE.SALE_CREATE_CONSTRUCTION}>
