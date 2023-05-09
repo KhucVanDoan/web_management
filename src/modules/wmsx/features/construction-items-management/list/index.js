@@ -18,7 +18,11 @@ import Status from '~/components/Status'
 import StatusSwitcher from '~/components/StatusSwitcher'
 import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useConstructionItemsManagement from '~/modules/wmsx/redux/hooks/useConstructionItemsManagement'
-import { exportContructionItemManagementApi } from '~/modules/wmsx/redux/sagas/construction-items-management/import-export'
+import {
+  exportContructionItemManagementApi,
+  getContructionItemManagementTemplateApi,
+  importContructionItemManagementApi,
+} from '~/modules/wmsx/redux/sagas/construction-items-management/import-export'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
@@ -235,6 +239,10 @@ function ConstructionItemsManagement() {
               sort: convertSortParams(sort),
             })
           }
+          onImport={(importFie) =>
+            importContructionItemManagementApi(importFie)
+          }
+          onDownloadTemplate={getContructionItemManagementTemplateApi}
           // {...(canAccess(FUNCTION_CODE.SALE_IMPORT_CATEGORY_CONSTRUCTION)
           //   ? {
           //       onImport: () => {},

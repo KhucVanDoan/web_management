@@ -21,7 +21,11 @@ import Status from '~/components/Status'
 import StatusSwitcher from '~/components/StatusSwitcher'
 import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useSourceManagement from '~/modules/wmsx/redux/hooks/useSourceManagement'
-import { exportSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-management/import-export'
+import {
+  exportSourceManagementApi,
+  getSourceManagementTemplateApi,
+  importSourceManagementApi,
+} from '~/modules/wmsx/redux/sagas/source-management/import-export'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
@@ -242,20 +246,10 @@ function SourceManagement() {
           }
           {...(canAccess(FUNCTION_CODE.SALE_IMPORT_REASON)
             ? {
-                // onImport: () =>
-                // importSourceManagementApi({
-                //   columnSettings: JSON.stringify(columnsSettings),
-                //   queryIds: JSON.stringify(
-                //     selectedRows?.map((x) => ({ id: `${x?.id}` })),
-                //   ),
-                //   keyword: keyword.trim(),
-                //   filter: convertFilterParams(filters, [
-                //     { field: 'createdAt', filterFormat: 'date' },
-                //   ]),
-                //   sort: convertSortParams(sort),
-                // }),
+                onImport: (importFile) => importSourceManagementApi(importFile),
               }
             : {})}
+          onDownloadTemplate={getSourceManagementTemplateApi}
           onRefresh={refreshData}
         />
         <Guard code={FUNCTION_CODE.CREATE_SOURCE}>

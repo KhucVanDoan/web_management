@@ -7,7 +7,7 @@ import { api } from '~/services/api'
  * @returns {Promise}
  */
 export const importUomSettingApi = (params) => {
-  const uri = `____ENTER_IMPORT_EXPORT_URL_HERE____`
+  const uri = `/v1/items/import-item-unit-setting`
   const formData = new FormData()
   formData.append('file', params)
   return api.postMultiplePart(uri, formData)

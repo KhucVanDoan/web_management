@@ -27,8 +27,8 @@ import {
 import useReceiptDepartmentManagement from '~/modules/wmsx/redux/hooks/useReceiptDepartmentManagement'
 import {
   exportReceiptDepartmentApi,
-  // importReceiptDepartmentApi,
-  // getReceiptDepartmentTemplateApi,
+  importReceiptDepartmentApi,
+  getReceiptDepartmentTemplateApi,
   // importReceiptDepartmentApi,
 } from '~/modules/wmsx/redux/sagas/receipt-department-management/import-export-receipt-department'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -271,13 +271,13 @@ function ReceiptDepartmentManagement() {
                   }),
               }
             : {})}
-          // {...(canAccess(FUNCTION_CODE.USER_IMPORT_DEPARTMENT_RECEIPT)
-          //   ? {
-          //       onImport: (importFile) =>
-          //         importReceiptDepartmentApi(importFile),
-          //     }
-          //   : {})}
-          // onDownloadTemplate={getReceiptDepartmentTemplateApi}
+          {...(canAccess(FUNCTION_CODE.USER_IMPORT_DEPARTMENT_RECEIPT)
+            ? {
+                onImport: (importFile) =>
+                  importReceiptDepartmentApi(importFile),
+              }
+            : {})}
+          onDownloadTemplate={getReceiptDepartmentTemplateApi}
           onRefresh={refreshData}
         />
         <Guard code={FUNCTION_CODE.USER_CREATE_DEPARTMENT_RECEIPT}>

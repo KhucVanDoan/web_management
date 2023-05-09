@@ -23,7 +23,7 @@ import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useDefineVendor from '~/modules/wmsx/redux/hooks/useDefineVendor'
 import {
   exportVendorApi,
-  // importVendorApi,
+  importVendorApi,
   // getVendorTemplateApi,
   // importVendorApi,
 } from '~/modules/wmsx/redux/sagas/define-vendor/import-export-vendor'
@@ -232,7 +232,7 @@ function DefineVendor() {
                   }),
               }
             : {})}
-          // onImport={(importFile) => importVendorApi(importFile)}
+          onImport={(importFile) => importVendorApi(importFile)}
           // {...(canAccess(FUNCTION_CODE.SALE_IMPORT_REASON)
           //   ? {
           //       onImport: () =>
