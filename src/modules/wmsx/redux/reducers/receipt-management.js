@@ -12,6 +12,9 @@ import {
   WMSX_ADJUST_DELIVER_RECEIPT_FAILED,
   WMSX_ADJUST_DELIVER_RECEIPT_START,
   WMSX_ADJUST_DELIVER_RECEIPT_SUCCESS,
+  RECEIPT_EBS_START,
+  RECEIPT_EBS_SUCCESS,
+  RECEIPT_EBS_FAILED,
 } from '~/modules/wmsx/redux/actions/receipt-management'
 
 const initialState = {
@@ -33,6 +36,7 @@ export default function receiptManagement(state = initialState, action) {
     case WMSX_GET_RECEIPT_DETAILS_START:
     case WMSX_RETURN_RECEIPT_START:
     case WMSX_ADJUST_DELIVER_RECEIPT_START:
+    case RECEIPT_EBS_START:
       return {
         ...state,
         isLoading: true,
@@ -56,6 +60,8 @@ export default function receiptManagement(state = initialState, action) {
     case WMSX_RETURN_RECEIPT_FAILED:
     case WMSX_ADJUST_DELIVER_RECEIPT_SUCCESS:
     case WMSX_ADJUST_DELIVER_RECEIPT_FAILED:
+    case RECEIPT_EBS_SUCCESS:
+    case RECEIPT_EBS_FAILED:
       return {
         ...state,
         isLoading: false,

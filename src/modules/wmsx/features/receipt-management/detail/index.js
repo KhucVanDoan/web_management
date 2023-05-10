@@ -80,12 +80,9 @@ const ReceiptManagementDetail = () => {
                 ml: 4 / 3,
               }}
               onClick={() =>
-                history.push(
-                  ROUTE.RECEIPT_MANAGEMENT.ADJUST_DELIVERY.PATH.replace(
-                    ':id',
-                    `${id}`,
-                  ),
-                )
+                actions.receiptEBSById(id, () => {
+                  actions.getReceiptDetailsById(id)
+                })
               }
             >
               {t('receiptManagement.syncAdjustDelivery')}

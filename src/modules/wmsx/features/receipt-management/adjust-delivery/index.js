@@ -54,7 +54,7 @@ const AdjustDeliveryForm = () => {
     }
   }, [id])
   const backToList = () => {
-    history.push(ROUTE.RECEIPT_MANAGEMENT.DETAIL.PATH)
+    history.push(ROUTE.RECEIPT_MANAGEMENT.DETAIL.PATH.replace(':id', `${id}`))
   }
   const initialValues = useMemo(() => {
     return {

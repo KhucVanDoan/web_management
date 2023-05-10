@@ -19,6 +19,11 @@ export const WMSX_ADJUST_DELIVER_RECEIPT_SUCCESS =
   'WMSX_ADJUST_DELIVER_RECEIPT_SUCCESS'
 export const WMSX_ADJUST_DELIVER_RECEIPT_FAILED =
   'WMSX_ADJUST_DELIVER_RECEIPT_FAILED'
+
+export const RECEIPT_EBS_START = 'WMSX_RECEIPT_EBS_START'
+export const RECEIPT_EBS_SUCCESS = 'WMSX_RECEIPT_EBS_SUCCESS'
+export const RECEIPT_EBS_FAILED = 'WMSX_RECEIPT_EBS_FAILED'
+
 export function searchReceipt(payload, onSuccess, onError) {
   return {
     type: WMSX_SEARCH_RECEIPT_START,
@@ -111,6 +116,27 @@ export function returnReceiptByIdFailed() {
     type: WMSX_RETURN_RECEIPT_FAILED,
   }
 }
+export function receiptEBSById(Id, onSuccess, onError) {
+  return {
+    type: RECEIPT_EBS_START,
+    payload: Id,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+export function receiptEBStByIdSuccess(payload) {
+  return {
+    type: RECEIPT_EBS_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function receiptEBSByIdFailed() {
+  return {
+    type: RECEIPT_EBS_FAILED,
+  }
+}
+
 export default {
   searchReceipt,
   searchReceiptSuccess,
@@ -125,4 +151,7 @@ export default {
   adujustDeliverReceipt,
   adujustDeliverReceiptSuccess,
   adujustDeliverReceiptFailed,
+  receiptEBSById,
+  receiptEBStByIdSuccess,
+  receiptEBSByIdFailed,
 }
