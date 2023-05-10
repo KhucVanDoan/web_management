@@ -163,7 +163,10 @@ function WarehouseImportStorage() {
             itemId: item.itemCode?.itemId,
           }
         }),
-        (e) => `${e.itemId}_${e?.lotNumber || e?.lotNumberOld || ''}`,
+        (e) =>
+          `${e.itemId}_${
+            e?.lotNumber || e?.lotNumber?.lotNumber || e?.lotNumberOld || ''
+          }`,
       )
       if (
         Object.keys(itemByIds)?.length <
@@ -188,6 +191,7 @@ function WarehouseImportStorage() {
           })),
         }
       })
+
       const userInfo = getLocalItem('userInfo')
       const payload = {
         userId: userInfo.id,

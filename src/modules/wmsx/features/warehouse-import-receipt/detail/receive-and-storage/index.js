@@ -156,11 +156,16 @@ function WarehouseImportReceiveAndStorage() {
   const onSubmit = (values) => {
     try {
       const itemByIds = groupBy(
-        values.items?.map((item) => ({
-          ...item,
-          itemId: item.itemCode?.itemId,
-        })),
-        (e) => `${e.itemId}_${e?.lotNumber || e?.lotNumberOld || ''}`,
+        values.items?.map((item) => {
+          return {
+            ...item,
+            itemId: item.itemCode?.itemId,
+          }
+        }),
+        (e) =>
+          `${e.itemId}_${
+            e?.lotNumber?.lotNumber || e?.lotNumber || e?.lotNumberOld || ''
+          }`,
       )
       if (
         Object.keys(itemByIds)?.length <

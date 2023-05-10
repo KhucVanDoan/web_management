@@ -3188,6 +3188,8 @@
     "notYetStocked": "Chưa nhập kho",
     "stocked": "Đã nhập kho",
     "canceled": "Đã hủy",
+    "inProgress": "Đang nhâp kho",
+    "return": "Đã trả hàng",
     "formTitle": "Chi tiết Receipt",
     "code": "Số phiếu giao nhận",
     "warehouseCode": "Mã kho",
@@ -3201,6 +3203,7 @@
     "returnReceiptConfirmText": "Bạn có chắc chắn muốn hủy số receipt:",
     "contractNumber": "hợp đồng số:",
     "adjustDelivery": "Điều chỉnh giao nhận",
+    "syncAdjustDelivery": "Đồng bộ điều chỉnh giao nhận",
     "itemDetails": {
       "title": "Danh sách vật tư",
       "code": "Mã vật tư",

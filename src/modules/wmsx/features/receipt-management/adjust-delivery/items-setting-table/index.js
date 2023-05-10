@@ -80,7 +80,7 @@ const ItemSettingTableAdjustDelivery = ({ items }) => {
       },
     },
     {
-      field: 'remainReturnQuantity',
+      field: 'payAbleQuantity',
       headerName: t('receiptManagement.itemDetails.remainReturnQuantity'),
       width: 150,
       align: 'right',
@@ -88,8 +88,8 @@ const ItemSettingTableAdjustDelivery = ({ items }) => {
       renderCell: (params, index) => {
         return (
           <Field.TextField
-            name={`items[${index}].remainReturnQuantity`}
-            values={params.row?.quantity}
+            name={`items[${index}].payAbleQuantity`}
+            values={params.row?.payAbleQuantity}
             formatter="quantity"
             disabled
           />

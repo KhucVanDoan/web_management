@@ -25,6 +25,7 @@ import {
 } from '~/utils'
 
 import ItemSettingTableAdjustDelivery from './items-setting-table'
+import { formSchema } from './schema'
 
 const breadcrumbs = [
   {
@@ -60,30 +61,40 @@ const AdjustDeliveryForm = () => {
       description: `${t(`menu.adjustDelivery`)} [${convertUtcDateToLocalTz(
         receiptDetail?.receiptDate,
       )}]`,
-
+      reason: null,
       items: receiptDetail?.items?.map((item) => ({
+        ...item,
         code: item?.item?.code,
         name: item?.item?.name,
         unit: item?.item?.itemUnit,
         quantity: item?.quantity,
         creditAccount: item?.creditAccount,
         debitAccount: item?.debitAccount,
-        returnQuantity: 0,
+        returnQuantity: item?.payAbleQuantity,
+        payAbleQuantity: item?.payAbleQuantity,
       })),
     }
   }, [receiptDetail, id])
   const onSubmit = (values) => {
     const params = {
-      id: id,
+      id: +id,
       explaination: values?.description,
-      reasonId: values?.reason?.id,
+      reasonId: +values?.reason?.id,
       items: values?.items?.map((item) => ({
-        receiptDetailId: item?.receiptDetailId,
+        receiptDetailId: +item?.id,
         itemId: item?.itemId,
-        quantityPaid: item?.returnQuantity,
+        adjustedDeliveries: [
+          {
+            receiptDetailId: +item?.id,
+            itemId: item?.itemId,
+            quantityPaid: item?.returnQuantity,
+          },
+        ],
       })),
     }
-    actions.adujustDeliverReceipt(params)
+    actions.adujustDeliverReceipt(params, () => {
+      history.push(ROUTE.RECEIPT_MANAGEMENT.DETAIL.PATH.replace(':id', `${id}`))
+    })
   }
   const renderActionBar = (handleReset) => {
     return (
@@ -105,6 +116,7 @@ const AdjustDeliveryForm = () => {
         initialValues={initialValues}
         enableReinitialize
         onSubmit={onSubmit}
+        validationSchema={formSchema(t)}
       >
         {({ values }) => {
           return (

@@ -423,6 +423,7 @@ const WarehouseTransfer = () => {
     return (
       <>
         <ImportExport
+          name={t('menu.warehouseTransferOrder')}
           loadingExport={setLoadingExport}
           // {...(canAccess(FUNCTION_CODE.WAREHOUSE_IMPORT_WAREHOUSE_TRANSFER)
           //   ? {

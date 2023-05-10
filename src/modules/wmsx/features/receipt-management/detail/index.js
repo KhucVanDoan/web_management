@@ -10,7 +10,10 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
-import { RECEIPT_MANAGEMENT_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import {
+  RECEIPT_MANAGEMENT_STATUS_OPTIONS,
+  STATUS_SYNC_ORDER_TO_EBS,
+} from '~/modules/wmsx/constants'
 import useReceiptManagement from '~/modules/wmsx/redux/hooks/useReceiptManagement'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertUtcDateToLocalTz } from '~/utils'
@@ -49,23 +52,46 @@ const ReceiptManagementDetail = () => {
   const renderHeaderRight = () =>
     useMemo(() => {
       return (
-        // <Guard code={FUNCTION_CODE.SALE_CONFIRM_PURCHASED_ORDER_IMPORT}>
-        <Button
-          sx={{
-            ml: 4 / 3,
-          }}
-          onClick={() =>
-            history.push(
-              ROUTE.RECEIPT_MANAGEMENT.ADJUST_DELIVERY.PATH.replace(
-                ':id',
-                `${id}`,
-              ),
-            )
-          }
-        >
-          {t('receiptManagement.adjustDelivery')}
-        </Button>
-        // </Guard>
+        <>
+          {receiptDetail?.syncStatus !==
+            STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR && (
+            // <Guard code={FUNCTION_CODE.SALE_CONFIRM_PURCHASED_ORDER_IMPORT}>
+            <Button
+              sx={{
+                ml: 4 / 3,
+              }}
+              onClick={() =>
+                history.push(
+                  ROUTE.RECEIPT_MANAGEMENT.ADJUST_DELIVERY.PATH.replace(
+                    ':id',
+                    `${id}`,
+                  ),
+                )
+              }
+            >
+              {t('receiptManagement.adjustDelivery')}
+            </Button>
+            // </Guard>
+          )}
+          {receiptDetail?.syncStatus ===
+            STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR && (
+            <Button
+              sx={{
+                ml: 4 / 3,
+              }}
+              onClick={() =>
+                history.push(
+                  ROUTE.RECEIPT_MANAGEMENT.ADJUST_DELIVERY.PATH.replace(
+                    ':id',
+                    `${id}`,
+                  ),
+                )
+              }
+            >
+              {t('receiptManagement.syncAdjustDelivery')}
+            </Button>
+          )}
+        </>
       )
     }, [receiptDetail])
   return (

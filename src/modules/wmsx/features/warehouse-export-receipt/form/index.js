@@ -512,6 +512,8 @@ function WarehouseExportReceiptForm() {
           warehouseId: values?.warehouseId?.id,
           items: JSON.stringify(
             values?.items?.map((item) => ({
+              warehouseExportProposalChildId:
+                item?.itemCode?.warehouseExportProposalChildId || null,
               id: +item?.itemCode?.itemId || +item?.itemCode?.id,
               itemCode: item?.itemCode?.item?.code || item?.itemCode?.code,
               lotNumber: item?.lotNumber || null,
