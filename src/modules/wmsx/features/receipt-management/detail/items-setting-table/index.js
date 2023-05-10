@@ -100,7 +100,7 @@ const ItemSettingTable = ({ items }) => {
       renderCell: (params) => {
         return (
           <NumberFormatText
-            value={params?.row?.remainningQuantity}
+            value={+params?.row?.payAbleQuantity}
             formatter="quantity"
           />
         )
