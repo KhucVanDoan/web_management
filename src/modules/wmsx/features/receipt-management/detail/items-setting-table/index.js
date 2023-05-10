@@ -82,8 +82,13 @@ const ItemSettingTable = ({ items }) => {
       width: 150,
       align: 'right',
       headerAlign: 'left',
-      renderCell: () => {
-        return <NumberFormatText value={0} formatter="quantity" />
+      renderCell: (params) => {
+        return (
+          <NumberFormatText
+            value={params?.row?.orderQuantity}
+            formatter="quantity"
+          />
+        )
       },
     },
     {
@@ -92,8 +97,13 @@ const ItemSettingTable = ({ items }) => {
       width: 150,
       align: 'right',
       headerAlign: 'left',
-      renderCell: () => {
-        return <NumberFormatText value={0} formatter="quantity" />
+      renderCell: (params) => {
+        return (
+          <NumberFormatText
+            value={params?.row?.remainningQuantity}
+            formatter="quantity"
+          />
+        )
       },
     },
     {
@@ -102,8 +112,13 @@ const ItemSettingTable = ({ items }) => {
       width: 150,
       align: 'right',
       headerAlign: 'left',
-      renderCell: () => {
-        return <NumberFormatText value={0} formatter="quantity" />
+      renderCell: (params) => {
+        return (
+          <NumberFormatText
+            value={params?.row?.quantityPaid}
+            formatter="quantity"
+          />
+        )
       },
     },
     {
@@ -112,8 +127,10 @@ const ItemSettingTable = ({ items }) => {
       width: 150,
       align: 'right',
       headerAlign: 'left',
-      renderCell: () => {
-        return <NumberFormatText value={0} formatter="quantity" />
+      renderCell: (params) => {
+        return params?.row?.childrens
+          ?.map((item) => item?.adjustedReceiptCode)
+          ?.join(',')
       },
     },
     {
@@ -153,10 +170,6 @@ const ItemSettingTable = ({ items }) => {
       />
     </>
   )
-}
-
-ItemSettingTable.defaultProps = {
-  items: [],
 }
 
 ItemSettingTable.propTypes = {

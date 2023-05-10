@@ -1886,12 +1886,17 @@ export const RECEIPT_MANAGEMENT_STATUS = {
   NOT_YET_STOCKED: 0,
   STOCKED: 1,
   CANCELED: 2,
+  IN_PROGRESS: 3,
+  RETURNED: 4,
 }
 
 export const RECEIPT_MANAGEMENT_STATUS_MAP = {
   [RECEIPT_MANAGEMENT_STATUS.NOT_YET_STOCKED]:
     'receiptManagement.notYetStocked',
   [RECEIPT_MANAGEMENT_STATUS.STOCKED]: 'receiptManagement.stocked',
+  [RECEIPT_MANAGEMENT_STATUS.CANCELED]: 'receiptManagement.cancel',
+  [RECEIPT_MANAGEMENT_STATUS.IN_PROGRESS]: 'receiptManagement.inProgress',
+  [RECEIPT_MANAGEMENT_STATUS.RETURNED]: 'receiptManagement.return',
 }
 
 export const RECEIPT_MANAGEMENT_STATUS_OPTIONS = [
@@ -1909,6 +1914,16 @@ export const RECEIPT_MANAGEMENT_STATUS_OPTIONS = [
     id: 2,
     text: 'receiptManagement.canceled',
     color: 'rejected',
+  },
+  {
+    id: 3,
+    text: 'receiptManagement.inProgress',
+    color: 'inProgress',
+  },
+  {
+    id: 4,
+    text: 'receiptManagement.return',
+    color: 'inProgress',
   },
 ]
 

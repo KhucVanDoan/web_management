@@ -345,24 +345,28 @@ const routes = [
         name: ROUTE.DEFINE_BIN.LIST.TITLE,
         path: ROUTE.DEFINE_BIN.LIST.PATH,
         component: DefineBin,
+        code: FUNCTION_CODE.WAREHOUSE_LIST_LOCATION,
         isInSidebar: true,
         subMenu: [
           {
             name: ROUTE.DEFINE_BIN.CREATE.TITLE,
             path: ROUTE.DEFINE_BIN.CREATE.PATH,
             component: DefineBinForm,
+            code: FUNCTION_CODE.WAREHOUSE_CREATE_LOCATION,
             isInSidebar: false,
           },
           {
             name: ROUTE.DEFINE_BIN.EDIT.TITLE,
             path: ROUTE.DEFINE_BIN.EDIT.PATH,
             component: DefineBinForm,
+            code: FUNCTION_CODE.WAREHOUSE_UPDATE_LOCATION,
             isInSidebar: true,
           },
           {
             name: ROUTE.DEFINE_BIN.DETAIL.TITLE,
             path: ROUTE.DEFINE_BIN.DETAIL.PATH,
             component: DefineBinDetail,
+            code: FUNCTION_CODE.WAREHOUSE_DETAIL_LOCATION,
             isInSidebar: true,
           },
         ],

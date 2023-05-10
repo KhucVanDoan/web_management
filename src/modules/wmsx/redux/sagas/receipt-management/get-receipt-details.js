@@ -8,8 +8,7 @@ import {
 import { api } from '~/services/api'
 
 export const getReceiptDetailsApi = (params) => {
-  // @TODO: update api
-  const uri = `/v1/sales/receipts/${params}`
+  const uri = `/v1/sales/receipts/detail/delivery-receipt/${params}`
   return api.get(uri)
 }
 
