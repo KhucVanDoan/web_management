@@ -2912,6 +2912,7 @@
     "receiptBy": "Theo phiếu",
     "confirmTitlePopupEBS": "Xác nhận hoàn thành xuất kho",
     "ConfirmEBS": "Xác nhận xuất kho đồng nghĩa với việc bạn sẽ đồng bộ dữ liệu này sang hệ thống EBS.",
+    "warningConfirmEBS": "Vật tư xuất kho chưa được nhập kho EBS.",
     "pending": "Chờ xác nhận",
     "confirmed": "Xác nhận",
     "inCollecting": "Chưa lấy hàng",

@@ -11,7 +11,10 @@ export const getWarehouseExportReceiptDetailsApi = (params) => {
   const uri = `/v1/sales/sale-order-exports/${params}`
   return api.get(uri)
 }
-
+export const checkToEbsPurchasedOrderImportApi = (params) => {
+  const uri = `/v1/sales/sale-order-exports/${params}/check-to-ebs/purchased-order-imports`
+  return api.get(uri)
+}
 function* doGetWarehouseExportReceiptDetails(action) {
   try {
     const response = yield call(
