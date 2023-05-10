@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom'
 
 // import { BULK_ACTION } from '~/common/constants'
 // import { API_URL } from '~/common/constants/apiUrl'
+import { NOTIFICATION_TYPE } from '~/common/constants'
 import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
@@ -24,6 +25,7 @@ import {
   SYNC_STATUS_CAN_UPDATE_HEADER_POI,
 } from '~/modules/wmsx/constants'
 import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
+import { checkToEbsPurchasedOrderImportApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/get-details'
 import {
   exportWarehouseExportReceiptApi,
   getWarehouseExportReceiptTemplateApi,
@@ -36,6 +38,7 @@ import {
   convertUtcDateTimeToLocalTz,
   convertUtcDateToLocalTz,
 } from '~/utils'
+import addNotification from '~/utils/toast'
 
 import FilterForm from './filter-form'
 
@@ -85,6 +88,7 @@ function WarehouseExportReceipt() {
     isOpenConfirmEBSModal: false,
     isOpenRejectedModal: false,
     isOpenCancelSyncEMSModal: false,
+    isOpenWarningConfirmEBSModal: false,
   })
 
   const [columnsSettings, setColumnsSettings] = useState([])
@@ -404,8 +408,17 @@ function WarehouseExportReceipt() {
     })
     setModal({ isOpenConfirmModal: false, tempItem: null })
   }
-  const onClickConfirmEBS = (tempItem) => {
-    setModal({ tempItem, isOpenConfirmEBSModal: true })
+  const onClickConfirmEBS = async (tempItem) => {
+    const res = await checkToEbsPurchasedOrderImportApi(tempItem?.id)
+    if (res?.statusCode === 200) {
+      if (res?.data) {
+        setModal({ tempItem, isOpenWarningConfirmEBSModal: true })
+      } else {
+        setModal({ tempItem, isOpenConfirmEBSModal: true })
+      }
+    } else {
+      addNotification(res?.message, NOTIFICATION_TYPE.ERROR)
+    }
   }
   const onSubmitConfirmEBS = () => {
     actions.confirmWarehouseExportEBSById(modal.tempItem?.id, () => {
@@ -420,7 +433,16 @@ function WarehouseExportReceipt() {
     setModal({ isOpenDeleteModal: false, tempItem: null })
   }
   const onCloseDeleteModal = () => {
-    setModal({ isOpenDeleteModal: false, tempItem: null })
+    setModal({
+      isOpenDeleteModal: false,
+      isOpenWarningConfirmEBSModal: false,
+      isOpenConfirmEBSModal: false,
+      isOpenConfirmModal: false,
+      isOpenCancelSyncEMSModal: false,
+      isOpenRejectedModal: false,
+      isConfirmWarehouseExport: false,
+      tempItem: null,
+    })
   }
 
   const onClickCancelSyncEBS = (tempItem) => {
@@ -559,6 +581,18 @@ function WarehouseExportReceipt() {
         noBorderBottom
       >
         <div>{t('warehouseExportReceipt.ConfirmEBS')}</div>
+        {t('warehouseExportReceipt.Confirm')}
+      </Dialog>
+      <Dialog
+        open={modal.isOpenWarningConfirmEBSModal}
+        title={t('warehouseExportReceipt.confirmTitlePopupEBS')}
+        onCancel={onCloseDeleteModal}
+        cancelLabel={t('general:common.no')}
+        onSubmit={onSubmitConfirmEBS}
+        submitLabel={t('general:common.yes')}
+        noBorderBottom
+      >
+        <div>{t('warehouseExportReceipt.warningConfirmEBS')}</div>
         {t('warehouseExportReceipt.Confirm')}
       </Dialog>
       <Dialog
