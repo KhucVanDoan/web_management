@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 
 import { createFilterOptions, IconButton, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
-import { flatMap, isEmpty } from 'lodash'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import { ASYNC_SEARCH_LIMIT, MODAL_MODE } from '~/common/constants'
@@ -298,13 +298,18 @@ const ItemSettingTable = ({
               item?.itemId === params?.row?.itemCode?.itemId,
           )
           const lotNumberFreeItem = []
-          flatMap(params?.row?.itemCode?.locations, 'lots')?.forEach((e) => {
-            const findLotNumber = lotNumberFreeItem?.find(
-              (lot) => lot?.lotNumber === e?.lotNumber,
-            )
-            if (isEmpty(findLotNumber)) {
-              lotNumberFreeItem.push(e)
-            }
+          const locations = params?.row?.itemCode?.locations?.filter(
+            (item) => item?.warehouse?.id === values?.warehouseId?.id,
+          )
+          locations?.forEach((d) => {
+            d?.lots?.forEach((e) => {
+              const findLotNumber = lotNumberFreeItem?.find(
+                (lot) => lot?.lotNumber === e?.lotNumber,
+              )
+              if (isEmpty(findLotNumber)) {
+                lotNumberFreeItem.push(e)
+              }
+            })
           })
           const lotNumber = []
           itemWarehouseExportProposal?.forEach((item) => {

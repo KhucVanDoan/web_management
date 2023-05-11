@@ -260,14 +260,9 @@ const ItemSettingTable = ({ items, lots, arrayHelpers, setFieldValue }) => {
         align: 'right',
         headerAlign: 'left',
         renderCell: (params) => {
-          const findItem = itemList?.find(
-            (e) =>
-              e?.id === params?.row?.itemCode?.id &&
-              e?.lotNumber === params?.row?.lotNumber?.lotNumber,
-          )
           return (
             <NumberFormatText
-              value={+findItem?.planQuantity}
+              value={params?.row?.planQuantity}
               formatter="quantity"
             />
           )
