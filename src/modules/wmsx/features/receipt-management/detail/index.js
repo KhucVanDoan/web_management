@@ -11,6 +11,7 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
 import {
+  RECEIPT_MANAGEMENT_STATUS,
   RECEIPT_MANAGEMENT_STATUS_OPTIONS,
   STATUS_SYNC_ORDER_TO_EBS,
 } from '~/modules/wmsx/constants'
@@ -54,25 +55,29 @@ const ReceiptManagementDetail = () => {
       return (
         <>
           {receiptDetail?.syncStatus !==
-            STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR && (
-            // <Guard code={FUNCTION_CODE.SALE_CONFIRM_PURCHASED_ORDER_IMPORT}>
-            <Button
-              sx={{
-                ml: 4 / 3,
-              }}
-              onClick={() =>
-                history.push(
-                  ROUTE.RECEIPT_MANAGEMENT.ADJUST_DELIVERY.PATH.replace(
-                    ':id',
-                    `${id}`,
-                  ),
-                )
-              }
-            >
-              {t('receiptManagement.adjustDelivery')}
-            </Button>
-            // </Guard>
-          )}
+            STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR &&
+            (receiptDetail?.status ===
+              RECEIPT_MANAGEMENT_STATUS.NOT_YET_STOCKED ||
+              receiptDetail?.status ===
+                RECEIPT_MANAGEMENT_STATUS.IN_PROGRESS) && (
+              // <Guard code={FUNCTION_CODE.SALE_CONFIRM_PURCHASED_ORDER_IMPORT}>
+              <Button
+                sx={{
+                  ml: 4 / 3,
+                }}
+                onClick={() =>
+                  history.push(
+                    ROUTE.RECEIPT_MANAGEMENT.ADJUST_DELIVERY.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    ),
+                  )
+                }
+              >
+                {t('receiptManagement.adjustDelivery')}
+              </Button>
+              // </Guard>
+            )}
           {receiptDetail?.syncStatus ===
             STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR && (
             <Button

@@ -165,7 +165,7 @@ function WarehouseImportStorage() {
         }),
         (e) =>
           `${e.itemId}_${
-            e?.lotNumber || e?.lotNumber?.lotNumber || e?.lotNumberOld || ''
+            e?.lotNumber?.lotNumber || e?.lotNumber || e?.lotNumberOld || ''
           }`,
       )
       if (
