@@ -23,7 +23,6 @@ import useDefineExpenditureType from '~/modules/wmsx/redux/hooks/useDefineExpend
 import {
   exportExpenditureTypeApi,
   getExpenditureTypeTemplateApi,
-  importExpenditureTypeApi,
 } from '~/modules/wmsx/redux/sagas/define-expenditure-type/import-export-expenditure-type'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
@@ -78,7 +77,7 @@ function DefineExpenditureType() {
 
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
-
+  const [loadingExport, setLoadingExport] = useState(false)
   const columns = [
     {
       field: 'code',
@@ -219,7 +218,9 @@ function DefineExpenditureType() {
     return (
       <>
         <ImportExport
-          onImport={(params) => importExpenditureTypeApi(params)}
+          // onImport={(params) => importExpenditureTypeApi(params)}
+          name={t('menu.defineExpenditureType')}
+          loadingExport={setLoadingExport}
           onExport={() =>
             exportExpenditureTypeApi({
               columnSettings: JSON.stringify(columnsSettings),
@@ -235,7 +236,6 @@ function DefineExpenditureType() {
           }
           onDownloadTemplate={getExpenditureTypeTemplateApi}
           onRefresh={refreshData}
-          disabled
         />
         <Guard code={FUNCTION_CODE.SALE_CREATE_COST_TYPE}>
           <Button
@@ -259,7 +259,7 @@ function DefineExpenditureType() {
       onSearch={setKeyword}
       placeholder={t('defineExpenditureType.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}
-      loading={isLoading}
+      loading={isLoading || loadingExport}
     >
       <DataTable
         title={t('defineExpenditureType.list')}
@@ -271,7 +271,7 @@ function DefineExpenditureType() {
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
         onSettingChange={setColumnsSettings}
-        //onSelectionChange={setSelectedRows}
+        onSelectionChange={setSelectedRows}
         selected={selectedRows}
         total={total}
         sort={sort}

@@ -13,7 +13,6 @@ import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
-import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -24,11 +23,6 @@ import {
   PARENT_BUSINESS_TYPE_MAP,
 } from '~/modules/wmsx/constants'
 import useBussinessTypeManagement from '~/modules/wmsx/redux/hooks/useBusinessTypeManagement'
-import {
-  exportBusinessTypeApi,
-  getBusinessTypeTemplateApi,
-  importBusinessTypeApi,
-} from '~/modules/wmsx/redux/sagas/business-type-management/import-export-business-type'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
@@ -81,7 +75,7 @@ function BussinessTypeManagement() {
     isOpenUpdateStatusModal: false,
   })
 
-  const [columnsSettings, setColumnsSettings] = useState([])
+  // const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
 
   const columns = [
@@ -247,25 +241,6 @@ function BussinessTypeManagement() {
   const renderHeaderRight = () => {
     return (
       <>
-        <ImportExport
-          onImport={(params) => importBusinessTypeApi(params)}
-          onExport={() =>
-            exportBusinessTypeApi({
-              columnSettings: JSON.stringify(columnsSettings),
-              queryIds: JSON.stringify(
-                selectedRows?.map((x) => ({ id: `${x?.id}` })),
-              ),
-              keyword: keyword.trim(),
-              filter: convertFilterParams(filters, [
-                { field: 'createdAt', filterFormat: 'date' },
-              ]),
-              sort: convertSortParams(sort),
-            })
-          }
-          onDownloadTemplate={getBusinessTypeTemplateApi}
-          onRefresh={refreshData}
-          disabled
-        />
         <Guard code={FUNCTION_CODE.WAREHOUSE_CREATE_BUSSINESS_TYPE}>
           <Button
             onClick={() =>
@@ -299,7 +274,7 @@ function BussinessTypeManagement() {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
-        onSettingChange={setColumnsSettings}
+        // onSettingChange={setColumnsSettings}
         //onSelectionChange={setSelectedRows}
         selected={selectedRows}
         total={total}

@@ -1,3 +1,4 @@
+import { CONST_EXPORT_LOCATION } from '~/modules/wmsx/constants'
 import { api } from '~/services/api'
 
 /**
@@ -18,7 +19,7 @@ export const importLocationApi = (params) => {
  * @returns {Promise}
  */
 export const exportLocationApi = (params) => {
-  const uri = `____ENTER_IMPORT_EXPORT_URL_HERE____`
+  const uri = `v1/warehouse-layouts/export?type=${CONST_EXPORT_LOCATION.LOCTOR}`
   return api.get(uri, params)
 }
 

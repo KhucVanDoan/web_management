@@ -23,7 +23,6 @@ import useLocationManagement from '~/modules/wmsx/redux/hooks/useLocationManagem
 import {
   exportLocationApi,
   getLocationTemplateApi,
-  importLocationApi,
 } from '~/modules/wmsx/redux/sagas/location-management/import-export-location'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
@@ -78,7 +77,7 @@ function LocationManagement() {
 
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
-
+  const [loadingExport, setLoadingExport] = useState(false)
   const columns = [
     {
       field: 'warehouseCode',
@@ -215,7 +214,9 @@ function LocationManagement() {
     return (
       <>
         <ImportExport
-          onImport={(params) => importLocationApi(params)}
+          name={t('menu.locationManagement')}
+          loadingExport={setLoadingExport}
+          // onImport={(params) => importLocationApi(params)}
           onExport={() =>
             exportLocationApi({
               columnSettings: JSON.stringify(columnsSettings),
@@ -231,7 +232,6 @@ function LocationManagement() {
           }
           onDownloadTemplate={getLocationTemplateApi}
           onRefresh={refreshData}
-          disabled
         />
         <Guard code={FUNCTION_CODE.WAREHOUSE_CREATE_LOCATOR}>
           <Button
@@ -253,7 +253,7 @@ function LocationManagement() {
       onSearch={setKeyword}
       placeholder={t('locationManagement.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}
-      loading={isLoading}
+      loading={isLoading || loadingExport}
     >
       <DataTable
         title={t('locationManagement.list')}
@@ -265,7 +265,7 @@ function LocationManagement() {
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
         onSettingChange={setColumnsSettings}
-        //onSelectionChange={setSelectedRows}
+        onSelectionChange={setSelectedRows}
         selected={selectedRows}
         total={total}
         sort={sort}

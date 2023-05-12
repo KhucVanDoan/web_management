@@ -21,6 +21,7 @@ import StatusSwitcher from '~/components/StatusSwitcher'
 import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useDefineMaterialQuality from '~/modules/wmsx/redux/hooks/useDefineMaterialQuality'
 import {
+  exportDefineMaterialQualityApi,
   getDefineMaterialQualityTemplateApi,
   importDefineMaterialQualityApi,
 } from '~/modules/wmsx/redux/sagas/define-material-quality/import-export'
@@ -75,9 +76,9 @@ function DefineMaterialQuality() {
     isOpenUpdateStatusModal: false,
   })
 
-  // const [columnsSettings, setColumnsSettings] = useState([])
+  const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
-
+  const [loadingExport, setLoadingExport] = useState(false)
   const columns = [
     {
       field: 'code',
@@ -218,7 +219,21 @@ function DefineMaterialQuality() {
       <>
         <ImportExport
           name={t('menu.defineMaterialQuality')}
+          loadingExport={setLoadingExport}
           onImport={(importFile) => importDefineMaterialQualityApi(importFile)}
+          onExport={() =>
+            exportDefineMaterialQualityApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: `${x?.id}` })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }
           onDownloadTemplate={getDefineMaterialQualityTemplateApi}
           onRefresh={refreshData}
         />
@@ -244,7 +259,7 @@ function DefineMaterialQuality() {
       onSearch={setKeyword}
       placeholder={t('defineMaterialQuality.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}
-      loading={isLoading}
+      loading={isLoading || loadingExport}
     >
       <DataTable
         title={t('defineMaterialQuality.list')}
@@ -255,8 +270,8 @@ function DefineMaterialQuality() {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
-        // onSettingChange={setColumnsSettings}
-        //onSelectionChange={setSelectedRows}
+        onSettingChange={setColumnsSettings}
+        onSelectionChange={setSelectedRows}
         selected={selectedRows}
         total={total}
         sort={sort}

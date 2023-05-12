@@ -129,7 +129,7 @@ const ItemSettingTable = ({ items }) => {
       headerAlign: 'left',
       renderCell: (params) => {
         return params?.row?.childrens
-          ?.map((item) => item?.adjustedReceiptCode)
+          ?.map((item) => item?.receiptDeliveryCode)
           ?.join(',')
       },
     },

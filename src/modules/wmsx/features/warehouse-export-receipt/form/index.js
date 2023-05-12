@@ -37,6 +37,7 @@ import useReceiptDepartmentManagement from '~/modules/wmsx/redux/hooks/useReceip
 import useSourceManagement from '~/modules/wmsx/redux/hooks/useSourceManagement'
 import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
+import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 import { searchBusinessTypesApi } from '~/modules/wmsx/redux/sagas/business-type-management/search-business-types'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { searchApi } from '~/modules/wmsx/redux/sagas/reason-management/search'
@@ -103,7 +104,7 @@ function WarehouseExportReceiptForm() {
     data: { expenditureOrgList },
     actions: expenditureOrgListAction,
   } = useDefineExpenditureOrg()
-
+  const { actions: GetLotNumberFreeItemAction } = useWarehouseTransfer()
   const MODE_MAP = {
     [ROUTE.WAREHOUSE_EXPORT_RECEIPT.CREATE.PATH]: MODAL_MODE.CREATE,
     [ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT.PATH]: MODAL_MODE.UPDATE,
@@ -343,8 +344,7 @@ function WarehouseExportReceiptForm() {
           ),
         )
         setItemWarehouseExport(res?.data?.purchasedOrderImportDetails)
-      }
-      if (
+      } else if (
         warehouseExportReceiptDetails?.attributes?.find(
           (item) =>
             item?.code ===
@@ -404,6 +404,23 @@ function WarehouseExportReceiptForm() {
           })
         })
         setItemWarehouseExportProposal(itemWarehouseExportProposal)
+      } else {
+        const itemIds = []
+        warehouseExportReceiptDetails?.saleOrderExportWarehouseLots?.forEach(
+          (item) => {
+            const findItemId = itemIds?.find((e) => e === item?.itemId)
+            if (!findItemId) {
+              itemIds.push(
+                item?.itemId || item?.itemCode?.id || item?.itemCode?.itemId,
+              )
+            }
+          },
+        )
+        const params = {
+          warehouseId: warehouseExportReceiptDetails?.warehouse?.id,
+          itemIds: [...itemIds]?.join(','),
+        }
+        GetLotNumberFreeItemAction.getListItemWarehouseStock(params)
       }
     }
   }, [warehouseExportReceiptDetails, id])

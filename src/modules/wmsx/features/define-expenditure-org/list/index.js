@@ -8,7 +8,7 @@ import { useHistory } from 'react-router-dom'
 // import { API_URL } from '~/common/constants/apiUrl'
 import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import { useQueryState } from '~/common/hooks'
-import { useApp } from '~/common/hooks/useApp'
+// import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
@@ -19,10 +19,9 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import StatusSwitcher from '~/components/StatusSwitcher'
-import { TYPE_ENUM_EXPORT } from '~/modules/mesx/constants'
 import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useDefineExpenditureOrg from '~/modules/wmsx/redux/hooks/useDefineExpenditureOrg'
-import { exportCompanyApi } from '~/modules/wmsx/redux/sagas/company-management/import-export-company'
+import { exportDefineExoenditureOrgApi } from '~/modules/wmsx/redux/sagas/define-expenditure-org/import-export'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
@@ -51,7 +50,7 @@ function DefineExpenditureOrg() {
   })
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
-
+  const [loadingExport, setLoadingExport] = useState(false)
   const {
     page,
     pageSize,
@@ -64,7 +63,7 @@ function DefineExpenditureOrg() {
     setFilters,
     setKeyword,
   } = useQueryState()
-  const { canAccess } = useApp()
+  // const { canAccess } = useApp()
   const columns = [
     {
       field: 'code',
@@ -216,31 +215,22 @@ function DefineExpenditureOrg() {
       <>
         <ImportExport
           name={t('menu.importExportData')}
-          {...(canAccess(FUNCTION_CODE.SALE_EXPORT_ORGANIZATION_PAYMENT)
-            ? {
-                onExport: () =>
-                  exportCompanyApi({
-                    columnSettings: JSON.stringify(columnsSettings),
-                    queryIds: JSON.stringify(
-                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
-                    ),
-                    keyword: keyword.trim(),
-                    filter: convertFilterParams(filters, [
-                      { field: 'createdAt', filterFormat: 'date' },
-                    ]),
-                    sort: convertSortParams(sort),
-                    type: TYPE_ENUM_EXPORT.COMPANY,
-                  }),
-              }
-            : {})}
-          {...(canAccess(FUNCTION_CODE.SALE_IMPORT_ORGANIZATION_PAYMENT)
-            ? {
-                onImport: () => {},
-              }
-            : {})}
+          loadingExport={setLoadingExport}
+          onExport={() =>
+            exportDefineExoenditureOrgApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: `${x?.id}` })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }
           onDownloadTemplate={() => {}}
           onRefresh={refreshData}
-          disabled
         />
         <Guard code={FUNCTION_CODE.SALE_CREATE_ORGANIZATION_PAYMENT}>
           <Button
@@ -263,7 +253,7 @@ function DefineExpenditureOrg() {
       onSearch={setKeyword}
       placeholder={t('defineExpenditureOrg.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}
-      loading={isLoading}
+      loading={isLoading || loadingExport}
     >
       <DataTable
         title={t('defineExpenditureOrg.list')}
@@ -275,7 +265,7 @@ function DefineExpenditureOrg() {
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
         onSettingChange={setColumnsSettings}
-        //onSelectionChange={setSelectedRows}
+        onSelectionChange={setSelectedRows}
         selected={selectedRows}
         total={total}
         sort={sort}

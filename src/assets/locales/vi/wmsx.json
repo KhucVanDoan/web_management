@@ -3199,6 +3199,7 @@
     "purpose": "Lý do",
     "description": "Mô tả",
     "deliver": "Người giao hàng",
+    "receiptMessageQuantityReturn": "Phải tồn tại ít nhất 1 vật tư có SL trả >0",
     "returnReceiptTitlePopup": "Xác nhận hủy phiếu giao nhận - số receipt",
     "returnReceiptConfirm": "Phiếu giao nhận - số receipt đã bị hủy sẽ không được sử dụng nhập kho !!!",
     "returnReceiptConfirmText": "Bạn có chắc chắn muốn hủy số receipt:",

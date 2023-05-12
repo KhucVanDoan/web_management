@@ -2,10 +2,11 @@ import React, { useEffect, useMemo } from 'react'
 
 import { Box, Grid } from '@mui/material'
 import { Form, Formik } from 'formik'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
-import { MODAL_MODE } from '~/common/constants'
+import { MODAL_MODE, NOTIFICATION_TYPE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
@@ -23,6 +24,7 @@ import {
   convertSortParams,
   convertUtcDateToLocalTz,
 } from '~/utils'
+import addNotification from '~/utils/toast'
 
 import ItemSettingTableAdjustDelivery from './items-setting-table'
 import { formSchema } from './schema'
@@ -76,25 +78,37 @@ const AdjustDeliveryForm = () => {
     }
   }, [receiptDetail, id])
   const onSubmit = (values) => {
-    const params = {
-      id: +id,
-      explaination: values?.description,
-      reasonId: +values?.reason?.id,
-      items: values?.items?.map((item) => ({
-        receiptDetailId: +item?.id,
-        itemId: item?.itemId,
-        adjustedDeliveries: [
-          {
-            receiptDetailId: +item?.id,
-            itemId: item?.itemId,
-            quantityPaid: item?.returnQuantity,
-          },
-        ],
-      })),
+    const checkQuantityReturn = values?.items?.filter(
+      (e) => e?.returnQuantity !== 0,
+    )
+    if (!isEmpty(checkQuantityReturn)) {
+      const params = {
+        id: +id,
+        explainationReturn: values?.description,
+        reasonId: +values?.reason?.id,
+        items: values?.items?.map((item) => ({
+          receiptDetailId: +item?.id,
+          itemId: item?.itemId,
+          adjustedDeliveries: [
+            {
+              receiptDetailId: +item?.id,
+              itemId: item?.itemId,
+              quantityPaid: item?.returnQuantity,
+            },
+          ],
+        })),
+      }
+      actions.adujustDeliverReceipt(params, () => {
+        history.push(
+          ROUTE.RECEIPT_MANAGEMENT.DETAIL.PATH.replace(':id', `${id}`),
+        )
+      })
+    } else {
+      addNotification(
+        t('receiptManagement.receiptMessageQuantityReturn'),
+        NOTIFICATION_TYPE.ERROR,
+      )
     }
-    actions.adujustDeliverReceipt(params, () => {
-      history.push(ROUTE.RECEIPT_MANAGEMENT.DETAIL.PATH.replace(':id', `${id}`))
-    })
   }
   const renderActionBar = (handleReset) => {
     return (

@@ -42,6 +42,7 @@ const ItemSettingTable = ({
     )?.id
   const {
     data: { itemWarehouseStockList },
+    actions,
   } = useWarehouseTransfer()
   // const itemWarehouseExportProposalList = []
   // itemWarehouseExportProposal?.forEach((item) => {
@@ -54,7 +55,26 @@ const ItemSettingTable = ({
   // })
   const handleChangeItem = async (val, index) => {
     setFieldValue(`items[${index}].lotNumber`, '')
+
     if (!isEmpty(val)) {
+      if (isEmpty(values[warehouseExprotProposal]) && isEmpty(itemList)) {
+        const itemIds = []
+        items?.forEach((item) => {
+          if (item?.itemId) {
+            const findItemId = itemIds?.find((e) => e === item?.itemId)
+            if (!findItemId) {
+              itemIds.push(
+                item?.itemId || item?.itemCode?.id || item?.itemCode?.itemId,
+              )
+            }
+          }
+        })
+        const params = {
+          warehouseId: values?.warehouseId?.id,
+          itemIds: [...itemIds, val?.id]?.join(','),
+        }
+        actions.getListItemWarehouseStock(params)
+      }
       const params = {
         order: !isEmpty(values[warehouseExprotProposal])
           ? {
@@ -79,6 +99,25 @@ const ItemSettingTable = ({
         `items[${index}].planExportedQuantity`,
         planExportedQuantity?.quantity,
       )
+    } else {
+      if (isEmpty(values[warehouseExprotProposal]) && isEmpty(itemList)) {
+        const itemIds = []
+        items?.forEach((item) => {
+          if (item?.itemId) {
+            const findItemId = itemIds?.find((e) => e === item?.itemId)
+            if (!findItemId) {
+              itemIds.push(
+                item?.itemId || item?.itemCode?.id || item?.itemCode?.itemId,
+              )
+            }
+          }
+        })
+        const params = {
+          warehouseId: values?.warehouseId?.id,
+          itemIds: [...itemIds]?.join(','),
+        }
+        actions.getListItemWarehouseStock(params)
+      }
     }
     if (val?.itemWarehouseSources?.length > 0) {
       setFieldValue(
@@ -298,9 +337,17 @@ const ItemSettingTable = ({
               item?.itemId === params?.row?.itemCode?.itemId,
           )
           const lotNumberFreeItem = []
-          const locations = params?.row?.itemCode?.locations?.filter(
-            (item) => item?.warehouse?.id === values?.warehouseId?.id,
-          )
+          const locations = itemWarehouseStockList
+            ?.find(
+              (e) =>
+                e?.id ===
+                (params?.row?.itemId ||
+                  params?.row?.itemCode?.itemId ||
+                  params?.row?.itemCode?.id),
+            )
+            ?.locations?.filter(
+              (item) => item?.warehouse?.id === values?.warehouseId?.id,
+            )
           locations?.forEach((d) => {
             d?.lots?.forEach((e) => {
               const findLotNumber = lotNumberFreeItem?.find(
@@ -576,15 +623,12 @@ const ItemSettingTable = ({
             onClick={() => {
               arrayHelpers.push({
                 id: new Date().getTime(),
-                suppliesCode: '',
-                suppliesName: '',
+                itemCode: null,
                 unit: '',
                 lotNumber: '',
                 quantityRequest: '',
                 quantityExport: '',
                 planExportedQuantity: '',
-                unitPriceRefer: '',
-                totalMoney: '',
                 debitAccount: '',
                 creditAccount: '',
               })

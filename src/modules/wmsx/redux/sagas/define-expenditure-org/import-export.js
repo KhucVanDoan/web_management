@@ -1,4 +1,4 @@
-import { CONST_EXPORT_LOCATION } from '~/modules/wmsx/constants'
+import { CONST_EXPORT_MASTER_DATA } from '~/modules/wmsx/constants'
 import { api } from '~/services/api'
 
 /**
@@ -6,7 +6,7 @@ import { api } from '~/services/api'
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-export const importShelfApi = (params) => {
+export const importDefineExoenditureOrgApi = (params) => {
   const uri = `____ENTER_IMPORT_EXPORT_URL_HERE____`
   const formData = new FormData()
   formData.append('file', params)
@@ -18,8 +18,8 @@ export const importShelfApi = (params) => {
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-export const exportShelfApi = (params) => {
-  const uri = `v1/warehouse-layouts/export?type=${CONST_EXPORT_LOCATION.SHELF}`
+export const exportDefineExoenditureOrgApi = (params) => {
+  const uri = `/v1/sales/export?type=${CONST_EXPORT_MASTER_DATA.DEFINE_EXPENDITURE_ORG}`
   return api.get(uri, params)
 }
 
@@ -28,13 +28,13 @@ export const exportShelfApi = (params) => {
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-export const getShelfTemplateApi = () => {
+export const getDefineExoenditureOrgTemplateApi = () => {
   const uri = `____ENTER_IMPORT_EXPORT_URL_HERE____`
   return api.get(uri)
 }
 
 export default {
-  importShelfApi,
-  exportShelfApi,
-  getShelfTemplateApi,
+  importDefineExoenditureOrgApi,
+  exportDefineExoenditureOrgApi,
+  getDefineExoenditureOrgTemplateApi,
 }

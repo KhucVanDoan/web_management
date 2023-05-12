@@ -11,7 +11,7 @@ export const formSchema = (t) =>
           .nullable()
           .required(t('general:form.required'))
           .test('', '', (values, context) => {
-            if (values <= 0) {
+            if (values < 0) {
               return context.createError({
                 message: t('general:form.moreThanNumber', {
                   min: NUMBER_FIELD_REQUIRED_SIZE.WATTAGE.MIN,
