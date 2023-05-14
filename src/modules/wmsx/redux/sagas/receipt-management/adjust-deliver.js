@@ -13,7 +13,10 @@ const adjustDeliverApi = (params) => {
   const uri = `/v1/sales/receipts/delivery-receipt/${params?.id}`
   return api.put(uri, params)
 }
-
+export const checkAdjustDeliverApi = (params) => {
+  const uri = `/v1/sales/receipts/po-import/receipt/${params}`
+  return api.get(uri)
+}
 function* doAdjustDeliver(action) {
   try {
     const response = yield call(adjustDeliverApi, action?.payload)

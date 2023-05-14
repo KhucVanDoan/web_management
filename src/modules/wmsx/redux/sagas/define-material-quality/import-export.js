@@ -1,3 +1,4 @@
+import { CONST_EXPORT_MASTER_DATA } from '~/modules/wmsx/constants'
 import { api } from '~/services/api'
 
 /**
@@ -18,7 +19,7 @@ export const importDefineMaterialQualityApi = (params) => {
  * @returns {Promise}
  */
 export const exportDefineMaterialQualityApi = (params) => {
-  const uri = `____ENTER_IMPORT_EXPORT_URL_HERE____`
+  const uri = `/v1/items/export?type=${CONST_EXPORT_MASTER_DATA.DEFINE_MATERIAL_QUALITY}`
   return api.get(uri, params)
 }
 

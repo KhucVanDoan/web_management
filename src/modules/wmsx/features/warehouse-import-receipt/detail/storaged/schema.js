@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash'
 import * as Yup from 'yup'
 
 export const formSchema = (t) =>
@@ -13,8 +14,9 @@ export const formSchema = (t) =>
               .filter(
                 (item) =>
                   item.itemCode?.itemId === context?.parent?.itemCode?.itemId &&
-                  (item?.lotNumber
-                    ? item?.lotNumber === context?.parent?.lotNumber
+                  (!isEmpty(item?.lotNumber)
+                    ? (item?.lotNumber?.lotNumber || item?.lotNumber) ===
+                      context?.parent?.lotNumber?.lotNumber
                     : (item?.lotNumberOld || item?.itemCode?.lotNumberOld) ===
                       (context?.parent?.lotNumberOld ||
                         context?.parent?.itemCode?.lotNumberOld)) &&

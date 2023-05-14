@@ -3018,6 +3018,7 @@
     "rejectTitlePopup": "Từ chối phiếu nhập kho",
     "deleteConfirm": "Bạn có chắc chắn muốn xóa phiếu nhập kho này không?",
     "rejectConfirm": "Bạn có chắc chắn muốn từ chối không",
+    "receiptMessageQuantityReturn": "Phải tồn tại ít nhất 1 vật tư có SL trả >0",
     "shipper": "Người giao hàng",
     "departmentReceipts": "Phòng ban nhận",
     "updateHeaderTitlePopup": "Xác nhận lưu và đồng bộ sang ERP",

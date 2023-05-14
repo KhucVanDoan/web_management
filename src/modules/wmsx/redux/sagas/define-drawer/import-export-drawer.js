@@ -1,3 +1,4 @@
+import { CONST_EXPORT_LOCATION } from '~/modules/wmsx/constants'
 import { api } from '~/services/api'
 
 /**
@@ -18,7 +19,7 @@ export const importDrawerApi = (params) => {
  * @returns {Promise}
  */
 export const exportDrawerApi = (params) => {
-  const uri = `v1/warehouse-layouts/export?type=3`
+  const uri = `v1/warehouse-layouts/export?type=${CONST_EXPORT_LOCATION.DRAWER}`
   return api.get(uri, params)
 }
 

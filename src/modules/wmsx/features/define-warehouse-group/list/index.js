@@ -8,24 +8,17 @@ import { FUNCTION_CODE } from '~/common/constants/functionCode'
 // import { BULK_ACTION } from '~/common/constants'
 // import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
-import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
-import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import StatusSwitcher from '~/components/StatusSwitcher'
 import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useDefineWarehouseGroup from '~/modules/wmsx/redux/hooks/useDefineWarehouseGroup'
-import {
-  exportWarehouseGroupApi,
-  getWarehouseGroupTemplateApi,
-  importWarehouseGroupApi,
-} from '~/modules/wmsx/redux/sagas/define-warehouse-group/import-export-warehouse-group'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
@@ -71,13 +64,12 @@ function DefineWarehouseGroup() {
     data: { warehouseGroupList, total, isLoading },
     actions,
   } = useDefineWarehouseGroup()
-  const { canAccess } = useApp()
   const [modal, setModal] = useState({
     tempItem: null,
     isOpenUpdateStatusModal: false,
   })
 
-  const [columnsSettings, setColumnsSettings] = useState([])
+  // const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
 
   const columns = [
@@ -216,43 +208,6 @@ function DefineWarehouseGroup() {
   const renderHeaderRight = () => {
     return (
       <>
-        <ImportExport
-          {...(canAccess(FUNCTION_CODE.SALE_EXPORT_REASON)
-            ? {
-                onExport: () =>
-                  exportWarehouseGroupApi({
-                    columnSettings: JSON.stringify(columnsSettings),
-                    queryIds: JSON.stringify(
-                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
-                    ),
-                    keyword: keyword.trim(),
-                    filter: convertFilterParams(filters, [
-                      { field: 'createdAt', filterFormat: 'date' },
-                    ]),
-                    sort: convertSortParams(sort),
-                  }),
-              }
-            : {})}
-          {...(canAccess(FUNCTION_CODE.SALE_IMPORT_REASON)
-            ? {
-                onImport: () =>
-                  importWarehouseGroupApi({
-                    columnSettings: JSON.stringify(columnsSettings),
-                    queryIds: JSON.stringify(
-                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
-                    ),
-                    keyword: keyword.trim(),
-                    filter: convertFilterParams(filters, [
-                      { field: 'createdAt', filterFormat: 'date' },
-                    ]),
-                    sort: convertSortParams(sort),
-                  }),
-              }
-            : {})}
-          onDownloadTemplate={getWarehouseGroupTemplateApi}
-          onRefresh={refreshData}
-          disabled
-        />
         <Guard code={FUNCTION_CODE.WAREHOUSE_CREATE_WAREHOUSE_TYPE_SETTING}>
           <Button
             onClick={() =>
@@ -286,7 +241,7 @@ function DefineWarehouseGroup() {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
-        onSettingChange={setColumnsSettings}
+        // onSettingChange={setColumnsSettings}
         //onSelectionChange={setSelectedRows}
         selected={selectedRows}
         total={total}

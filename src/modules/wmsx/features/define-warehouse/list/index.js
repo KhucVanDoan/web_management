@@ -13,7 +13,6 @@ import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
-import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -26,11 +25,6 @@ import {
   WAREHOUSE_TYPE_MAP,
 } from '~/modules/wmsx/constants'
 import useDefineWarehouse from '~/modules/wmsx/redux/hooks/useDefineWarehouse'
-import {
-  exportWarehouseApi,
-  getWarehouseTemplateApi,
-  importWarehouseApi,
-} from '~/modules/wmsx/redux/sagas/define-warehouse/import-export-warehouse'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
@@ -85,7 +79,7 @@ function DefineWarehouse() {
     isOpenUpdateStatusModal: false,
   })
 
-  const [columnsSettings, setColumnsSettings] = useState([])
+  // const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
 
   const columns = [
@@ -257,25 +251,6 @@ function DefineWarehouse() {
   const renderHeaderRight = () => {
     return (
       <>
-        <ImportExport
-          onImport={(params) => importWarehouseApi(params)}
-          onExport={() =>
-            exportWarehouseApi({
-              columnSettings: JSON.stringify(columnsSettings),
-              queryIds: JSON.stringify(
-                selectedRows?.map((x) => ({ id: `${x?.id}` })),
-              ),
-              keyword: keyword.trim(),
-              filter: convertFilterParams(filters, [
-                { field: 'createdAt', filterFormat: 'date' },
-              ]),
-              sort: convertSortParams(sort),
-            })
-          }
-          onDownloadTemplate={getWarehouseTemplateApi}
-          onRefresh={refreshData}
-          disabled
-        />
         <Guard code={FUNCTION_CODE.WAREHOUSE_CREATE_WAREHOUSE}>
           <Button
             onClick={() => history.push(ROUTE.DEFINE_WAREHOUSE.CREATE.PATH)}
@@ -307,7 +282,7 @@ function DefineWarehouse() {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
-        onSettingChange={setColumnsSettings}
+        // onSettingChange={setColumnsSettings}
         //onSelectionChange={setSelectedRows}
         selected={selectedRows}
         total={total}

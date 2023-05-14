@@ -23,7 +23,6 @@ import useDefineObjectCategory from '~/modules/wmsx/redux/hooks/useDefineObjectC
 import {
   exportObjectCategoryApi,
   getObjectCategoryTemplateApi,
-  importObjectCategoryApi,
 } from '~/modules/wmsx/redux/sagas/define-object-category/import-export-object-category'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
@@ -77,7 +76,7 @@ function DefineObjectCategory() {
 
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
-
+  const [loadingExport, setLoadingExport] = useState(false)
   const columns = [
     {
       field: 'code',
@@ -215,7 +214,9 @@ function DefineObjectCategory() {
     return (
       <>
         <ImportExport
-          onImport={(params) => importObjectCategoryApi(params)}
+          name={t('menu.defineObjectCategory')}
+          loadingExport={setLoadingExport}
+          // onImport={(params) => importObjectCategoryApi(params)}
           onExport={() =>
             exportObjectCategoryApi({
               columnSettings: JSON.stringify(columnsSettings),
@@ -231,7 +232,6 @@ function DefineObjectCategory() {
           }
           onDownloadTemplate={getObjectCategoryTemplateApi}
           onRefresh={refreshData}
-          disabled
         />
         <Guard code={FUNCTION_CODE.ITEM_CREATE_OBJECT_CATEGORY}>
           <Button
@@ -255,7 +255,7 @@ function DefineObjectCategory() {
       onSearch={setKeyword}
       placeholder={t('defineObjectCategory.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}
-      loading={isLoading}
+      loading={isLoading || loadingExport}
     >
       <DataTable
         title={t('defineObjectCategory.list')}
@@ -267,7 +267,7 @@ function DefineObjectCategory() {
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
         onSettingChange={setColumnsSettings}
-        //onSelectionChange={setSelectedRows}
+        onSelectionChange={setSelectedRows}
         selected={selectedRows}
         total={total}
         sort={sort}
