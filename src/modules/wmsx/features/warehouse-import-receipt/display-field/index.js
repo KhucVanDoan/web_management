@@ -12,6 +12,7 @@ import {
   ORDER_STATUS,
   TABLE_NAME_ENUM,
   WAREHOUSE_EXPORT_PROPOSAL_STATUS,
+  RECEIPT_MANAGEMENT_STATUS,
 } from '~/modules/wmsx/constants'
 import useReceiptManagement from '~/modules/wmsx/redux/hooks/useReceiptManagement'
 import { searchConstructionItemsApi } from '~/modules/wmsx/redux/sagas/construction-items-management/search-construction-items'
@@ -127,6 +128,7 @@ const displayFollowBusinessTypeManagement = (
             itemName: item?.item?.name,
             unit: item?.item?.itemUnit,
             importQuantity: item?.quantity,
+            quantityPaid: item?.quantityPaid,
             quantity: item?.quantity,
             money: item?.amount,
             debitAccount: item?.item?.itemWarehouseSources?.find(
@@ -148,6 +150,7 @@ const displayFollowBusinessTypeManagement = (
             unit: item?.item?.itemUnit,
             importQuantity: item?.quantity,
             quantity: item?.quantity,
+            quantityPaid: item?.quantityPaid,
             money: item?.amount,
             debitAcc: item?.item?.itemWarehouseSources?.find(
               (e) => e?.warehouseId === data?.warehouse?.id,
@@ -777,7 +780,10 @@ const displayFollowBusinessTypeManagement = (
                         keyword: s,
                         limit: ASYNC_SEARCH_LIMIT,
                         filter: convertFilterParams({
-                          status: ACTIVE_STATUS.INACTIVE,
+                          status: [
+                            ACTIVE_STATUS.INACTIVE,
+                            RECEIPT_MANAGEMENT_STATUS.IN_PROGRESS,
+                          ],
                           purchasedOrderImport: ACTIVE_STATUS.INACTIVE,
                         }),
                       })
