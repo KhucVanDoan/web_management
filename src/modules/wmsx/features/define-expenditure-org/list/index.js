@@ -214,7 +214,7 @@ function DefineExpenditureOrg() {
     return (
       <>
         <ImportExport
-          name={t('menu.importExportData')}
+          name={t('menu.defineExpenditureOrg')}
           loadingExport={setLoadingExport}
           onExport={() =>
             exportDefineExoenditureOrgApi({

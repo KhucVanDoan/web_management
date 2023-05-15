@@ -183,7 +183,9 @@ function WarehouseImportStorage() {
         return {
           id: Number(itemId.split('_').shift()),
           lotNumber: first(
-            itemByIds[itemId]?.map((lotNumber) => lotNumber?.lotNumber),
+            itemByIds[itemId]?.map(
+              (lotNumber) => lotNumber?.lotNumber?.lotNumber,
+            ),
           ),
           locations: itemByIds[itemId]?.map((locator) => ({
             locatorId: locator.locator?.locatorId,
