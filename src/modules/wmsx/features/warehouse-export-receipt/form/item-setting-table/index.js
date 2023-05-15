@@ -60,8 +60,12 @@ const ItemSettingTable = ({
       if (isEmpty(values[warehouseExprotProposal]) && isEmpty(itemList)) {
         const itemIds = []
         items?.forEach((item) => {
-          if (item?.itemId) {
-            const findItemId = itemIds?.find((e) => e === item?.itemId)
+          if (item?.itemId || item?.itemCode?.id || item?.itemCode?.itemId) {
+            const findItemId = itemIds?.find(
+              (e) =>
+                e ===
+                (item?.itemId || item?.itemCode?.itemId || item?.itemCode?.id),
+            )
             if (!findItemId) {
               itemIds.push(
                 item?.itemId || item?.itemCode?.id || item?.itemCode?.itemId,

@@ -362,6 +362,7 @@ function WarehouseExportProposal() {
     return (
       <>
         <ImportExport
+          name={t('menu.warehouseExportProposal')}
           {...(canAccess(
             FUNCTION_CODE.WAREHOUSE_EXPORT_WAREHOUSE_EXPORT_PROPOSAL,
           )
