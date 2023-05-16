@@ -3047,6 +3047,7 @@
     "warehouseImport": "Nhập kho",
     "storeNoLocatin": "Không cất hàng vào vị trí",
     "fileNameImport": "Import_Phiếu nhập_Result",
+    "returnMessage": "Không thể return phiếu nhập kho do tìm thấy receipt tương ứng trên WMS",
     "table": {
       "title": "Danh sách vật tư",
       "addButton": "Thêm vật tư",
@@ -3205,6 +3206,9 @@
     "contractNumber": "hợp đồng số:",
     "adjustDelivery": "Điều chỉnh giao nhận",
     "syncAdjustDelivery": "Đồng bộ điều chỉnh giao nhận",
+    "retrySyncEBSMessage": "Đồng bộ điều chỉnh giao nhận sang WSO2 không thành công, bạn có muốn thử lại không?",
+    "closed": "Đóng",
+    "retry": "Thử lại",
     "itemDetails": {
       "title": "Danh sách vật tư",
       "code": "Mã vật tư",

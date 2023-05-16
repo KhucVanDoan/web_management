@@ -2,12 +2,14 @@ import React, { useEffect, useMemo } from 'react'
 
 import { Box, Grid } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
 import {
   ASYNC_SEARCH_LIMIT,
   MODAL_MODE,
+  NOTIFICATION_TYPE,
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
@@ -31,6 +33,7 @@ import { searchReceiptDepartmentApi } from '~/modules/wmsx/redux/sagas/receipt-d
 import { searchSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-management/search'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
+import addNotification from '~/utils/toast'
 
 import ItemsSettingTable from './items-setting-table'
 import { formSchema } from './schema'
@@ -101,36 +104,46 @@ function WarehouseExportReturn() {
     )
   }
   const onSubmit = (values) => {
-    const params = {
-      purchasedOrderImportId: +id,
-      receiver: values?.deliver,
-      receiptDate: values?.receiptDate,
-      departmentReceiptId: values?.departmentReceipt?.id,
-      warehouseId: values?.warehouse?.id,
-      reasonId: values?.reason?.id,
-      businessTypeId: values?.businessType?.id,
-      explanation: values?.explanation,
-      items: values?.items?.map((item) => ({
-        id: +item?.itemCode?.itemId || +item?.itemCode?.id,
-        itemCode: item?.itemCode?.code,
-        lotNumber: item?.lotNumber || null,
-        quantity: +item?.returnQuantity,
-        price: item?.price,
-        debitAccount: item?.debitAccount || null,
-        creditAccount: item?.creditAccount,
-        warehouseId: values?.warehouse?.id,
-      })),
-    }
-    warehouseExportReceiptAction.createWarehouseExportReceiptReturn(
-      params,
-      (data) =>
-        history.push(
-          ROUTE.WAREHOUSE_EXPORT_RECEIPT.DETAIL_RETURN.PATH.replace(
-            ':id',
-            `${data?.id}`,
-          ),
-        ),
+    const checkQuantityReturn = values?.items?.filter(
+      (e) => e?.returnQuantity !== 0,
     )
+    if (!isEmpty(checkQuantityReturn)) {
+      const params = {
+        purchasedOrderImportId: +id,
+        receiver: values?.deliver,
+        receiptDate: values?.receiptDate,
+        departmentReceiptId: values?.departmentReceipt?.id,
+        warehouseId: values?.warehouse?.id,
+        reasonId: values?.reason?.id,
+        businessTypeId: values?.businessType?.id,
+        explanation: values?.explanation,
+        items: values?.items?.map((item) => ({
+          id: +item?.itemCode?.itemId || +item?.itemCode?.id,
+          itemCode: item?.itemCode?.code,
+          lotNumber: item?.lotNumber || null,
+          quantity: +item?.returnQuantity,
+          price: item?.price,
+          debitAccount: item?.debitAccount || null,
+          creditAccount: item?.creditAccount,
+          warehouseId: values?.warehouse?.id,
+        })),
+      }
+      warehouseExportReceiptAction.createWarehouseExportReceiptReturn(
+        params,
+        (data) =>
+          history.push(
+            ROUTE.WAREHOUSE_EXPORT_RECEIPT.DETAIL_RETURN.PATH.replace(
+              ':id',
+              `${data?.id}`,
+            ),
+          ),
+      )
+    } else {
+      addNotification(
+        t('receiptManagement.receiptMessageQuantityReturn'),
+        NOTIFICATION_TYPE.ERROR,
+      )
+    }
   }
 
   const initialValues = useMemo(

@@ -20,16 +20,13 @@ export const checkAdjustDeliverApi = (params) => {
 function* doAdjustDeliver(action) {
   try {
     const response = yield call(adjustDeliverApi, action?.payload)
-
     if (response?.statusCode === 200) {
-      yield put(adujustDeliverReceiptSuccess(response.data))
+      yield put(adujustDeliverReceiptSuccess(response))
 
       // Call callback action if provided
       if (action.onSuccess) {
-        yield action.onSuccess()
+        yield action.onSuccess(response)
       }
-
-      addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
     } else {
       addNotification(response?.message, NOTIFICATION_TYPE.ERROR)
       throw new Error(response?.message)

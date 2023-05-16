@@ -6,8 +6,10 @@ import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
 import { NOTIFICATION_TYPE } from '~/common/constants'
+import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
+import Guard from '~/components/Guard'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -78,19 +80,21 @@ const ReceiptManagementDetail = () => {
               RECEIPT_MANAGEMENT_STATUS.NOT_YET_STOCKED ||
               receiptDetail?.status ===
                 RECEIPT_MANAGEMENT_STATUS.IN_PROGRESS) && (
-              // <Guard code={FUNCTION_CODE.SALE_CONFIRM_PURCHASED_ORDER_IMPORT}>
-              <Button
-                sx={{
-                  ml: 4 / 3,
-                }}
-                onClick={() => handleClickAdjustDeliver()}
-              >
-                {t('receiptManagement.adjustDelivery')}
-              </Button>
-              // </Guard>
+              <Guard code={FUNCTION_CODE.DELIVERY_RETURN_RECEIPT_PERMISSION}>
+                <Button
+                  sx={{
+                    ml: 4 / 3,
+                  }}
+                  onClick={() => handleClickAdjustDeliver()}
+                >
+                  {t('receiptManagement.adjustDelivery')}
+                </Button>
+              </Guard>
             )}
-          {receiptDetail?.syncStatus ===
-            STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR && (
+          {(receiptDetail?.syncStatus ===
+            STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR ||
+            receiptDetail?.syncStatus ===
+              STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC) && (
             <Button
               sx={{
                 ml: 4 / 3,

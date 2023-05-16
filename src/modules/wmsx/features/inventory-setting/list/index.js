@@ -266,7 +266,7 @@ function InventorySetting() {
             : {})}
           onDownloadTemplate={getInventorySettingTemplateApi}
           onRefresh={refreshData}
-          disabled
+          // disabled
         />
         <Guard code={FUNCTION_CODE.ITEM_CREATE_INVENTORY_QUANTITY_NORM}>
           <Button

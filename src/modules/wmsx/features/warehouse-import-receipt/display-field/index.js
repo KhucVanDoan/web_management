@@ -127,9 +127,8 @@ const displayFollowBusinessTypeManagement = (
             },
             itemName: item?.item?.name,
             unit: item?.item?.itemUnit,
-            importQuantity: item?.quantity,
-            quantityPaid: item?.quantityPaid,
-            quantity: item?.quantity,
+            importQuantity: item?.payAbleQuantity,
+            quantity: item?.payAbleQuantity,
             money: item?.amount,
             debitAccount: item?.item?.itemWarehouseSources?.find(
               (e) => e?.warehouseId === data?.warehouse?.id,

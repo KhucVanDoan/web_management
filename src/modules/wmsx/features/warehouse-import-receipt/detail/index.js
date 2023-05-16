@@ -16,6 +16,7 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
 import {
+  CODE_BUSSINESS_TYPE,
   DATA_TYPE,
   STATUS_SYNC_ORDER_TO_EBS,
   SYNC_STATUS_CAN_UPDATE_HEADER_POI,
@@ -24,10 +25,15 @@ import {
   WAREHOUSE_IMPORT_RECEIPT_STATUS,
 } from '~/modules/wmsx/constants'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
+import { searchReceiptApi } from '~/modules/wmsx/redux/sagas/receipt-management/search-receipt'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { api } from '~/services/api'
 import theme from '~/themes'
-import { convertUtcDateTimeToLocalTz, convertUtcDateToLocalTz } from '~/utils'
+import {
+  convertFilterParams,
+  convertUtcDateTimeToLocalTz,
+  convertUtcDateToLocalTz,
+} from '~/utils'
 import { getFileNameFromHeader } from '~/utils/api'
 import { downloadFile } from '~/utils/file'
 import addNotification from '~/utils/toast'
@@ -203,17 +209,18 @@ function WarehouseImportReceiptDetail() {
         STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_SUCCESS,
       ]
       const isReturnWarehouseImport =
-        (warehouseImportReceiptDetails?.status ===
+        ((warehouseImportReceiptDetails?.status ===
           WAREHOUSE_IMPORT_RECEIPT_STATUS.COMPLETED &&
           !syncStatusNotReturm.includes(
             warehouseImportReceiptDetails?.syncStatus,
           )) ||
-        (warehouseImportReceiptDetails?.status ===
-          WAREHOUSE_IMPORT_RECEIPT_STATUS.RECEIVED &&
-          !syncStatusNotReturm.includes(
-            warehouseImportReceiptDetails?.syncStatus,
-          ))
-
+          (warehouseImportReceiptDetails?.status ===
+            WAREHOUSE_IMPORT_RECEIPT_STATUS.RECEIVED &&
+            !syncStatusNotReturm.includes(
+              warehouseImportReceiptDetails?.syncStatus,
+            ))) &&
+        warehouseImportReceiptDetails?.businessType?.code ===
+          CODE_BUSSINESS_TYPE.PORECEIPT
       return (
         <>
           {isRejected && (
@@ -284,14 +291,7 @@ function WarehouseImportReceiptDetail() {
           {isReturnWarehouseImport && (
             <Guard code={FUNCTION_CODE.SALE_SALE_ORDER_EXPORT_RETURN}>
               <Button
-                onClick={() =>
-                  history.push(
-                    ROUTE.WAREHOUSE_EXPORT_RECEIPT.CREATE_RETURN.PATH.replace(
-                      ':id',
-                      `${id}`,
-                    ),
-                  )
-                }
+                onClick={() => handleClickReturn()}
                 sx={{
                   ml: 4 / 3,
                 }}
@@ -491,7 +491,40 @@ function WarehouseImportReceiptDetail() {
       isOpenConfirmEBSModal: false,
     })
   }
-
+  const handleClickReturn = async () => {
+    const valuesReceipt = warehouseImportReceiptDetails?.attributes?.find(
+      (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT && item?.value,
+    )
+    if (isEmpty(valuesReceipt)) {
+      addNotification(
+        t('warehouseImportReceipt.returnMessage'),
+        NOTIFICATION_TYPE.ERROR,
+      )
+    } else {
+      const response = await searchReceiptApi({
+        filter: convertFilterParams({
+          equalCode: warehouseImportReceiptDetails?.receiptNumber,
+        }),
+      })
+      if (response?.statusCode === 200) {
+        if (!isEmpty(response)) {
+          history.push(
+            ROUTE.WAREHOUSE_EXPORT_RECEIPT.CREATE_RETURN.PATH.replace(
+              ':id',
+              `${id}`,
+            ),
+          )
+        } else {
+          addNotification(
+            t('warehouseImportReceipt.returnMessage'),
+            NOTIFICATION_TYPE.ERROR,
+          )
+        }
+      } else {
+        addNotification(response?.message, NOTIFICATION_TYPE.ERROR)
+      }
+    }
+  }
   const onSubmitCancelEBS = () => {
     actions.cancelWarehouseImportEBSById(
       warehouseImportReceiptDetails?.id,

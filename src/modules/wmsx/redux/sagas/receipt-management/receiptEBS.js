@@ -10,7 +10,7 @@ import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 const receiptEBSApi = (params) => {
-  const uri = `/v1/receipts/${params}/sync/to-ebs`
+  const uri = `/v1/receipts/sync/${params}/to-ebs`
   return api.post(uri)
 }
 
