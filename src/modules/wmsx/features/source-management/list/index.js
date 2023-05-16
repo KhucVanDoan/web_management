@@ -8,7 +8,6 @@ import { FUNCTION_CODE } from '~/common/constants/functionCode'
 // import { BULK_ACTION } from '~/common/constants'
 // import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
-import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
@@ -48,7 +47,6 @@ function SourceManagement() {
   const [selectedRows, setSelectedRows] = useState([])
   const [columnsSettings, setColumnsSettings] = useState([])
   const [loadingExport, setLoadingExport] = useState(false)
-  const { canAccess } = useApp()
   const DEFAULT_FILTERS = {
     code: '',
     name: '',
@@ -244,11 +242,7 @@ function SourceManagement() {
               sort: convertSortParams(sort),
             })
           }
-          {...(canAccess(FUNCTION_CODE.SALE_IMPORT_REASON)
-            ? {
-                onImport: (importFile) => importSourceManagementApi(importFile),
-              }
-            : {})}
+          onImport={(importFile) => importSourceManagementApi(importFile)}
           onDownloadTemplate={getSourceManagementTemplateApi}
           onRefresh={refreshData}
         />

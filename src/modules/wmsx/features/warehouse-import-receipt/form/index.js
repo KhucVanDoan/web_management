@@ -631,7 +631,7 @@ function WarehouseImportReceiptForm() {
         if (!isEmpty(receipt)) {
           const itemReceiptList = values?.items?.map((item) => ({
             ...item,
-            quantityPaid: item?.quantityPaid,
+            quantity: item?.payAbleQuantity,
             creditAccount: data?.accountant.replace(/^(\d*?[1-9])0+$/, '$1'),
           }))
           setFieldValue('items', itemReceiptList)

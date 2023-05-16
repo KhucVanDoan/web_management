@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 import { Box, Grid } from '@mui/material'
 import { Form, Formik } from 'formik'
@@ -8,6 +8,7 @@ import { useParams, useHistory } from 'react-router-dom'
 
 import { MODAL_MODE, NOTIFICATION_TYPE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
+import Dialog from '~/components/Dialog'
 import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -48,7 +49,7 @@ const AdjustDeliveryForm = () => {
     data: { isLoading, receiptDetail },
     actions,
   } = useReceiptManagement()
-
+  const [openModal, setOpenModal] = useState(false)
   useEffect(() => {
     actions.getReceiptDetailsById(id)
     return () => {
@@ -98,10 +99,14 @@ const AdjustDeliveryForm = () => {
           ],
         })),
       }
-      actions.adujustDeliverReceipt(params, () => {
-        history.push(
-          ROUTE.RECEIPT_MANAGEMENT.DETAIL.PATH.replace(':id', `${id}`),
-        )
+      actions.adujustDeliverReceipt(params, (data) => {
+        if (data?.statusCode === 200) {
+          history.push(
+            ROUTE.RECEIPT_MANAGEMENT.DETAIL.PATH.replace(':id', `${id}`),
+          )
+        } else {
+          setOpenModal(true)
+        }
       })
     } else {
       addNotification(
@@ -109,6 +114,17 @@ const AdjustDeliveryForm = () => {
         NOTIFICATION_TYPE.ERROR,
       )
     }
+  }
+  const handleclickretryEBS = () => {
+    actions.receiptEBSById(id, (data) => {
+      if (data?.statusCode === 200) {
+        history.push(
+          ROUTE.RECEIPT_MANAGEMENT.DETAIL.PATH.replace(':id', `${id}`),
+        )
+      } else {
+        setOpenModal(true)
+      }
+    })
   }
   const renderActionBar = (handleReset) => {
     return (
@@ -244,6 +260,25 @@ const AdjustDeliveryForm = () => {
                 <ItemSettingTableAdjustDelivery items={values?.items || []} />
               </Box>
               {renderActionBar()}
+              <Dialog
+                open={openModal}
+                title={t('receiptManagement.syncAdjustDelivery')}
+                onCancel={() => {
+                  setOpenModal(false)
+                  history.push(
+                    ROUTE.RECEIPT_MANAGEMENT.DETAIL.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    ),
+                  )
+                }}
+                cancelLabel={t('receiptManagement.closed')}
+                onSubmit={handleclickretryEBS}
+                submitLabel={t('receiptManagement.retry')}
+                noBorderBottom
+              >
+                {t('receiptManagement.retrySyncEBSMessage')}
+              </Dialog>
             </Form>
           )
         }}

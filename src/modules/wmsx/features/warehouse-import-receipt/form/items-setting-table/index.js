@@ -257,7 +257,7 @@ function ItemsSettingTable(props) {
             />
           ) : !isEmpty(values[receiptRequired]) ? (
             <NumberFormatText
-              value={params?.row?.quantityPaid}
+              value={params?.row?.quantity}
               formatter="quantity"
             />
           ) : (

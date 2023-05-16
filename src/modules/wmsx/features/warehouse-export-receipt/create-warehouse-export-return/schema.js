@@ -1,7 +1,5 @@
 import * as Yup from 'yup'
 
-import { NUMBER_FIELD_REQUIRED_SIZE } from '~/common/constants'
-
 export const formSchema = (t) =>
   Yup.object().shape({
     deliver: Yup.string().nullable().required(t('general:form.required')),
@@ -13,13 +11,7 @@ export const formSchema = (t) =>
           .nullable()
           .required(t('general:form.required'))
           .test('', '', (value, context) => {
-            if (value <= 0) {
-              return context.createError({
-                message: t('general:form.moreThanNumber', {
-                  min: NUMBER_FIELD_REQUIRED_SIZE.WATTAGE.MIN,
-                }),
-              })
-            } else if (+value > context?.parent?.returnExportedQuantity) {
+            if (+value > context?.parent?.returnExportedQuantity) {
               return context.createError({
                 message: t('general:form.returnQuantity', {
                   returnQuantity: context?.parent?.returnExportedQuantity,
