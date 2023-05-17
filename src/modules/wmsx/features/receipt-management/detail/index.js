@@ -80,7 +80,7 @@ const ReceiptManagementDetail = () => {
               RECEIPT_MANAGEMENT_STATUS.NOT_YET_STOCKED ||
               receiptDetail?.status ===
                 RECEIPT_MANAGEMENT_STATUS.IN_PROGRESS) && (
-              <Guard code={FUNCTION_CODE.DELIVERY_RETURN_RECEIPT_PERMISSION}>
+              <Guard code={FUNCTION_CODE.SALE_DELIVERY_RETURN_RECEIPT}>
                 <Button
                   sx={{
                     ml: 4 / 3,
