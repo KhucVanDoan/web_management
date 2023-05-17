@@ -449,7 +449,11 @@ function WarehouseImportReceiptForm() {
           requestedItemIdImportActual: item?.itemCode?.item?.code,
           lotNumber: item?.lotNumber || '',
           quantity: +item?.importQuantity || item?.quantity,
-          price: item?.price || (item?.money / item?.quantity).toFixed(2),
+          price:
+            item?.price ||
+            (item?.money / (+item?.importQuantity || +item?.quantity)).toFixed(
+              2,
+            ),
           amount: item?.money,
           debitAccount:
             item?.debitAccount?.replace(/^(\d*?[1-9])0+$/, '$1') || null,
@@ -503,7 +507,11 @@ function WarehouseImportReceiptForm() {
             lotNumber: item?.lotNumber || '',
             lotNumberOld: item?.lotNumberOld,
             quantity: +item?.importQuantity || item?.quantity,
-            price: item?.price || (item?.money / item?.quantity).toFixed(2),
+            price:
+              item?.price ||
+              (
+                item?.money / (+item?.importQuantity || +item?.quantity)
+              ).toFixed(2),
             amount: item?.money,
             debitAccount:
               item?.debitAccount?.replace(/^(\d*?[1-9])0+$/, '$1') || null,
@@ -631,7 +639,6 @@ function WarehouseImportReceiptForm() {
         if (!isEmpty(receipt)) {
           const itemReceiptList = values?.items?.map((item) => ({
             ...item,
-            quantity: item?.payAbleQuantity,
             creditAccount: data?.accountant.replace(/^(\d*?[1-9])0+$/, '$1'),
           }))
           setFieldValue('items', itemReceiptList)

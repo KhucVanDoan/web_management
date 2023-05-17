@@ -29,6 +29,9 @@ function* doAdjustDeliver(action) {
       }
     } else {
       addNotification(response?.message, NOTIFICATION_TYPE.ERROR)
+      if (action.onError) {
+        yield action.onError(response)
+      }
       throw new Error(response?.message)
     }
   } catch (error) {

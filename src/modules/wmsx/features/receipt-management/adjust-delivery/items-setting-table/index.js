@@ -106,7 +106,7 @@ const ItemSettingTableAdjustDelivery = ({ items }) => {
         return (
           <Field.TextField
             name={`items[${index}].returnQuantity`}
-            values={params.row?.quantity}
+            values={params.row?.payAbleQuantity}
             formatter="quantity"
           />
         )
