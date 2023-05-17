@@ -56,6 +56,7 @@ function ItemsSettingTable(props) {
     values?.businessTypeId?.bussinessTypeAttributes?.find(
       (item) => item?.tableName === 'warehouse_export_proposals',
     )?.id
+
   const handleChangeItem = (val, index) => {
     setFieldValue(
       `items[${index}].itemName`,
@@ -333,7 +334,10 @@ function ItemsSettingTable(props) {
             <NumberFormatText value={params?.row?.price} formatter="price" />
           ) : !isEmpty(values[receiptRequired]) ? (
             <NumberFormatText
-              value={Number(params?.row?.money / params?.row?.importQuantity)}
+              value={Number(
+                params?.row?.money /
+                  (params?.row?.importQuantity || params?.row?.quantity),
+              )}
               formatter="price"
             />
           ) : (

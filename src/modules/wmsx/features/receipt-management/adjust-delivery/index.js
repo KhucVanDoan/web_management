@@ -70,11 +70,11 @@ const AdjustDeliveryForm = () => {
         code: item?.item?.code,
         name: item?.item?.name,
         unit: item?.item?.itemUnit,
-        quantity: item?.quantity,
+        quantity: +item?.quantity,
         creditAccount: item?.creditAccount,
         debitAccount: item?.debitAccount,
-        returnQuantity: item?.payAbleQuantity,
-        payAbleQuantity: item?.payAbleQuantity,
+        returnQuantity: +item?.payAbleQuantity,
+        payAbleQuantity: +item?.payAbleQuantity,
       })),
     }
   }, [receiptDetail, id])
@@ -99,15 +99,23 @@ const AdjustDeliveryForm = () => {
           ],
         })),
       }
-      actions.adujustDeliverReceipt(params, (data) => {
-        if (data?.statusCode === 200) {
-          history.push(
-            ROUTE.RECEIPT_MANAGEMENT.DETAIL.PATH.replace(':id', `${id}`),
-          )
-        } else {
-          setOpenModal(true)
-        }
-      })
+      actions.adujustDeliverReceipt(
+        params,
+        (data) => {
+          if (data?.statusCode === 200) {
+            history.push(
+              ROUTE.RECEIPT_MANAGEMENT.DETAIL.PATH.replace(':id', `${id}`),
+            )
+          } else {
+            setOpenModal(true)
+          }
+        },
+        (data) => {
+          if (data?.statusCode === 500) {
+            setOpenModal(true)
+          }
+        },
+      )
     } else {
       addNotification(
         t('receiptManagement.receiptMessageQuantityReturn'),

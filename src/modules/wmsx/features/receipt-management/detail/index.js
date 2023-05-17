@@ -91,22 +91,22 @@ const ReceiptManagementDetail = () => {
                 </Button>
               </Guard>
             )}
-          {(receiptDetail?.syncStatus ===
-            STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR ||
-            receiptDetail?.syncStatus ===
-              STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC) && (
-            <Button
-              sx={{
-                ml: 4 / 3,
-              }}
-              onClick={() =>
-                actions.receiptEBSById(id, () => {
-                  actions.getReceiptDetailsById(id)
-                })
-              }
-            >
-              {t('receiptManagement.syncAdjustDelivery')}
-            </Button>
+          {receiptDetail?.syncStatus ===
+            STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR && (
+            <Guard code={FUNCTION_CODE.SALE_SYNC_DELIVERY_RETURN_RECEIPT_EBS}>
+              <Button
+                sx={{
+                  ml: 4 / 3,
+                }}
+                onClick={() =>
+                  actions.receiptEBSById(id, () => {
+                    actions.getReceiptDetailsById(id)
+                  })
+                }
+              >
+                {t('receiptManagement.syncAdjustDelivery')}
+              </Button>
+            </Guard>
           )}
         </>
       )
