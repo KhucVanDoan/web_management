@@ -139,7 +139,7 @@ const InventoryCalendarDetail = () => {
 
   const onSubmitDelete = () => {
     actions.deleteInventoryCalendar(inventoryCalendarDetails?.id, () => {
-      actions.getInventoryCalendarDetailsById(id)
+      history.push(ROUTE.INVENTORY_CALENDAR.LIST.PATH)
     })
     setIsOpenDeleteModal(false)
   }

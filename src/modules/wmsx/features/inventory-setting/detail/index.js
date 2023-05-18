@@ -152,7 +152,15 @@ function InventorySettingDetail() {
               />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV label={t('inventorySetting.reorderpoint')} value={''} />
+              <LV
+                label={t('inventorySetting.reorderpoint')}
+                value={
+                  <NumberFormatText
+                    value={inventorySettingDetail?.reorderPointSys}
+                    formatter="quantity"
+                  />
+                }
+              />
             </Grid>
           </Grid>
           <ActionBar onBack={backToList} />

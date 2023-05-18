@@ -13,18 +13,18 @@ import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
-import ImportExport from '~/components/ImportExport'
+// import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import StatusSwitcher from '~/components/StatusSwitcher'
 import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useDefineMaterialQuality from '~/modules/wmsx/redux/hooks/useDefineMaterialQuality'
-import {
-  exportDefineMaterialQualityApi,
-  getDefineMaterialQualityTemplateApi,
-  importDefineMaterialQualityApi,
-} from '~/modules/wmsx/redux/sagas/define-material-quality/import-export'
+// import {
+//   exportDefineMaterialQualityApi,
+//   getDefineMaterialQualityTemplateApi,
+//   importDefineMaterialQualityApi,
+// } from '~/modules/wmsx/redux/sagas/define-material-quality/import-export'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
@@ -76,9 +76,9 @@ function DefineMaterialQuality() {
     isOpenUpdateStatusModal: false,
   })
 
-  const [columnsSettings, setColumnsSettings] = useState([])
+  // const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
-  const [loadingExport, setLoadingExport] = useState(false)
+  // const [loadingExport, setLoadingExport] = useState(false)
   const columns = [
     {
       field: 'code',
@@ -217,7 +217,7 @@ function DefineMaterialQuality() {
   const renderHeaderRight = () => {
     return (
       <>
-        <ImportExport
+        {/* <ImportExport
           name={t('menu.defineMaterialQuality')}
           loadingExport={setLoadingExport}
           onImport={(importFile) => importDefineMaterialQualityApi(importFile)}
@@ -236,7 +236,7 @@ function DefineMaterialQuality() {
           }
           onDownloadTemplate={getDefineMaterialQualityTemplateApi}
           onRefresh={refreshData}
-        />
+        /> */}
         <Guard code={FUNCTION_CODE.ITEM_CREATE_ITEM_QUALITY}>
           <Button
             onClick={() =>
@@ -259,7 +259,7 @@ function DefineMaterialQuality() {
       onSearch={setKeyword}
       placeholder={t('defineMaterialQuality.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}
-      loading={isLoading || loadingExport}
+      loading={isLoading}
     >
       <DataTable
         title={t('defineMaterialQuality.list')}
@@ -270,7 +270,7 @@ function DefineMaterialQuality() {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
-        onSettingChange={setColumnsSettings}
+        // onSettingChange={setColumnsSettings}
         onSelectionChange={setSelectedRows}
         selected={selectedRows}
         total={total}

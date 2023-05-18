@@ -13,17 +13,17 @@ import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
-import ImportExport from '~/components/ImportExport'
+// import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import StatusSwitcher from '~/components/StatusSwitcher'
 import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useDefineExpenditureType from '~/modules/wmsx/redux/hooks/useDefineExpenditureType'
-import {
-  exportExpenditureTypeApi,
-  getExpenditureTypeTemplateApi,
-} from '~/modules/wmsx/redux/sagas/define-expenditure-type/import-export-expenditure-type'
+// import {
+//   exportExpenditureTypeApi,
+//   getExpenditureTypeTemplateApi,
+// } from '~/modules/wmsx/redux/sagas/define-expenditure-type/import-export-expenditure-type'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
@@ -75,9 +75,9 @@ function DefineExpenditureType() {
     isOpenUpdateStatusModal: false,
   })
 
-  const [columnsSettings, setColumnsSettings] = useState([])
+  // const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
-  const [loadingExport, setLoadingExport] = useState(false)
+  // const [loadingExport, setLoadingExport] = useState(false)
   const columns = [
     {
       field: 'code',
@@ -217,7 +217,7 @@ function DefineExpenditureType() {
   const renderHeaderRight = () => {
     return (
       <>
-        <ImportExport
+        {/* <ImportExport
           // onImport={(params) => importExpenditureTypeApi(params)}
           name={t('menu.defineExpenditureType')}
           loadingExport={setLoadingExport}
@@ -236,7 +236,7 @@ function DefineExpenditureType() {
           }
           onDownloadTemplate={getExpenditureTypeTemplateApi}
           onRefresh={refreshData}
-        />
+        /> */}
         <Guard code={FUNCTION_CODE.SALE_CREATE_COST_TYPE}>
           <Button
             onClick={() =>
@@ -259,7 +259,7 @@ function DefineExpenditureType() {
       onSearch={setKeyword}
       placeholder={t('defineExpenditureType.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}
-      loading={isLoading || loadingExport}
+      loading={isLoading}
     >
       <DataTable
         title={t('defineExpenditureType.list')}
@@ -270,7 +270,7 @@ function DefineExpenditureType() {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
-        onSettingChange={setColumnsSettings}
+        // onSettingChange={setColumnsSettings}
         onSelectionChange={setSelectedRows}
         selected={selectedRows}
         total={total}

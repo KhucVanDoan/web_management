@@ -13,14 +13,14 @@ import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
-import ImportExport from '~/components/ImportExport'
+// import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import StatusSwitcher from '~/components/StatusSwitcher'
 import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useDefineProducingCountry from '~/modules/wmsx/redux/hooks/useDefineProducingCountry'
-import { exportDefineProducingCountryApi } from '~/modules/wmsx/redux/sagas/define-producing-country/import-export'
+// import { exportDefineProducingCountryApi } from '~/modules/wmsx/redux/sagas/define-producing-country/import-export'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
@@ -72,9 +72,9 @@ function DefineProducingCountry() {
     isOpenUpdateStatusModal: false,
   })
 
-  const [columnsSettings, setColumnsSettings] = useState([])
+  // const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
-  const [loadingExport, setLoadingExport] = useState(false)
+  // const [loadingExport, setLoadingExport] = useState(false)
   const columns = [
     {
       field: 'code',
@@ -213,7 +213,7 @@ function DefineProducingCountry() {
   const renderHeaderRight = () => {
     return (
       <>
-        <ImportExport
+        {/* <ImportExport
           name={t('menu.defineProducingCountry')}
           loadingExport={setLoadingExport}
           // onImport={() => {}}
@@ -231,7 +231,7 @@ function DefineProducingCountry() {
             })
           }
           onRefresh={refreshData}
-        />
+        /> */}
         <Guard code={FUNCTION_CODE.ITEM_CREATE_MANUFACTURING_COUNTRY}>
           <Button
             onClick={() =>
@@ -254,7 +254,7 @@ function DefineProducingCountry() {
       onSearch={setKeyword}
       placeholder={t('defineProducingCountry.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}
-      loading={isLoading || loadingExport}
+      loading={isLoading}
     >
       <DataTable
         title={t('defineProducingCountry.list')}
@@ -265,7 +265,7 @@ function DefineProducingCountry() {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
-        onSettingChange={setColumnsSettings}
+        // onSettingChange={setColumnsSettings}
         onSelectionChange={setSelectedRows}
         selected={selectedRows}
         total={total}
