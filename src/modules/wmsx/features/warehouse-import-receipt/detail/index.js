@@ -449,7 +449,7 @@ function WarehouseImportReceiptDetail() {
     actions.deleteWarehouseImportReceipt(
       warehouseImportReceiptDetails?.id,
       () => {
-        actions.getWarehouseImportReceiptDetailsById(id)
+        history.push(ROUTE.WAREHOUSE_IMPORT_RECEIPT.LIST.PATH)
       },
     )
     setModal({ isOpenDeleteModal: false })

@@ -402,7 +402,7 @@ function WarehouseExportReceiptDetail() {
     actions.deleteWarehouseExportReceipt(
       warehouseExportReceiptDetails?.id,
       () => {
-        actions.getWarehouseExportReceiptDetailsById(id)
+        history.push(ROUTE.WAREHOUSE_EXPORT_RECEIPT.LIST.PATH)
       },
     )
     setModal({ isOpenDeleteModal: false })

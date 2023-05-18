@@ -28,7 +28,6 @@ import useDefineUom from '~/modules/wmsx/redux/hooks/useDefineUom'
 import {
   exportUomSettingApi,
   getUomSettingTemplateApi,
-  importUomSettingApi,
 } from '~/modules/wmsx/redux/sagas/define-uom/import-export-uom'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
@@ -227,7 +226,7 @@ function DefineUom() {
         <ImportExport
           name={t('menu.defineUom')}
           loadingExport={setLoadingExport}
-          onImport={(importFile) => importUomSettingApi(importFile)}
+          // onImport={(importFile) => importUomSettingApi(importFile)}
           onDownloadTemplate={getUomSettingTemplateApi}
           {...(canAccess(FUNCTION_CODE.ITEM_EXPORT_ITEM_UNIT)
             ? {

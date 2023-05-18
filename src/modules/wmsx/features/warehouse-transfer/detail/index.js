@@ -326,7 +326,7 @@ const WarehouseTransferDetail = () => {
 
   const onSubmitDelete = () => {
     actions.deleteWarehouseTransfer(warehouseTransferDetails?.id, () => {
-      actions.getWarehouseTransferDetailsById(id)
+      history.push(ROUTE.WAREHOUSE_TRANSFER.LIST.PATH)
     })
     setIsOpenDeleteModal(false)
   }
