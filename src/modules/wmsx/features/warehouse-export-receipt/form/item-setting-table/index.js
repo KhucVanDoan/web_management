@@ -265,6 +265,7 @@ const ItemSettingTable = ({
                 getListItemWarehouseStockApi({
                   keyword: s,
                   limit: ASYNC_SEARCH_LIMIT,
+                  getItemAvailable: ACTIVE_STATUS.ACTIVE,
                   filter: convertFilterParams({
                     warehouseId: values?.warehouseId?.id,
                     status: ACTIVE_STATUS.ACTIVE,

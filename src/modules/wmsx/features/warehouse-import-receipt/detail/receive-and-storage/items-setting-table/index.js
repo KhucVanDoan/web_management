@@ -132,9 +132,7 @@ function ItemsSettingTable(props) {
               name={`items[${index}].lotNumber`}
               options={lotNumberList}
               getOptionLabel={(opt) => opt.lotNumber}
-              isOptionEqualToValue={(opt, val) =>
-                opt?.lotNumber === val?.lotNumber
-              }
+              isOptionEqualToValue={(opt, val) => opt?.lotNumber === val}
               onChange={(val) => handleChangeLotNumber(val, index)}
               validate={(val) => {
                 if (!val) {

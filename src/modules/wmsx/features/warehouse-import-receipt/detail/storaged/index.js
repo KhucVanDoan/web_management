@@ -184,7 +184,8 @@ function WarehouseImportStorage() {
           id: Number(itemId.split('_').shift()),
           lotNumber: first(
             itemByIds[itemId]?.map(
-              (lotNumber) => lotNumber?.lotNumber?.lotNumber,
+              (lotNumber) =>
+                lotNumber?.lotNumber?.lotNumber || lotNumber?.lotNumber,
             ),
           ),
           locations: itemByIds[itemId]?.map((locator) => ({
@@ -267,6 +268,8 @@ function WarehouseImportStorage() {
               quantity: item?.quantity,
               ...item?.item,
             } || null,
+          lotNumber: item?.lotNumber || null,
+          lotNumberOld: item?.lotNumberOld,
           importQuantity: item?.quantity,
           receivedQuantity: item?.quantity,
           locator: val
@@ -297,6 +300,8 @@ function WarehouseImportStorage() {
                   quantity: item?.quantity,
                   ...item?.item,
                 } || null,
+              lotNumber: item?.lotNumber || null,
+              lotNumberOld: item?.lotNumberOld,
               importQuantity: item?.quantity,
               receivedQuantity: item?.quantity,
               locator: !isEmpty(
