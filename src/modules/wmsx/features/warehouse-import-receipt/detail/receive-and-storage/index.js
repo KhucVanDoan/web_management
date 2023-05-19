@@ -183,8 +183,12 @@ function WarehouseImportReceiveAndStorage() {
           id: Number(itemId.split('_').shift()),
           lotNumber: first(
             itemByIds[itemId]?.map(
-              (lotNumber) => lotNumber.lotNumber?.lotNumber,
+              (lotNumber) =>
+                lotNumber.lotNumber || lotNumber.lotNumber?.lotNumber,
             ),
+          ),
+          lotNumberOld: first(
+            itemByIds[itemId]?.map((lotNumber) => lotNumber.lotNumberOld),
           ),
           locations: itemByIds[itemId]?.map((locator) => ({
             locatorId: locator.locator?.locatorId,
