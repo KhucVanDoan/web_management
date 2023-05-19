@@ -209,13 +209,16 @@ const ItemSettingTable = ({ items, lots, arrayHelpers, setFieldValue }) => {
         align: 'right',
         headerAlign: 'left',
         renderCell: (params) => {
-          const findItem = itemList?.find(
-            (e) =>
-              e?.id === params?.row?.itemCode?.id &&
-              e?.lotNumber === params?.row?.lotNumber?.lotNumber,
-          )
+          // const findItem = itemList?.find(
+          //   (e) =>
+          //     e?.id === params?.row?.itemCode?.id &&
+          //     e?.lotNumber === params?.row?.lotNumber?.lotNumber,
+          // )
           return (
-            <NumberFormatText value={findItem?.quantity} formatter="quantity" />
+            <NumberFormatText
+              value={params?.row?.quantity}
+              formatter="quantity"
+            />
           )
         },
       },
