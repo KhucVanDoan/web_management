@@ -118,6 +118,7 @@ function WarehouseExportReturn() {
         businessTypeId: values?.businessType?.id,
         explanation: values?.explanation,
         items: values?.items?.map((item) => ({
+          baseDetailId: item.baseDetailId,
           id: +item?.itemCode?.itemId || +item?.itemCode?.id,
           itemCode: item?.itemCode?.code,
           lotNumber: item?.lotNumber || null,
@@ -165,6 +166,7 @@ function WarehouseExportReturn() {
       items:
         warehouseImportReceiptDetails?.purchasedOrderImportWarehouseLots?.map(
           (item, index) => ({
+            baseDetailId: item.id,
             id: `${item?.itemId}-${index}`,
             itemCode:
               {
