@@ -446,7 +446,7 @@ const Autocomplete = ({
             ...(multiple
               ? {
                   // async multiple
-                  value: value ?? [],
+                  value,
                   onChange: (_, newVal, reason) => {
                     onChange(newVal)
                     if (

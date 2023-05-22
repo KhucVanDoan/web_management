@@ -6,7 +6,11 @@ import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
-import { MODAL_MODE, NOTIFICATION_TYPE } from '~/common/constants'
+import {
+  MODAL_MODE,
+  NOTIFICATION_TYPE,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import Dialog from '~/components/Dialog'
 import { Field } from '~/components/Formik'
@@ -252,13 +256,10 @@ const AdjustDeliveryForm = () => {
                         name="description"
                         label={t('materialManagement.description')}
                         multiline
-                        rows={3}
-                        readOnly
-                        sx={{
-                          'label.MuiFormLabel-root': {
-                            color: (theme) => theme.palette.subText.main,
-                          },
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                         }}
+                        rows={3}
                       />
                     </Grid>
                   </Grid>

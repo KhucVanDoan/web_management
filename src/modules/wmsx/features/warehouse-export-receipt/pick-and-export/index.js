@@ -79,6 +79,7 @@ function WarehouseExportReceiptPickAndExport() {
             requestedQuantityWarehouseExportProposal:
               item?.requestedQuantityWarehouseExportProposal,
             exportedQuantity: item?.quantity,
+            orderDetailId: item?.id,
             itemCode:
               {
                 id: item?.itemId,
@@ -172,9 +173,9 @@ function WarehouseExportReceiptPickAndExport() {
           locatorId: +item.locator?.locatorId,
           lotNumber: item.lotNumber?.lotNumber,
           quantity: Number(item.exportedQuantity),
+          orderDetailId: +item?.orderDetailId,
         })),
       }
-
       actions.exportWarehouse(payload, () => {
         actions.approveWarehouse(id, () => {
           backToDetail()
