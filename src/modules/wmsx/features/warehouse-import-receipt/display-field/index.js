@@ -129,7 +129,10 @@ const displayFollowBusinessTypeManagement = (
             unit: item?.item?.itemUnit,
             importQuantity: item?.payAbleQuantity,
             quantity: item?.payAbleQuantity,
-            money: item?.amount,
+            money:
+              item?.payAbleQuantity < item?.quantity
+                ? item?.payAbleQuantity * item?.price
+                : item?.amount,
             debitAccount: item?.item?.itemWarehouseSources?.find(
               (e) => e?.warehouseId === data?.warehouse?.id,
             )?.accounting,
