@@ -5,6 +5,7 @@ import {
   UPDATE_QR_CODE_FAILED,
   UPDATE_QR_CODE_START,
   UPDATE_QR_CODE_SUCCESS,
+  RESET_QR_CODE_DETAILS_FAILED,
 } from '~/modules/wmsx/redux/actions/qr-code'
 
 const initialState = {
@@ -43,6 +44,11 @@ export default function qrCode(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
+      }
+    case RESET_QR_CODE_DETAILS_FAILED:
+      return {
+        ...state,
+        qrCodeDetails: {},
       }
     default:
       return state

@@ -32,7 +32,6 @@ const QrCode = () => {
     data: { isLoading, qrCodeDetails },
     actions,
   } = useQrCode()
-
   const initialValues = {
     dataId: qrCodeDetails?.version?.id || '00',
     dataLength: qrCodeDetails?.version?.length || '02',
@@ -55,6 +54,7 @@ const QrCode = () => {
 
   useEffect(() => {
     actions.getQrCodeDetails()
+    return () => actions.resetQrCode()
   }, [])
 
   const onSubmit = (values) => {

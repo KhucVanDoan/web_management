@@ -6,6 +6,7 @@ export const GET_QR_CODE_DETAILS_START = 'WMSX_GET_QR_CODE_DETAILS_START'
 export const GET_QR_CODE_DETAILS_SUCCESS = 'WMSX_GET_QR_CODE_DETAILS_SUCCESS'
 export const GET_QR_CODE_DETAILS_FAILED = 'WMSX_GET_QR_CODE_DETAILS_FAILED'
 
+export const RESET_QR_CODE_DETAILS_FAILED = 'WMSX_RESET_QR_CODE_DETAILS_FAILED'
 export function updateQrCode(payload, onSuccess, onError) {
   return {
     type: UPDATE_QR_CODE_START,
@@ -49,6 +50,11 @@ export function getQrCodeDetailsFailed() {
     type: GET_QR_CODE_DETAILS_FAILED,
   }
 }
+export function resetQrCode() {
+  return {
+    type: RESET_QR_CODE_DETAILS_FAILED,
+  }
+}
 
 export default {
   updateQrCode,
@@ -57,4 +63,5 @@ export default {
   getQrCodeDetails,
   getQrCodeDetailsSuccess,
   getQrCodeDetailsFailed,
+  resetQrCode,
 }

@@ -546,8 +546,7 @@ export default function* sagas() {
     //signature configuration
     watchGetSignatureConfigurationList(),
     watchUpdateSignatureConfiguration(),
-    //QR-code
-    watchGetQrCodeDetails(),
+
     watchUpdateQrCode(),
     //warehouse-export-receipt
     watchSearchWarehouseExportReceipt(),
