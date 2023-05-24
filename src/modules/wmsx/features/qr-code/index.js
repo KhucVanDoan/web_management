@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 
 import { Grid, Typography } from '@mui/material'
 import { Form, Formik } from 'formik'
@@ -32,25 +32,42 @@ const QrCode = () => {
     data: { isLoading, qrCodeDetails },
     actions,
   } = useQrCode()
-  const initialValues = {
-    dataId: qrCodeDetails?.version?.id || '00',
-    dataLength: qrCodeDetails?.version?.length || '02',
-    dataValue: qrCodeDetails?.version?.value || '',
-    methodId: qrCodeDetails?.initializationMethod?.id?.id || '01',
-    methodLength: qrCodeDetails?.initializationMethod?.id?.length || '18',
-    subId1: qrCodeDetails?.initializationMethod?.subId1?.id || '01',
-    length1: qrCodeDetails?.initializationMethod?.subId1?.length || '02',
-    value1: qrCodeDetails?.initializationMethod?.subId1?.value || '',
-    subId2: qrCodeDetails?.initializationMethod?.subId2?.id || '02',
-    length2: qrCodeDetails?.initializationMethod?.subId2?.length || '02',
-    value2: qrCodeDetails?.initializationMethod?.subId2?.value || '',
-    subId3: qrCodeDetails?.initializationMethod?.subId3?.id || '03',
-    length3: qrCodeDetails?.initializationMethod?.subId3?.length || '02',
-    value3: qrCodeDetails?.initializationMethod?.subId3?.value || '',
-    idenId: qrCodeDetails?.uniqueId?.id || '03',
-    idenLength: qrCodeDetails?.uniqueId?.length || '01',
-    idenValue: qrCodeDetails?.uniqueId?.value || '',
+  const convertData = (val) => {
+    if (+val < 10 && val.toString().length < 2) {
+      return `0${val}`
+    } else {
+      return val
+    }
   }
+  const initialValues = useMemo(
+    () => ({
+      dataId: qrCodeDetails?.version?.id || '00',
+      dataLength: convertData(qrCodeDetails?.version?.length) || '02',
+      dataValue: qrCodeDetails?.version?.value || '',
+      methodId: qrCodeDetails?.initializationMethod?.id?.id || '01',
+      methodLength:
+        convertData(qrCodeDetails?.initializationMethod?.id?.length) || '18',
+      subId1: qrCodeDetails?.initializationMethod?.subId1?.id || '01',
+      length1:
+        convertData(qrCodeDetails?.initializationMethod?.subId1?.length) ||
+        '02',
+      value1: qrCodeDetails?.initializationMethod?.subId1?.value || '',
+      subId2: qrCodeDetails?.initializationMethod?.subId2?.id || '02',
+      length2:
+        convertData(qrCodeDetails?.initializationMethod?.subId2?.length) ||
+        '02',
+      value2: qrCodeDetails?.initializationMethod?.subId2?.value || '',
+      subId3: qrCodeDetails?.initializationMethod?.subId3?.id || '03',
+      length3:
+        convertData(qrCodeDetails?.initializationMethod?.subId3?.length) ||
+        '02',
+      value3: qrCodeDetails?.initializationMethod?.subId3?.value || '',
+      idenId: qrCodeDetails?.uniqueId?.id || '03',
+      idenLength: convertData(qrCodeDetails?.uniqueId?.length) || '01',
+      idenValue: qrCodeDetails?.uniqueId?.value || '',
+    }),
+    [qrCodeDetails],
+  )
 
   useEffect(() => {
     actions.getQrCodeDetails()
