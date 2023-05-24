@@ -190,6 +190,7 @@ function WarehouseImportReceiveAndStorage() {
           lotNumberOld: first(
             itemByIds[itemId]?.map((lotNumber) => lotNumber.lotNumberOld),
           ),
+          orderDetailId: first(itemByIds[itemId])?.orderDetailId,
           locations: itemByIds[itemId]?.map((locator) => ({
             locatorId: locator.locator?.locatorId,
             quantity: locator.receivedQuantity,
@@ -226,6 +227,7 @@ function WarehouseImportReceiveAndStorage() {
                   quantity: item?.quantity,
                   ...item?.item,
                 } || null,
+              orderDetailId: item?.id,
               lotNumber: item?.lotNumber,
               lotNumberOld: item?.lotNumberOld,
               importQuantity: item?.quantity,
@@ -270,6 +272,7 @@ function WarehouseImportReceiveAndStorage() {
               quantity: item?.quantity,
               ...item?.item,
             } || null,
+          orderDetailId: item?.id,
           lotNumber: item?.lotNumber,
           lotNumberOld: item?.lotNumberOld,
           importQuantity: item?.quantity,
@@ -302,6 +305,7 @@ function WarehouseImportReceiveAndStorage() {
                   quantity: item?.quantity,
                   ...item?.item,
                 } || null,
+              orderDetailId: item?.id,
               lotNumber: item?.lotNumber,
               lotNumberOld: item?.lotNumberOld,
               importQuantity: item?.quantity,
