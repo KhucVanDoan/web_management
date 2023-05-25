@@ -16,6 +16,8 @@ import Status from '~/components/Status'
 import {
   RECEIPT_MANAGEMENT_STATUS,
   RECEIPT_MANAGEMENT_STATUS_OPTIONS,
+  STATUS_SYNC_RECEIPT_TO_EBS,
+  STATUS_SYNC_RECEIPT_TO_EBS_OPTIONS,
 } from '~/modules/wmsx/constants'
 import useReceiptManagement from '~/modules/wmsx/redux/hooks/useReceiptManagement'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -38,6 +40,7 @@ function ReceiptManagement() {
   const { t } = useTranslation('wmsx')
   const history = useHistory()
   const [openModal, setOpenModal] = useState(false)
+  const [openModalSync, setOpenModalSync] = useState(false)
   const [tempItem, setTempItem] = useState(null)
   const {
     data: { receiptList, total, isLoading },
@@ -104,6 +107,17 @@ function ReceiptManagement() {
       headerName: t('receiptManagement.contractNo'),
       width: 120,
     },
+
+    {
+      field: 'createdAt',
+      headerName: t('receiptManagement.createdAt'),
+      filterFormat: 'date',
+      width: 120,
+      renderCell: (params) => {
+        const createdAt = params.row.createdAt
+        return convertUtcDateToLocalTz(createdAt)
+      },
+    },
     {
       field: 'status',
       headerName: t('general.status'),
@@ -121,16 +135,21 @@ function ReceiptManagement() {
       },
     },
     {
-      field: 'createdAt',
-      headerName: t('receiptManagement.createdAt'),
-      filterFormat: 'date',
+      field: 'syncStatus',
+      headerName: t('receiptManagement.adjustDelivery'),
       width: 120,
+      sortable: false,
       renderCell: (params) => {
-        const createdAt = params.row.createdAt
-        return convertUtcDateToLocalTz(createdAt)
+        const syncStatus = Number(params?.row.syncStatus)
+        return (
+          <Status
+            options={STATUS_SYNC_RECEIPT_TO_EBS_OPTIONS}
+            value={syncStatus}
+            variant="text"
+          />
+        )
       },
     },
-
     {
       field: 'action',
       headerName: t('movements.action'),
@@ -141,8 +160,11 @@ function ReceiptManagement() {
       sticky: 'right',
       resizable: false,
       renderCell: (params) => {
-        const { id, status } = params.row
+        const { id, status, syncStatus } = params.row
         const isCanceled = status === RECEIPT_MANAGEMENT_STATUS.NOT_YET_STOCKED
+        const isRetrySync =
+          syncStatus === STATUS_SYNC_RECEIPT_TO_EBS.SYNC_WSO2_ERROR ||
+          syncStatus === STATUS_SYNC_RECEIPT_TO_EBS.SYNC_TO_EBS_ERROR
         return (
           <div>
             <Guard code={FUNCTION_CODE.SALE_DETAIL_RECEIPT}>
@@ -168,6 +190,18 @@ function ReceiptManagement() {
                   }}
                 >
                   <Icon name="remove" />
+                </IconButton>
+              </Guard>
+            )}
+            {isRetrySync && (
+              <Guard code={FUNCTION_CODE.SALE_SYNC_DELIVERY_RETURN_RECEIPT_EBS}>
+                <IconButton
+                  onClick={() => {
+                    setOpenModalSync(true)
+                    setTempItem(params?.row)
+                  }}
+                >
+                  <Icon name="retrySyncReceipt" />
                 </IconButton>
               </Guard>
             )}
@@ -199,6 +233,13 @@ function ReceiptManagement() {
     })
     setTempItem(null)
     setOpenModal(false)
+  }
+  const onSubmitRetrySync = () => {
+    actions.receiptEBSById(tempItem?.id, () => {
+      refreshData()
+    })
+    setTempItem(null)
+    setOpenModalSync(false)
   }
   useEffect(() => {
     refreshData()
@@ -261,6 +302,17 @@ function ReceiptManagement() {
             <Typography sx={{ ml: 0.3 }}> ?</Typography>
           </>
         </Typography>
+      </Dialog>
+      <Dialog
+        open={openModalSync}
+        title={t('receiptManagement.confirmSyncTitle')}
+        onCancel={() => setOpenModalSync(false)}
+        cancelLabel={t('general:common.no')}
+        onSubmit={onSubmitRetrySync}
+        submitLabel={t('general:common.yes')}
+        noBorderBottom
+      >
+        {t('receiptManagement.confirmSyncMessage')}
       </Dialog>
     </Page>
   )

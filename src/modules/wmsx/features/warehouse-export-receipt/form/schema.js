@@ -24,6 +24,26 @@ export const formSchema = (t, isEdit) =>
               .nullable()
               .required(t('general:form.required'))
               .test('', '', (value, context) => {
+                const totalQuantityExport = context?.from[1]?.value?.items
+                  .filter(
+                    (item) =>
+                      (item.itemCode?.itemId || item.itemCode?.id) ===
+                        (context?.parent?.itemCode?.itemId ||
+                          context?.parent?.itemCode?.id) &&
+                      item?.lotNumber === context?.parent?.lotNumber &&
+                      item?.id !== context?.parent?.row?.id,
+                  )
+                  .reduce((prev, cur) => prev + Number(cur.quantityExport), 0)
+                if (
+                  totalQuantityExport &&
+                  totalQuantityExport !== context?.parent?.planExportedQuantity
+                ) {
+                  return context.createError({
+                    message: t('general:form.totalQuantityExport', {
+                      exportQuantity: context?.parent?.planExportedQuantity,
+                    }),
+                  })
+                }
                 if (value <= 0) {
                   return context.createError({
                     message: t('general:form.moreThanNumber', {

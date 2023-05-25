@@ -69,6 +69,7 @@ const AdjustDeliveryForm = () => {
         receiptDetail?.receiptDate,
       )}]`,
       reason: null,
+      isReturned: false,
       items: receiptDetail?.items?.map((item) => ({
         ...item,
         code: item?.item?.code,
@@ -91,6 +92,7 @@ const AdjustDeliveryForm = () => {
         id: +id,
         explainationReturn: values?.description,
         reasonId: +values?.reason?.id,
+        isReturned: values?.isReturned,
         items: values?.items?.map((item) => ({
           receiptDetailId: +item?.id,
           itemId: item?.itemId,
@@ -160,7 +162,7 @@ const AdjustDeliveryForm = () => {
         onSubmit={onSubmit}
         validationSchema={formSchema(t)}
       >
-        {({ values }) => {
+        {({ values, setFieldValue }) => {
           return (
             <Form>
               <Grid container justifyContent="center">
@@ -266,7 +268,11 @@ const AdjustDeliveryForm = () => {
                 </Grid>
               </Grid>
               <Box sx={{ mt: 3 }}>
-                <ItemSettingTableAdjustDelivery items={values?.items || []} />
+                <ItemSettingTableAdjustDelivery
+                  items={values?.items || []}
+                  values={values}
+                  setFieldValue={setFieldValue}
+                />
               </Box>
               {renderActionBar()}
               <Dialog
