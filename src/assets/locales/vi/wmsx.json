@@ -3189,6 +3189,7 @@
     "createdAt": "Ngày tạo",
     "notYetStocked": "Chưa nhập kho",
     "stocked": "Đã nhập kho",
+    "returnAllItem": "Return toàn bộ vật tư",
     "canceled": "Đã hủy",
     "inProgress": "Đang nhâp kho",
     "return": "Đã trả hàng",
@@ -3210,6 +3211,8 @@
     "retrySyncEBSMessage": "Đồng bộ điều chỉnh giao nhận sang WSO2 không thành công, bạn có muốn thử lại không?",
     "closed": "Đóng",
     "retry": "Thử lại",
+    "confirmSyncTitle": "Xác nhận đồng bộ",
+    "confirmSyncMessage": "Bạn có chắc chắn muốn xác nhận đồng bộ không?",
     "itemDetails": {
       "title": "Danh sách vật tư",
       "code": "Mã vật tư",
@@ -3226,6 +3229,12 @@
       "paidQuantity": "Số lượng đã trả",
       "returnQuantity": "SL trả",
       "remainReturnQuantity": "SL có thể trả"
+    },
+    "statusSync": {
+      "pending": "chờ BOT xử lý",
+      "errorERP": "Lỗi nhập kho ERP",
+      "errorSWO2": "Lỗi đồng bộ SWO2",
+      "completed": "Hoàn thành"
     }
   },
   "reportExport": {

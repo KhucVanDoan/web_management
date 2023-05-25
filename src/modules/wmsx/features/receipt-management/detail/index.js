@@ -76,10 +76,8 @@ const ReceiptManagementDetail = () => {
         <>
           {receiptDetail?.syncStatus !==
             STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR &&
-            (receiptDetail?.status ===
-              RECEIPT_MANAGEMENT_STATUS.NOT_YET_STOCKED ||
-              receiptDetail?.status ===
-                RECEIPT_MANAGEMENT_STATUS.IN_PROGRESS) && (
+            receiptDetail?.status ===
+              RECEIPT_MANAGEMENT_STATUS.NOT_YET_STOCKED && (
               <Guard code={FUNCTION_CODE.SALE_DELIVERY_RETURN_RECEIPT}>
                 <Button
                   sx={{

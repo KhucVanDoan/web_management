@@ -37,6 +37,7 @@ import { ReactComponent as Print } from '~/assets/images/icons/print.svg'
 import { ReactComponent as QRWhite } from '~/assets/images/icons/qr-white.svg'
 import { ReactComponent as QR } from '~/assets/images/icons/qr.svg'
 import { ReactComponent as Remove } from '~/assets/images/icons/remove.svg'
+import { ReactComponent as RetrySyncReceipt } from '~/assets/images/icons/retrySyncReceipt.svg'
 import { ReactComponent as Rhombus } from '~/assets/images/icons/rhombus.svg'
 import { ReactComponent as Save } from '~/assets/images/icons/save.svg'
 import { ReactComponent as Search } from '~/assets/images/icons/search.svg'
@@ -115,6 +116,7 @@ const icons = {
   print: <Print />,
   cancelSync: <CancelSync />,
   undo: <Undo />,
+  retrySyncReceipt: <RetrySyncReceipt />,
   // menu
   drawer: <Drawer />,
   home: <Home />,

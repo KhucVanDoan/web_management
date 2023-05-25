@@ -423,10 +423,7 @@ const ItemSettingTable = ({
           ) : (
             <Field.Autocomplete
               name={`items[${index}].lotNumber`}
-              options={lotNumberFreeItem?.filter(
-                (lot) =>
-                  !lotsSelected.includes(lot.lotNumber) && lot?.lotNumber,
-              )}
+              options={lotNumberFreeItem}
               getOptionLabel={(opt) => opt.lotNumber}
               getOptionValue={(option) => option?.lotNumber}
               isOptionEqualToValue={(opt, val) => opt?.lotNumber === val}

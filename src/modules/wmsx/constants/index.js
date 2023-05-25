@@ -1926,7 +1926,37 @@ export const RECEIPT_MANAGEMENT_STATUS_OPTIONS = [
     color: 'inProgress',
   },
 ]
-
+export const STATUS_SYNC_RECEIPT_TO_EBS = {
+  OUT_OF_SYNC: 0,
+  SYNC_WSO2_ERROR: 1, //Lỗi bắn file qua wso2
+  SYNC_WSO2_SUCCESS: 2, // Chờ BOT xử lý
+  COMPLETED: 3, // Hoàn thành
+  CANCEL: 4, //Huỷ
+  DEACTIVE: 5,
+  SYNC_TO_EBS_ERROR: 6, //Lỗi đồng bộ ebs
+}
+export const STATUS_SYNC_RECEIPT_TO_EBS_OPTIONS = [
+  {
+    id: 2,
+    text: 'receiptManagement.statusSync.pending',
+    color: 'pending',
+  },
+  {
+    id: 6,
+    text: 'receiptManagement.statusSync.errorERP',
+    color: 'rejected',
+  },
+  {
+    id: 1,
+    text: 'receiptManagement.statusSync.errorSWO2',
+    color: 'rejected',
+  },
+  {
+    id: 3,
+    text: 'receiptManagement.statusSync.completed',
+    color: 'completed',
+  },
+]
 export const WAREHOUSE_LAYOUTS = {
   ASSEMBLY: 0,
   SHELF: 1,

@@ -3187,6 +3187,7 @@
     "receiptCode": "Mã phiếu giao/nhận",
     "contractNo": "Số hợp đồng",
     "createdAt": "Ngày tạo",
+    "returnAllItem": "Return toàn bộ vật tư",
     "notYetStocked": "Chưa nhập kho",
     "stocked": "Đã nhập kho",
     "canceled": "Đã hủy",
@@ -3209,6 +3210,8 @@
     "retrySyncEBSMessage": "Đồng bộ điều chỉnh giao nhận sang WSO2 không thành công, bạn có muốn thử lại không?",
     "closed": "Đóng",
     "retry": "Thử lại",
+    "confirmSyncTitle": "Xác nhận đồng bộ",
+    "confirmSyncMessage": "Bạn có chắc chắn muốn xác nhận đồng bộ không?",
     "itemDetails": {
       "title": "Danh sách vật tư",
       "code": "Mã vật tư",
