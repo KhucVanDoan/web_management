@@ -188,9 +188,14 @@ function WarehouseImportReceiveAndStorage() {
             ),
           ),
           lotNumberOld: first(
-            itemByIds[itemId]?.map((lotNumber) => lotNumber.lotNumberOld),
+            itemByIds[itemId]?.map(
+              (lotNumber) =>
+                lotNumber.lotNumberOld || lotNumber?.itemCode?.lotNumberOld,
+            ),
           ),
-          orderDetailId: first(itemByIds[itemId])?.orderDetailId,
+          orderDetailId:
+            first(itemByIds[itemId])?.orderDetailId ||
+            first(itemByIds[itemId])?.itemCode?.orderDetailId,
           locations: itemByIds[itemId]?.map((locator) => ({
             locatorId: locator.locator?.locatorId,
             quantity: locator.receivedQuantity,
