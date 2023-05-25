@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom'
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import { useQueryState } from '~/common/hooks'
+import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
@@ -29,6 +30,7 @@ import { checkToEbsPurchasedOrderImportApi } from '~/modules/wmsx/redux/sagas/wa
 import {
   exportWarehouseExportReceiptApi,
   getWarehouseExportReceiptTemplateApi,
+  importWarehouseExportReceiptApi,
   // importWarehouseExportReceiptApi,
 } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/import-export'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -90,7 +92,7 @@ function WarehouseExportReceipt() {
     isOpenCancelSyncEMSModal: false,
     isOpenWarningConfirmEBSModal: false,
   })
-
+  const { canAccess } = useApp()
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
   const [loadingExport, setLoadingExport] = useState(false)
@@ -473,20 +475,15 @@ function WarehouseExportReceipt() {
               sort: convertSortParams(sort),
             })
           }
-          // onImport={() =>
-          //   importWarehouseExportReceiptApi({
-          //     columnSettings: JSON.stringify(columnsSettings),
-          //     queryIds: JSON.stringify(
-          //       selectedRows?.map((x) => ({ id: `${x?.id}` })),
-          //     ),
-          //     keyword: keyword.trim(),
-          //     filter: convertFilterParams(filters, [
-          //       { field: 'createdAt', filterFormat: 'date' },
-          //     ]),
-          //     sort: convertSortParams(sort),
-          //   })
-          // }
-          onDownloadTemplate={getWarehouseExportReceiptTemplateApi}
+          {...(canAccess(
+            FUNCTION_CODE.WAREHOUSE_IMPORT_WAREHOUSE_EXPORT_PROPOSAL,
+          )
+            ? {
+                onImport: (importFile) =>
+                  importWarehouseExportReceiptApi(importFile),
+                onDownloadTemplate: getWarehouseExportReceiptTemplateApi,
+              }
+            : {})}
           onRefresh={refreshData}
         />
         <Guard code={FUNCTION_CODE.SALE_CREATE_SALE_ORDER_EXPORT}>

@@ -32,6 +32,7 @@ function ItemsSettingTable(props) {
           lotNumber: item?.lotNumber,
           lotNumberOld: item?.lotNumberOld,
           itemId: item?.itemId,
+          orderDetailId: item?.id,
         })
       }
     },

@@ -32,6 +32,7 @@ function ItemsSettingTable(props) {
           lotNumber: item?.lotNumber,
           lotNumberOld: item?.lotNumberOld,
           itemId: item?.itemId,
+          orderDetailId: item?.id,
         })
       }
     },
@@ -242,6 +243,7 @@ function ItemsSettingTable(props) {
               })
               scrollToBottom()
             }}
+            disabled={values?.storedNoLocation}
           >
             {t('warehouseImportReceipt.table.addButton')}
           </Button>

@@ -122,12 +122,6 @@ const displayFollowBusinessTypeManagement = (
       const items = []
       warehouseExportProposalDetail?.data?.items?.forEach((item) => {
         item?.childrens?.forEach((chil) => {
-          // const findItem = items?.find(
-          //   (w) =>
-          //     w?.itemId === chil?.itemId &&
-          //     w?.warehouseExport?.id === chil?.warehouseExport?.id,
-          // )
-          // if (isEmpty(findItem)) {
           items.push({
             item: {
               itemId: chil?.itemId,
@@ -146,19 +140,9 @@ const displayFollowBusinessTypeManagement = (
             requestedQuantity: chil?.requestedQuantity,
             lotNumber: chil?.lotNumber,
           })
-          // }
         })
       })
       setItemWarehouseExportProposal(items)
-      // if (!isEmpty(values?.warehouseId)) {
-      //   setFieldValue('items', DEFAULT_ITEMS)
-      //   const params = {
-      //     id: val?.id,
-      //     warehouseId: values?.warehouseId?.id,
-      //   }
-      //   const res = await getWarehouseExportProposalItems(params)
-      //   setItemWarehouseExport(res?.data)
-      // }
       const warehouseExportProposal = val?.code
       const warehouseExportReceipt =
         values[

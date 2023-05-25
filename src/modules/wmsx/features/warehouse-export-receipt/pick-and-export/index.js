@@ -173,7 +173,7 @@ function WarehouseExportReceiptPickAndExport() {
           locatorId: +item.locator?.locatorId,
           lotNumber: item.lotNumber?.lotNumber,
           quantity: Number(item.exportedQuantity),
-          orderDetailId: +item?.orderDetailId,
+          orderDetailId: +item?.orderDetailId || item?.itemCode?.orderDetailId,
         })),
       }
       actions.exportWarehouse(payload, () => {

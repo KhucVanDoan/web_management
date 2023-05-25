@@ -466,15 +466,13 @@ function WarehouseImportReceipt() {
         <ImportExport
           name={t('menu.warehouseImportReceipt')}
           loadingExport={setLoadingExport}
-          {...(canAccess(
-            FUNCTION_CODE.WAREHOUSE_IMPORT_WAREHOUSE_EXPORT_PROPOSAL,
-          )
+          {...(canAccess(FUNCTION_CODE.SALE_SALE_ORDER_EXPORT_IMPORT)
             ? {
                 onImport: (importFile) =>
                   importWarehouseImportReceiptApi(importFile),
+                onDownloadTemplate: getWarehouseImportReceiptTemplateApi,
               }
             : {})}
-          onDownloadTemplate={getWarehouseImportReceiptTemplateApi}
           onRefresh={refreshData}
           onExport={() =>
             exportWarehouseImportReceiptApi({

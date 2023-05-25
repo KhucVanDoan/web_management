@@ -188,26 +188,14 @@ const ItemSettingTable = ({
           //     item?.itemCode?.itemId ||
           //     item?.itemCode?.id,
           // )
-          const itemLists = []
-          itemWarehouseExportProposal
-            ?.filter(
-              (item) => item?.warehouseExport?.id === values?.warehouseId?.id,
-            )
-            ?.forEach((item) => {
-              const findItem = itemLists?.find(
-                (e) => e?.itemId === item?.itemId,
-              )
-              if (isEmpty(findItem)) {
-                itemLists.push({ ...item })
-              }
-            })
+
           return isView ? (
             params?.row?.suplliesCode
           ) : !isEmpty(values[warehouseExprotProposal]) ? (
             <Field.Autocomplete
               name={`items[${index}].itemCode`}
               placeholder={t('warehouseExportReceipt.items.suppliesCode')}
-              options={itemLists}
+              options={itemWarehouseExportProposal}
               getOptionLabel={(opt) => opt?.item?.code}
               getOptionSubLabel={(opt) => opt?.item?.name}
               onChange={(val) => handleChangeItem(val, index)}

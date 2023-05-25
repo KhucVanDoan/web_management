@@ -7,7 +7,7 @@ import { api } from '~/services/api'
  * @returns {Promise}
  */
 export const importWarehouseExportReceiptApi = (params) => {
-  const uri = `____ENTER_IMPORT_EXPORT_URL_HERE____`
+  const uri = `/v1/sales/sale-order-exports/import`
   const formData = new FormData()
   formData.append('file', params)
   return api.postMultiplePart(uri, formData)

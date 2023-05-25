@@ -36,6 +36,7 @@ const ItemSettingTable = ({ items, lots, arrayHelpers, setFieldValue }) => {
         planQuantity: itemStockAvailabe?.find(
           (e) => e?.itemId === item?.itemId && e?.lotNumber === item?.lotNumber,
         )?.quantity,
+        orderDetailId: item?.id,
       }),
     )
   // useEffect(() => {
@@ -216,7 +217,7 @@ const ItemSettingTable = ({ items, lots, arrayHelpers, setFieldValue }) => {
           // )
           return (
             <NumberFormatText
-              value={params?.row?.quantity}
+              value={params?.row?.quantity || params?.row?.itemCode?.quantity}
               formatter="quantity"
             />
           )
