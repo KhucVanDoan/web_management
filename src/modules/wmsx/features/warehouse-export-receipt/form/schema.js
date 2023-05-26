@@ -36,7 +36,7 @@ export const formSchema = (t, isEdit) =>
                   .reduce((prev, cur) => prev + Number(cur.quantityExport), 0)
                 if (
                   totalQuantityExport &&
-                  totalQuantityExport !== context?.parent?.planExportedQuantity
+                  totalQuantityExport > context?.parent?.planExportedQuantity
                 ) {
                   return context.createError({
                     message: t('general:form.totalQuantityExport', {
