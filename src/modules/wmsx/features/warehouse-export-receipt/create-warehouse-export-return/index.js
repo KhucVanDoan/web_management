@@ -262,7 +262,10 @@ function WarehouseExportReturn() {
                         name="receiptDate"
                         label={t('warehouseExportReceipt.receiptDate')}
                         placeholder={t('warehouseExportReceipt.receiptDate')}
-                        minDate={new Date()}
+                        minDate={
+                          new Date(warehouseImportReceiptDetails?.receiptDate)
+                        }
+                        maxDate={new Date()}
                         required
                       />
                     </Grid>

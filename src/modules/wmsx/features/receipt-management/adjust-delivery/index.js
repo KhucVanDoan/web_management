@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 
 import { Box, Grid } from '@mui/material'
-import { Form, Formik } from 'formik'
+import { FieldArray, Form, Formik } from 'formik'
 import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
@@ -268,10 +268,16 @@ const AdjustDeliveryForm = () => {
                 </Grid>
               </Grid>
               <Box sx={{ mt: 3 }}>
-                <ItemSettingTableAdjustDelivery
-                  items={values?.items || []}
-                  values={values}
-                  setFieldValue={setFieldValue}
+                <FieldArray
+                  name="items"
+                  render={(arrayHelpers) => (
+                    <ItemSettingTableAdjustDelivery
+                      items={values?.items || []}
+                      values={values}
+                      setFieldValue={setFieldValue}
+                      arrayHelpers={arrayHelpers}
+                    />
+                  )}
                 />
               </Box>
               {renderActionBar()}
