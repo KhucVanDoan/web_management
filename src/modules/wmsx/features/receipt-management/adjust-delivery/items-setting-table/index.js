@@ -1,15 +1,21 @@
 import React, { useMemo } from 'react'
 
-import { Typography } from '@mui/material'
+import { IconButton, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
+import Icon from '~/components/Icon'
 import useReceiptManagement from '~/modules/wmsx/redux/hooks/useReceiptManagement'
 
-const ItemSettingTableAdjustDelivery = ({ items, values, setFieldValue }) => {
+const ItemSettingTableAdjustDelivery = ({
+  items,
+  values,
+  setFieldValue,
+  arrayHelpers,
+}) => {
   const { t } = useTranslation(['wmsx'])
   const {
     data: { receiptDetail },
@@ -22,6 +28,20 @@ const ItemSettingTableAdjustDelivery = ({ items, values, setFieldValue }) => {
         width: 50,
         renderCell: (_, index) => {
           return index + 1
+        },
+      },
+      {
+        field: 'action',
+        headerName: '',
+        width: 50,
+        hide: values?.isReturned,
+        align: 'center',
+        renderCell: (params, idx) => {
+          return (
+            <IconButton onClick={() => arrayHelpers.remove(idx)} size="large">
+              <Icon name="remove" />
+            </IconButton>
+          )
         },
       },
       {

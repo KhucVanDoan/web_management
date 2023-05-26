@@ -62,7 +62,7 @@ import ItemSettingTable from './item-setting-table'
 import { formSchema } from './schema'
 const DEFAULT_ITEMS = [
   {
-    id: '',
+    id: new Date().getTime(),
     itemCode: '',
     itemName: '',
     unit: '',
@@ -210,6 +210,8 @@ function WarehouseExportReceiptForm() {
               ...item?.item,
               itemId: item?.itemId || item?.id,
               id: item?.itemId || item?.id,
+              warehouseExportProposalChildId:
+                +item?.warehouseExportProposalChildId,
               item: { ...item?.item },
               requestedQuantity:
                 warehouseExportReceiptDetails?.attributes?.find(
@@ -394,7 +396,7 @@ function WarehouseExportReceiptForm() {
               },
               itemUnit: chil?.itemResponse?.itemUnit,
               itemId: chil?.itemId,
-              warehouseExportProposalChildId: chil?.id,
+              warehouseExportProposalChildId: +chil?.id,
               code: chil?.itemResponse?.code || chil?.itemCode,
               name: chil?.itemResponse?.name || chil?.itemName,
               warehouseExport: chil?.warehouseExport,
@@ -466,7 +468,7 @@ function WarehouseExportReceiptForm() {
           items: JSON.stringify(
             values?.items?.map((item) => ({
               warehouseExportProposalChildId:
-                item?.itemCode?.warehouseExportProposalChildId,
+                +item?.itemCode?.warehouseExportProposalChildId,
               id: +item?.itemCode?.itemId || +item?.itemCode?.id,
               itemCode: item?.itemCode?.item?.code || item?.itemCode?.code,
               lotNumber: item?.lotNumber || null,
@@ -530,7 +532,7 @@ function WarehouseExportReceiptForm() {
           items: JSON.stringify(
             values?.items?.map((item) => ({
               warehouseExportProposalChildId:
-                item?.itemCode?.warehouseExportProposalChildId || null,
+                +item?.itemCode?.warehouseExportProposalChildId || null,
               id: +item?.itemCode?.itemId || +item?.itemCode?.id,
               itemCode: item?.itemCode?.item?.code || item?.itemCode?.code,
               lotNumber: item?.lotNumber || null,
