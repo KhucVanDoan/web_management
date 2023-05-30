@@ -127,7 +127,7 @@ function SourceManagement() {
       headerName: t('general:common.action'),
       visible: 'always',
       sticky: 'right',
-      resizable: false,
+
       width: 180,
       align: 'center',
       renderCell: (params) => {

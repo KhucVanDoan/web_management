@@ -190,7 +190,7 @@ const LocklocationTable = (props) => {
         width: 50,
         hide: isView,
         sticky: 'right',
-        resizable: false,
+
         renderCell: (params, idx) => {
           return isView ? null : (
             <IconButton

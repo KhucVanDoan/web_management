@@ -65,6 +65,37 @@ export const TableProvider = ({ children, ...props }) => {
     )
   }, [])
 
+  const sortColumns = useCallback((cols = []) => {
+    return cols.reduce((acc, cur) => {
+      if (cur?.sticky === 'left') {
+        const lastStickyLeftIndex = acc.findLastIndex(
+          (item) => item?.sticky === 'left',
+        )
+        if (lastStickyLeftIndex === -1) return [cur, ...acc]
+        return [
+          ...acc.slice(0, lastStickyLeftIndex + 1),
+          cur,
+          ...acc.slice(lastStickyLeftIndex + 1),
+        ]
+      }
+
+      if (cur?.sticky === 'right') {
+        return [...acc, cur]
+      }
+
+      const firstStickyRightIndex = acc.findIndex(
+        (item) => item?.sticky === 'right',
+      )
+
+      if (firstStickyRightIndex === -1) return [...acc, cur]
+      return [
+        ...acc.slice(0, firstStickyRightIndex),
+        cur,
+        ...acc.slice(firstStickyRightIndex),
+      ]
+    }, [])
+  }, [])
+
   const visibleColumnKeys = useMemo(() => {
     const keys = setting?.reduce((acc, cur) => {
       if (isVisible(cur, true)) return [...acc, cur.field]
@@ -74,15 +105,34 @@ export const TableProvider = ({ children, ...props }) => {
     return keys
   }, [setting, isVisible])
 
-  const visibleColumns = useMemo(
-    () =>
-      hideSetting
-        ? columns.filter((col) => isVisible(col))
-        : columns.filter(
-            (col) => isVisible(col) && visibleColumnKeys.includes(col.field),
-          ),
-    [hideSetting, columns, visibleColumnKeys, isVisible],
-  )
+  const visibleColumns = useMemo(() => {
+    let cols = []
+
+    if (hideSetting) {
+      cols = columns.filter((col) => isVisible(col))
+    } else {
+      cols = columns.reduce((acc, cur) => {
+        if (isVisible(cur) && visibleColumnKeys.includes(cur.field)) {
+          const colSetting = setting?.find((s) => s?.field === cur?.field)
+
+          return [
+            ...acc,
+            {
+              ...cur,
+              sticky: colSetting?.sticky,
+              width: colSetting?.width,
+              minWidth: colSetting?.minWidth,
+              aliasName: colSetting?.aliasName,
+            },
+          ]
+        }
+
+        return acc
+      }, [])
+    }
+
+    return sortColumns(cols)
+  }, [hideSetting, columns, visibleColumnKeys, setting, isVisible])
 
   const isTableResizable = useMemo(
     () =>

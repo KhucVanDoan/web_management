@@ -43,8 +43,6 @@ const DataTable = () => {
     checkboxSelection,
     reorderable,
     isVisible,
-    hideSetting,
-    setting,
   } = useTable()
 
   /**
@@ -195,64 +193,34 @@ const DataTable = () => {
                         width,
                         minWidth,
                         cellStyle = {},
+                        sticky,
                       } = column
                       const cellValue = renderCell
                         ? renderCell({ row }, index)
                         : row[field]
 
-                      let colWidth = 0
-                      let colMinWidth = 0
-                      let colSticky = ''
+                      let colWidth = width || minWidth
+                      let colMinWidth =
+                        minWidth || width || DEFAULT_MIN_COLUMN_WIDTH
                       let colStickyLeft =
                         (reorderable ? 50 : 0) + (checkboxSelection ? 50 : 0)
                       let colStickyRight = 0
 
-                      if (hideSetting && !isTableResizable) {
-                        colWidth = width || minWidth
-                        colMinWidth =
-                          minWidth || width || DEFAULT_MIN_COLUMN_WIDTH
-                        colSticky = column.sticky
-                        colStickyLeft = 0
-                        colStickyRight = 0
+                      for (let c of visibleColumns || []) {
+                        if (c?.field === field) break
 
-                        for (let c of visibleColumns || []) {
-                          if (c?.field === field) break
-
-                          if (c?.sticky === 'left' && isVisible(c)) {
-                            colStickyLeft += c?.width || 0
-                          }
+                        if (c?.sticky === 'left' && isVisible(c)) {
+                          colStickyLeft +=
+                            c?.width || c?.minWidth || DEFAULT_MIN_COLUMN_WIDTH
                         }
+                      }
 
-                        for (let c of [...(setting || [])].reverse()) {
-                          if (c?.field === field) break
+                      for (let c of [...(visibleColumns || [])].reverse()) {
+                        if (c?.field === field) break
 
-                          if (c?.sticky === 'right' && isVisible(c)) {
-                            colStickyRight += c?.width || 0
-                          }
-                        }
-                      } else {
-                        const colSetting = setting?.find(
-                          (s) => s.field === field,
-                        )
-
-                        colWidth = colSetting?.width
-                        colMinWidth = colSetting?.minWidth
-                        colSticky = colSetting?.sticky
-
-                        for (let c of setting || []) {
-                          if (c?.field === field) break
-
-                          if (c?.sticky === 'left' && isVisible(c, true)) {
-                            colStickyLeft += c?.width || 0
-                          }
-                        }
-
-                        for (let c of [...(setting || [])].reverse()) {
-                          if (c?.field === field) break
-
-                          if (c?.sticky === 'right' && isVisible(c, true)) {
-                            colStickyRight += c?.width || 0
-                          }
+                        if (c?.sticky === 'right' && isVisible(c)) {
+                          colStickyRight +=
+                            c?.width || c?.minWidth || DEFAULT_MIN_COLUMN_WIDTH
                         }
                       }
 
@@ -266,8 +234,8 @@ const DataTable = () => {
                             [classes[`tableCellAlign${align}`]]: align,
 
                             [classes.firstStickyRight]:
-                              colSticky === 'right' &&
-                              setting?.find((s) => s?.sticky === 'right')
+                              sticky === 'right' &&
+                              visibleColumns?.find((s) => s?.sticky === 'right')
                                 ?.field === field,
                           })}
                           key={`data-table-${field}-${i}`}
@@ -276,11 +244,11 @@ const DataTable = () => {
                             width: colWidth,
                             minWidth: colMinWidth,
                             verticalAlign: 'middle',
-                            ...(colSticky
+                            ...(sticky
                               ? {
                                   position: 'sticky',
-                                  [colSticky]:
-                                    colSticky === 'left'
+                                  [sticky]:
+                                    sticky === 'left'
                                       ? colStickyLeft
                                       : colStickyRight,
                                   zIndex: 10,

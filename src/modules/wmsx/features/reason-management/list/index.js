@@ -116,7 +116,7 @@ function ReasonManagement() {
       align: 'center',
       sticky: 'right',
       visible: 'always',
-      resizable: false,
+
       renderCell: (params) => {
         const { row } = params
         const { id, status } = row

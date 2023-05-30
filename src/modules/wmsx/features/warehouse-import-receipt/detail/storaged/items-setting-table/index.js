@@ -208,7 +208,7 @@ function ItemsSettingTable(props) {
         headerName: '',
         width: 50,
         sticky: 'right',
-        resizable: false,
+
         renderCell: (_, idx) => {
           return (
             <IconButton onClick={() => arrayHelpers.remove(idx)} size="large">

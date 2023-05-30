@@ -158,7 +158,7 @@ function PurchasedOrder() {
       align: 'center',
       visible: 'always',
       sticky: 'right',
-      resizable: false,
+
       renderCell: (params) => {
         const { status, id } = params.row
         const isConfirmed = status === PURCHASED_ORDER_STATUS.PENDING

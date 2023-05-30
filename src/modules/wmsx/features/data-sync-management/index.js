@@ -153,7 +153,7 @@ const DataSyncManagement = () => {
       width: 150,
       visible: 'always',
       sticky: 'right',
-      resizable: false,
+
       renderCell: (params) => {
         const { status } = params?.row
         const isDisplay =

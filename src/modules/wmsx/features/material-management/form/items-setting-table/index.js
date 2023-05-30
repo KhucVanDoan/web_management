@@ -121,7 +121,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
         hide: isView,
         visible: 'always',
         sticky: 'right',
-        resizable: false,
+
         renderCell: (params) => {
           const idx = items.findIndex((item) => item.id === params.row.id)
           return (

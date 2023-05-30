@@ -160,7 +160,7 @@ const SubGroupTable = ({
         align: 'center',
         hide: isView,
         sticky: 'right',
-        resizable: false,
+
         renderCell: (params, index) => {
           return (
             <IconButton

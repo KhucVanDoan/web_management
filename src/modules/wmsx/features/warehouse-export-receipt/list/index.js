@@ -223,7 +223,7 @@ function WarehouseExportReceipt() {
       align: 'center',
       visible: 'always',
       sticky: 'right',
-      resizable: false,
+
       renderCell: (params) => {
         const { id, status, warehouseId, syncStatus } = params?.row
         const isEdit =

@@ -158,7 +158,7 @@ function ReceiptManagement() {
       align: 'center',
       visible: 'always',
       sticky: 'right',
-      resizable: false,
+
       renderCell: (params) => {
         const { id, status, syncStatus } = params.row
         const isCanceled = status === RECEIPT_MANAGEMENT_STATUS.NOT_YET_STOCKED

@@ -137,7 +137,7 @@ const InventoryAdjust = () => {
         align: 'center',
         visible: 'always',
         sticky: 'right',
-        resizable: false,
+
         renderCell: (params) => {
           const { id, status } = params?.row
           const canConfirm = status === INVENTORY_ADJUST_STATUS.PENDING

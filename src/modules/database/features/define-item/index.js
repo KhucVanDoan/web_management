@@ -243,7 +243,7 @@ function DefineItem() {
       align: 'center',
       visible: 'always',
       sticky: 'right',
-      resizable: false,
+
       renderCell: (params) => {
         const { id, isHasBom } = params?.row
         return (

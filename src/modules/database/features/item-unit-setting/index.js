@@ -131,7 +131,7 @@ function ItemUnitSetting() {
       align: 'center',
       visible: 'always',
       sticky: 'right',
-      resizable: false,
+
       renderCell: (params) => {
         const { row } = params
         const { id } = row
