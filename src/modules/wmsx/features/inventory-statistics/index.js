@@ -167,7 +167,7 @@ function InventoryStatistics() {
       align: 'center',
       visible: 'always',
       sticky: 'right',
-      resizable: false,
+
       renderCell: (params) => {
         return (
           <IconButton onClick={() => onClickUpdate(params.row)}>

@@ -157,7 +157,7 @@ function SaleOrder() {
       align: 'center',
       visible: 'always',
       sticky: 'right',
-      resizable: false,
+
       renderCell: (params) => {
         const { status, id } = params.row
         const isConfirmed = status === ORDER_STATUS.PENDING

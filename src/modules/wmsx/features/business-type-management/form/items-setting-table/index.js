@@ -77,7 +77,7 @@ const ItemSettingTable = ({ items, arrayHelpers, mode }) => {
         align: 'center',
         visible: 'always',
         sticky: 'right',
-        resizable: false,
+
         renderCell: (params) => {
           const idx = items.findIndex((item) => item.id === params.row.id)
           return (

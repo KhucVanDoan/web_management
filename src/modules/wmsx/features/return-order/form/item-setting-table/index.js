@@ -418,7 +418,7 @@ function ItemSettingTable(props) {
       width: 50,
       visible: 'always',
       sticky: 'right',
-      resizable: false,
+
       renderCell: (params) => {
         const idx = items.findIndex((item) => item.id === params.row.id)
         return isView ? null : (

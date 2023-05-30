@@ -44,7 +44,6 @@ const TableHead = ({ onSortChange: _onSortChange }) => {
     updateSetting,
     isVisible,
     visibleColumnKeys,
-    hideSetting,
   } = useTable()
 
   const { order, orderBy } = sort || {}
@@ -62,10 +61,8 @@ const TableHead = ({ onSortChange: _onSortChange }) => {
   const isResizing = useRef('')
 
   const autoAdjustWidth = () => {
-    const actualWidth = setting.reduce((acc, cur) => {
-      if (isVisible(cur, true)) return acc + cur.width
-
-      return acc
+    const actualWidth = visibleColumns.reduce((acc, cur) => {
+      return acc + cur.width
     }, 0)
 
     const containerWidth = containerRef?.current?.clientWidth || 0
@@ -76,8 +73,7 @@ const TableHead = ({ onSortChange: _onSortChange }) => {
     if (shortageWidth === 0) return
     if (shortageWidth > 0) {
       const qty =
-        setting.filter((c) => c.resizable !== false && isVisible(c, true))
-          ?.length || 1
+        visibleColumns.filter((c) => c.resizable !== false)?.length || 1
       const growWidth = Math.floor(shortageWidth / qty)
 
       setting.forEach((col) => {
@@ -338,62 +334,33 @@ const TableHead = ({ onSortChange: _onSortChange }) => {
               minWidth,
               sortable,
               resizable,
+              sticky,
+              aliasName,
             } = column
             const sorted = isSorted(field)
 
-            let colWidth = 0
-            let colMinWidth = 0
-            let colHeaderName = ''
-            let colSticky = ''
+            let colWidth = width || minWidth
+            let colMinWidth = minWidth || width || DEFAULT_MIN_COLUMN_WIDTH
+            let colHeaderName = aliasName || headerName
             let colStickyLeft =
               (reorderable ? 50 : 0) + (checkboxSelection ? 50 : 0)
             let colStickyRight = 0
 
-            if (hideSetting && !isTableResizable) {
-              colWidth = width || minWidth
-              colMinWidth = minWidth || width || DEFAULT_MIN_COLUMN_WIDTH
-              colHeaderName = headerName
-              colSticky = column.sticky
-              colStickyLeft = 0
-              colStickyRight = 0
+            for (let c of visibleColumns || []) {
+              if (c?.field === field) break
 
-              for (let c of visibleColumns || []) {
-                if (c?.field === field) break
-
-                if (c?.sticky === 'left' && isVisible(c)) {
-                  colStickyLeft += c?.width || 0
-                }
+              if (c?.sticky === 'left' && isVisible(c)) {
+                colStickyLeft +=
+                  c?.width || c?.minWidth || DEFAULT_MIN_COLUMN_WIDTH
               }
+            }
 
-              for (let c of [...(setting || [])].reverse()) {
-                if (c?.field === field) break
+            for (let c of [...(visibleColumns || [])].reverse()) {
+              if (c?.field === field) break
 
-                if (c?.sticky === 'right' && isVisible(c)) {
-                  colStickyRight += c?.width || 0
-                }
-              }
-            } else {
-              const colSetting = setting?.find((s) => s.field === field)
-
-              colWidth = colSetting?.width
-              colMinWidth = colSetting?.minWidth
-              colHeaderName = colSetting?.aliasName || headerName
-              colSticky = colSetting?.sticky
-
-              for (let c of setting || []) {
-                if (c?.field === field) break
-
-                if (c?.sticky === 'left' && isVisible(c, true)) {
-                  colStickyLeft += c?.width || 0
-                }
-              }
-
-              for (let c of [...(setting || [])].reverse()) {
-                if (c?.field === field) break
-
-                if (c?.sticky === 'right' && isVisible(c, true)) {
-                  colStickyRight += c?.width || 0
-                }
+              if (c?.sticky === 'right' && isVisible(c)) {
+                colStickyRight +=
+                  c?.width || c?.minWidth || DEFAULT_MIN_COLUMN_WIDTH
               }
             }
 
@@ -429,20 +396,20 @@ const TableHead = ({ onSortChange: _onSortChange }) => {
                   [classes[`headerCellAlign${headerAlign || align}`]]:
                     headerAlign || align,
                   [classes.firstStickyRight]:
-                    colSticky === 'right' &&
-                    setting?.find((s) => s?.sticky === 'right')?.field ===
-                      field,
+                    sticky === 'right' &&
+                    visibleColumns?.find((item) => item?.sticky === 'right')
+                      ?.field === field,
                 })}
                 sx={{
                   width: colWidth,
                   minWidth: colMinWidth,
                   top: (DEFAULT_TR_HEIGHT + 1) * trIndex,
                   zIndex: trIndex === 0 ? 20 : 19,
-                  ...(colSticky
+                  ...(sticky
                     ? {
                         position: 'sticky',
-                        [colSticky]:
-                          colSticky === 'left' ? colStickyLeft : colStickyRight,
+                        [sticky]:
+                          sticky === 'left' ? colStickyLeft : colStickyRight,
                         zIndex: 30,
                       }
                     : {}),

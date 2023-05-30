@@ -32,15 +32,15 @@ const DialogContent = () => {
   )
 
   const tableColumns = [
-    {
-      field: 'id',
-      headerName: '#',
-      width: 50,
-      sticky: 'left',
-      renderCell: (_, index) => {
-        return index + 1
-      },
-    },
+    // {
+    //   field: 'id',
+    //   headerName: '#',
+    //   width: 50,
+    //   sticky: 'left',
+    //   renderCell: (_, index) => {
+    //     return index + 1
+    //   },
+    // },
     {
       field: 'name',
       headerName: t('dataTable.tableSetting.name'),

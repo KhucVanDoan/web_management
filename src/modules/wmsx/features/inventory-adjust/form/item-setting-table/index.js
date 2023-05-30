@@ -511,7 +511,7 @@ const ItemSettingTable = ({
         align: 'center',
         visible: 'always',
         sticky: 'right',
-        resizable: false,
+
         renderCell: (params, idx) => {
           return (
             <IconButton

@@ -162,7 +162,7 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
         align: 'center',
         visible: 'always',
         sticky: 'right',
-        resizable: false,
+
         renderCell: (params) => {
           const { id, movementType, orderType } = params.row
           return (

@@ -159,7 +159,7 @@ const ItemSettingTable = ({ itemOption, arrayHelpers, mode }) => {
         width: 100,
         align: 'center',
         sticky: 'right',
-        resizable: false,
+
         renderCell: (params, idx) => {
           return (
             <IconButton

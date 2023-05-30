@@ -153,7 +153,7 @@ function MaterialManagement() {
       align: 'center',
       visible: 'always',
       sticky: 'right',
-      resizable: false,
+
       renderCell: (params) => {
         const { id, status } = params?.row
         const isLocked = status === MATERIAL_ACTIVE_STATUS.ACTIVE
