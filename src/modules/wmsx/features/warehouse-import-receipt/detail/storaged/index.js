@@ -74,6 +74,7 @@ function WarehouseImportStorage() {
       warehouseImportReceiptDetails,
       isLoading,
       attributesBusinessTypeDetails,
+      suggestLocatorsList,
     },
     actions,
   } = useWarehouseImportReceipt()
@@ -83,21 +84,33 @@ function WarehouseImportStorage() {
     data: { itemByLocationIdList, locationList },
   } = useLocationManagement()
   useEffect(() => {
-    getLocation.getItemByLocationId({
-      warehouseId: warehouseImportReceiptDetails?.warehouse?.id,
-      itemIds: warehouseImportReceiptDetails?.purchasedOrderImportWarehouseLots
-        ?.map((item) => item?.itemId)
-        ?.join(','),
-    })
-    getLocation.searchLocations({
-      limit: ASYNC_SEARCH_LIMIT,
-      filter: convertFilterParams({
+    if (!isEmpty(warehouseImportReceiptDetails)) {
+      getLocation.getItemByLocationId({
         warehouseId: warehouseImportReceiptDetails?.warehouse?.id,
-        status: ACTIVE_STATUS.ACTIVE,
-        type: [0, 1],
-      }),
-    })
-  }, [warehouseImportReceiptDetails])
+        itemIds:
+          warehouseImportReceiptDetails?.purchasedOrderImportWarehouseLots
+            ?.map((item) => item?.itemId)
+            ?.join(','),
+      })
+      const payload =
+        warehouseImportReceiptDetails?.purchasedOrderImportWarehouseLots?.map(
+          (item) => ({
+            itemId: item?.itemId,
+            lotNumber: item?.lotNumber,
+            warehouseId: warehouseImportReceiptDetails?.warehouse?.id,
+          }),
+        )
+      actions.suggestLocators(payload)
+      getLocation.searchLocations({
+        limit: ASYNC_SEARCH_LIMIT,
+        filter: convertFilterParams({
+          warehouseId: warehouseImportReceiptDetails?.warehouse?.id,
+          status: ACTIVE_STATUS.ACTIVE,
+          type: [0, 1],
+        }),
+      })
+    }
+  }, [id])
   useEffect(() => {
     actions.getWarehouseImportReceiptDetailsById(id, (data) => {
       const attributes = data?.attributes?.filter((e) => e?.tableName)
@@ -224,6 +237,9 @@ function WarehouseImportStorage() {
       items:
         warehouseImportReceiptDetails?.purchasedOrderImportWarehouseLots?.map(
           (item, index) => {
+            const suggestLocator = suggestLocatorsList?.filter(
+              (e) => e?.itemId === item?.itemId,
+            )
             return {
               id: `${item?.itemId}-${index}`,
               itemCode:
@@ -238,18 +254,20 @@ function WarehouseImportStorage() {
               lotNumberOld: item?.lotNumberOld,
               importQuantity: item?.quantity,
               receivedQuantity: item?.quantity,
-              locator: !isEmpty(
-                omitBy(
-                  first(
-                    orderBy(
-                      itemByLocationIdListMap[item?.itemId]?.locations,
-                      'quantity',
-                      'desc',
+              locator: !isEmpty(suggestLocator)
+                ? omitBy(orderBy(suggestLocator, 'quantity', 'desc')[0], isNil)
+                : !isEmpty(
+                    omitBy(
+                      first(
+                        orderBy(
+                          itemByLocationIdListMap[item?.itemId]?.locations,
+                          'quantity',
+                          'desc',
+                        ),
+                      )?.locator,
+                      isNil,
                     ),
-                  )?.locator,
-                  isNil,
-                ),
-              )
+                  )
                 ? first(
                     orderBy(
                       itemByLocationIdListMap[item?.itemId]?.locations,
@@ -302,6 +320,9 @@ function WarehouseImportStorage() {
         warehouseImportReceiptDetails?.purchasedOrderImportWarehouseLots?.map(
           (item, index) => {
             const itemByLocationIdListMap = keyBy(itemByLocationIdList, 'id')
+            const suggestLocator = suggestLocatorsList?.filter(
+              (e) => e?.itemId === item?.itemId,
+            )
             return {
               id: `${item?.itemId}-${index}`,
               itemCode:
@@ -316,18 +337,20 @@ function WarehouseImportStorage() {
               lotNumberOld: item?.lotNumberOld,
               importQuantity: item?.quantity,
               receivedQuantity: item?.quantity,
-              locator: !isEmpty(
-                omitBy(
-                  first(
-                    orderBy(
-                      itemByLocationIdListMap[item?.itemId]?.locations,
-                      'quantity',
-                      'desc',
+              locator: !isEmpty(suggestLocator)
+                ? omitBy(orderBy(suggestLocator, 'quantity', 'desc')[0], isNil)
+                : !isEmpty(
+                    omitBy(
+                      first(
+                        orderBy(
+                          itemByLocationIdListMap[item?.itemId]?.locations,
+                          'quantity',
+                          'desc',
+                        ),
+                      )?.locator,
+                      isNil,
                     ),
-                  )?.locator,
-                  isNil,
-                ),
-              )
+                  )
                 ? first(
                     orderBy(
                       itemByLocationIdListMap[item?.itemId]?.locations,

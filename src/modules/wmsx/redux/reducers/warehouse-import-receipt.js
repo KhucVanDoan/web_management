@@ -45,6 +45,9 @@ import {
   STORED_START,
   STORED_SUCCESS,
   STORED_FAILED,
+  SUGGEST_LOCATORS_START,
+  SUGGEST_LOCATORS_SUCCESS,
+  SUGGEST_LOCATORS_FAILED,
 } from '~/modules/wmsx/redux/actions/warehouse-import-receipt'
 
 const initialState = {
@@ -52,6 +55,7 @@ const initialState = {
   warehouseImportReceiptList: [],
   warehouseImportReceiptDetails: {},
   attributesBusinessTypeDetails: [],
+  suggestLocatorsList: [],
   total: null,
 }
 
@@ -77,6 +81,7 @@ export default function warehouseImportReceipt(state = initialState, action) {
     case CONFIRM_WAREHOUSE_IMPORT_EBS_START:
     case CANCEL_WAREHOUSE_IMPORT_EBS_START:
     case RETURN_WAREHOUSE_IMPORT_RECEIPT_START:
+    case SUGGEST_LOCATORS_START:
       return {
         ...state,
         isLoading: true,
@@ -147,6 +152,18 @@ export default function warehouseImportReceipt(state = initialState, action) {
       return {
         ...state,
         warehouseImportReceiptDetails: {},
+      }
+    case SUGGEST_LOCATORS_SUCCESS:
+      return {
+        ...state,
+        suggestLocatorsList: action.payload,
+        isLoading: false,
+      }
+    case SUGGEST_LOCATORS_FAILED:
+      return {
+        ...state,
+        suggestLocatorsList: [],
+        isLoading: false,
       }
     default:
       return state
