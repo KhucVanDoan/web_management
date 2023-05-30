@@ -128,9 +128,11 @@ const ItemSettingTable = ({ items }) => {
       align: 'right',
       headerAlign: 'left',
       renderCell: (params) => {
-        return params?.row?.childrens
+        const receiptDeliveryCode = params?.row?.childrens
+          ?.filter((e) => e?.receiptDeliveryCode)
           ?.map((item) => item?.receiptDeliveryCode)
-          ?.join(',')
+          .join(',')
+        return receiptDeliveryCode
       },
     },
     {

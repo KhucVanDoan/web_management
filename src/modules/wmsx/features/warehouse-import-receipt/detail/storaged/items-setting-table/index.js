@@ -18,7 +18,7 @@ function ItemsSettingTable(props) {
   const { t } = useTranslation(['wmsx'])
   const { items, arrayHelpers, warehouse, setFieldValue, values } = props
   const {
-    data: { warehouseImportReceiptDetails },
+    data: { warehouseImportReceiptDetails, suggestLocatorsList },
   } = useWarehouseImportReceipt()
   const itemList = []
   warehouseImportReceiptDetails?.purchasedOrderImportWarehouseLots?.forEach(
@@ -181,11 +181,18 @@ function ItemsSettingTable(props) {
         headerName: t('warehouseTransfer.table.locatorStored'),
         width: 300,
         renderCell: (params, index) => {
+          const suggestLocatorByItem = suggestLocatorsList?.filter(
+            (e) => e?.itemId === params?.row?.itemCode?.itemId,
+          )
+          const locationNoSuggest = locationList?.filter(
+            (e) => e?.locatorId !== suggestLocatorByItem[0]?.locatorId,
+          )
+          const locationLists = [suggestLocatorByItem[0], ...locationNoSuggest]
           return (
             <Field.Autocomplete
               dropdownWidth={250}
               name={`items[${index}].locator`}
-              options={locationList}
+              options={locationLists}
               getOptionLabel={(opt) => opt?.code}
               isOptionEqualToValue={(val, opt) =>
                 opt?.locatorId === val?.locatorId

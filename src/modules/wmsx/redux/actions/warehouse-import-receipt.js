@@ -97,6 +97,10 @@ export const RETURN_WAREHOUSE_IMPORT_RECEIPT_SUCCESS =
 export const RETURN_WAREHOUSE_IMPORT_RECEIPT_FAILED =
   'WMSX_RETURN_WAREHOUSE_IMPORT_RECEIPT_FAILED'
 
+export const SUGGEST_LOCATORS_START = 'WMSX_SUGGEST_LOCATORS_START'
+export const SUGGEST_LOCATORS_SUCCESS = 'WMSX_SUGGEST_LOCATORS_SUCCESS'
+export const SUGGEST_LOCATORS_FAILED = 'WMSX_SUGGEST_LOCATORS_FAILED'
+
 export function searchWarehouseImportReceipt(payload, onSuccess, onError) {
   return {
     type: SEARCH_WAREHOUSE_IMPORT_RECEIPT_START,
@@ -449,6 +453,27 @@ export function returnWarehouseImportReceiptByIdFailed() {
   }
 }
 
+export function suggestLocators(payload, onSuccess, onError) {
+  return {
+    type: SUGGEST_LOCATORS_START,
+    payload: payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function suggestLocatorsSuccess(payload) {
+  return {
+    type: SUGGEST_LOCATORS_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function suggestLocatorsFailed() {
+  return {
+    type: SUGGEST_LOCATORS_FAILED,
+  }
+}
 export default {
   searchWarehouseImportReceipt,
   searchWarehouseImportReceiptSuccess,
@@ -496,4 +521,7 @@ export default {
   storedWarehouse,
   storedWarehouseSuccess,
   storedWarehouseFailed,
+  suggestLocators,
+  suggestLocatorsSuccess,
+  suggestLocatorsFailed,
 }
