@@ -8,7 +8,6 @@ import {
   groupBy,
   isEmpty,
   first,
-  keyBy,
   omitBy,
   orderBy,
   isNil,
@@ -110,7 +109,7 @@ function WarehouseImportStorage() {
         }),
       })
     }
-  }, [id])
+  }, [warehouseImportReceiptDetails])
   useEffect(() => {
     actions.getWarehouseImportReceiptDetailsById(id, (data) => {
       const attributes = data?.attributes?.filter((e) => e?.tableName)
@@ -127,9 +126,7 @@ function WarehouseImportStorage() {
       }
       actions.getAttribuiteBusinessTypeDetailsById(params)
     })
-    return () => {
-      actions.resetWarehouseImportReceiptState()
-    }
+    return () => actions.resetWarehouseImportReceiptState()
   }, [id])
 
   const backToDetail = () => {
@@ -231,7 +228,7 @@ function WarehouseImportStorage() {
     }
   }
   const initialValues = useMemo(() => {
-    const itemByLocationIdListMap = keyBy(itemByLocationIdList, 'id')
+    // const itemByLocationIdListMap = keyBy(itemByLocationIdList, 'id')
     return {
       storedNoLocatin: false,
       items:
@@ -256,26 +253,26 @@ function WarehouseImportStorage() {
               receivedQuantity: item?.quantity,
               locator: !isEmpty(suggestLocator)
                 ? omitBy(orderBy(suggestLocator, 'quantity', 'desc')[0], isNil)
-                : !isEmpty(
-                    omitBy(
-                      first(
-                        orderBy(
-                          itemByLocationIdListMap[item?.itemId]?.locations,
-                          'quantity',
-                          'desc',
-                        ),
-                      )?.locator,
-                      isNil,
-                    ),
-                  )
-                ? first(
-                    orderBy(
-                      itemByLocationIdListMap[item?.itemId]?.locations,
-                      'quantity',
-                      'desc',
-                    ),
-                  )?.locator
-                : locationList[0],
+                : // : !isEmpty(
+                  //     omitBy(
+                  //       first(
+                  //         orderBy(
+                  //           itemByLocationIdListMap[item?.itemId]?.locations,
+                  //           'quantity',
+                  //           'desc',
+                  //         ),
+                  //       )?.locator,
+                  //       isNil,
+                  //     ),
+                  //   )
+                  // ? first(
+                  //     orderBy(
+                  //       itemByLocationIdListMap[item?.itemId]?.locations,
+                  //       'quantity',
+                  //       'desc',
+                  //     ),
+                  //   )?.locator
+                  locationList[0],
             }
           },
         ),
@@ -319,7 +316,7 @@ function WarehouseImportStorage() {
         'items',
         warehouseImportReceiptDetails?.purchasedOrderImportWarehouseLots?.map(
           (item, index) => {
-            const itemByLocationIdListMap = keyBy(itemByLocationIdList, 'id')
+            // const itemByLocationIdListMap = keyBy(itemByLocationIdList, 'id')
             const suggestLocator = suggestLocatorsList?.filter(
               (e) => e?.itemId === item?.itemId,
             )
@@ -339,26 +336,26 @@ function WarehouseImportStorage() {
               receivedQuantity: item?.quantity,
               locator: !isEmpty(suggestLocator)
                 ? omitBy(orderBy(suggestLocator, 'quantity', 'desc')[0], isNil)
-                : !isEmpty(
-                    omitBy(
-                      first(
-                        orderBy(
-                          itemByLocationIdListMap[item?.itemId]?.locations,
-                          'quantity',
-                          'desc',
-                        ),
-                      )?.locator,
-                      isNil,
-                    ),
-                  )
-                ? first(
-                    orderBy(
-                      itemByLocationIdListMap[item?.itemId]?.locations,
-                      'quantity',
-                      'desc',
-                    ),
-                  )?.locator
-                : locationList[0],
+                : // : !isEmpty(
+                  //     omitBy(
+                  //       first(
+                  //         orderBy(
+                  //           itemByLocationIdListMap[item?.itemId]?.locations,
+                  //           'quantity',
+                  //           'desc',
+                  //         ),
+                  //       )?.locator,
+                  //       isNil,
+                  //     ),
+                  //   )
+                  // ? first(
+                  //     orderBy(
+                  //       itemByLocationIdListMap[item?.itemId]?.locations,
+                  //       'quantity',
+                  //       'desc',
+                  //     ),
+                  //   )?.locator
+                  locationList[0],
             }
           },
         ),
