@@ -187,7 +187,9 @@ function ItemsSettingTable(props) {
           const locationNoSuggest = locationList?.filter(
             (e) => e?.locatorId !== suggestLocatorByItem[0]?.locatorId,
           )
-          const locationLists = [suggestLocatorByItem[0], ...locationNoSuggest]
+          const locationLists = !isEmpty(suggestLocatorByItem)
+            ? [suggestLocatorByItem[0], ...locationNoSuggest]
+            : [...locationList]
           return (
             <Field.Autocomplete
               dropdownWidth={250}

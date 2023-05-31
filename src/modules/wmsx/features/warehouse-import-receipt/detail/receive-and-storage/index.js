@@ -9,7 +9,6 @@ import {
   isEmpty,
   first,
   orderBy,
-  keyBy,
   isNil,
   omitBy,
 } from 'lodash'
@@ -109,7 +108,7 @@ function WarehouseImportReceiveAndStorage() {
         }),
       })
     }
-  }, [id])
+  }, [warehouseImportReceiptDetails])
   useEffect(() => {
     actions.getWarehouseImportReceiptDetailsById(id, (data) => {
       const attributes = data?.attributes?.filter((e) => e?.tableName)
@@ -126,9 +125,7 @@ function WarehouseImportReceiveAndStorage() {
       }
       actions.getAttribuiteBusinessTypeDetailsById(params)
     })
-    return () => {
-      actions.resetWarehouseImportReceiptState()
-    }
+    return () => actions.resetWarehouseImportReceiptState()
   }, [id])
 
   const backToDetail = () => {
@@ -230,7 +227,6 @@ function WarehouseImportReceiveAndStorage() {
     }
   }
   const initialValues = useMemo(() => {
-    const itemByLocationIdListMap = keyBy(itemByLocationIdList, 'id')
     return {
       storedNoLocatin: false,
       items:
@@ -255,25 +251,6 @@ function WarehouseImportReceiveAndStorage() {
               receivedQuantity: item?.quantity,
               locator: !isEmpty(suggestLocator)
                 ? omitBy(orderBy(suggestLocator, 'quantity', 'desc')[0], isNil)
-                : !isEmpty(
-                    omitBy(
-                      first(
-                        orderBy(
-                          itemByLocationIdListMap[item?.itemId]?.locations,
-                          'quantity',
-                          'desc',
-                        ),
-                      )?.locator,
-                      isNil,
-                    ),
-                  )
-                ? first(
-                    orderBy(
-                      itemByLocationIdListMap[item?.itemId]?.locations,
-                      'quantity',
-                      'desc',
-                    ),
-                  )?.locator
                 : locationList[0],
             }
           },
@@ -318,7 +295,7 @@ function WarehouseImportReceiveAndStorage() {
         'items',
         warehouseImportReceiptDetails?.purchasedOrderImportWarehouseLots?.map(
           (item, index) => {
-            const itemByLocationIdListMap = keyBy(itemByLocationIdList, 'id')
+            // const itemByLocationIdListMap = keyBy(itemByLocationIdList, 'id')
             const suggestLocator = suggestLocatorsList?.filter(
               (e) => e?.itemId === item?.itemId,
             )
@@ -338,26 +315,26 @@ function WarehouseImportReceiveAndStorage() {
               receivedQuantity: item?.quantity,
               locator: !isEmpty(suggestLocator)
                 ? omitBy(orderBy(suggestLocator, 'quantity', 'desc')[0], isNil)
-                : !isEmpty(
-                    omitBy(
-                      first(
-                        orderBy(
-                          itemByLocationIdListMap[item?.itemId]?.locations,
-                          'quantity',
-                          'desc',
-                        ),
-                      )?.locator,
-                      isNil,
-                    ),
-                  )
-                ? first(
-                    orderBy(
-                      itemByLocationIdListMap[item?.itemId]?.locations,
-                      'quantity',
-                      'desc',
-                    ),
-                  )?.locator
-                : locationList[0],
+                : // : !isEmpty(
+                  //     omitBy(
+                  //       first(
+                  //         orderBy(
+                  //           itemByLocationIdListMap[item?.itemId]?.locations,
+                  //           'quantity',
+                  //           'desc',
+                  //         ),
+                  //       )?.locator,
+                  //       isNil,
+                  //     ),
+                  //   )
+                  // ? first(
+                  //     orderBy(
+                  //       itemByLocationIdListMap[item?.itemId]?.locations,
+                  //       'quantity',
+                  //       'desc',
+                  //     ),
+                  //   )?.locator
+                  locationList[0],
             }
           },
         ),
