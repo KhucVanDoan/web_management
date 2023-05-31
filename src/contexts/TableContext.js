@@ -223,7 +223,6 @@ TableProvider.defaultProps = {
   // DataTableCollapse
   isRoot: true,
   subDataKey: 'details',
-  expandable: false,
 }
 
 TableProvider.propsTypes = {
@@ -301,7 +300,6 @@ TableProvider.propsTypes = {
   ),
   subDataKey: PropTypes.string,
   isRoot: PropTypes.bool,
-  expandable: PropTypes.bool,
 }
 
 export default TableContext

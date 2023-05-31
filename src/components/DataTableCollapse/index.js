@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 
 import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
-import { Box } from '@mui/material'
+import { Box, Checkbox } from '@mui/material'
 import Collapse from '@mui/material/Collapse'
 import IconButton from '@mui/material/IconButton'
 import Table from '@mui/material/Table'
@@ -42,21 +42,63 @@ const DataTableCollapse = (props) => {
     uniqKey,
     containerRef,
     onSortChange: _onSortChange,
-    expandable: _expandable,
+    onSelectionChange,
+    selected = [],
+    checkboxSelection,
   } = useTable()
 
   const [open, setOpen] = useState({})
   const [sort, setSort] = useState(null)
+  const expandIconVisible = handleGetData === 'function'
 
   const onOpen = (index, e, row) => {
     if (typeof handleGetData === 'function') {
-      handleGetData(row?.id)
+      handleGetData(row?.id, row)
     }
 
     setOpen({
       ...open,
       [index]: e,
     })
+  }
+
+  /**
+   * Handle select or deselect row
+   * @param {*} indexValue
+   * @returns
+   */
+  const handleSelectOrDeselectRow = (indexValue) => {
+    if (!checkboxSelection) return
+    const selectedIndex = selected.findIndex(
+      (item) => item[uniqKey] === indexValue,
+    )
+    let newSelected = []
+
+    const newValueData = rows.find((item) => item[uniqKey] === indexValue)
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, newValueData)
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1))
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1))
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1),
+      )
+    }
+
+    onSelectionChange(newSelected)
+  }
+
+  /**
+   * Check if row is selected
+   * @param {*} uniqKeyValue
+   * @returns
+   */
+  const isSelected = (uniqKeyValue) => {
+    return selected.findIndex((item) => item[uniqKey] === uniqKeyValue) !== -1
   }
 
   useEffect(() => {
@@ -82,6 +124,27 @@ const DataTableCollapse = (props) => {
     }
   }
 
+  const renderCheckboxPlaceholder = () => {
+    if (checkboxSelection)
+      return (
+        <TableCell
+          className={clsx(classes.tableCell, classes.tableCellCheckbox)}
+          sx={(theme) => ({
+            position: 'sticky !important',
+            left: 0,
+            zIndex: 10,
+            borderLeft: 'none !important',
+            borderRight: `1px solid ${theme.palette.grayE4.main} !important`,
+            '&+td': {
+              borderLeft: 'none! important',
+            },
+          })}
+        ></TableCell>
+      )
+
+    return null
+  }
+
   return (
     <>
       <TopBar />
@@ -103,6 +166,9 @@ const DataTableCollapse = (props) => {
               rows?.map((row, index) => {
                 if (!row) return
                 const expandable = row?.[subDataKey]?.length > 0
+                const isItemSelected = isSelected(row[uniqKey])
+                const labelId = `enhanced-table-checkbox-${index}`
+
                 return (
                   <React.Fragment>
                     <TableRow
@@ -120,6 +186,30 @@ const DataTableCollapse = (props) => {
                         },
                       )}
                     >
+                      {checkboxSelection && (
+                        <TableCell
+                          className={clsx(
+                            classes.tableCell,
+                            classes.tableCellCheckbox,
+                          )}
+                          sx={{
+                            position: 'sticky',
+                            left: 0,
+                            zIndex: 10,
+                          }}
+                        >
+                          <Checkbox
+                            checked={isItemSelected}
+                            inputProps={{
+                              'aria-labelledby': labelId,
+                            }}
+                            onClick={() =>
+                              handleSelectOrDeselectRow(row[uniqKey])
+                            }
+                          />
+                        </TableCell>
+                      )}
+
                       {visibleColumns?.map((column, i) => {
                         const { field, align, renderCell, width } = column
                         const cellValue = renderCell
@@ -139,11 +229,11 @@ const DataTableCollapse = (props) => {
                             id={`data-table-${field}-${i}`}
                             width={width}
                           >
-                            {i === 0 && (expandable || _expandable) ? (
+                            {i === 0 && (expandable || expandIconVisible) ? (
                               <Box
                                 sx={{
                                   display: 'flex',
-                                  alignItems: 'flex-start',
+                                  alignItems: 'center',
                                 }}
                               >
                                 <IconButton
@@ -167,8 +257,10 @@ const DataTableCollapse = (props) => {
                       })}
                     </TableRow>
 
-                    {(expandable || _expandable) && (
+                    {(expandable || expandIconVisible) && open[index] && (
                       <TableRow className={classes.tableRowCollapse}>
+                        {renderCheckboxPlaceholder()}
+
                         <TableCell
                           sx={{ p: 0 }}
                           colSpan={visibleColumns.length}

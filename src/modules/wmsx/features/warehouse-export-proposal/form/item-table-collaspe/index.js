@@ -802,7 +802,6 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
         rows={itemTableCollaspe}
         columns={columns}
         subColumns={producingStepColumns}
-        expandable
         hideSetting
         hideFooter
       />
