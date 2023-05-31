@@ -78,7 +78,7 @@ const TableCollapse = () => {
       !open[index] &&
       typeof handleGetData === 'function'
     ) {
-      handleGetData?.(row?.id)
+      handleGetData?.(row?.id, row)
     }
 
     setOpen({
@@ -438,7 +438,7 @@ const TableCollapse = () => {
                               <Box
                                 sx={{
                                   display: 'flex',
-                                  alignItems: 'flex-start',
+                                  alignItems: 'center',
                                 }}
                               >
                                 <IconButton

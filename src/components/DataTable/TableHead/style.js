@@ -21,6 +21,7 @@ const style = (theme) => ({
   headerCellCheckbox: {
     padding: '0 5px',
     width: 50,
+    textAlign: 'center',
   },
   headerCellReorder: {
     padding: '0 5px',
