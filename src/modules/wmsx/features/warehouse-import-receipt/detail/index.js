@@ -108,7 +108,7 @@ function WarehouseImportReceiptDetail() {
   const mode = MODE_MAP[routeMatch.path]
 
   useEffect(() => {
-    actions.getWarehouseImportReceiptDetailsById(id, (data) => {
+    actions.getWarehouseImportReceiptDetailsById({ id: id }, (data) => {
       const attributes = data?.attributes?.filter((e) => e?.value !== null)
       const params = {
         filter: JSON.stringify(
@@ -361,7 +361,7 @@ function WarehouseImportReceiptDetail() {
                   actions.returnWarehouseImportReceiptById(
                     warehouseImportReceiptDetails?.id,
                     () => {
-                      actions.getWarehouseImportReceiptDetailsById(id)
+                      actions.getWarehouseImportReceiptDetailsById({ id: id })
                     },
                   )
                 }
@@ -458,7 +458,7 @@ function WarehouseImportReceiptDetail() {
     actions.confirmWarehouseImportReceiptById(
       warehouseImportReceiptDetails?.id,
       () => {
-        actions.getWarehouseImportReceiptDetailsById(id)
+        actions.getWarehouseImportReceiptDetailsById({ id: id })
       },
     )
 
@@ -468,7 +468,7 @@ function WarehouseImportReceiptDetail() {
     actions.confirmWarehouseImportEBSById(
       warehouseImportReceiptDetails?.id,
       () => {
-        actions.getWarehouseImportReceiptDetailsById(id)
+        actions.getWarehouseImportReceiptDetailsById({ id: id })
       },
     )
     setModal({ isOpenConfirmEBSModal: false })
@@ -477,7 +477,7 @@ function WarehouseImportReceiptDetail() {
     actions.rejectWarehouseImportReceiptById(
       warehouseImportReceiptDetails?.id,
       () => {
-        actions.getWarehouseImportReceiptDetailsById(id)
+        actions.getWarehouseImportReceiptDetailsById({ id: id })
       },
     )
     setModal({ isOpenRejectedModal: false })
@@ -529,7 +529,7 @@ function WarehouseImportReceiptDetail() {
     actions.cancelWarehouseImportEBSById(
       warehouseImportReceiptDetails?.id,
       () => {
-        actions.getWarehouseImportReceiptDetailsById(id)
+        actions.getWarehouseImportReceiptDetailsById({ id: id })
       },
     )
     setModal({ isOpenCancelSyncEMSModal: false })

@@ -68,7 +68,10 @@ function WarehouseExportReturn() {
     actions: warehouseExportReceiptAction,
   } = useWarehouseExportReceipt()
   useEffect(() => {
-    actions.getWarehouseImportReceiptDetailsById(id)
+    actions.getWarehouseImportReceiptDetailsById({
+      id: id,
+      isReturn: ACTIVE_STATUS.ACTIVE,
+    })
     getListReasonAction.searchReasonManagement({
       filter: convertFilterParams({
         code: CODE_DEFAULT_REASON,
