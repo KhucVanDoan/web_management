@@ -288,7 +288,7 @@ function WarehouseImportReceiptForm() {
 
   useEffect(async () => {
     if (isUpdate || isUpdateHeader) {
-      actions.getWarehouseImportReceiptDetailsById(id, async (data) => {
+      actions.getWarehouseImportReceiptDetailsById({ id: id }, async (data) => {
         const res = await getSourceManagementApi(data?.source?.id)
 
         setCreditAccount(res?.data?.accountant.replace(/^(\d*?[1-9])0+$/, '$1'))

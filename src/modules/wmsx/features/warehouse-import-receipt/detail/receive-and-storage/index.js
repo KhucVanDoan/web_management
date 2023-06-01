@@ -110,7 +110,7 @@ function WarehouseImportReceiveAndStorage() {
     }
   }, [warehouseImportReceiptDetails])
   useEffect(() => {
-    actions.getWarehouseImportReceiptDetailsById(id, (data) => {
+    actions.getWarehouseImportReceiptDetailsById({ id: id }, (data) => {
       const attributes = data?.attributes?.filter((e) => e?.tableName)
       const params = {
         filter: JSON.stringify(
