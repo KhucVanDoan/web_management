@@ -9,6 +9,7 @@ import { FUNCTION_CODE } from '~/common/constants/functionCode'
 // import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
 // import { useApp } from '~/common/hooks/useApp'
+import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
@@ -27,6 +28,8 @@ import {
 import useDefineShelf from '~/modules/wmsx/redux/hooks/useDefineShelf'
 import {
   exportShelfApi,
+  getShelfTemplateApi,
+  importShelfApi,
   // getShelfTemplateApi,
   // importShelfApi,
 } from '~/modules/wmsx/redux/sagas/define-shelf/import-export-shelf'
@@ -70,7 +73,7 @@ function DefineShelf() {
   } = useQueryState({
     filters: DEFAULT_FILTERS,
   })
-  // const { canAccess } = useApp()
+  const { canAccess } = useApp()
   const {
     data: { shelfList, total, isLoading },
     actions,
@@ -218,37 +221,29 @@ function DefineShelf() {
         <ImportExport
           name={t('menu.defineShelf')}
           loadingExport={setLoadingExport}
-          onExport={() =>
-            exportShelfApi({
-              columnSettings: JSON.stringify(columnsSettings),
-              queryIds: JSON.stringify(
-                selectedRows?.map((x) => ({ id: `${x?.id}` })),
-              ),
-              keyword: keyword.trim(),
-              filter: convertFilterParams(
-                { ...filters, level: WAREHOUSE_LAYOUTS.SHELF },
-                [{ field: 'createdAt', filterFormat: 'date' }],
-              ),
-              sort: convertSortParams(sort),
-            })
-          }
-          // {...(canAccess(FUNCTION_CODE.WAREHOUSE_IMPORT_LOCATION)
-          //   ? {
-          //       onImport: () =>
-          //         importShelfApi({
-          //           columnSettings: JSON.stringify(columnsSettings),
-          //           queryIds: JSON.stringify(
-          //             selectedRows?.map((x) => ({ id: `${x?.id}` })),
-          //           ),
-          //           keyword: keyword.trim(),
-          //           filter: convertFilterParams(filters, [
-          //             { field: 'createdAt', filterFormat: 'date' },
-          //           ]),
-          //           sort: convertSortParams(sort),
-          //         }),
-          //     }
-          //   : {})}
-          // onDownloadTemplate={getShelfTemplateApi}
+          {...(canAccess(FUNCTION_CODE.WAREHOUSE_EXPORT_LOCATION)
+            ? {
+                onExport: () =>
+                  exportShelfApi({
+                    columnSettings: JSON.stringify(columnsSettings),
+                    queryIds: JSON.stringify(
+                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
+                    ),
+                    keyword: keyword.trim(),
+                    filter: convertFilterParams(
+                      { ...filters, level: WAREHOUSE_LAYOUTS.SHELF },
+                      [{ field: 'createdAt', filterFormat: 'date' }],
+                    ),
+                    sort: convertSortParams(sort),
+                  }),
+              }
+            : {})}
+          {...(canAccess(FUNCTION_CODE.WAREHOUSE_IMPORT_LOCATION)
+            ? {
+                onImport: (importFile) => importShelfApi(importFile),
+              }
+            : {})}
+          onDownloadTemplate={getShelfTemplateApi}
           onRefresh={refreshData}
         />
         <Guard code={FUNCTION_CODE.WAREHOUSE_CREATE_LOCATION}>

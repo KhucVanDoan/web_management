@@ -9,6 +9,7 @@ import { FUNCTION_CODE } from '~/common/constants/functionCode'
 // import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
 // import { useApp } from '~/common/hooks/useApp'
+import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
@@ -27,8 +28,8 @@ import {
 import useDefineAssembly from '~/modules/wmsx/redux/hooks/useDefineAssembly'
 import {
   exportAssemblyApi,
-  // getAssemblyTemplateApi,
-  // importAssemblyApi,
+  getAssemblyTemplateApi,
+  importAssemblyApi,
 } from '~/modules/wmsx/redux/sagas/define-assembly/import-export-assembly'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
@@ -70,7 +71,7 @@ function DefineAssembly() {
   } = useQueryState({
     filters: DEFAULT_FILTERS,
   })
-  // const { canAccess } = useApp()
+  const { canAccess } = useApp()
   const {
     data: { assemblyList, total, isLoading },
     actions,
@@ -218,37 +219,29 @@ function DefineAssembly() {
         <ImportExport
           name={t('menu.defineAssembly')}
           loadingExport={setLoadingExport}
-          onExport={() =>
-            exportAssemblyApi({
-              columnSettings: JSON.stringify(columnsSettings),
-              queryIds: JSON.stringify(
-                selectedRows?.map((x) => ({ id: `${x?.id}` })),
-              ),
-              keyword: keyword.trim(),
-              filter: convertFilterParams(
-                { ...filters, level: WAREHOUSE_LAYOUTS.ASSEMBLY },
-                [{ field: 'createdAt', filterFormat: 'date' }],
-              ),
-              sort: convertSortParams(sort),
-            })
-          }
-          // {...(canAccess(FUNCTION_CODE.WAREHOUSE_IMPORT_LOCATION)
-          //   ? {
-          //       onImport: () =>
-          //         importAssemblyApi({
-          //           columnSettings: JSON.stringify(columnsSettings),
-          //           queryIds: JSON.stringify(
-          //             selectedRows?.map((x) => ({ id: `${x?.id}` })),
-          //           ),
-          //           keyword: keyword.trim(),
-          //           filter: convertFilterParams(filters, [
-          //             { field: 'createdAt', filterFormat: 'date' },
-          //           ]),
-          //           sort: convertSortParams(sort),
-          //         }),
-          //     }
-          //   : {})}
-          // onDownloadTemplate={getAssemblyTemplateApi}
+          {...(canAccess(FUNCTION_CODE.WAREHOUSE_IMPORT_LOCATION)
+            ? {
+                onExport: () =>
+                  exportAssemblyApi({
+                    columnSettings: JSON.stringify(columnsSettings),
+                    queryIds: JSON.stringify(
+                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
+                    ),
+                    keyword: keyword.trim(),
+                    filter: convertFilterParams(
+                      { ...filters, level: WAREHOUSE_LAYOUTS.ASSEMBLY },
+                      [{ field: 'createdAt', filterFormat: 'date' }],
+                    ),
+                    sort: convertSortParams(sort),
+                  }),
+              }
+            : {})}
+          {...(canAccess(FUNCTION_CODE.WAREHOUSE_EXPORT_LOCATION)
+            ? {
+                onImport: (importFile) => importAssemblyApi(importFile),
+              }
+            : {})}
+          onDownloadTemplate={getAssemblyTemplateApi}
           onRefresh={refreshData}
         />
         <Guard code={FUNCTION_CODE.WAREHOUSE_CREATE_LOCATION}>

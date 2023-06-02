@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom'
 // import { API_URL } from '~/common/constants/apiUrl'
 import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import { useQueryState } from '~/common/hooks'
+import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
@@ -26,8 +27,8 @@ import {
 import useDefineBin from '~/modules/wmsx/redux/hooks/useDefineBin'
 import {
   exportBinApi,
-  // getBinTemplateApi,
-  // importBinApi,
+  getBinTemplateApi,
+  importBinApi,
 } from '~/modules/wmsx/redux/sagas/define-bin/import-export-bin'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
@@ -69,7 +70,7 @@ function DefineBin() {
   } = useQueryState({
     filters: DEFAULT_FILTERS,
   })
-
+  const { canAccess } = useApp()
   const {
     data: { binList, total, isLoading },
     actions,
@@ -217,22 +218,29 @@ function DefineBin() {
         <ImportExport
           name={t('menu.defineBin')}
           loadingExport={setLoadingExport}
-          // onImport={(params) => importBinApi(params)}
-          onExport={() =>
-            exportBinApi({
-              columnSettings: JSON.stringify(columnsSettings),
-              queryIds: JSON.stringify(
-                selectedRows?.map((x) => ({ id: `${x?.id}` })),
-              ),
-              keyword: keyword.trim(),
-              filter: convertFilterParams(
-                { ...filters, level: WAREHOUSE_LAYOUTS.BIN },
-                [{ field: 'createdAt', filterFormat: 'date' }],
-              ),
-              sort: convertSortParams(sort),
-            })
-          }
-          // onDownloadTemplate={getBinTemplateApi}
+          {...(canAccess(FUNCTION_CODE.WAREHOUSE_EXPORT_LOCATION)
+            ? {
+                onExport: () =>
+                  exportBinApi({
+                    columnSettings: JSON.stringify(columnsSettings),
+                    queryIds: JSON.stringify(
+                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
+                    ),
+                    keyword: keyword.trim(),
+                    filter: convertFilterParams(
+                      { ...filters, level: WAREHOUSE_LAYOUTS.BIN },
+                      [{ field: 'createdAt', filterFormat: 'date' }],
+                    ),
+                    sort: convertSortParams(sort),
+                  }),
+              }
+            : {})}
+          {...(canAccess(FUNCTION_CODE.WAREHOUSE_IMPORT_LOCATION)
+            ? {
+                onImport: (importFile) => importBinApi(importFile),
+              }
+            : {})}
+          onDownloadTemplate={getBinTemplateApi}
           onRefresh={refreshData}
         />
         <Guard code={FUNCTION_CODE.WAREHOUSE_CREATE_LOCATION}>

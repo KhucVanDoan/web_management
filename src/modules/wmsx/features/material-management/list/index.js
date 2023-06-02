@@ -35,6 +35,8 @@ import useMaterialManagement from '~/modules/wmsx/redux/hooks/useMaterialManagem
 import { getqrCodeApi } from '~/modules/wmsx/redux/sagas/material-management/get-material-details.js'
 import {
   exportMaterialApi,
+  getMaterialTemplateApi,
+  importMaterialApi,
   // getMaterialTemplateApi,
   // importMaterialApi,
 } from '~/modules/wmsx/redux/sagas/material-management/import-export-material'
@@ -267,12 +269,12 @@ function MaterialManagement() {
         <ImportExport
           name={t('menu.materialManagement')}
           loadingExport={setLoadingExport}
-          // {...(canAccess(FUNCTION_CODE.ITEM_IMPORT_ITEM)
-          //   ? {
-          //       onImport: (params) => importMaterialApi(params),
-          //       onDownloadTemplate: getMaterialTemplateApi,
-          //     }
-          //   : {})}
+          {...(canAccess(FUNCTION_CODE.ITEM_IMPORT_ITEM)
+            ? {
+                onImport: (params) => importMaterialApi(params),
+                onDownloadTemplate: getMaterialTemplateApi,
+              }
+            : {})}
           {...(canAccess(FUNCTION_CODE.ITEM_EXPORT_ITEM)
             ? {
                 onExport: () =>

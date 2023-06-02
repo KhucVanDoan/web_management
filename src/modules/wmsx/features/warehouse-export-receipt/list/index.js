@@ -462,22 +462,23 @@ function WarehouseExportReceipt() {
         <ImportExport
           name={t('menu.warehouseExportReceipt')}
           loadingExport={setLoadingExport}
-          onExport={() =>
-            exportWarehouseExportReceiptApi({
-              columnSettings: JSON.stringify(columnsSettings),
-              queryIds: JSON.stringify(
-                selectedRows?.map((x) => ({ id: `${x?.id}` })),
-              ),
-              keyword: keyword.trim(),
-              filter: convertFilterParams(filters, [
-                { field: 'createdAt', filterFormat: 'date' },
-              ]),
-              sort: convertSortParams(sort),
-            })
-          }
-          {...(canAccess(
-            FUNCTION_CODE.WAREHOUSE_IMPORT_WAREHOUSE_EXPORT_PROPOSAL,
-          )
+          {...(canAccess(FUNCTION_CODE.SALE_EXPORT_SALE_ORDER_EXPORT)
+            ? {
+                onExport: () =>
+                  exportWarehouseExportReceiptApi({
+                    columnSettings: JSON.stringify(columnsSettings),
+                    queryIds: JSON.stringify(
+                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
+                    ),
+                    keyword: keyword.trim(),
+                    filter: convertFilterParams(filters, [
+                      { field: 'createdAt', filterFormat: 'date' },
+                    ]),
+                    sort: convertSortParams(sort),
+                  }),
+              }
+            : {})}
+          {...(canAccess(FUNCTION_CODE.SALE_SALE_ORDER_EXPORT_IMPORT)
             ? {
                 onImport: (importFile) =>
                   importWarehouseExportReceiptApi(importFile),
