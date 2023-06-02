@@ -2,7 +2,6 @@ import { combineReducers } from 'redux'
 
 import authReducers from '~/modules/auth/redux/reducers'
 import configurationReducers from '~/modules/configuration/redux/reducers'
-import databaseReducers from '~/modules/database/redux/reducers'
 import mesxReducers from '~/modules/mesx/redux/reducers'
 import publicReducers from '~/modules/public/redux/reducers'
 import sharedReducers from '~/modules/shared/redux/reducers'
@@ -13,7 +12,6 @@ export default combineReducers({
   shared: sharedReducers,
   mesx: mesxReducers,
   wmsx: wmsxReducers,
-  database: databaseReducers,
   configuration: configurationReducers,
   public: publicReducers,
 })

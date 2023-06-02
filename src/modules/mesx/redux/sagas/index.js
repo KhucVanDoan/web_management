@@ -1,6 +1,6 @@
 import { all } from 'redux-saga/effects'
 
-import watchGetSaleOrderDetailByIds from '~/modules/database/redux/sagas/sale-order/get-sale-order-details'
+// import watchGetSaleOrderDetailByIds from '~/modules/database/redux/sagas/sale-order/get-sale-order-details'
 
 import watchConfirmBomProducingStep from './bom-producing-step/confirm-bom-producing-step'
 import watchCreateBomProducingStep from './bom-producing-step/create-bom-producing-step'
@@ -220,7 +220,7 @@ export default function* sagas() {
 
     watchGetQualityPoints(),
     watchGetItemQualityPoint(),
-    watchGetSaleOrderDetailByIds(),
+    // watchGetSaleOrderDetailByIds(),
 
     //routing
     watchConfirmRouting(),
