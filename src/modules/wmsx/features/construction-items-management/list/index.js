@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom'
 
 import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import { useQueryState } from '~/common/hooks'
+import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
@@ -71,7 +72,7 @@ function ConstructionItemsManagement() {
     tempItem: null,
     isOpenUpdateStatusModal: false,
   })
-
+  const { canAccess } = useApp()
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
   const [loadingExport, setLoadingExport] = useState(false)
@@ -226,28 +227,29 @@ function ConstructionItemsManagement() {
         <ImportExport
           name={t('menu.constructionItemsManagement')}
           loadingExport={setLoadingExport}
-          onExport={() =>
-            exportContructionItemManagementApi({
-              columnSettings: JSON.stringify(columnsSettings),
-              queryIds: JSON.stringify(
-                selectedRows?.map((x) => ({ id: `${x?.id}` })),
-              ),
-              keyword: keyword.trim(),
-              filter: convertFilterParams(filters, [
-                { field: 'createdAt', filterFormat: 'date' },
-              ]),
-              sort: convertSortParams(sort),
-            })
-          }
-          onImport={(importFie) =>
-            importContructionItemManagementApi(importFie)
-          }
+          {...(canAccess(FUNCTION_CODE.SALE_EXPORT_CATEGORY_CONSTRUCTION)
+            ? {
+                onExport: () =>
+                  exportContructionItemManagementApi({
+                    columnSettings: JSON.stringify(columnsSettings),
+                    queryIds: JSON.stringify(
+                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
+                    ),
+                    keyword: keyword.trim(),
+                    filter: convertFilterParams(filters, [
+                      { field: 'createdAt', filterFormat: 'date' },
+                    ]),
+                    sort: convertSortParams(sort),
+                  }),
+              }
+            : {})}
+          {...(canAccess(FUNCTION_CODE.SALE_IMPORT_CATEGORY_CONSTRUCTION)
+            ? {
+                onImport: (importFile) =>
+                  importContructionItemManagementApi(importFile),
+              }
+            : {})}
           onDownloadTemplate={getContructionItemManagementTemplateApi}
-          // {...(canAccess(FUNCTION_CODE.SALE_IMPORT_CATEGORY_CONSTRUCTION)
-          //   ? {
-          //       onImport: () => {},
-          //     }
-          //   : {})}
           onRefresh={refreshData}
         />
         <Guard code={FUNCTION_CODE.SALE_CREATE_CATEGORY_CONSTRUCTION}>

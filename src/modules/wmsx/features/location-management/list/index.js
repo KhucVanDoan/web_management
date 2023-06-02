@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom'
 // import { API_URL } from '~/common/constants/apiUrl'
 import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import { useQueryState } from '~/common/hooks'
+import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
@@ -23,6 +24,7 @@ import useLocationManagement from '~/modules/wmsx/redux/hooks/useLocationManagem
 import {
   exportLocationApi,
   getLocationTemplateApi,
+  importLocationApi,
 } from '~/modules/wmsx/redux/sagas/location-management/import-export-location'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
@@ -74,7 +76,7 @@ function LocationManagement() {
     tempItem: null,
     isOpenUpdateStatusModal: false,
   })
-
+  const { canAccess } = useApp()
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
   const [loadingExport, setLoadingExport] = useState(false)
@@ -216,20 +218,27 @@ function LocationManagement() {
         <ImportExport
           name={t('menu.locationManagement')}
           loadingExport={setLoadingExport}
-          // onImport={(params) => importLocationApi(params)}
-          onExport={() =>
-            exportLocationApi({
-              columnSettings: JSON.stringify(columnsSettings),
-              queryIds: JSON.stringify(
-                selectedRows?.map((x) => ({ id: `${x?.id}` })),
-              ),
-              keyword: keyword.trim(),
-              filter: convertFilterParams(filters, [
-                { field: 'createdAt', filterFormat: 'date' },
-              ]),
-              sort: convertSortParams(sort),
-            })
-          }
+          {...(canAccess(FUNCTION_CODE.USER_EXPORT_DEPARTMENT_RECEIPT)
+            ? {
+                onExport: () =>
+                  exportLocationApi({
+                    columnSettings: JSON.stringify(columnsSettings),
+                    queryIds: JSON.stringify(
+                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
+                    ),
+                    keyword: keyword.trim(),
+                    filter: convertFilterParams(filters, [
+                      { field: 'createdAt', filterFormat: 'date' },
+                    ]),
+                    sort: convertSortParams(sort),
+                  }),
+              }
+            : {})}
+          {...(canAccess(FUNCTION_CODE.USER_IMPORT_DEPARTMENT_RECEIPT)
+            ? {
+                onImport: (importFile) => importLocationApi(importFile),
+              }
+            : {})}
           onDownloadTemplate={getLocationTemplateApi}
           onRefresh={refreshData}
         />

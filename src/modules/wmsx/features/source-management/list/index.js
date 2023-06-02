@@ -8,6 +8,7 @@ import { FUNCTION_CODE } from '~/common/constants/functionCode'
 // import { BULK_ACTION } from '~/common/constants'
 // import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
+import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
@@ -47,6 +48,7 @@ function SourceManagement() {
   const [selectedRows, setSelectedRows] = useState([])
   const [columnsSettings, setColumnsSettings] = useState([])
   const [loadingExport, setLoadingExport] = useState(false)
+  const { canAccess } = useApp()
   const DEFAULT_FILTERS = {
     code: '',
     name: '',
@@ -229,20 +231,27 @@ function SourceManagement() {
         <ImportExport
           name={t('menu.sourceManagement')}
           loadingExport={setLoadingExport}
-          onExport={() =>
-            exportSourceManagementApi({
-              columnSettings: JSON.stringify(columnsSettings),
-              queryIds: JSON.stringify(
-                selectedRows?.map((x) => ({ id: `${x?.id}` })),
-              ),
-              keyword: keyword.trim(),
-              filter: convertFilterParams(filters, [
-                { field: 'createdAt', filterFormat: 'date' },
-              ]),
-              sort: convertSortParams(sort),
-            })
-          }
-          onImport={(importFile) => importSourceManagementApi(importFile)}
+          {...(canAccess(FUNCTION_CODE.SALE_IMPORT_SOURCE)
+            ? {
+                onExport: () =>
+                  exportSourceManagementApi({
+                    columnSettings: JSON.stringify(columnsSettings),
+                    queryIds: JSON.stringify(
+                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
+                    ),
+                    keyword: keyword.trim(),
+                    filter: convertFilterParams(filters, [
+                      { field: 'createdAt', filterFormat: 'date' },
+                    ]),
+                    sort: convertSortParams(sort),
+                  }),
+              }
+            : {})}
+          {...(canAccess(FUNCTION_CODE.SALE_EXPORT_SOURCE)
+            ? {
+                onImport: (importFile) => importSourceManagementApi(importFile),
+              }
+            : {})}
           onDownloadTemplate={getSourceManagementTemplateApi}
           onRefresh={refreshData}
         />

@@ -466,27 +466,30 @@ function WarehouseImportReceipt() {
         <ImportExport
           name={t('menu.warehouseImportReceipt')}
           loadingExport={setLoadingExport}
-          {...(canAccess(FUNCTION_CODE.SALE_SALE_ORDER_EXPORT_IMPORT)
+          {...(canAccess(FUNCTION_CODE.SALE_EXPORT_PURCHASED_ORDER_IMPORT)
             ? {
                 onImport: (importFile) =>
                   importWarehouseImportReceiptApi(importFile),
                 onDownloadTemplate: getWarehouseImportReceiptTemplateApi,
               }
             : {})}
+          {...(canAccess(FUNCTION_CODE.SALE_IMPORT_PURCHASED_ORDER_IMPORT)
+            ? {
+                onExport: () =>
+                  exportWarehouseImportReceiptApi({
+                    columnSettings: JSON.stringify(columnsSettings),
+                    queryIds: JSON.stringify(
+                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
+                    ),
+                    keyword: keyword.trim(),
+                    filter: convertFilterParams(filters, [
+                      { field: 'createdAt', filterFormat: 'date' },
+                    ]),
+                    sort: convertSortParams(sort),
+                  }),
+              }
+            : {})}
           onRefresh={refreshData}
-          onExport={() =>
-            exportWarehouseImportReceiptApi({
-              columnSettings: JSON.stringify(columnsSettings),
-              queryIds: JSON.stringify(
-                selectedRows?.map((x) => ({ id: `${x?.id}` })),
-              ),
-              keyword: keyword.trim(),
-              filter: convertFilterParams(filters, [
-                { field: 'createdAt', filterFormat: 'date' },
-              ]),
-              sort: convertSortParams(sort),
-            })
-          }
         />
 
         <Guard code={FUNCTION_CODE.SALE_CREATE_PURCHASED_ORDER_IMPORT}>

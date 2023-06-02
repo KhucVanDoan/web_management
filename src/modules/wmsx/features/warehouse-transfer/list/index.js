@@ -7,6 +7,7 @@ import { useHistory } from 'react-router-dom'
 // import { API_URL } from '~/common/constants/apiUrl'
 import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import { useQueryState } from '~/common/hooks'
+import { useApp } from '~/common/hooks/useApp'
 // import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
@@ -56,7 +57,7 @@ const WarehouseTransfer = () => {
   const [isOpenCancelEBSModal, setIsOpenCancelEBSModal] = useState(false)
   const [selectedRows, setSelectedRows] = useState([])
   const [loadingExport, setLoadingExport] = useState(false)
-  // const { canAccess } = useApp()
+  const { canAccess } = useApp()
   const {
     data: { warehouseTransferList, isLoading, total },
     actions,
@@ -425,14 +426,28 @@ const WarehouseTransfer = () => {
         <ImportExport
           name={t('menu.warehouseTransferOrder')}
           loadingExport={setLoadingExport}
-          // {...(canAccess(FUNCTION_CODE.WAREHOUSE_IMPORT_WAREHOUSE_TRANSFER)
+          // {...(canAccess(FUNCTION_CODE.WAREHOUSE_EXPORT_WAREHOUSE_TRANSFER)
           //   ? {
-          //       onExport: () => {},
+          //       onExport: () =>
+          //         exportReceiptDepartmentApi({
+          //           columnSettings: JSON.stringify(columnsSettings),
+          //           queryIds: JSON.stringify(
+          //             selectedRows?.map((x) => ({ id: `${x?.id}` })),
+          //           ),
+          //           keyword: keyword.trim(),
+          //           filter: convertFilterParams(filters, [
+          //             { field: 'createdAt', filterFormat: 'date' },
+          //           ]),
+          //           sort: convertSortParams(sort),
+          //         }),
           //     }
           //   : {})}
-          onImport={(importFile) =>
-            importWarehouseTransferImportApi(importFile)
-          }
+          {...(canAccess(FUNCTION_CODE.WAREHOUSE_IMPORT_WAREHOUSE_TRANSFER)
+            ? {
+                onImport: (importFile) =>
+                  importWarehouseTransferImportApi(importFile),
+              }
+            : {})}
           onRefresh={refreshData}
         />
         <Guard code={FUNCTION_CODE.WAREHOUSE_CREATE_WAREHOUSE_TRANSFER}>

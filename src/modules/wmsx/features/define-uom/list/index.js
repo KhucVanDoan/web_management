@@ -28,6 +28,7 @@ import useDefineUom from '~/modules/wmsx/redux/hooks/useDefineUom'
 import {
   exportUomSettingApi,
   getUomSettingTemplateApi,
+  importUomSettingApi,
 } from '~/modules/wmsx/redux/sagas/define-uom/import-export-uom'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
@@ -63,7 +64,6 @@ function DefineUom() {
     tempItem: null,
     isOpenUpdateStatusModal: false,
   })
-
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
   const [loadingExport, setLoadingExport] = useState(false)
@@ -226,7 +226,6 @@ function DefineUom() {
         <ImportExport
           name={t('menu.defineUom')}
           loadingExport={setLoadingExport}
-          // onImport={(importFile) => importUomSettingApi(importFile)}
           onDownloadTemplate={getUomSettingTemplateApi}
           {...(canAccess(FUNCTION_CODE.ITEM_EXPORT_ITEM_UNIT)
             ? {
@@ -243,6 +242,11 @@ function DefineUom() {
                     sort: convertSortParams(sort),
                     type: TYPE_ITEM_EXPORT.DEFINE_UOM,
                   }),
+              }
+            : {})}
+          {...(canAccess(FUNCTION_CODE.ITEM_IMPORT_ITEM_UNIT)
+            ? {
+                onImport: (importFile) => importUomSettingApi(importFile),
               }
             : {})}
           onRefresh={refreshData}

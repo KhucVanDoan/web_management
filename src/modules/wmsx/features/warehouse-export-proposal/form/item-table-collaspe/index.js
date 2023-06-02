@@ -678,11 +678,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       width: 150,
       renderCell: (params, index) => {
         return isView || params?.row?.itemId ? (
-          <Checkbox
-            checked={params?.row?.reservation}
-            name="reservation"
-            disabled
-          />
+          <Checkbox checked={params?.row?.reservation} name="reservation" />
         ) : (
           <Field.Checkbox
             name={`itemTableCollaspe[${parentIndex}].details[${index}].isKeepSlot`}

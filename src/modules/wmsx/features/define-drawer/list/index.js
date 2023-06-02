@@ -8,7 +8,7 @@ import { FUNCTION_CODE } from '~/common/constants/functionCode'
 // import { BULK_ACTION } from '~/common/constants'
 // import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
-// import { useApp } from '~/common/hooks/useApp'
+import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
@@ -27,6 +27,8 @@ import {
 import useDefineDrawer from '~/modules/wmsx/redux/hooks/useDefineDrawer'
 import {
   exportDrawerApi,
+  getDrawerTemplateApi,
+  importDrawerApi,
   // getDrawerTemplateApi,
   // importDrawerApi,
 } from '~/modules/wmsx/redux/sagas/define-drawer/import-export-drawer'
@@ -49,7 +51,7 @@ const breadcrumbs = [
 function DefineDrawer() {
   const { t } = useTranslation('wmsx')
   const history = useHistory()
-  // const { canAccess } = useApp()
+  const { canAccess } = useApp()
   const DEFAULT_FILTERS = {
     code: '',
     name: '',
@@ -218,37 +220,29 @@ function DefineDrawer() {
         <ImportExport
           name={t('menu.defineDrawer')}
           loadingExport={setLoadingExport}
-          onExport={() =>
-            exportDrawerApi({
-              columnSettings: JSON.stringify(columnsSettings),
-              queryIds: JSON.stringify(
-                selectedRows?.map((x) => ({ id: `${x?.id}` })),
-              ),
-              keyword: keyword.trim(),
-              filter: convertFilterParams(
-                { ...filters, level: WAREHOUSE_LAYOUTS.DRAWER },
-                [{ field: 'createdAt', filterFormat: 'date' }],
-              ),
-              sort: convertSortParams(sort),
-            })
-          }
-          // {...(canAccess(FUNCTION_CODE.WAREHOUSE_IMPORT_LOCATION)
-          //   ? {
-          //       onImport: () =>
-          //         importDrawerApi({
-          //           columnSettings: JSON.stringify(columnsSettings),
-          //           queryIds: JSON.stringify(
-          //             selectedRows?.map((x) => ({ id: `${x?.id}` })),
-          //           ),
-          //           keyword: keyword.trim(),
-          //           filter: convertFilterParams(filters, [
-          //             { field: 'createdAt', filterFormat: 'date' },
-          //           ]),
-          //           sort: convertSortParams(sort),
-          //         }),
-          //     }
-          //   : {})}
-          // onDownloadTemplate={getDrawerTemplateApi}
+          {...(canAccess(FUNCTION_CODE.WAREHOUSE_EXPORT_LOCATION)
+            ? {
+                onExport: () =>
+                  exportDrawerApi({
+                    columnSettings: JSON.stringify(columnsSettings),
+                    queryIds: JSON.stringify(
+                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
+                    ),
+                    keyword: keyword.trim(),
+                    filter: convertFilterParams(
+                      { ...filters, level: WAREHOUSE_LAYOUTS.DRAWER },
+                      [{ field: 'createdAt', filterFormat: 'date' }],
+                    ),
+                    sort: convertSortParams(sort),
+                  }),
+              }
+            : {})}
+          {...(canAccess(FUNCTION_CODE.WAREHOUSE_IMPORT_LOCATION)
+            ? {
+                onImport: (importFile) => importDrawerApi(importFile),
+              }
+            : {})}
+          onDownloadTemplate={getDrawerTemplateApi}
           onRefresh={refreshData}
         />
         <Guard code={FUNCTION_CODE.WAREHOUSE_CREATE_LOCATION}>

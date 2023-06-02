@@ -23,6 +23,7 @@ import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useDefineVendor from '~/modules/wmsx/redux/hooks/useDefineVendor'
 import {
   exportVendorApi,
+  getVendorTemplateApi,
   importVendorApi,
   // getVendorTemplateApi,
   // importVendorApi,
@@ -232,24 +233,12 @@ function DefineVendor() {
                   }),
               }
             : {})}
-          onImport={(importFile) => importVendorApi(importFile)}
-          // {...(canAccess(FUNCTION_CODE.SALE_IMPORT_REASON)
-          //   ? {
-          //       onImport: () =>
-          //         importVendorApi({
-          //           columnSettings: JSON.stringify(columnsSettings),
-          //           queryIds: JSON.stringify(
-          //             selectedRows?.map((x) => ({ id: `${x?.id}` })),
-          //           ),
-          //           keyword: keyword.trim(),
-          //           filter: convertFilterParams(filters, [
-          //             { field: 'createdAt', filterFormat: 'date' },
-          //           ]),
-          //           sort: convertSortParams(sort),
-          //         }),
-          //     }
-          //   : {})}
-          // onDownloadTemplate={getVendorTemplateApi}
+          {...(canAccess(FUNCTION_CODE.USER_IMPORT_DEPARTMENT_RECEIPT)
+            ? {
+                onImport: (importFile) => importVendorApi(importFile),
+              }
+            : {})}
+          onDownloadTemplate={getVendorTemplateApi}
           onRefresh={refreshData}
           // disabled
         />
