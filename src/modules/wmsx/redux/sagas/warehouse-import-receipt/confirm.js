@@ -10,7 +10,7 @@ import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 const confirmWarehouseImportReceiptApi = (params) => {
-  const uri = `/v1/sales/purchased-order-imports/${params}/confirm`
+  const uri = `/monitor-orders/${params}/confirm`
   return api.put(uri)
 }
 

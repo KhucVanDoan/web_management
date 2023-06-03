@@ -14,7 +14,7 @@ import { validateStatus } from '~/utils/api'
  * @returns {Promise}
  */
 export const searchUsersApi = (params) => {
-  const uri = `/v1/users/list`
+  const uri = `/users`
   return api.get(uri, params)
 }
 

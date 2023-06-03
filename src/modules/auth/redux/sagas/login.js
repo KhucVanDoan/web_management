@@ -10,7 +10,7 @@ import { loginFailed, loginSuccess, LOGIN_START } from '../actions/auth'
  * @returns {Promise}
  */
 const loginApi = (params) => {
-  const uri = `/v1/auth/login`
+  const uri = `/authentication/login`
   return api.post(uri, params)
 }
 

@@ -14,7 +14,6 @@ import { useAuth } from '~/modules/auth/redux/hooks/useAuth'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { useClasses } from '~/themes'
 
-import Notification from '../Notification'
 import style from './style'
 
 const Toolbar = () => {
@@ -44,7 +43,7 @@ const Toolbar = () => {
   return (
     <Box className={classes.root}>
       {/* <Button className={classes.btn} icon="setting" color="grayEE" /> */}
-      <Notification />
+      {/* <Notification /> */}
       {/* <LanguageSwitcher /> */}
       <Dropdown
         options={options}

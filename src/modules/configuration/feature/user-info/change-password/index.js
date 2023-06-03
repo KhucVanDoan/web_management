@@ -1,18 +1,15 @@
 import React, { useMemo, useState } from 'react'
 
 import { Grid, IconButton } from '@mui/material'
-import Typography from '@mui/material/Typography'
+// import Typography from '@mui/material/Typography'
 import { Formik, Form } from 'formik'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
 
 import { MODAL_MODE, TEXTFIELD_ALLOW } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
-import { ROUTE as AUTH_ROUTE } from '~/modules/auth/routes/config'
 import useUserInfo from '~/modules/configuration/redux/hooks/useUserInfo'
 
 import { validationSchema } from './schema'
@@ -62,7 +59,7 @@ function ChangePassword() {
   return (
     <Page
       breadcrumbs={breadcrumb}
-      title={t('general:page.userInfo')}
+      title="Đổi mật khẩu"
       renderHeaderRight={renderHeaderRight}
       loading={isLoading}
     >
@@ -74,9 +71,9 @@ function ChangePassword() {
       >
         {({ handleReset }) => (
           <Form>
-            <Typography variant="h2" sx={{ mb: 2 }}>
+            {/* <Typography variant="h2" sx={{ mb: 2 }}>
               {t('general:page.changePassword')}
-            </Typography>
+            </Typography> */}
             <Grid container justifyContent="center" sx={{ mb: 3 }}>
               <Grid item xl={5} lg={7} xs={12}>
                 <Grid
@@ -152,7 +149,7 @@ function ChangePassword() {
                       required
                     />
                   </Grid>
-                  <Grid item lg={12} xs={12}>
+                  {/* <Grid item lg={12} xs={12}>
                     <LV>
                       <Link to={AUTH_ROUTE.FORGOT_PASSWORD.PATH}>
                         <Typography color="primary" component="span">
@@ -160,7 +157,7 @@ function ChangePassword() {
                         </Typography>
                       </Link>
                     </LV>
-                  </Grid>
+                  </Grid> */}
                 </Grid>
               </Grid>
             </Grid>

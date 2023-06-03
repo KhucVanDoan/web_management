@@ -10,18 +10,8 @@ import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 const updateWarehouseImportReceiptApi = (params) => {
-  const uri = `/v1/sales/purchased-order-imports/${params?.id}`
-  const data = { ...params }
-  delete data['id']
-  let form_data = new FormData()
-  for (let key in data?.attachment) {
-    form_data.append('attachment', data?.attachment[key])
-  }
-  delete data['attachment']
-  for (let key in data) {
-    form_data.append(key, data[key])
-  }
-  return api.put(uri, form_data)
+  const uri = `/monitor-orders/${params?.id}`
+  return api.put(uri, params)
 }
 
 function* doUpdateWarehouseImportReceipt(action) {

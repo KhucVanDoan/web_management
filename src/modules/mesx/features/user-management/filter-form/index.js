@@ -3,13 +3,10 @@ import React from 'react'
 import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import {
-  ASYNC_SEARCH_LIMIT,
-  TEXTFIELD_REQUIRED_LENGTH,
-} from '~/common/constants'
+import { TEXTFIELD_ALLOW, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import { Field } from '~/components/Formik'
-import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
-import { searchReceiptDepartmentApi } from '~/modules/wmsx/redux/sagas/receipt-department-management/search-receipt-department'
+import { ROLE_OPTIONS } from '~/modules/wmsx/constants'
+
 const FilterForm = () => {
   const { t } = useTranslation('wmsx')
 
@@ -46,34 +43,24 @@ const FilterForm = () => {
         />
       </Grid>
       <Grid item xs={12}>
-        <Field.Autocomplete
-          name="departmentName"
-          label={t('userManagement.department')}
-          placeholder={t('userManagement.department')}
-          asyncRequest={(s) =>
-            searchReceiptDepartmentApi({
-              keyword: s,
-              limit: ASYNC_SEARCH_LIMIT,
-            })
-          }
-          asyncRequestHelper={(res) => res?.data?.items}
-          getOptionLabel={(opt) => opt?.name}
+        <Field.TextField
+          name="phone"
+          label={t('userManagement.phone')}
+          placeholder={t('userManagement.phone')}
+          allow={TEXTFIELD_ALLOW.NUMERIC}
+          inputProps={{
+            maxLength: TEXTFIELD_REQUIRED_LENGTH.PHONE.MAX,
+          }}
         />
       </Grid>
       <Grid item xs={12}>
         <Field.Autocomplete
-          name="status"
-          label={t('userManagement.status')}
-          placeholder={t('userManagement.status')}
-          options={ACTIVE_STATUS_OPTIONS}
+          name="role"
+          label={t('userManagement.role')}
+          placeholder={t('userManagement.role')}
+          options={ROLE_OPTIONS}
           getOptionValue={(opt) => opt?.id?.toString()}
           getOptionLabel={(opt) => t(opt?.text)}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <Field.DateRangePicker
-          name="createdAt"
-          label={t('userManagement.createTime')}
         />
       </Grid>
     </Grid>

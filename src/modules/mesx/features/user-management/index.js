@@ -4,39 +4,31 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useLocation } from 'react-router-dom'
 
-import { FUNCTION_CODE } from '~/common/constants/functionCode'
 // import { BULK_ACTION } from '~/common/constants'
 // import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
-import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
-import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
-import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import StatusSwitcher from '~/components/StatusSwitcher'
 import useUserManagement from '~/modules/mesx/redux/hooks/useUserManagement'
-import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import {
+  ACTIVE_STATUS,
+  ACTIVE_STATUS_OPTIONS,
+  ROLE_MAP,
+} from '~/modules/wmsx/constants'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import { convertFilterParams, convertSortParams } from '~/utils'
+import { convertSortParams } from '~/utils'
 import qs from '~/utils/qs'
 
-import {
-  exportUserApi,
-  getUserTemplateApi,
-  importUserApi,
-} from '../../redux/sagas/user-management/import-export-user'
 import FilterForm from './filter-form'
 import { filterSchema } from './filter-form/schema'
 
 const breadcrumbs = [
-  {
-    title: 'setting',
-  },
   {
     route: ROUTE.USER_MANAGEMENT.LIST.PATH,
     title: ROUTE.USER_MANAGEMENT.LIST.TITLE,
@@ -48,7 +40,6 @@ function UserManagement() {
   const history = useHistory()
   const location = useLocation()
   const { factoryId } = qs.parse(location.search)
-  const { canAccess } = useApp()
 
   const DEFAULT_FILTERS = {
     username: '',
@@ -79,7 +70,6 @@ function UserManagement() {
     actions,
   } = useUserManagement()
 
-  const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
   const [tempItem, setTempItem] = useState()
   const [isActiveModal, setIsActiveModal] = useState(false)
@@ -105,18 +95,12 @@ function UserManagement() {
       sortable: true,
       visible: 'always',
     },
-
     {
-      field: 'departmentName',
-      headerName: t('userManagement.department'),
+      field: 'phoneNumber',
+      headerName: 'Số điện thoại',
       width: 150,
-      sortable: false,
-      renderCell: (params) => {
-        const deparmentName = params.row?.departmentSettings
-          ?.map((department) => department?.name)
-          .join('; ')
-        return deparmentName
-      },
+      sortable: true,
+      visible: 'always',
     },
     {
       field: 'roleName',
@@ -124,10 +108,7 @@ function UserManagement() {
       width: 100,
       sortable: false,
       renderCell: (params) => {
-        const roleName = params.row?.userRoleSettings
-          ?.map((role) => role?.name)
-          .join('; ')
-        return roleName
+        return ROLE_MAP[params?.row?.role]
       },
     },
     {
@@ -136,11 +117,11 @@ function UserManagement() {
       width: 80,
       sortable: true,
       renderCell: (params) => {
-        const { status } = params.row
+        const { isActive } = params.row
         return (
           <Status
             options={ACTIVE_STATUS_OPTIONS}
-            value={status}
+            value={isActive}
             variant="text"
           />
         )
@@ -153,44 +134,33 @@ function UserManagement() {
       sortable: false,
       align: 'center',
       visible: 'always',
+      sticky: 'right',
       renderCell: (params) => {
         const { id, status } = params?.row
         const isLocked = status === ACTIVE_STATUS.ACTIVE
         return (
           <div>
-            <Guard code={FUNCTION_CODE.USER_DETAIL_USER}>
-              <IconButton
-                onClick={() =>
-                  history.push(
-                    ROUTE.USER_MANAGEMENT.DETAIL.PATH.replace(':id', `${id}`),
-                  )
-                }
-              >
-                <Icon name="show" />
-              </IconButton>
-            </Guard>
-            <Guard code={FUNCTION_CODE.USER_UPDATE_USER}>
-              <IconButton
-                onClick={() =>
-                  history.push(
-                    ROUTE.USER_MANAGEMENT.EDIT.PATH.replace(':id', `${id}`),
-                  )
-                }
-              >
-                <Icon name="edit" />
-              </IconButton>
-            </Guard>
-            <Guard
-              code={
-                isLocked
-                  ? FUNCTION_CODE.USER_REJECT_USER
-                  : FUNCTION_CODE.USER_CONFIRM_USER
+            <IconButton
+              onClick={() =>
+                history.push(
+                  ROUTE.USER_MANAGEMENT.DETAIL.PATH.replace(':id', `${id}`),
+                )
               }
             >
-              <IconButton onClick={() => onClickUpdateStatus(params.row)}>
-                <Icon name={isLocked ? 'locked' : 'unlock'} />
-              </IconButton>
-            </Guard>
+              <Icon name="show" />
+            </IconButton>
+            <IconButton
+              onClick={() =>
+                history.push(
+                  ROUTE.USER_MANAGEMENT.EDIT.PATH.replace(':id', `${id}`),
+                )
+              }
+            >
+              <Icon name="edit" />
+            </IconButton>
+            <IconButton onClick={() => onClickUpdateStatus(params.row)}>
+              <Icon name={isLocked ? 'locked' : 'unlock'} />
+            </IconButton>
           </div>
         )
       },
@@ -202,9 +172,11 @@ function UserManagement() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, [
-        { field: 'createdAt', filterFormat: 'date' },
-      ]),
+      code: filters?.code || '',
+      username: filters?.username || '',
+      fullName: filters?.fullName || '',
+      role: filters?.role || '',
+      phoneNumber: filters?.phone || '',
       sort: convertSortParams(sort),
     }
     actions.searchUsers(params)
@@ -228,54 +200,22 @@ function UserManagement() {
   const renderHeaderRight = () => {
     return (
       <>
-        <ImportExport
-          name={t('userManagement.import')}
-          {...(canAccess(FUNCTION_CODE.USER_LIST_USER)
-            ? {
-                onImport: (params) => {
-                  importUserApi(params)
-                },
-                onDownloadTemplate: getUserTemplateApi,
-              }
-            : {})}
-          {...(canAccess(FUNCTION_CODE.USER_LIST_USER)
-            ? {
-                onExport: () => {
-                  exportUserApi({
-                    columnSettings: JSON.stringify(columnsSettings),
-                    queryIds: JSON.stringify(
-                      selectedRows?.map((x) => ({ id: x?.id })),
-                    ),
-                    keyword: keyword.trim(),
-                    filter: convertFilterParams(filters, [
-                      { field: 'createdAt', filterFormat: 'date' },
-                    ]),
-                    sort: convertSortParams(sort),
-                  })
-                },
-              }
-            : {})}
-          onRefresh={refreshData}
-          disabled
-        />
-        <Guard code={FUNCTION_CODE.USER_CREATE_USER}>
-          <Button
-            onClick={() => history.push(ROUTE.USER_MANAGEMENT.CREATE.PATH)}
-            sx={{ ml: 4 / 3 }}
-            icon="add"
-          >
-            {t('general:common.create')}
-          </Button>
-        </Guard>
+        <Button
+          onClick={() => history.push(ROUTE.USER_MANAGEMENT.CREATE.PATH)}
+          sx={{ ml: 4 / 3 }}
+          icon="add"
+        >
+          {t('general:common.create')}
+        </Button>
       </>
     )
   }
   const onSubmitUpdateStatus = () => {
-    if (tempItem?.status === ACTIVE_STATUS.ACTIVE) {
+    if (tempItem?.isActive === ACTIVE_STATUS.ACTIVE) {
       actions.rejectUserById(tempItem?.id, () => {
         refreshData()
       })
-    } else if (tempItem?.status === ACTIVE_STATUS.INACTIVE) {
+    } else if (tempItem?.isActive === ACTIVE_STATUS.INACTIVE) {
       actions.confirmUserById(tempItem?.id, () => {
         refreshData()
       })
@@ -291,9 +231,6 @@ function UserManagement() {
       placeholder={t('userManagement.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}
       loading={isLoading}
-      {...(factoryId
-        ? { onBack: () => history.push(ROUTE.COMPANY_CHART.LIST.PATH) }
-        : {})}
     >
       <DataTable
         title={t('userManagement.title')}
@@ -304,8 +241,6 @@ function UserManagement() {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
-        onSettingChange={setColumnsSettings}
-        //onSelectionChange={setSelectedRows}
         selected={selectedRows}
         total={total}
         sort={sort}
@@ -316,18 +251,6 @@ function UserManagement() {
           onApply: setFilters,
           validationSchema: filterSchema(t),
         }}
-        // bulkActions={{
-        //   actions: [BULK_ACTION.DELETE],
-        //   apiUrl: API_URL.USER,
-        //   onSuccess: () => {
-        //     if (page === 1) {
-        //       refreshData()
-        //     } else {
-        //       setPage(1)
-        //     }
-        //     setSelectedRows([])
-        //   },
-        // }}
       />
       <Dialog
         open={isActiveModal}

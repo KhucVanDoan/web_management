@@ -8,10 +8,8 @@ import {
 import { api } from '~/services/api'
 
 export const getWarehouseImportReceiptDetailsApi = (params) => {
-  const uri = `/v1/sales/purchased-order-imports/${params?.id}`
-  const data = { ...params }
-  delete data['id']
-  return api.get(uri, data)
+  const uri = `/monitor-orders/${params}`
+  return api.get(uri)
 }
 export const getWarehouseExportProposalItems = (params) => {
   const uri = `/v1/warehouses/warehouse-export-proposals/${

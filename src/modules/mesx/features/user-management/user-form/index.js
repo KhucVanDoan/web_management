@@ -2,22 +2,14 @@ import React, { useEffect, useMemo, useState } from 'react'
 
 import { Grid, IconButton } from '@mui/material'
 import Typography from '@mui/material/Typography'
-import { sub } from 'date-fns'
 import { Formik, Form } from 'formik'
-import { first, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
-import {
-  useHistory,
-  useParams,
-  useRouteMatch,
-  useLocation,
-} from 'react-router-dom'
+import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
 import {
   TEXTFIELD_REQUIRED_LENGTH,
   MODAL_MODE,
   TEXTFIELD_ALLOW,
-  ASYNC_SEARCH_LIMIT,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
@@ -26,13 +18,8 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import useUserManagement from '~/modules/mesx/redux/hooks/useUserManagement'
-import { getRolesApi } from '~/modules/mesx/redux/sagas/user-management/get-role'
-import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
-import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
-import { searchManagamentUnitApi } from '~/modules/wmsx/redux/sagas/management-unit/search'
+import { ACTIVE_STATUS_OPTIONS, ROLE_OPTIONS } from '~/modules/wmsx/constants'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import { convertFilterParams, getLocalItem } from '~/utils'
-import qs from '~/utils/qs'
 
 import { validationSchema } from './schema'
 
@@ -40,8 +27,6 @@ function UserManagementForm() {
   const { t } = useTranslation(['mesx'])
   const history = useHistory()
   const params = useParams()
-  const location = useLocation()
-  const { cloneId } = qs.parse(location.search)
   const routeMatch = useRouteMatch()
   const MODE_MAP = {
     [ROUTE.USER_MANAGEMENT.CREATE.PATH]: MODAL_MODE.CREATE,
@@ -55,64 +40,36 @@ function UserManagementForm() {
     actions,
   } = useUserManagement()
 
-  const loggedInUserInfo = getLocalItem('userInfo')
-
   const initialValues = useMemo(
     () => ({
       code: isUpdate ? userDetails?.code : '',
       username: userDetails?.username || '',
-      companyId: userDetails?.company?.name || loggedInUserInfo?.companyId,
       fullName: userDetails?.fullName || '',
       password: userDetails?.password || '',
-      dateOfBirth: userDetails?.dateOfBirth || null,
-      email: userDetails?.email || '',
-      phone: userDetails?.phone || '',
-      role:
-        userDetails?.userRoleSettings?.length > 0
-          ? first(userDetails?.userRoleSettings)
-          : null,
-      departmentSettings:
-        userDetails?.departmentSettings?.length > 0
-          ? first(userDetails?.departmentSettings)
-          : [],
-      userWarehouses: userDetails.userWarehouses || [],
+      phone: userDetails?.phoneNumber || '',
+      role: userDetails?.role ?? '',
     }),
     [userDetails],
   )
-
   useEffect(() => {
     if (isUpdate) {
       const id = params?.id
       actions.getUserDetailsById(id)
     }
-    if (cloneId) {
-      actions.getUserDetailsById(cloneId)
-    }
     return () => {
       actions.resetUserDetailsState()
     }
-  }, [params?.id, cloneId])
+  }, [params?.id])
 
   const onSubmit = (values) => {
     const id = Number(params?.id)
     const convertValues = {
       code: values?.code,
-      companyId: Number(values?.companyId),
-      email: values?.email || null,
       fullName: values?.fullName,
       username: values?.username,
       password: values?.password,
-      phone: values?.phone || null,
-      dateOfBirth: values?.dateOfBirth,
-      status: values?.status?.toString() || '1',
-      userRoleSettings: !isEmpty(values.role) ? [{ id: values.role?.id }] : [],
-      departmentSettings: !isEmpty(values?.departmentSettings)
-        ? [{ id: values?.departmentSettings?.id }]
-        : [],
-      userWarehouses:
-        values?.userWarehouses?.map((item) => ({
-          id: item?.id,
-        })) || [],
+      phoneNumber: values?.phone || null,
+      role: +values?.role,
     }
     if (mode === MODAL_MODE.CREATE) {
       actions.createUser(convertValues, backToList)
@@ -123,9 +80,6 @@ function UserManagementForm() {
 
   const getBreadcrumb = () => {
     const breadcrumb = [
-      {
-        title: 'setting',
-      },
       {
         route: ROUTE.USER_MANAGEMENT.LIST.PATH,
         title: ROUTE.USER_MANAGEMENT.LIST.TITLE,
@@ -191,7 +145,7 @@ function UserManagementForm() {
   return (
     <Page
       breadcrumbs={getBreadcrumb()}
-      title={t('menu.' + getTitle())}
+      title={getTitle()}
       onBack={backToList}
       loading={isLoading}
     >
@@ -244,7 +198,6 @@ function UserManagementForm() {
                         allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                         disabled={isUpdate}
                         required
-                        {...(cloneId ? { autoFocus: true } : {})}
                       />
                     </Grid>
                     <Grid item lg={6} xs={12}>
@@ -306,18 +259,6 @@ function UserManagementForm() {
 
                     <Grid item lg={6} xs={12}>
                       <Field.TextField
-                        name="email"
-                        label={t('userManagement.email')}
-                        placeholder={t('userManagement.email')}
-                        inputProps={{
-                          maxLength: TEXTFIELD_REQUIRED_LENGTH.EMAIL.MAX,
-                        }}
-                        disabled={isUpdate}
-                        required
-                      />
-                    </Grid>
-                    <Grid item lg={6} xs={12}>
-                      <Field.TextField
                         name="phone"
                         label={t('userManagement.phone')}
                         placeholder={t('userManagement.phone')}
@@ -328,90 +269,14 @@ function UserManagementForm() {
                       />
                     </Grid>
                     <Grid item lg={6} xs={12}>
-                      <Field.DatePicker
-                        name="dateOfBirth"
-                        label={t('userManagement.dateOfBirth')}
-                        maxDate={
-                          new Date(
-                            sub(new Date(), {
-                              years: 0,
-                              months: 0,
-                              weeks: 0,
-                              days: 1,
-                              hours: 0,
-                              minutes: 0,
-                              seconds: 0,
-                            }),
-                          )
-                        }
-                        placeholder={t('userManagement.dateOfBirth')}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Typography variant="h4" mt={1}>
-                        {t('userManagement.workInfo')}
-                      </Typography>
-                    </Grid>
-                    <Grid item lg={6} xs={12}>
-                      <Field.TextField
-                        name="companyId"
-                        label={t('userManagement.companyName')}
-                        placeholder={t('userManagement.companyName')}
-                        value={loggedInUserInfo?.company?.name}
-                        disabled
-                        required
-                      />
-                    </Grid>
-                    <Grid item lg={6} xs={12}>
-                      <Field.Autocomplete
-                        name="departmentSettings"
-                        label={t('userManagement.departmentName')}
-                        placeholder={t('userManagement.departmentName')}
-                        asyncRequest={(s) =>
-                          searchManagamentUnitApi({
-                            keyword: s,
-                            limit: ASYNC_SEARCH_LIMIT,
-                          })
-                        }
-                        asyncRequestHelper={(res) => res?.data?.items}
-                        getOptionLabel={(opt) => opt?.name}
-                        required
-                      />
-                    </Grid>
-                    <Grid item lg={6} xs={12}>
                       <Field.Autocomplete
                         name="role"
                         label={t('userManagement.role')}
                         placeholder={t('userManagement.role')}
-                        asyncRequest={(s) =>
-                          getRolesApi({
-                            keyword: s,
-                            limit: ASYNC_SEARCH_LIMIT,
-                          })
-                        }
-                        asyncRequestHelper={(res) => res?.data}
-                        getOptionLabel={(opt) => opt?.name}
+                        options={ROLE_OPTIONS}
+                        getOptionValue={(opt) => opt?.id}
+                        getOptionLabel={(opt) => opt?.text}
                         required
-                      />
-                    </Grid>
-                    <Grid item lg={6} xs={12}>
-                      <Field.Autocomplete
-                        name="userWarehouses"
-                        label={t('userManagement.warehouse')}
-                        placeholder={t('userManagement.warehouse')}
-                        asyncRequest={(s) =>
-                          searchWarehouseApi({
-                            keyword: s,
-                            limit: ASYNC_SEARCH_LIMIT,
-                            filter: convertFilterParams({
-                              status: ACTIVE_STATUS.ACTIVE,
-                            }),
-                          })
-                        }
-                        multiple
-                        asyncRequestHelper={(res) => res?.data?.items}
-                        getOptionLabel={(opt) => opt?.name}
-                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                       />
                     </Grid>
                   </Grid>

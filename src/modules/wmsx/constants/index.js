@@ -1403,19 +1403,45 @@ export const ACTIVE_STATUS = {
 export const ACTIVE_STATUS_OPTIONS = [
   {
     id: 0,
-    text: 'general.inactive',
+    text: 'Tạm dừng',
     color: 'inactive',
   },
   {
     id: 1,
-    text: 'general.active',
+    text: 'Hoạt động',
     color: 'active',
   },
 ]
 
 export const ACTIVE_STATUS_MAP = {
-  [ACTIVE_STATUS.INACTIVE]: 'general.inactive',
-  [ACTIVE_STATUS.ACTIVE]: 'general.active',
+  [ACTIVE_STATUS.INACTIVE]: 'Tạm dừng',
+  [ACTIVE_STATUS.ACTIVE]: 'Hoạt động',
+}
+
+export const ROLE = {
+  ADMIN: 1,
+  USER: 0,
+  DRIVER: 2,
+}
+export const ROLE_OPTIONS = [
+  {
+    id: 1,
+    text: 'Quản tri viên',
+  },
+  {
+    id: 0,
+    text: 'Nhân viên',
+  },
+  {
+    id: 2,
+    text: 'Lái xe',
+  },
+]
+
+export const ROLE_MAP = {
+  [ROLE.ADMIN]: 'Quản trị viên',
+  [ROLE.USER]: 'Nhân viên',
+  [ROLE.DRIVER]: 'Lái xe',
 }
 
 export const PARENT_BUSINESS_TYPE = {
@@ -2513,54 +2539,35 @@ export const LENGTH_DEBITACCOUNT = 60
 export const WAREHOUSE_IMPORT_RECEIPT_STATUS = {
   PENDING: 0, //chờ xác nhận
   CONFIRMED: 1, //xác nhận
-  IN_PROGRESS: 2, //đang cất hàng
-  COMPLETED: 4, //hoan thành
-  REJECTED: 5, //từ chối
-  RECEIVED: 7, //đã nhập kho
+  WAITTING_SIGN: 2,
+  SIGNED: 3,
 }
 
 export const WAREHOUSE_IMPORT_RECEIPT_STATUS_MAP = {
-  [WAREHOUSE_IMPORT_RECEIPT_STATUS.PENDING]: 'warehouseImportReceipt.pending',
-  [WAREHOUSE_IMPORT_RECEIPT_STATUS.CONFIRMED]:
-    'warehouseImportReceipt.confirmed',
-  [WAREHOUSE_IMPORT_RECEIPT_STATUS.IN_PROGRESS]:
-    'warehouseImportReceipt.inProgress',
-  [WAREHOUSE_IMPORT_RECEIPT_STATUS.COMPLETED]:
-    'warehouseImportReceipt.completed',
-  [WAREHOUSE_IMPORT_RECEIPT_STATUS.REJECTED]: 'warehouseImportReceipt.rejected',
-  [WAREHOUSE_IMPORT_RECEIPT_STATUS.RECEIVED]: 'warehouseImportReceipt.received',
+  [WAREHOUSE_IMPORT_RECEIPT_STATUS.PENDING]: 'Chờ xác nhận',
+  [WAREHOUSE_IMPORT_RECEIPT_STATUS.CONFIRMED]: 'Xác nhận',
+  [WAREHOUSE_IMPORT_RECEIPT_STATUS.WAITTING_SIGN]: 'Chờ ký',
+  [WAREHOUSE_IMPORT_RECEIPT_STATUS.SIGNED]: 'Đã ký',
 }
 export const WAREHOUSE_IMPORT_RECEIPT_OPTIONS = [
   {
     id: 0,
-    text: 'warehouseImportReceipt.pending',
+    text: 'Chờ xác nhận',
     color: 'pending',
   },
   {
     id: 1,
-    text: 'warehouseImportReceipt.confirmed',
+    text: 'Xác nhận',
     color: 'confirmed',
   },
   {
     id: 2,
-    text: 'warehouseImportReceipt.inProgress',
-    color: 'inProgress',
+    text: 'Chờ ký',
   },
   {
-    id: 4,
-    text: 'warehouseImportReceipt.completed',
-    color: 'completed',
-  },
-  {
-    id: 5,
-    text: 'warehouseImportReceipt.rejected',
-    color: 'rejected',
-  },
-
-  {
-    id: 7,
-    text: 'warehouseImportReceipt.received',
-    color: 'received',
+    id: 3,
+    text: 'Đã ký',
+    color: 'confirmed',
   },
 ]
 export const WAREHOUSE_EXPORT_RECEIPT_STATUS = {

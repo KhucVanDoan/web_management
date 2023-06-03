@@ -8,7 +8,7 @@ import {
 import { api } from '~/services/api'
 
 export const searchWarehouseImportReceiptApi = (params) => {
-  const uri = `v1/sales/purchased-order-imports/list`
+  const uri = `/monitor-orders`
   return api.get(uri, params)
 }
 

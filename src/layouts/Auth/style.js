@@ -1,10 +1,10 @@
-import BackgroundImg from '~/assets/images/auth/BackgroundLogin.jpg'
+// import BackgroundImg from '~/assets/images/auth/BackgroundLogin.jpg'
 
 const style = (theme) => ({
   root: {
     height: '100%',
     display: 'flex',
-    backgroundImage: `url(${BackgroundImg})`,
+    // backgroundImage: `url(${BackgroundImg})`,
     backgroundPosition: 'center',
     backgroundSize: 'cover',
 

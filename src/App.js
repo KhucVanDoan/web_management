@@ -13,7 +13,8 @@ import PrivateLayout from '~/layouts/Private'
 import PublicLayout from '~/layouts/Public'
 import authRoutes from '~/modules/auth/routes'
 import publicRoutes from '~/modules/public/routes'
-import { privateRoutesFlatten } from '~/routes'
+import wmsxRoutes from '~/modules/wmsx/routes'
+// import { privateRoutesFlatten } from '~/routes'
 import history from '~/services/history'
 import store from '~/store'
 import theme, { globalStyles } from '~/themes'
@@ -69,7 +70,7 @@ function App() {
                           />
                         ))}
 
-                        {privateRoutesFlatten.map((route) => (
+                        {wmsxRoutes.map((route) => (
                           <Route
                             key={route.path}
                             path={route.path}
