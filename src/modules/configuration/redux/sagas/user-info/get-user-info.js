@@ -13,7 +13,7 @@ import { api } from '~/services/api'
  * @returns {Promise}
  */
 const getUserInfoApi = () => {
-  const uri = `/v1/users/me`
+  const uri = `/authentication/me`
   return api.get(uri)
 }
 

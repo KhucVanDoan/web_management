@@ -2,7 +2,6 @@ import React from 'react'
 
 import { Breadcrumbs as MuiBreadcrumbs, Typography } from '@mui/material'
 import { PropTypes } from 'prop-types'
-import { useTranslation } from 'react-i18next'
 import { Link, useLocation } from 'react-router-dom'
 
 import { useClasses } from '~/themes'
@@ -16,7 +15,6 @@ export const Breadcrumbs = ({ breadcrumbs, ...props }) => {
   const { pathname } = useLocation()
 
   const currentModule = getCurrentModule(pathname)
-  const { t } = useTranslation([currentModule])
 
   return (
     <MuiBreadcrumbs
@@ -34,11 +32,11 @@ export const Breadcrumbs = ({ breadcrumbs, ...props }) => {
             className={classes.link}
             to={`/${currentModule === 'wmsx' ? 'wms' : ''}`}
           >
-            {t(`menu.${currentModule}`)}
+            {currentModule}
           </Link>
         ) : (
           <Typography variant="subtitle" color="primary.main">
-            {t(`menu.${currentModule}`)}
+            {currentModule}
           </Typography>
         ))}
 
@@ -46,7 +44,7 @@ export const Breadcrumbs = ({ breadcrumbs, ...props }) => {
         if (index === breadcrumbs.length - 1) {
           return (
             <Typography key={index} variant="subtitle" color="primary.main">
-              {t(`menu.${breadcrumb.title}`)}
+              {breadcrumb.title}
             </Typography>
           )
         }
@@ -59,14 +57,14 @@ export const Breadcrumbs = ({ breadcrumbs, ...props }) => {
               color="inherit"
               className={classes.link}
             >
-              {t(`menu.${breadcrumb.title}`)}
+              {breadcrumb.title}
             </Link>
           )
         }
 
         return (
           <Typography key={index} variant="subtitle">
-            {t(`menu.${breadcrumb.title}`)}
+            {breadcrumb.title}
           </Typography>
         )
       })}

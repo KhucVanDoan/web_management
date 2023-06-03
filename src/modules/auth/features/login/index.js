@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 
-import { Box, FormHelperText, Paper, Typography } from '@mui/material'
-import FormControlLabel from '@mui/material/FormControlLabel'
+import { FormHelperText, Paper, Typography } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
-import { Link, Redirect, useHistory, useLocation } from 'react-router-dom'
+import { Redirect, useHistory, useLocation } from 'react-router-dom'
 
 // import Logo from '~/assets/images/logo-solutions.png'
 import { TEXTFIELD_ALLOW, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
@@ -13,7 +12,6 @@ import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import { useAuth } from '~/modules/auth/redux/hooks/useAuth'
-import { ROUTE } from '~/modules/auth/routes/config'
 import useUserInfo from '~/modules/configuration/redux/hooks/useUserInfo'
 import { useClasses } from '~/themes'
 import { isAuth } from '~/utils'
@@ -36,11 +34,10 @@ const Login = () => {
   const initialValues = {
     username: '',
     password: '',
-    rememberPassword: false,
   }
 
   const handleSubmit = (values) => {
-    const params = { ...values, rememberPassword: +values.rememberPassword }
+    const params = { ...values }
     actions.login(
       params,
       () => {
@@ -114,20 +111,20 @@ const Login = () => {
                 {error}
               </FormHelperText>
             )}
-            <Box className={classes.extraBox}>
+            {/* <Box className={classes.extraBox}>
               <FormControlLabel
                 control={<Field.Checkbox name="rememberPassword" />}
                 label={t('login.savePassword')}
               />
-              <Link
+               <Link
                 to={ROUTE.FORGOT_PASSWORD.PATH}
                 className={classes.linkForgotPassword}
               >
                 <Typography color="primary" component="span">
                   {t('login.forgotPassword')}
                 </Typography>
-              </Link>
-            </Box>
+              </Link> 
+            </Box> */}
 
             <Button type="submit" fullWidth loading={isLoading}>
               {t('login.loginButton')}

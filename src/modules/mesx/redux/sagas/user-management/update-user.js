@@ -15,7 +15,7 @@ import addNotification from '~/utils/toast'
  * @returns {Promise}
  */
 const updateUserApi = (params) => {
-  const uri = `/v1/users/${params.id}`
+  const uri = `/users/${params?.id}`
   return api.put(uri, params)
 }
 

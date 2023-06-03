@@ -15,7 +15,7 @@ import addNotification from '~/utils/toast'
  * @returns {Promise}
  */
 const createUserApi = (params) => {
-  const uri = `/v1/users/create`
+  const uri = `/users`
   return api.post(uri, params)
 }
 

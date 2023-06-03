@@ -16,7 +16,7 @@ import {
  * @returns {Promise}
  */
 const confirmUserApi = (params) => {
-  const uri = `/v1/users/${params}/confirm`
+  const uri = `/users/${params}/un-lock`
   return api.put(uri)
 }
 

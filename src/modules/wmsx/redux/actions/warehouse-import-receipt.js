@@ -101,6 +101,13 @@ export const SUGGEST_LOCATORS_START = 'WMSX_SUGGEST_LOCATORS_START'
 export const SUGGEST_LOCATORS_SUCCESS = 'WMSX_SUGGEST_LOCATORS_SUCCESS'
 export const SUGGEST_LOCATORS_FAILED = 'WMSX_SUGGEST_LOCATORS_FAILED'
 
+export const SEEN_TO_DRIVER_START = 'WMSX_SEEN_TO_DRIVER_START'
+export const SEEN_TO_DRIVER_SUCCESS = 'WMSX_SEEN_TO_DRIVER_SUCCESS'
+export const SEEN_TO_DRIVER_FAILED = 'WMSX_SEEN_TO_DRIVER_FAILED'
+
+export const RETRY_START = 'WMSX_RETRY_START'
+export const RETRY_SUCCESS = 'WMSX_RETRY_SUCCESS'
+export const RETRY_FAILED = 'WMSX_RETRY_FAILED'
 export function searchWarehouseImportReceipt(payload, onSuccess, onError) {
   return {
     type: SEARCH_WAREHOUSE_IMPORT_RECEIPT_START,
@@ -260,6 +267,49 @@ export function confirmWarehouseImportReceiptByIdSuccess(payload) {
 export function confirmWarehouseImportReceiptByIdFailed() {
   return {
     type: CONFIRM_WAREHOUSE_IMPORT_RECEIPT_FAILED,
+  }
+}
+
+export function seenToDriver(Id, onSuccess, onError) {
+  return {
+    type: SEEN_TO_DRIVER_START,
+    payload: Id,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function seenToDriverSuccess(payload) {
+  return {
+    type: SEEN_TO_DRIVER_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function seenToDriverFailed() {
+  return {
+    type: SEEN_TO_DRIVER_FAILED,
+  }
+}
+export function retry(Id, onSuccess, onError) {
+  return {
+    type: SEEN_TO_DRIVER_START,
+    payload: Id,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function retrySuccess(payload) {
+  return {
+    type: SEEN_TO_DRIVER_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function retryFailed() {
+  return {
+    type: SEEN_TO_DRIVER_FAILED,
   }
 }
 
@@ -524,4 +574,10 @@ export default {
   suggestLocators,
   suggestLocatorsSuccess,
   suggestLocatorsFailed,
+  seenToDriver,
+  seenToDriverSuccess,
+  seenToDriverFailed,
+  retry,
+  retrySuccess,
+  retryFailed,
 }

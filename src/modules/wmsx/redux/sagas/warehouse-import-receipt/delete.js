@@ -10,7 +10,7 @@ import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 const deleteWarehouseImportReceiptApi = (params) => {
-  const uri = `/v1/sales/purchased-order-imports/${params}`
+  const uri = `/monitor-orders/${params}`
   return api.delete(uri)
 }
 

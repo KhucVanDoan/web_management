@@ -48,6 +48,12 @@ import {
   SUGGEST_LOCATORS_START,
   SUGGEST_LOCATORS_SUCCESS,
   SUGGEST_LOCATORS_FAILED,
+  SEEN_TO_DRIVER_FAILED,
+  SEEN_TO_DRIVER_START,
+  SEEN_TO_DRIVER_SUCCESS,
+  RETRY_FAILED,
+  RETRY_START,
+  RETRY_SUCCESS,
 } from '~/modules/wmsx/redux/actions/warehouse-import-receipt'
 
 const initialState = {
@@ -82,6 +88,8 @@ export default function warehouseImportReceipt(state = initialState, action) {
     case CANCEL_WAREHOUSE_IMPORT_EBS_START:
     case RETURN_WAREHOUSE_IMPORT_RECEIPT_START:
     case SUGGEST_LOCATORS_START:
+    case SEEN_TO_DRIVER_START:
+    case RETRY_START:
       return {
         ...state,
         isLoading: true,
@@ -123,6 +131,10 @@ export default function warehouseImportReceipt(state = initialState, action) {
     case CANCEL_WAREHOUSE_IMPORT_EBS_FAILED:
     case RETURN_WAREHOUSE_IMPORT_RECEIPT_SUCCESS:
     case RETURN_WAREHOUSE_IMPORT_RECEIPT_FAILED:
+    case SEEN_TO_DRIVER_SUCCESS:
+    case SEEN_TO_DRIVER_FAILED:
+    case RETRY_SUCCESS:
+    case RETRY_FAILED:
       return {
         ...state,
         isLoading: false,

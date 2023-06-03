@@ -11,22 +11,20 @@ import {
 import clsx from 'clsx'
 import { isEmpty } from 'lodash'
 import { PropTypes } from 'prop-types'
-import { useTranslation } from 'react-i18next'
 import { Link, useLocation } from 'react-router-dom'
 
-import { useApp } from '~/common/hooks/useApp'
 import Icon from '~/components/Icon'
+import { getLocalItem } from '~/utils'
 
 import { useSidebar } from '../hooks'
 import SubMenu from './SubMenu'
 import ListMenuStyled from './style'
 
-const ListMenu = ({ routes = [], currentModule }) => {
+const ListMenu = ({ routes = [] }) => {
   const [open, setOpen] = useState()
   const { pathname } = useLocation()
-  const { t } = useTranslation([currentModule])
   const { isMdUpMinimal, isMdDown, setIsMinimal } = useSidebar()
-  const { canAccess } = useApp()
+  const userInfo = getLocalItem('userInfo')
 
   const isActive = (path = '') =>
     pathname === path ||
@@ -62,21 +60,13 @@ const ListMenu = ({ routes = [], currentModule }) => {
   }
 
   const visibleMenus = routes.filter((r) => {
-    if (!r?.subMenu?.length) {
-      return canAccess(r?.code)
-    }
-
-    return (
-      (r?.code && canAccess(r?.code)) ||
-      r?.subMenu?.some((s) => s?.isInSidebar && canAccess(s?.code))
-    )
+    return r?.role.includes(userInfo.role)
   })
-
   return (
     <ListMenuStyled open={!isMdUpMinimal} component="div">
       {visibleMenus.map((route, index) => {
         const visibleSubMenu = route?.subMenu?.filter(
-          (item) => item?.isInSidebar && canAccess(item?.code),
+          (item) => item?.isInSidebar,
         )
 
         return (
@@ -120,7 +110,7 @@ const ListMenu = ({ routes = [], currentModule }) => {
                       fontWeight: 400,
                     }}
                   >
-                    {t(`menu.${route.name}`)}
+                    {route.name}
                   </Typography>
                 }
               />
@@ -141,7 +131,6 @@ const ListMenu = ({ routes = [], currentModule }) => {
             <SubMenu
               route={route}
               visibleSubMenu={visibleSubMenu}
-              currentModule={currentModule}
               isExpanded={isOpen(index, visibleSubMenu)}
               anchorEl={popoverAnchor.current[index]}
               openPopover={openedPopover}
@@ -180,7 +169,7 @@ const ListMenu = ({ routes = [], currentModule }) => {
                               fontWeight: 400,
                             }}
                           >
-                            {t(`menu.${menuItem.name}`)}
+                            {menuItem.name}
                           </Typography>
                         }
                       />
@@ -188,7 +177,7 @@ const ListMenu = ({ routes = [], currentModule }) => {
                   ))}
                 </List>
               ) : (
-                t(`menu.${route.name}`)
+                route.name
               )}
             </SubMenu>
           </React.Fragment>
@@ -200,12 +189,10 @@ const ListMenu = ({ routes = [], currentModule }) => {
 
 ListMenu.defaultProps = {
   routes: [],
-  currentModule: '',
 }
 
 ListMenu.propTypes = {
   routes: PropTypes.array,
-  currentModule: PropTypes.string,
 }
 
 export default ListMenu

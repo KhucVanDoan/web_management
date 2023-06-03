@@ -9,10 +9,9 @@ import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { USER_MANAGEMENT_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import useUserManagement from '~/modules/mesx/redux/hooks/useUserManagement'
+import { ACTIVE_STATUS_OPTIONS, ROLE_MAP } from '~/modules/wmsx/constants'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import { convertUtcDateToLocalTz } from '~/utils'
 
 const breadcrumbs = [
   {
@@ -65,8 +64,8 @@ function UserManagementDetail() {
                 label={t('userManagement.status')}
                 value={
                   <Status
-                    options={USER_MANAGEMENT_STATUS_OPTIONS}
-                    value={userDetails?.status}
+                    options={ACTIVE_STATUS_OPTIONS}
+                    value={userDetails?.isActive}
                   />
                 }
               />
@@ -91,16 +90,12 @@ function UserManagementDetail() {
             </Grid>
 
             <Grid item lg={6} xs={12}>
-              <LV label={t('userManagement.phone')} value={userDetails.phone} />
-            </Grid>
-
-            <Grid item lg={6} xs={12}>
               <LV
-                label={t('userManagement.dateOfBirth')}
-                value={convertUtcDateToLocalTz(userDetails.dateOfBirth)}
+                label={t('userManagement.phone')}
+                value={userDetails.phoneNumber}
               />
             </Grid>
-            <Grid item lg={6} xs={12}>
+            {/* <Grid item lg={6} xs={12}>
               <LV
                 label={t('userManagement.createTime')}
                 value={convertUtcDateToLocalTz(userDetails.createdAt)}
@@ -111,41 +106,11 @@ function UserManagementDetail() {
                 label={t('userManagement.updatedAt')}
                 value={convertUtcDateToLocalTz(userDetails.updatedAt)}
               />
-            </Grid>
-
-            <Grid item xs={12}>
-              <Typography variant="h4" mt={1}>
-                {t('userManagement.workInfo')}
-              </Typography>
-            </Grid>
-            <Grid item lg={6} xs={12}>
-              <LV
-                label={t('userManagement.companyName')}
-                value={userDetails.company?.name}
-              />
-            </Grid>
-            <Grid item lg={6} xs={12}>
-              <LV
-                label={t('userManagement.departmentName')}
-                value={userDetails.departmentSettings
-                  ?.map((department) => department?.name)
-                  .join('; ')}
-              />
-            </Grid>
+            </Grid> */}
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('userManagement.role')}
-                value={userDetails.userRoleSettings
-                  ?.map((role) => role?.name)
-                  .join('; ')}
-              />
-            </Grid>
-            <Grid item lg={6} xs={12}>
-              <LV
-                label={t('userManagement.warehouse')}
-                value={userDetails.userWarehouses
-                  ?.map((warehouse) => warehouse?.name)
-                  ?.join('; ')}
+                value={ROLE_MAP[userDetails.role]}
               />
             </Grid>
           </Grid>

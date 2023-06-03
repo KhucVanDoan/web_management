@@ -1,35 +1,25 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { NOTIFICATION_TYPE } from '~/common/constants'
+import {
+  seenToDriverFailed,
+  seenToDriverSuccess,
+  SEEN_TO_DRIVER_START,
+} from '~/modules/wmsx/redux/actions/warehouse-import-receipt'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
-import {
-  rejectUserByIdFailed,
-  rejectUserByIdSuccess,
-  REJECT_USER_START,
-} from '../../actions/user-management'
-
-/**
- * Reject production order
- * @param {any} params Params will be sent to server
- * @returns {Promise}
- */
-const rejectUserApi = (params) => {
-  const uri = `/users/${params}/lock`
+const SeenToDriverApi = (params) => {
+  const uri = `/monitor-orders/${params}/to-sign`
   return api.put(uri)
 }
 
-/**
- * Handle get data request and response
- * @param {object} action
- */
-function* doRejectUser(action) {
+function* doSeenToDriver(action) {
   try {
-    const response = yield call(rejectUserApi, action?.payload)
+    const response = yield call(SeenToDriverApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(rejectUserByIdSuccess(response.payload))
+      yield put(seenToDriverSuccess(response.payload))
 
       // Call callback action if provided
       if (action.onSuccess) {
@@ -46,7 +36,7 @@ function* doRejectUser(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(rejectUserByIdFailed())
+    yield put(seenToDriverFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -54,9 +44,6 @@ function* doRejectUser(action) {
   }
 }
 
-/**
- * Watch search users
- */
-export default function* watchRejectUser() {
-  yield takeLatest(REJECT_USER_START, doRejectUser)
+export default function* watchSeenToDriver() {
+  yield takeLatest(SEEN_TO_DRIVER_START, doSeenToDriver)
 }

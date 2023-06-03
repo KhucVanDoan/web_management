@@ -3,47 +3,31 @@ import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
-// import { BULK_ACTION } from '~/common/constants'
-// import { API_URL } from '~/common/constants/apiUrl'
-import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import { useQueryState } from '~/common/hooks'
-import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
-import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
 import IconButton from '~/components/IconButton'
-import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
-  STATUS_SYNC_ORDER_TO_EBS,
-  STATUS_SYNC_WAREHOUSE_IMPORT_TO_EBS_OPTIONS,
-  SYNC_STATUS_CAN_UPDATE_HEADER_POI,
+  ROLE,
   WAREHOUSE_IMPORT_RECEIPT_OPTIONS,
   WAREHOUSE_IMPORT_RECEIPT_STATUS,
 } from '~/modules/wmsx/constants'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
-import {
-  exportWarehouseImportReceiptApi,
-  getWarehouseImportReceiptTemplateApi,
-  importWarehouseImportReceiptApi,
-} from '~/modules/wmsx/redux/sagas/warehouse-import-receipt/import-export'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import {
   convertFilterParams,
   convertSortParams,
-  convertUtcDateTimeToLocalTz,
   convertUtcDateToLocalTz,
+  getLocalItem,
 } from '~/utils'
 
 import FilterForm from './filter-form'
 
 const breadcrumbs = [
-  {
-    title: 'receiptCommandManagement',
-  },
   {
     route: ROUTE.WAREHOUSE_IMPORT_RECEIPT.LIST.PATH,
     title: ROUTE.WAREHOUSE_IMPORT_RECEIPT.LIST.TITLE,
@@ -53,13 +37,12 @@ const breadcrumbs = [
 function WarehouseImportReceipt() {
   const { t } = useTranslation('wmsx')
   const history = useHistory()
-
   const DEFAULT_FILTERS = {
     code: '',
     name: '',
     createTime: [],
   }
-
+  const userInfo = getLocalItem('userInfo')
   const {
     page,
     pageSize,
@@ -79,87 +62,72 @@ function WarehouseImportReceipt() {
     data: { warehouseImportReceiptList, total, isLoading },
     actions,
   } = useWarehouseImportReceipt()
-  const { canAccess } = useApp()
+
   const [modal, setModal] = useState({
     tempItem: null,
     isOpenDeleteModal: false,
     isOpenConfirmModal: false,
-    isOpenRejectedModal: false,
-    isOpenConfirmEBSModal: false,
-    isOpenCancelSyncEMSModal: false,
+    isOpenSeenModal: false,
+    isOpenRetryModal: false,
   })
 
-  const [columnsSettings, setColumnsSettings] = useState([])
-  const [selectedRows, setSelectedRows] = useState([])
-  const [loadingExport, setLoadingExport] = useState(false)
+  // const [selectedRows, setSelectedRows] = useState([])
+
   const columns = [
     {
       field: 'code',
-      headerName: t('warehouseImportReceipt.id'),
+      headerName: 'Mã phiếu',
       width: 150,
-      sortable: true,
+      sortable: false,
       visible: 'always',
       renderCell: (params) => {
-        return params?.row?.code
-      },
-    },
-    {
-      field: 'unit',
-      headerName: t('warehouseImportReceipt.departmentReceipt'),
-      width: 150,
-      renderCell: (params) => {
-        return params?.row?.departmentReceipt?.name
-      },
-    },
-    {
-      field: 'businessTypeId',
-      headerName: t('warehouseImportReceipt.expenditureType'),
-      width: 150,
-      renderCell: (params) => {
-        return params?.row?.businessType?.name
-      },
-    },
-    {
-      field: 'warehouse',
-      headerName: t('warehouseImportReceipt.warehouse'),
-      width: 150,
-      renderCell: (params) => {
-        return params?.row?.warehouse?.code
-      },
-    },
-    {
-      field: 'receiptDate',
-      headerName: t('warehouseImportReceipt.receiptDate'),
-      width: 150,
-      filterFormat: 'date',
-      sortable: true,
-      renderCell: (params) => {
-        return convertUtcDateToLocalTz(params?.row?.receiptDate)
+        return params?.row?.id
       },
     },
     {
       field: 'createdAt',
-      headerName: t('warehouseImportReceipt.createdAt'),
+      headerName: 'Ngày tháng',
       width: 150,
       filterFormat: 'date',
-      sortable: true,
+      sortable: false,
       renderCell: (params) => {
-        return convertUtcDateTimeToLocalTz(params?.row?.createdAt)
+        return convertUtcDateToLocalTz(params?.row?.date)
       },
     },
     {
       field: 'createdByUser',
-      headerName: t('warehouseImportReceipt.createdByUser'),
+      headerName: 'Người tạo',
       width: 150,
+      sortable: false,
       renderCell: (params) => {
         return params?.row?.createdByUser?.fullName
       },
     },
+
+    {
+      field: 'employee',
+      headerName: 'Lái xe',
+      width: 150,
+      sortable: false,
+      renderCell: (params) => {
+        return params?.row?.employee?.fullName
+      },
+    },
+
+    {
+      field: 'vehicleNumber',
+      headerName: 'Số xe',
+      width: 150,
+      sortable: false,
+      renderCell: (params) => {
+        return params?.row?.vehicleNumber
+      },
+    },
     {
       field: 'status',
-      headerName: t('warehouseImportReceipt.status'),
+      headerName: 'Trạng thái',
       sortable: true,
-      width: 150,
+      width: 100,
       renderCell: (params) => {
         const status = Number(params?.row.status)
         return (
@@ -172,205 +140,91 @@ function WarehouseImportReceipt() {
       },
     },
     {
-      field: 'receiptEBS',
-      headerName: t('warehouseImportReceipt.receiptEBS'),
-      width: 150,
-      sortable: true,
-      renderCell: (params) => {
-        return params?.row?.ebsId
-      },
-    },
-    {
-      field: 'warehouseImportEbs',
-      headerName: t('warehouseImportReceipt.warehouseImportEbs'),
-      width: 250,
-      renderCell: (params) => {
-        const { status, syncStatus } = params?.row
-        const isConfirmWarehouseImport =
-          status === WAREHOUSE_IMPORT_RECEIPT_STATUS.IN_PROGRESS ||
-          status === WAREHOUSE_IMPORT_RECEIPT_STATUS.COMPLETED ||
-          status === WAREHOUSE_IMPORT_RECEIPT_STATUS.RECEIVED
-        // return (
-        //   isConfirmWarehouseImport &&
-        //   isSync &&
-        //   !params?.row?.ebsId && (
-        //     <Button
-        //       variant="text"
-        //       size="small"
-        //       bold={false}
-        //       onClick={() => onClickConfirmEBS(params?.row)}
-        //     >
-        //       {t('warehouseImportReceipt.confirmWarehouseImport')}
-        //     </Button>
-        //   )
-        // )
-        return (
-          isConfirmWarehouseImport &&
-          (syncStatus === STATUS_SYNC_ORDER_TO_EBS.OUT_OF_SYNC ? (
-            <Guard code={FUNCTION_CODE.SALE_SYNC_PURCHASED_ORDER_IMPORT_TO_EBS}>
-              <Button
-                variant="text"
-                size="small"
-                bold={false}
-                onClick={() => onClickConfirmEBS(params?.row)}
-              >
-                {t('warehouseImportReceipt.confirmWarehouseImport')}
-              </Button>
-            </Guard>
-          ) : (
-            <Status
-              options={STATUS_SYNC_WAREHOUSE_IMPORT_TO_EBS_OPTIONS}
-              value={syncStatus}
-              variant="text"
-              sx={{ ml: 1 }}
-            />
-          ))
-        )
-      },
-    },
-    {
       field: 'action',
       headerName: t('general:common.action'),
       width: 200,
       align: 'center',
       visible: 'always',
       sticky: 'right',
-
       renderCell: (params) => {
-        const { id, status, syncStatus } = params?.row
+        const { id, status } = params?.row
         const isEdit =
-          status === WAREHOUSE_IMPORT_RECEIPT_STATUS.PENDING ||
-          status === WAREHOUSE_IMPORT_RECEIPT_STATUS.REJECTED ||
-          status === WAREHOUSE_IMPORT_RECEIPT_STATUS.CONFIRMED
+          status === WAREHOUSE_IMPORT_RECEIPT_STATUS.PENDING &&
+          (userInfo?.role === ROLE.ADMIN || userInfo?.role === ROLE.USER)
+
         const isDelete =
-          status === WAREHOUSE_IMPORT_RECEIPT_STATUS.PENDING ||
-          status === WAREHOUSE_IMPORT_RECEIPT_STATUS.REJECTED
-        const isConfirmed = status === WAREHOUSE_IMPORT_RECEIPT_STATUS.PENDING
-        const isRejected = status === WAREHOUSE_IMPORT_RECEIPT_STATUS.PENDING
-        const hasTransaction =
-          status === WAREHOUSE_IMPORT_RECEIPT_STATUS.IN_PROGRESS ||
-          status === WAREHOUSE_IMPORT_RECEIPT_STATUS.COMPLETED
-        const isCancelSync =
-          syncStatus === STATUS_SYNC_ORDER_TO_EBS.SYNC_WSO2_ERROR
-        const isEditHeader =
-          (status === WAREHOUSE_IMPORT_RECEIPT_STATUS.COMPLETED &&
-            SYNC_STATUS_CAN_UPDATE_HEADER_POI.includes(syncStatus)) ||
-          (status === WAREHOUSE_IMPORT_RECEIPT_STATUS.IN_PROGRESS &&
-            SYNC_STATUS_CAN_UPDATE_HEADER_POI.includes(syncStatus)) ||
-          (status === WAREHOUSE_IMPORT_RECEIPT_STATUS.RECEIVED &&
-            SYNC_STATUS_CAN_UPDATE_HEADER_POI.includes(syncStatus))
+          status === WAREHOUSE_IMPORT_RECEIPT_STATUS.PENDING &&
+          (userInfo?.role === ROLE.ADMIN || userInfo?.role === ROLE.USER)
+        const isConfirmed =
+          status === WAREHOUSE_IMPORT_RECEIPT_STATUS.PENDING &&
+          (userInfo?.role === ROLE.ADMIN || userInfo?.role === ROLE.USER)
+        const isSeenDriver =
+          status === WAREHOUSE_IMPORT_RECEIPT_STATUS.CONFIRMED &&
+          (userInfo?.role === ROLE.ADMIN || userInfo?.role === ROLE.USER)
+        const isRetry =
+          status === WAREHOUSE_IMPORT_RECEIPT_STATUS.SIGNED &&
+          (userInfo?.role === ROLE.ADMIN || userInfo?.role === ROLE.USER)
         return (
           <div>
-            <Guard code={FUNCTION_CODE.SALE_DETAIL_PURCHASED_ORDER_IMPORT}>
+            <IconButton
+              title={t('iconButtonHover.view')}
+              onClick={() =>
+                history.push(
+                  ROUTE.WAREHOUSE_IMPORT_RECEIPT.DETAIL.PATH.replace(
+                    ':id',
+                    `${id}`,
+                  ),
+                )
+              }
+            >
+              <Icon name={'show'} />
+            </IconButton>
+            {isEdit && (
               <IconButton
-                title={t('iconButtonHover.view')}
+                title={t('iconButtonHover.update')}
                 onClick={() =>
                   history.push(
-                    ROUTE.WAREHOUSE_IMPORT_RECEIPT.DETAIL.PATH.replace(
+                    ROUTE.WAREHOUSE_IMPORT_RECEIPT.EDIT.PATH.replace(
                       ':id',
                       `${id}`,
                     ),
                   )
                 }
               >
-                <Icon name={'show'} />
+                <Icon name="edit" />
               </IconButton>
-            </Guard>
-            {isCancelSync && (
-              <Guard
-                code={FUNCTION_CODE.SALE_CANCEL_SYNC_PURCHASED_ORDER_IMPORT}
-              >
-                <IconButton
-                  title={t('iconButtonHover.cancel')}
-                  onClick={() => onClickCancelSyncEBS(params?.row)}
-                >
-                  <Icon name="cancelSync" />
-                </IconButton>
-              </Guard>
             )}
-            {isEditHeader && (
-              <Guard
-                code={FUNCTION_CODE.SALE_UPDATE_HEADER_PURCHASED_ORDER_IMPORT}
-              >
-                <IconButton
-                  title={t('iconButtonHover.updateHeader')}
-                  onClick={() =>
-                    history.push(
-                      ROUTE.WAREHOUSE_IMPORT_RECEIPT.EDIT_HEADER.PATH.replace(
-                        ':id',
-                        `${id}`,
-                      ),
-                    )
-                  }
-                >
-                  <Icon name="edit" />
-                </IconButton>
-              </Guard>
-            )}
-            {isEdit && (
-              <Guard code={FUNCTION_CODE.SALE_UPDATE_PURCHASED_ORDER_IMPORT}>
-                <IconButton
-                  title={t('iconButtonHover.update')}
-                  onClick={() =>
-                    history.push(
-                      ROUTE.WAREHOUSE_IMPORT_RECEIPT.EDIT.PATH.replace(
-                        ':id',
-                        `${id}`,
-                      ),
-                    )
-                  }
-                >
-                  <Icon name="edit" />
-                </IconButton>
-              </Guard>
-            )}
-
             {isDelete && (
-              <Guard code={FUNCTION_CODE.SALE_DELETE_PURCHASED_ORDER_IMPORT}>
-                <IconButton
-                  title={t('iconButtonHover.delete')}
-                  onClick={() => onClickDelete(params.row)}
-                >
-                  <Icon name="delete" />
-                </IconButton>
-              </Guard>
+              <IconButton
+                title={t('iconButtonHover.delete')}
+                onClick={() => onClickDelete(params.row)}
+              >
+                <Icon name="delete" />
+              </IconButton>
             )}
             {isConfirmed && (
-              <Guard code={FUNCTION_CODE.SALE_CONFIRM_PURCHASED_ORDER_IMPORT}>
-                <IconButton
-                  title={t('iconButtonHover.confirm')}
-                  onClick={() => onClickConfirm(params.row)}
-                >
-                  <Icon name="tick" />
-                </IconButton>
-              </Guard>
-            )}
-            {isRejected && (
-              <Guard code={FUNCTION_CODE.SALE_REJECT_PURCHASED_ORDER_IMPORT}>
-                <IconButton
-                  title={t('iconButtonHover.reject')}
-                  onClick={() => onClickRejected(params.row)}
-                >
-                  <Icon name="remove" />
-                </IconButton>
-              </Guard>
-            )}
-            {hasTransaction && (
-              <Button
-                variant="text"
-                size="small"
-                bold={false}
-                onClick={() =>
-                  history.push(
-                    `${ROUTE.WAREHOUSE_IMPORT_RECEIPT.TRANSACTIONS.LIST.PATH.replace(
-                      ':parentId',
-                      `${id}`,
-                    )}`,
-                  )
-                }
+              <IconButton
+                title={t('iconButtonHover.confirm')}
+                onClick={() => onClickConfirm(params.row)}
               >
-                {t('warehouseTransfer.transactions')}
-              </Button>
+                <Icon name="tick" />
+              </IconButton>
+            )}
+            {isSeenDriver && (
+              <IconButton
+                title="Gửi cho lái xe"
+                onClick={() => onClickSeenDriver(params.row)}
+              >
+                <Icon name="assign" />
+              </IconButton>
+            )}
+            {isRetry && (
+              <IconButton
+                title="Yêu cầu ký lại"
+                onClick={() => onClickRetry(params.row)}
+              >
+                <Icon name="retrySyncReceipt" />
+              </IconButton>
             )}
           </div>
         )
@@ -402,9 +256,9 @@ function WarehouseImportReceipt() {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
 
-  useEffect(() => {
-    setSelectedRows([])
-  }, [keyword, sort, filters])
+  // useEffect(() => {
+  //   setSelectedRows([])
+  // }, [keyword, sort, filters])
 
   const onClickDelete = (tempItem) => {
     setModal({ tempItem, isOpenDeleteModal: true })
@@ -412,11 +266,11 @@ function WarehouseImportReceipt() {
   const onClickConfirm = (tempItem) => {
     setModal({ tempItem, isOpenConfirmModal: true })
   }
-  const onClickConfirmEBS = (tempItem) => {
-    setModal({ tempItem, isOpenConfirmEBSModal: true })
+  const onClickSeenDriver = (tempItem) => {
+    setModal({ tempItem, isOpenSeenModal: true })
   }
-  const onClickRejected = (tempItem) => {
-    setModal({ tempItem, isOpenRejectedModal: true })
+  const onClickRetry = (tempItem) => {
+    setModal({ tempItem, isOpenRetryModal: true })
   }
   const onSubmitDelete = () => {
     actions.deleteWarehouseImportReceipt(modal.tempItem?.id, () => {
@@ -430,69 +284,32 @@ function WarehouseImportReceipt() {
     })
     setModal({ isOpenConfirmModal: false, tempItem: null })
   }
-  const onSubmitConfirmEBS = () => {
-    actions.confirmWarehouseImportEBSById(modal.tempItem?.id, () => {
+  const onSubmitSeen = () => {
+    actions.seenToDriver(modal.tempItem?.id, () => {
       refreshData()
     })
-    setModal({ isOpenConfirmEBSModal: false, tempItem: null })
+    setModal({ isOpenSeenModal: false, tempItem: null })
   }
-  const onSubmitRejected = () => {
-    actions.rejectWarehouseImportReceiptById(modal.tempItem?.id, () => {
+  const onSubmitRetry = () => {
+    actions.retry(modal.tempItem?.id, () => {
       refreshData()
     })
-    setModal({ isOpenRejectedModal: false, tempItem: null })
+    setModal({ isOpenConfirmModal: false, tempItem: null })
   }
   const onCloseDeleteModal = () => {
     setModal({
       isOpenDeleteModal: false,
       tempItem: null,
       isOpenConfirmModal: false,
-      isOpenRejectedModal: false,
-      isOpenConfirmEBSModal: false,
+      isOpenSeenModal: false,
+      isOpenRetryModal: false,
     })
   }
-  const onClickCancelSyncEBS = (tempItem) => {
-    setModal({ tempItem, isOpenCancelSyncEMSModal: true })
-  }
-  const onSubmitCancelEBS = () => {
-    actions.cancelWarehouseImportEBSById(modal.tempItem?.id, () => {
-      refreshData()
-    })
-    setModal({ isOpenCancelSyncEMSModal: false, tempItem: null })
-  }
+
   const renderHeaderRight = () => {
     return (
       <>
-        <ImportExport
-          name={t('menu.warehouseImportReceipt')}
-          loadingExport={setLoadingExport}
-          {...(canAccess(FUNCTION_CODE.SALE_EXPORT_PURCHASED_ORDER_IMPORT)
-            ? {
-                onImport: (importFile) =>
-                  importWarehouseImportReceiptApi(importFile),
-                onDownloadTemplate: getWarehouseImportReceiptTemplateApi,
-              }
-            : {})}
-          {...(canAccess(FUNCTION_CODE.SALE_IMPORT_PURCHASED_ORDER_IMPORT)
-            ? {
-                onExport: () =>
-                  exportWarehouseImportReceiptApi({
-                    columnSettings: JSON.stringify(columnsSettings),
-                    queryIds: JSON.stringify(
-                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
-                    ),
-                    keyword: keyword.trim(),
-                    filter: convertFilterParams(filters, [
-                      { field: 'createdAt', filterFormat: 'date' },
-                    ]),
-                    sort: convertSortParams(sort),
-                  }),
-              }
-            : {})}
-          onRefresh={refreshData}
-        />
-
-        <Guard code={FUNCTION_CODE.SALE_CREATE_PURCHASED_ORDER_IMPORT}>
+        {(userInfo?.role === ROLE.ADMIN || userInfo?.role === ROLE.USER) && (
           <Button
             onClick={() =>
               history.push(ROUTE.WAREHOUSE_IMPORT_RECEIPT.CREATE.PATH)
@@ -502,22 +319,27 @@ function WarehouseImportReceipt() {
           >
             {t('general:common.create')}
           </Button>
-        </Guard>
+        )}
       </>
     )
   }
-
   return (
     <Page
-      breadcrumbs={breadcrumbs}
-      title={t('menu.warehouseImportReceipt')}
+      breadcrumbs={
+        (userInfo?.role === ROLE.ADMIN || userInfo?.role === ROLE.USER) &&
+        breadcrumbs
+      }
+      title={
+        (userInfo?.role === ROLE.ADMIN || userInfo?.role === ROLE.USER) &&
+        'Phiếu giám sát xe'
+      }
       onSearch={setKeyword}
       placeholder={t('warehouseImportReceipt.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}
-      loading={isLoading || loadingExport}
+      loading={isLoading}
     >
       <DataTable
-        title={t('warehouseImportReceipt.list')}
+        title="Danh sách phiếu giám sát xe"
         rows={warehouseImportReceiptList}
         pageSize={pageSize}
         page={page}
@@ -525,9 +347,8 @@ function WarehouseImportReceipt() {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
-        onSettingChange={setColumnsSettings}
-        onSelectionChange={setSelectedRows}
-        selected={selectedRows}
+        // onSelectionChange={setSelectedRows}
+        // selected={selectedRows}
         total={total}
         sort={sort}
         filters={{
@@ -536,18 +357,6 @@ function WarehouseImportReceipt() {
           defaultValue: DEFAULT_FILTERS,
           onApply: setFilters,
         }}
-        // bulkActions={{
-        //   actions: [BULK_ACTION.DELETE],
-        //   apiUrl: API_URL.CONSTRUCTION,
-        //   onSuccess: () => {
-        //     if (page === 1) {
-        //       refreshData()
-        //     } else {
-        //       setPage(1)
-        //     }
-        //     setSelectedRows([])
-        //   },
-        // }}
       />
       <Dialog
         open={modal.isOpenDeleteModal}
@@ -575,44 +384,26 @@ function WarehouseImportReceipt() {
         {t('warehouseImportReceipt.Confirm')}
       </Dialog>
       <Dialog
-        open={modal.isOpenCancelSyncEMSModal}
-        title={t('warehouseExportReceipt.cancelSyncTitlePopupEBS')}
+        open={modal.isOpenSeenModal}
+        title="Gửi phiếu giám sát sử dụng cho lái xe"
         onCancel={onCloseDeleteModal}
         cancelLabel={t('general:common.no')}
-        onSubmit={onSubmitCancelEBS}
+        onSubmit={onSubmitSeen}
         submitLabel={t('general:common.yes')}
-        submitProps={{
-          color: 'error',
-        }}
         noBorderBottom
       >
-        {t('warehouseExportReceipt.cancelEBS')}
+        Bạn có chắc chắn muốn gửi không?
       </Dialog>
       <Dialog
-        open={modal.isOpenConfirmEBSModal}
-        title={t('warehouseImportReceipt.confirmTitlePopupEBS')}
+        open={modal.isOpenRetryModal}
+        title="Gửi yêu cầu ký tên lại cho lái xe"
         onCancel={onCloseDeleteModal}
         cancelLabel={t('general:common.no')}
-        onSubmit={onSubmitConfirmEBS}
+        onSubmit={onSubmitRetry}
         submitLabel={t('general:common.yes')}
         noBorderBottom
       >
-        <div>{t('warehouseImportReceipt.ConfirmEBS')}</div>
-        {t('warehouseImportReceipt.Confirm')}
-      </Dialog>
-      <Dialog
-        open={modal.isOpenRejectedModal}
-        title={t('warehouseImportReceipt.rejectTitlePopup')}
-        onCancel={onCloseDeleteModal}
-        cancelLabel={t('general:common.no')}
-        onSubmit={onSubmitRejected}
-        submitLabel={t('general:common.yes')}
-        submitProps={{
-          color: 'error',
-        }}
-        noBorderBottom
-      >
-        {t('warehouseImportReceipt.rejectConfirm')}
+        Bạn có chắc chắn muốn gửi yêu cầu không?
       </Dialog>
     </Page>
   )

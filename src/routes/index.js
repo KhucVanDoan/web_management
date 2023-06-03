@@ -17,8 +17,7 @@ const flatten = (arr) => {
     [],
   )
 }
-
-export const privateRoutes = [homeRoute, ...wmsxRoutes]
+export const privateRoutes = [homeRoute]
 export const privateRoutesFlatten = flatten(privateRoutes)
 export const appRoutes = [...publicRoutes, ...authRoutes, ...privateRoutes]
 export const appRoutesFlatten = flatten(appRoutes)

@@ -2,31 +2,24 @@ import React from 'react'
 
 import {
   Box,
+  Typography,
   //  Hidden
 } from '@mui/material'
 import Backdrop from '@mui/material/Backdrop'
 import IconButton from '@mui/material/IconButton'
 import { useTheme } from '@mui/material/styles'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
-import LogoSrc from '~/assets/images/logo-horizontal.png'
-import LogoMiniSrc from '~/assets/images/logo-mini.png'
-import { useApp } from '~/common/hooks/useApp'
 import Icon from '~/components/Icon'
-import { appRoutesObj } from '~/routes'
-import { getCurrentModule } from '~/utils/menu'
+import wmsxRoutes from '~/modules/wmsx/routes'
 
 import ListMenu from '../ListMenu'
 import { useSidebar } from '../hooks'
 import { Drawer, DrawerHeader } from './style'
-
 export default function Sidebar() {
-  const { pathname } = useLocation()
   const theme = useTheme()
-  const currentModule = getCurrentModule(pathname)
-  const { isMinimal, setIsMinimal, isMdDown } = useSidebar()
-  const { canAccess } = useApp()
 
+  const { isMinimal, setIsMinimal, isMdDown } = useSidebar()
   return (
     <Box
       sx={{
@@ -37,7 +30,7 @@ export default function Sidebar() {
         zIndex: 1000,
       }}
     >
-      {currentModule && (
+      {
         <Drawer variant="permanent" isMinimal={isMinimal}>
           {/* <Hidden mdDown> */}
           <DrawerHeader>
@@ -57,15 +50,19 @@ export default function Sidebar() {
                 to="/"
                 style={{
                   display: 'inline-flex',
-                  background: '#fff',
+                  textDecoration: 'none',
+                  color: '#fff',
+
                   borderRadius: '4px',
                   padding: isMinimal ? '4px' : '4px 12px',
                 }}
               >
                 {isMinimal ? (
-                  <img src={LogoMiniSrc} alt="" style={{ maxHeight: 37 }} />
+                  <Typography>FLIX VILA</Typography>
                 ) : (
-                  <img src={LogoSrc} alt="" style={{ maxHeight: 51 }} />
+                  <Typography sx={{ fontSize: '30px', fontWeight: 500 }}>
+                    FLIX VILA
+                  </Typography>
                 )}
               </Link>
             </Box>
@@ -106,13 +103,11 @@ export default function Sidebar() {
             </DrawerHeader>
           </Hidden> */}
           <ListMenu
-            routes={appRoutesObj[currentModule]?.filter(
-              (item) => item?.isInSidebar && canAccess(item?.code),
-            )}
-            currentModule={currentModule}
+            routes={wmsxRoutes?.filter((item) => item?.isInSidebar)}
+            // currentModule={currentModule}
           />
         </Drawer>
-      )}
+      }
 
       <Backdrop
         open={isMdDown && !isMinimal}

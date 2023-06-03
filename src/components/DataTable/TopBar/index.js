@@ -7,7 +7,7 @@ import { useClasses } from '~/themes'
 
 import BulkActions from '../BulkActions'
 import TableFilter from '../TableFilter'
-import TableSetting from '../TableSetting'
+// import TableSetting from '../TableSetting'
 import style from './style'
 
 const TopBar = () => {
@@ -39,7 +39,7 @@ const TopBar = () => {
         {beforeTopbar}
         {bulkActions && selected?.length > 0 && <BulkActions />}
         {filters && <TableFilter />}
-        {!hideSetting && <TableSetting />}
+        {/* {!hideSetting && <TableSetting />} */}
         {afterTopbar}
       </Box>
     </Box>
